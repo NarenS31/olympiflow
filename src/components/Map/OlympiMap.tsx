@@ -171,17 +171,18 @@ export function OlympiMap() {
 
   // ── Map + particle init ──────────────────────────────────────────────────
   useEffect(() => {
-    if (map.current || !mapContainer.current || !canvasRef.current) return;
+    if (map.current || !mapContainer.current) return;
 
-    // Size canvas to match container
+    // Size canvas to fill the map container (set after first paint)
     const sizeCanvas = () => {
       const canvas = canvasRef.current;
       const container = mapContainer.current;
       if (!canvas || !container) return;
-      canvas.width  = container.clientWidth;
-      canvas.height = container.clientHeight;
+      canvas.width  = container.offsetWidth;
+      canvas.height = container.offsetHeight;
     };
-    sizeCanvas();
+    // Defer until after layout so offsetWidth/Height are non-zero
+    requestAnimationFrame(sizeCanvas);
     window.addEventListener('resize', sizeCanvas);
 
     map.current = new maplibregl.Map({
@@ -433,12 +434,22 @@ export function OlympiMap() {
   }, [layers]);
 
   return (
-    <div className="relative w-full h-full" style={{ background: '#04080f' }}>
-      <div ref={mapContainer} className="absolute inset-0" />
+    <div
+      ref={mapContainer}
+      className="w-full h-full"
+      style={{ background: '#04080f', position: 'relative' }}
+    >
+      {/* Particle canvas sits above MapLibre's canvas; pointer-events disabled so map stays interactive */}
       <canvas
         ref={canvasRef}
-        className="absolute inset-0 pointer-events-none"
-        style={{ mixBlendMode: 'screen' }}
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          pointerEvents: 'none',
+          zIndex: 2,
+          mixBlendMode: 'screen',
+        }}
       />
     </div>
   );
