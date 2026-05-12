@@ -1,3 +1,4 @@
+import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from .routers import venues, traffic, transit, simulation
@@ -8,11 +9,18 @@ app = FastAPI(
     version="0.1.0",
 )
 
+# Allow all origins in production (Vercel) — restrict to localhost in dev
+_origins = (
+    ["*"]
+    if os.getenv("VERCEL")
+    else ["http://localhost:3000", "http://127.0.0.1:3000", "http://localhost:5173"]
+)
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],
-    allow_credentials=True,
-    allow_methods=["*"],
+    allow_origins=_origins,
+    allow_credentials=False,
+    allow_methods=["GET", "POST"],
     allow_headers=["*"],
 )
 
