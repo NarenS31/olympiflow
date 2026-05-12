@@ -56,6 +56,7 @@ export interface LayerVisibility {
   transit: boolean;
   parking: boolean;
   collisions: boolean;
+  crime: boolean;
 }
 
 export type EmergencyRisk = 'low' | 'moderate' | 'high' | 'critical';

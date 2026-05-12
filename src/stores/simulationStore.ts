@@ -15,6 +15,7 @@ interface SimulationState {
   selectedVenueId: string | null;
   transitData: GeoJSON.FeatureCollection | null;
   heatmapBaseData: GeoJSON.FeatureCollection | null;
+  crimeData: GeoJSON.FeatureCollection | null;
   customEvents: CustomTrafficEvent[];
   placingEvent: boolean;
   pendingEventLocation: { lng: number; lat: number } | null;
@@ -30,6 +31,7 @@ interface SimulationState {
   selectVenue: (venueId: string | null) => void;
   setTransitData: (data: GeoJSON.FeatureCollection) => void;
   setHeatmapBaseData: (data: GeoJSON.FeatureCollection) => void;
+  setCrimeData: (data: GeoJSON.FeatureCollection) => void;
   updateMetrics: (metrics: Partial<SimulationMetrics>) => void;
   resetSimulation: () => void;
   addCustomEvent: (event: CustomTrafficEvent) => void;
@@ -64,11 +66,13 @@ export const useSimulationStore = create<SimulationState>()(
       transit: true,
       parking: false,
       collisions: false,
+      crime: false,
     },
     metrics: DEFAULT_METRICS,
     selectedVenueId: null,
     transitData: null,
     heatmapBaseData: null,
+    crimeData: null,
     customEvents: [],
     placingEvent: false,
     pendingEventLocation: null,
@@ -114,6 +118,8 @@ export const useSimulationStore = create<SimulationState>()(
     setTransitData: (data) => set({ transitData: data }),
 
     setHeatmapBaseData: (data) => set({ heatmapBaseData: data }),
+
+    setCrimeData: (data) => set({ crimeData: data }),
 
     updateMetrics: (metrics) =>
       set((s) => ({ metrics: { ...s.metrics, ...metrics } })),

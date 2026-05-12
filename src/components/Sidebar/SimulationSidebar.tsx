@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useSimulationStore } from '../../stores/simulationStore';
 import { LA28_VENUES } from '../../data/venues';
+import { AIAdvisorSection } from './AIAdvisorSection';
 import type { LayerVisibility, TrafficEventType } from '../../types';
 
 export function SimulationSidebar() {
@@ -46,6 +47,7 @@ export function SimulationSidebar() {
         <CustomEventsSection />
         <VenueSection />
         <ActionsSection />
+        <AIAdvisorSection />
       </div>
     </aside>
   );
@@ -57,6 +59,7 @@ const LAYER_COLORS: Record<string, string> = {
   transit: '#4c1d95',
   parking: '#78350f',
   collisions: '#7f1d1d',
+  crime: '#6d28d9',
 };
 
 function LayerSection() {
@@ -69,6 +72,7 @@ function LayerSection() {
     { key: 'transit', label: 'Transit Routes' },
     { key: 'parking', label: 'Parking Density' },
     { key: 'collisions', label: 'Collision Hotspots' },
+    { key: 'crime', label: 'Crime Hotspots' },
   ];
 
   return (

@@ -34,6 +34,26 @@ export async function fetchParkingData(): Promise<GeoJSON.FeatureCollection> {
   return data;
 }
 
+export async function fetchCrimeData(): Promise<GeoJSON.FeatureCollection> {
+  const { data } = await api.get('/traffic/crime');
+  return data;
+}
+
+export interface AIAdvisorResponse {
+  answer: string;
+  context_used: string[];
+  model: string;
+}
+
+export async function askAIAdvisor(payload: {
+  query: string;
+  model: string;
+  simulation_context?: Record<string, unknown>;
+}): Promise<AIAdvisorResponse> {
+  const { data } = await api.post('/ai/ask', payload);
+  return data as AIAdvisorResponse;
+}
+
 export async function postSimulationStep(payload: {
   mode: string;
   timeOfDay: number;

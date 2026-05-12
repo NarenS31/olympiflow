@@ -1,7 +1,7 @@
 import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from .routers import venues, traffic, transit, simulation
+from .routers import venues, traffic, transit, simulation, ai_advisor
 
 app = FastAPI(
     title="OlympiFlow API",
@@ -28,6 +28,7 @@ app.include_router(venues.router)
 app.include_router(traffic.router)
 app.include_router(transit.router)
 app.include_router(simulation.router)
+app.include_router(ai_advisor.router)
 
 
 @app.get("/api/health")

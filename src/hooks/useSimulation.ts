@@ -1,17 +1,17 @@
 import { useEffect, useRef, useCallback } from 'react';
 import { useSimulationStore } from '../stores/simulationStore';
-import { fetchHeatmapData, fetchTransitRoutes } from '../api/client';
+import { fetchHeatmapData, fetchTransitRoutes, fetchCrimeData } from '../api/client';
 import { calculateMetrics } from '../utils/simulation';
 
 export function useSimulationData() {
   const setHeatmapBaseData = useSimulationStore((s) => s.setHeatmapBaseData);
   const setTransitData = useSimulationStore((s) => s.setTransitData);
+  const setCrimeData = useSimulationStore((s) => s.setCrimeData);
 
   useEffect(() => {
     fetchHeatmapData()
       .then(setHeatmapBaseData)
       .catch(() => {
-        // Backend not available; use empty fallback
         setHeatmapBaseData({ type: 'FeatureCollection', features: [] });
       });
 
@@ -20,7 +20,13 @@ export function useSimulationData() {
       .catch(() => {
         setTransitData({ type: 'FeatureCollection', features: [] });
       });
-  }, [setHeatmapBaseData, setTransitData]);
+
+    fetchCrimeData()
+      .then(setCrimeData)
+      .catch(() => {
+        setCrimeData({ type: 'FeatureCollection', features: [] });
+      });
+  }, [setHeatmapBaseData, setTransitData, setCrimeData]);
 }
 
 export function useSimulationTick() {

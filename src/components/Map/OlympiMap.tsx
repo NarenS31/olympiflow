@@ -293,6 +293,7 @@ export function OlympiMap() {
   const layers               = useSimulationStore((s) => s.layers);
   const transitData          = useSimulationStore((s) => s.transitData);
   const heatmapBaseData      = useSimulationStore((s) => s.heatmapBaseData);
+  const crimeData            = useSimulationStore((s) => s.crimeData);
   const selectVenue          = useSimulationStore((s) => s.selectVenue);
   const customEvents         = useSimulationStore((s) => s.customEvents);
   const placingEvent         = useSimulationStore((s) => s.placingEvent);
@@ -375,6 +376,27 @@ export function OlympiMap() {
           ],
           'heatmap-radius': ['interpolate', ['linear'], ['zoom'], 8, 16, 14, 36],
           'heatmap-opacity': 0.55,
+        },
+      });
+
+      // ── Crime heatmap ─────────────────────────────────────────────────────
+      m.addSource('crime-source', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
+      m.addLayer({
+        id: 'crime-heatmap', type: 'heatmap', source: 'crime-source',
+        layout: { visibility: 'none' },
+        paint: {
+          'heatmap-weight': ['interpolate', ['linear'], ['get', 'weight'], 0, 0, 1, 1],
+          'heatmap-intensity': ['interpolate', ['linear'], ['zoom'], 8, 0.7, 14, 2.0],
+          'heatmap-color': ['interpolate', ['linear'], ['heatmap-density'],
+            0,    'rgba(0,0,0,0)',
+            0.15, 'rgba(88,0,120,0.22)',
+            0.35, 'rgba(130,0,160,0.44)',
+            0.60, 'rgba(180,0,140,0.62)',
+            0.80, 'rgba(210,20,80,0.76)',
+            1.0,  'rgba(230,50,30,0.88)',
+          ],
+          'heatmap-radius': ['interpolate', ['linear'], ['zoom'], 8, 14, 14, 30],
+          'heatmap-opacity': 0.60,
         },
       });
 
@@ -633,6 +655,11 @@ export function OlympiMap() {
   }, [transitData]);
 
   useEffect(() => {
+    if (!isLoaded.current || !map.current || !crimeData) return;
+    (map.current.getSource('crime-source') as maplibregl.GeoJSONSource)?.setData(crimeData);
+  }, [crimeData]);
+
+  useEffect(() => {
     if (!isLoaded.current || !map.current) return;
     const m = map.current;
     if (!m.getLayer('artery-bloom')) return;
@@ -658,6 +685,7 @@ export function OlympiMap() {
     vis('traffic-heatmap', layers.heatmap);
     vis('artery-bloom', layers.heatmap); vis('artery-glow', layers.heatmap); vis('artery-core', layers.heatmap);
     vis('transit-routes', layers.transit); vis('transit-casing', layers.transit); vis('transit-flow', layers.transit);
+    vis('crime-heatmap', layers.crime);
     markersRef.current.forEach((mk) => { mk.getElement().style.display = layers.venues ? 'flex' : 'none'; });
   }, [layers]);
 
