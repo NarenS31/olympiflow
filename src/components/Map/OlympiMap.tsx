@@ -219,7 +219,28 @@ export function OlympiMap() {
         paint: { 'line-color': '#9a3412', 'line-width': 2, 'line-opacity': 0 },
       });
 
-      // ── Zone overlay ─────────────────────────────────────────────────────
+      // ── Heatmap — added BEFORE zones so zones render on top ─────────────
+      m.addSource('heatmap-source', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
+      m.addLayer({
+        id: 'traffic-heatmap', type: 'heatmap', source: 'heatmap-source',
+        paint: {
+          'heatmap-weight': ['interpolate', ['linear'], ['get', 'weight'], 0, 0, 1, 1],
+          // Softer intensity — less aggressive punch at all zooms
+          'heatmap-intensity': ['interpolate', ['linear'], ['zoom'], 8, 0.6, 14, 1.8],
+          // Single warm ramp — no blue/teal that clashes with zone greens
+          'heatmap-color': ['interpolate', ['linear'], ['heatmap-density'],
+            0,    'rgba(0,0,0,0)',
+            0.20, 'rgba(120,40,8,0.28)',
+            0.45, 'rgba(160,55,10,0.50)',
+            0.70, 'rgba(185,40,12,0.68)',
+            1.0,  'rgba(180,24,18,0.82)',
+          ],
+          'heatmap-radius': ['interpolate', ['linear'], ['zoom'], 8, 16, 14, 36],
+          'heatmap-opacity': 0.55,
+        },
+      });
+
+      // ── Zone overlay — on top of heatmap ─────────────────────────────────
       m.addSource('zones-source', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
       m.addLayer({
         id: 'zone-fill', type: 'fill', source: 'zones-source',
@@ -227,7 +248,7 @@ export function OlympiMap() {
           'fill-color': ['interpolate', ['linear'], ['get', 'congestion'],
             0, '#166534', 0.28, '#854d0e', 0.50, '#9a3412', 0.72, '#991b1b', 1.0, '#7f1d1d'],
           'fill-opacity': ['interpolate', ['linear'], ['get', 'congestion'],
-            0, 0.0, 0.08, 0.04, 0.25, 0.12, 0.50, 0.22, 0.75, 0.32, 1.0, 0.42],
+            0, 0.0, 0.08, 0.04, 0.25, 0.14, 0.50, 0.24, 0.75, 0.34, 1.0, 0.44],
         },
       });
       m.addLayer({
@@ -238,21 +259,6 @@ export function OlympiMap() {
           'line-width': 0.8,
           'line-opacity': ['interpolate', ['linear'], ['get', 'congestion'],
             0, 0.0, 0.15, 0.20, 1.0, 0.55],
-        },
-      });
-
-      // ── Heatmap ──────────────────────────────────────────────────────────
-      m.addSource('heatmap-source', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
-      m.addLayer({
-        id: 'traffic-heatmap', type: 'heatmap', source: 'heatmap-source',
-        paint: {
-          'heatmap-weight': ['interpolate', ['linear'], ['get', 'weight'], 0, 0, 1, 1],
-          'heatmap-intensity': ['interpolate', ['linear'], ['zoom'], 8, 1.2, 14, 3.5],
-          'heatmap-color': ['interpolate', ['linear'], ['heatmap-density'],
-            0, 'rgba(0,0,0,0)', 0.10, 'rgba(29,78,216,0.4)', 0.30, 'rgba(8,145,178,0.65)',
-            0.50, 'rgba(180,83,9,0.82)', 0.70, 'rgba(185,28,28,0.92)', 1.0, 'rgba(127,29,29,1)'],
-          'heatmap-radius': ['interpolate', ['linear'], ['zoom'], 8, 18, 14, 42],
-          'heatmap-opacity': 0.88,
         },
       });
 
