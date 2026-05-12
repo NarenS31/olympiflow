@@ -56,6 +56,54 @@ function initParticles(): Particle[] {
   return particles;
 }
 
+// ── City lights ───────────────────────────────────────────────────────────────
+interface CityLight {
+  lng: number;
+  lat: number;
+  size: number;
+  color: string;
+  glowColor: string;
+  phase: number;    // sin wave offset (0–2π)
+  speed: number;    // pulse speed
+  baseOpacity: number;
+}
+
+// Palette: mostly warm sodium/amber streetlights, some cool LED/blue
+const LIGHT_PALETTE = [
+  { color: '#fffbeb', glow: '#fef3c7' },  // warm white
+  { color: '#fffbeb', glow: '#fef3c7' },
+  { color: '#fffbeb', glow: '#fef3c7' },
+  { color: '#fde68a', glow: '#f59e0b' },  // amber
+  { color: '#fde68a', glow: '#f59e0b' },
+  { color: '#fed7aa', glow: '#fb923c' },  // orange
+  { color: '#e0f9ff', glow: '#bae6fd' },  // cool white / LED
+];
+
+function initCityLights(): CityLight[] {
+  const lights: CityLight[] = [];
+  // Grid over the LA basin with jitter so it looks organic, not perfectly aligned
+  const lngMin = -118.555, lngMax = -118.095;
+  const latMin = 33.745,  latMax = 34.220;
+  const step = 0.0055; // ~600m grid spacing
+  for (let lng = lngMin; lng <= lngMax; lng += step) {
+    for (let lat = latMin; lat <= latMax; lat += step) {
+      if (Math.random() > 0.38) continue; // sparse — not every block visible
+      const p = LIGHT_PALETTE[Math.floor(Math.random() * LIGHT_PALETTE.length)];
+      lights.push({
+        lng: lng + (Math.random() - 0.5) * step * 0.9,
+        lat: lat + (Math.random() - 0.5) * step * 0.9,
+        size: 0.55 + Math.random() * 1.05,
+        color: p.color,
+        glowColor: p.glow,
+        phase: Math.random() * Math.PI * 2,
+        speed: 0.00022 + Math.random() * 0.00055, // very slow pulse
+        baseOpacity: 0.10 + Math.random() * 0.26,
+      });
+    }
+  }
+  return lights;
+}
+
 // ── Venue icons ──────────────────────────────────────────────────────────────
 const VENUE_ICONS: Record<string, string> = {
   stadium: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -152,6 +200,7 @@ export function OlympiMap() {
   const animRafRef      = useRef<number>(0);
   const particleRafRef  = useRef<number>(0);
   const particlesRef    = useRef<Particle[]>([]);
+  const cityLightsRef   = useRef<CityLight[]>([]);
 
   const venueSurges     = useSimulationStore((s) => s.venueSurges);
   const globalIntensity = useSimulationStore((s) => s.globalIntensity);
@@ -308,6 +357,7 @@ export function OlympiMap() {
 
       // ── Particle animation loop ───────────────────────────────────────────
       particlesRef.current = initParticles();
+      cityLightsRef.current = initCityLights();
 
       function animateParticles() {
         const canvas = canvasRef.current;
@@ -318,6 +368,44 @@ export function OlympiMap() {
 
         const intensity = useSimulationStore.getState().globalIntensity;
         const speedMult = 0.5 + intensity * 1.8;
+
+        // ── City lights — drawn first so particles appear above ─────────────
+        const now = Date.now();
+        const zoom = m.getZoom();
+        // Fade lights in between zoom 8.5-10.5 so they don't overwhelm at wide view
+        const lightAlphaScale = Math.max(0, Math.min(1, (zoom - 8.5) / 2.0));
+        if (lightAlphaScale > 0) {
+          // Two-pass: tiny dots first (no shadow, fast), then glow on larger lights
+          ctx.save();
+          ctx.shadowBlur = 0;
+          for (const light of cityLightsRef.current) {
+            const { x, y } = m.project([light.lng, light.lat] as [number, number]);
+            if (x < -8 || x > canvas.width + 8 || y < -8 || y > canvas.height + 8) continue;
+            const pulse = 0.52 + 0.48 * Math.sin(now * light.speed + light.phase);
+            ctx.globalAlpha = light.baseOpacity * pulse * lightAlphaScale;
+            ctx.fillStyle = light.color;
+            ctx.beginPath();
+            ctx.arc(x, y, light.size, 0, Math.PI * 2);
+            ctx.fill();
+          }
+          ctx.restore();
+          // Glow pass — only larger lights get the expensive shadowBlur
+          for (const light of cityLightsRef.current) {
+            if (light.size < 1.0) continue;
+            const { x, y } = m.project([light.lng, light.lat] as [number, number]);
+            if (x < -8 || x > canvas.width + 8 || y < -8 || y > canvas.height + 8) continue;
+            const pulse = 0.52 + 0.48 * Math.sin(now * light.speed + light.phase);
+            ctx.save();
+            ctx.globalAlpha = light.baseOpacity * pulse * lightAlphaScale * 0.7;
+            ctx.shadowBlur = light.size * 7;
+            ctx.shadowColor = light.glowColor;
+            ctx.fillStyle = light.color;
+            ctx.beginPath();
+            ctx.arc(x, y, light.size, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+          }
+        }
 
         for (const p of particlesRef.current) {
           p.t += p.speed * speedMult;
