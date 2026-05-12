@@ -146,18 +146,32 @@ export function generateZoneCongestionGeoJSON(
 
     // Pressure from each active venue surge, distance-weighted
     let surgePressure = 0;
+    let minDistKm = Infinity;
     for (const [venueId, intensity] of Object.entries(venueSurges)) {
       if (intensity <= 0) continue;
       const venue = LA28_VENUES.find((v) => v.id === venueId);
       if (!venue) continue;
       const distKm = haversineDistance(cLng, cLat, venue.lng, venue.lat);
+      minDistKm = Math.min(minDistKm, distKm);
       // Strong effect within 5 km, fades out past 30 km
       const falloff = Math.max(0, 1 - distKm / 30);
       surgePressure = Math.max(surgePressure, intensity * falloff);
     }
 
+    // When no surges active, use nearest Olympic venue for proximity reference
+    if (minDistKm === Infinity) {
+      for (const venue of LA28_VENUES) {
+        const distKm = haversineDistance(cLng, cLat, venue.lng, venue.lat);
+        minDistKm = Math.min(minDistKm, distKm);
+      }
+    }
+
     const base = zone.baseLoad * timeMult;
-    const congestion = Math.min(1, base * globalIntensity * 1.5 + surgePressure * 0.85);
+    // Zones within ~20 km of the nearest active venue get a congestion boost that
+    // scales with globalIntensity — so cranking the slider makes nearby zones go
+    // redder faster while far zones stay comparatively green.
+    const proximityBoost = Math.max(0, 1 - minDistKm / 20) * globalIntensity * 0.4;
+    const congestion = Math.min(1, base * globalIntensity * 1.5 + proximityBoost + surgePressure * 0.85);
 
     return {
       type: 'Feature',
