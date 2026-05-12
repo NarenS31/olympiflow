@@ -242,23 +242,37 @@ export function OlympiMap() {
 
       // ── Zone overlay — on top of heatmap ─────────────────────────────────
       m.addSource('zones-source', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
+      // Outer halo: wide blurred line that feathers zone edges so they look organic, not boxy
+      m.addLayer({
+        id: 'zone-halo', type: 'line', source: 'zones-source',
+        paint: {
+          'line-color': ['interpolate', ['linear'], ['get', 'congestion'],
+            0, '#14532d', 0.35, '#92400e', 0.65, '#991b1b', 1.0, '#7f1d1d'],
+          'line-width': 22,
+          'line-blur': 16,
+          'line-opacity': ['interpolate', ['linear'], ['get', 'congestion'],
+            0, 0.0, 0.12, 0.08, 0.40, 0.22, 1.0, 0.40],
+        },
+      });
       m.addLayer({
         id: 'zone-fill', type: 'fill', source: 'zones-source',
         paint: {
           'fill-color': ['interpolate', ['linear'], ['get', 'congestion'],
             0, '#166534', 0.28, '#854d0e', 0.50, '#9a3412', 0.72, '#991b1b', 1.0, '#7f1d1d'],
           'fill-opacity': ['interpolate', ['linear'], ['get', 'congestion'],
-            0, 0.0, 0.08, 0.04, 0.25, 0.14, 0.50, 0.24, 0.75, 0.34, 1.0, 0.44],
+            0, 0.0, 0.08, 0.03, 0.25, 0.10, 0.50, 0.18, 0.75, 0.27, 1.0, 0.36],
+          'fill-antialias': true,
         },
       });
+      // Crisp inner border for definition
       m.addLayer({
         id: 'zone-border', type: 'line', source: 'zones-source',
         paint: {
           'line-color': ['interpolate', ['linear'], ['get', 'congestion'],
             0, '#166534', 0.5, '#9a3412', 1.0, '#991b1b'],
-          'line-width': 0.8,
+          'line-width': 1,
           'line-opacity': ['interpolate', ['linear'], ['get', 'congestion'],
-            0, 0.0, 0.15, 0.20, 1.0, 0.55],
+            0, 0.0, 0.15, 0.15, 0.50, 0.40, 1.0, 0.65],
         },
       });
 
@@ -432,7 +446,7 @@ export function OlympiMap() {
     const vis = (id: string, on: boolean) => {
       if (m.getLayer(id)) m.setLayoutProperty(id, 'visibility', on ? 'visible' : 'none');
     };
-    vis('zone-fill', layers.heatmap); vis('zone-border', layers.heatmap);
+    vis('zone-halo', layers.heatmap); vis('zone-fill', layers.heatmap); vis('zone-border', layers.heatmap);
     vis('traffic-heatmap', layers.heatmap);
     vis('artery-bloom', layers.heatmap); vis('artery-glow', layers.heatmap); vis('artery-core', layers.heatmap);
     vis('transit-routes', layers.transit); vis('transit-casing', layers.transit); vis('transit-flow', layers.transit);
