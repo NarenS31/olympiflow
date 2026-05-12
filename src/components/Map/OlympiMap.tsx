@@ -5,7 +5,7 @@ import { useSimulationStore } from '../../stores/simulationStore';
 import { LA28_VENUES } from '../../data/venues';
 import { LA_ARTERIES, buildArteryGeoJSON } from '../../data/arteries';
 import { generateHeatmapGeoJSON, generateZoneCongestionGeoJSON } from '../../utils/simulation';
-import type { Venue } from '../../types';
+import type { Venue, CustomTrafficEvent, TrafficEventType } from '../../types';
 
 const LA_CENTER: [number, number] = [-118.2437, 34.0522];
 const MAP_STYLE = 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json';
@@ -225,25 +225,79 @@ function createVenuePopupHTML(venue: Venue): string {
   </div>`;
 }
 
+// ── Custom event markers ─────────────────────────────────────────────────────
+const CUSTOM_EVENT_COLORS: Record<TrafficEventType, string> = {
+  sports:  '#0891b2',
+  concert: '#7c3aed',
+  festival:'#16a34a',
+  rally:   '#d97706',
+};
+
+function createCustomEventMarker(event: CustomTrafficEvent): HTMLElement {
+  const color = CUSTOM_EVENT_COLORS[event.type];
+  const size  = Math.round(32 + (event.attendees / 100000) * 16); // 32–48 px
+
+  if (!document.getElementById('custom-evt-style')) {
+    const s = document.createElement('style');
+    s.id = 'custom-evt-style';
+    s.textContent = `
+      @keyframes evt-pulse { 0%,100%{transform:scale(1);opacity:.5} 50%{transform:scale(1.35);opacity:.18} }
+      .evt-ring { animation: evt-pulse 2.2s ease-in-out infinite; }
+    `;
+    document.head.appendChild(s);
+  }
+
+  const wrap = document.createElement('div');
+  wrap.style.cssText = `position:relative;width:${size}px;height:${size}px;display:flex;align-items:center;justify-content:center;cursor:pointer;`;
+
+  const ring = document.createElement('div');
+  ring.className = 'evt-ring';
+  ring.style.cssText = `position:absolute;inset:-5px;border-radius:50%;border:2px solid ${color};pointer-events:none;`;
+
+  const core = document.createElement('div');
+  core.style.cssText = `
+    width:${size}px;height:${size}px;border-radius:50%;
+    background:rgba(4,8,15,0.92);border:2px solid ${color};
+    display:flex;align-items:center;justify-content:center;
+    color:${color};font-size:${size < 38 ? 9 : 10}px;font-weight:700;font-family:monospace;
+    box-shadow:0 0 14px ${color}55;backdrop-filter:blur(8px);
+    transition:transform .18s ease,box-shadow .18s ease;
+  `;
+  const label = event.attendees >= 1000 ? `${Math.round(event.attendees / 1000)}k` : String(event.attendees);
+  core.textContent = label;
+
+  wrap.appendChild(ring);
+  wrap.appendChild(core);
+  wrap.addEventListener('mouseenter', () => { core.style.transform = 'scale(1.15)'; core.style.boxShadow = `0 0 22px ${color}88`; });
+  wrap.addEventListener('mouseleave', () => { core.style.transform = 'scale(1)';    core.style.boxShadow = `0 0 14px ${color}55`; });
+
+  return wrap;
+}
+
 // ── Component ────────────────────────────────────────────────────────────────
 export function OlympiMap() {
-  const mapContainer    = useRef<HTMLDivElement>(null);
-  const canvasRef       = useRef<HTMLCanvasElement>(null);
-  const map             = useRef<maplibregl.Map | null>(null);
-  const markersRef      = useRef<maplibregl.Marker[]>([]);
-  const isLoaded        = useRef(false);
-  const animRafRef      = useRef<number>(0);
-  const particleRafRef  = useRef<number>(0);
-  const particlesRef    = useRef<Particle[]>([]);
-  const cityLightsRef   = useRef<CityLight[]>([]);
+  const mapContainer          = useRef<HTMLDivElement>(null);
+  const canvasRef             = useRef<HTMLCanvasElement>(null);
+  const map                   = useRef<maplibregl.Map | null>(null);
+  const markersRef            = useRef<maplibregl.Marker[]>([]);
+  const customEventMarkersRef = useRef<maplibregl.Marker[]>([]);
+  const isLoaded              = useRef(false);
+  const animRafRef            = useRef<number>(0);
+  const particleRafRef        = useRef<number>(0);
+  const particlesRef          = useRef<Particle[]>([]);
+  const cityLightsRef         = useRef<CityLight[]>([]);
 
-  const venueSurges     = useSimulationStore((s) => s.venueSurges);
-  const globalIntensity = useSimulationStore((s) => s.globalIntensity);
-  const timeOfDay       = useSimulationStore((s) => s.timeOfDay);
-  const layers          = useSimulationStore((s) => s.layers);
-  const transitData     = useSimulationStore((s) => s.transitData);
-  const heatmapBaseData = useSimulationStore((s) => s.heatmapBaseData);
-  const selectVenue     = useSimulationStore((s) => s.selectVenue);
+  const venueSurges          = useSimulationStore((s) => s.venueSurges);
+  const globalIntensity      = useSimulationStore((s) => s.globalIntensity);
+  const timeOfDay            = useSimulationStore((s) => s.timeOfDay);
+  const layers               = useSimulationStore((s) => s.layers);
+  const transitData          = useSimulationStore((s) => s.transitData);
+  const heatmapBaseData      = useSimulationStore((s) => s.heatmapBaseData);
+  const selectVenue          = useSimulationStore((s) => s.selectVenue);
+  const customEvents         = useSimulationStore((s) => s.customEvents);
+  const placingEvent         = useSimulationStore((s) => s.placingEvent);
+  const setPendingEventLocation = useSimulationStore((s) => s.setPendingEventLocation);
+  const setPlacingEvent      = useSimulationStore((s) => s.setPlacingEvent);
 
   const getBasePoints = useCallback(() => {
     if (!heatmapBaseData) return [];
@@ -532,15 +586,46 @@ export function OlympiMap() {
   useEffect(() => {
     if (!isLoaded.current || !map.current) return;
     (map.current.getSource('zones-source') as maplibregl.GeoJSONSource)
-      ?.setData(generateZoneCongestionGeoJSON(venueSurges, globalIntensity, timeOfDay));
-  }, [venueSurges, globalIntensity, timeOfDay]);
+      ?.setData(generateZoneCongestionGeoJSON(venueSurges, globalIntensity, timeOfDay, customEvents));
+  }, [venueSurges, globalIntensity, timeOfDay, customEvents]);
 
   useEffect(() => {
     if (!isLoaded.current || !map.current) return;
     const pts = getBasePoints();
-    const geojson = generateHeatmapGeoJSON(pts, venueSurges, globalIntensity, timeOfDay);
+    const geojson = generateHeatmapGeoJSON(pts, venueSurges, globalIntensity, timeOfDay, customEvents);
     (map.current.getSource('heatmap-source') as maplibregl.GeoJSONSource)?.setData(geojson);
-  }, [venueSurges, globalIntensity, timeOfDay, heatmapBaseData, getBasePoints]);
+  }, [venueSurges, globalIntensity, timeOfDay, heatmapBaseData, getBasePoints, customEvents]);
+
+  // ── Click-to-place mode ───────────────────────────────────────────────────
+  useEffect(() => {
+    if (!isLoaded.current || !map.current) return;
+    const m = map.current;
+    if (!placingEvent) {
+      m.getCanvas().style.cursor = '';
+      return;
+    }
+    m.getCanvas().style.cursor = 'crosshair';
+    const handleClick = (e: maplibregl.MapMouseEvent) => {
+      setPendingEventLocation({ lng: e.lngLat.lng, lat: e.lngLat.lat });
+      setPlacingEvent(false);
+    };
+    m.once('click', handleClick);
+    return () => { m.off('click', handleClick); m.getCanvas().style.cursor = ''; };
+  }, [placingEvent, setPendingEventLocation, setPlacingEvent]);
+
+  // ── Custom event markers ──────────────────────────────────────────────────
+  useEffect(() => {
+    if (!isLoaded.current || !map.current) return;
+    customEventMarkersRef.current.forEach((mk) => mk.remove());
+    customEventMarkersRef.current = [];
+    for (const event of customEvents) {
+      const el = createCustomEventMarker(event);
+      const marker = new maplibregl.Marker({ element: el, anchor: 'center' })
+        .setLngLat([event.lng, event.lat])
+        .addTo(map.current!);
+      customEventMarkersRef.current.push(marker);
+    }
+  }, [customEvents]);
 
   useEffect(() => {
     if (!isLoaded.current || !map.current || !transitData) return;

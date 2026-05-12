@@ -34,6 +34,17 @@ export interface ParkingZone {
 
 export type SimulationMode = 'baseline' | 'event' | 'crisis';
 
+export type TrafficEventType = 'sports' | 'concert' | 'festival' | 'rally';
+
+export interface CustomTrafficEvent {
+  id: string;
+  name: string;
+  lng: number;
+  lat: number;
+  attendees: number;
+  type: TrafficEventType;
+}
+
 export interface VenueSurge {
   venueId: string;
   intensity: number; // 0-1

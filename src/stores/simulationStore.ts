@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { subscribeWithSelector } from 'zustand/middleware';
-import type { SimulationMode, LayerVisibility, SimulationMetrics, VenueSurge } from '../types';
+import type { SimulationMode, LayerVisibility, SimulationMetrics, VenueSurge, CustomTrafficEvent } from '../types';
 
 interface SimulationState {
   mode: SimulationMode;
@@ -15,6 +15,9 @@ interface SimulationState {
   selectedVenueId: string | null;
   transitData: GeoJSON.FeatureCollection | null;
   heatmapBaseData: GeoJSON.FeatureCollection | null;
+  customEvents: CustomTrafficEvent[];
+  placingEvent: boolean;
+  pendingEventLocation: { lng: number; lat: number } | null;
 
   setMode: (mode: SimulationMode) => void;
   setTimeOfDay: (t: number | ((prev: number) => number)) => void;
@@ -29,6 +32,10 @@ interface SimulationState {
   setHeatmapBaseData: (data: GeoJSON.FeatureCollection) => void;
   updateMetrics: (metrics: Partial<SimulationMetrics>) => void;
   resetSimulation: () => void;
+  addCustomEvent: (event: CustomTrafficEvent) => void;
+  removeCustomEvent: (id: string) => void;
+  setPlacingEvent: (placing: boolean) => void;
+  setPendingEventLocation: (loc: { lng: number; lat: number } | null) => void;
 }
 
 const DEFAULT_METRICS: SimulationMetrics = {
@@ -62,6 +69,9 @@ export const useSimulationStore = create<SimulationState>()(
     selectedVenueId: null,
     transitData: null,
     heatmapBaseData: null,
+    customEvents: [],
+    placingEvent: false,
+    pendingEventLocation: null,
 
     setMode: (mode) =>
       set((state) => {
@@ -116,7 +126,24 @@ export const useSimulationStore = create<SimulationState>()(
         roadClosures: [],
         metrics: DEFAULT_METRICS,
         isPlaying: false,
+        customEvents: [],
+        placingEvent: false,
+        pendingEventLocation: null,
       }),
+
+    addCustomEvent: (event) =>
+      set((s) => ({
+        customEvents: [...s.customEvents, event],
+        placingEvent: false,
+        pendingEventLocation: null,
+      })),
+
+    removeCustomEvent: (id) =>
+      set((s) => ({ customEvents: s.customEvents.filter((e) => e.id !== id) })),
+
+    setPlacingEvent: (placing) => set({ placingEvent: placing }),
+
+    setPendingEventLocation: (loc) => set({ pendingEventLocation: loc }),
   }))
 );
 

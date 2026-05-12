@@ -1,11 +1,33 @@
 import { LA28_VENUES } from '../data/venues';
 import { LA_ZONES } from '../data/zones';
 import { haversineDistance } from './geoUtils';
+import type { CustomTrafficEvent, TrafficEventType } from '../types';
 
 // BPR (Bureau of Public Roads) travel-time function
 // Returns travel time ratio: 1.0 = free flow, >1 = delayed
 export function bprTravelTime(volume: number, capacity: number, alpha = 0.15, beta = 4): number {
   return 1 + alpha * Math.pow(volume / capacity, beta);
+}
+
+// Per-event-type time-of-day sensitivity — encodes historical arrival/departure patterns.
+// Returns 0–1 multiplier: how intense traffic pressure is at a given hour for that event type.
+export function getEventTimeSensitivity(type: TrafficEventType, hour: number): number {
+  switch (type) {
+    case 'sports':
+      // Arrival spike ~2h before 7 PM start, departure spike ~1h after
+      return Math.max(0.15, Math.exp(-Math.pow((hour - 18.5) / 2.2, 2)));
+    case 'concert':
+      // Tighter evening spike around 8 PM
+      return Math.max(0.10, Math.exp(-Math.pow((hour - 20) / 1.8, 2)));
+    case 'festival':
+      // Broad afternoon-to-evening spread, 12–10 PM
+      if (hour < 11) return 0.10;
+      if (hour > 22) return 0.10;
+      return 0.40 + 0.60 * Math.sin(((hour - 11) / 11) * Math.PI);
+    case 'rally':
+      // Midday concentrated burst
+      return Math.max(0.10, Math.exp(-Math.pow((hour - 13) / 2.5, 2)));
+  }
 }
 
 // Time-of-day traffic multiplier
@@ -59,6 +81,7 @@ export function generateHeatmapGeoJSON(
   venueSurges: Record<string, number>,
   globalIntensity: number,
   timeOfDay: number,
+  customEvents: CustomTrafficEvent[] = [],
 ): GeoJSON.FeatureCollection {
   const timeMult = getTimeMultiplier(timeOfDay);
   const features: GeoJSON.Feature[] = [];
@@ -79,6 +102,22 @@ export function generateHeatmapGeoJSON(
     if (!venue) continue;
 
     const surgePoints = createSurgePressurePoints(venue.lng, venue.lat, intensity);
+    for (const sp of surgePoints) {
+      features.push({
+        type: 'Feature',
+        geometry: { type: 'Point', coordinates: [sp.lng, sp.lat] },
+        properties: { weight: sp.weight },
+      });
+    }
+  }
+
+  // Add custom event pressure rings, scaled by attendees and time-of-day pattern
+  for (const event of customEvents) {
+    const normalizedIntensity = Math.min(1, event.attendees / 70000);
+    const timeSensitivity = getEventTimeSensitivity(event.type, timeOfDay);
+    const effectiveIntensity = normalizedIntensity * timeSensitivity;
+    if (effectiveIntensity < 0.05) continue;
+    const surgePoints = createSurgePressurePoints(event.lng, event.lat, effectiveIntensity);
     for (const sp of surgePoints) {
       features.push({
         type: 'Feature',
@@ -138,6 +177,7 @@ export function generateZoneCongestionGeoJSON(
   venueSurges: Record<string, number>,
   globalIntensity: number,
   timeOfDay: number,
+  customEvents: CustomTrafficEvent[] = [],
 ): GeoJSON.FeatureCollection {
   const timeMult = getTimeMultiplier(timeOfDay);
 
@@ -166,12 +206,27 @@ export function generateZoneCongestionGeoJSON(
       }
     }
 
+    // Custom event pressure: each event contributes based on attendees, distance,
+    // event type, and a time-of-day pattern derived from historical arrival curves.
+    let customPressure = 0;
+    for (const event of customEvents) {
+      const distKm = haversineDistance(cLng, cLat, event.lng, event.lat);
+      const normalizedIntensity = Math.min(1, event.attendees / 70000);
+      // Wider decay for outdoor/spread events vs tight stadium sports
+      const decayKm = event.type === 'festival' ? 28 : event.type === 'rally' ? 32 : 22;
+      const falloff = Math.max(0, 1 - distKm / decayKm);
+      const timeSensitivity = getEventTimeSensitivity(event.type, timeOfDay);
+      customPressure = Math.max(customPressure, normalizedIntensity * falloff * timeSensitivity);
+      // Also update minDistKm so the proximity boost applies near custom events too
+      minDistKm = Math.min(minDistKm, distKm);
+    }
+
     const base = zone.baseLoad * timeMult;
     // Zones within ~20 km of the nearest active venue get a congestion boost that
     // scales with globalIntensity — so cranking the slider makes nearby zones go
     // redder faster while far zones stay comparatively green.
     const proximityBoost = Math.max(0, 1 - minDistKm / 20) * globalIntensity * 0.4;
-    const congestion = Math.min(1, base * globalIntensity * 1.5 + proximityBoost + surgePressure * 0.85);
+    const congestion = Math.min(1, base * globalIntensity * 1.5 + proximityBoost + surgePressure * 0.85 + customPressure * 0.9);
 
     return {
       type: 'Feature',
