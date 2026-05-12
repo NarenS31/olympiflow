@@ -113,12 +113,23 @@ export function calculateMetrics(
     (congestionScore * 180000 + totalSurge * 40000) * timeMult,
   );
 
+  const avgTravelTime = Math.round(35 * bprTravelTime(congestionScore, 0.7));
+  const co2Increase = Math.round(avgDelayIncrease * 1.4 + activeSurges * 7);
+  const emergencyDelayRisk =
+    congestionScore > 0.80 ? ('critical' as const) :
+    congestionScore > 0.60 ? ('high' as const) :
+    congestionScore > 0.35 ? ('moderate' as const) :
+    ('low' as const);
+
   return {
     congestionScore,
     avgDelayIncrease,
     peakCongestionZones,
     affectedTransitRoutes,
     estimatedPersonsAffected,
+    avgTravelTime,
+    co2Increase,
+    emergencyDelayRisk,
   };
 }
 

@@ -37,6 +37,9 @@ const DEFAULT_METRICS: SimulationMetrics = {
   affectedTransitRoutes: 0,
   estimatedPersonsAffected: 0,
   congestionScore: 0,
+  avgTravelTime: 35,
+  co2Increase: 0,
+  emergencyDelayRisk: 'low',
 };
 
 export const useSimulationStore = create<SimulationState>()(

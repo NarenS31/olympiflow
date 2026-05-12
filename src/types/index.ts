@@ -47,12 +47,17 @@ export interface LayerVisibility {
   collisions: boolean;
 }
 
+export type EmergencyRisk = 'low' | 'moderate' | 'high' | 'critical';
+
 export interface SimulationMetrics {
-  avgDelayIncrease: number;
-  peakCongestionZones: number;
-  affectedTransitRoutes: number;
+  avgDelayIncrease: number;       // percent above free-flow
+  peakCongestionZones: number;    // count
+  affectedTransitRoutes: number;  // count
   estimatedPersonsAffected: number;
-  congestionScore: number;
+  congestionScore: number;        // 0-1
+  avgTravelTime: number;          // minutes
+  co2Increase: number;            // percent above baseline
+  emergencyDelayRisk: EmergencyRisk;
 }
 
 export interface TimelineDataPoint {

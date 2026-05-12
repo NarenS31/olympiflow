@@ -3,13 +3,25 @@ import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { useSimulationStore } from '../../stores/simulationStore';
 import { LA28_VENUES } from '../../data/venues';
+import { buildArteryGeoJSON } from '../../data/arteries';
 import { generateHeatmapGeoJSON, generateZoneCongestionGeoJSON } from '../../utils/simulation';
 import type { Venue } from '../../types';
 
 const LA_CENTER: [number, number] = [-118.2437, 34.0522];
 const MAP_STYLE = 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json';
 
-// ── SVG icon paths per venue type ──────────────────────────────────────────
+// Animated dasharray sequence — creates "ant march" flowing transit lines
+const DASH_SEQUENCE = [
+  [0, 4, 3],
+  [0.5, 4, 2.5],
+  [1, 4, 2],
+  [1.5, 4, 1.5],
+  [2, 4, 1],
+  [2.5, 4, 0.5],
+  [3, 4, 0],
+  [3.5, 3.5, 0],
+];
+
 const VENUE_ICONS: Record<string, string> = {
   stadium: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
     <path d="M3 11C3 7 7 4 12 4s9 3 9 7"/>
@@ -52,12 +64,12 @@ function getVenueIcon(venue: Venue): string {
 }
 
 function getVenueColors(venue: Venue) {
-  if (venue.isOpeningClosing) return { border: '#b45309', glow: 'rgba(180,83,9,0.35)', bg: 'rgba(180,83,9,0.10)' };
+  if (venue.isOpeningClosing) return { border: '#b45309', glow: 'rgba(180,83,9,0.4)',   bg: 'rgba(180,83,9,0.12)'  };
   switch (venue.type) {
-    case 'arena':    return { border: '#7c3aed', glow: 'rgba(124,58,237,0.28)', bg: 'rgba(124,58,237,0.08)' };
-    case 'outdoor':  return { border: '#16a34a', glow: 'rgba(22,163,74,0.28)',  bg: 'rgba(22,163,74,0.08)'  };
-    case 'aquatic':  return { border: '#1d4ed8', glow: 'rgba(29,78,216,0.28)',  bg: 'rgba(29,78,216,0.08)'  };
-    default:         return { border: '#0891b2', glow: 'rgba(8,145,178,0.28)',  bg: 'rgba(8,145,178,0.08)'  };
+    case 'arena':    return { border: '#7c3aed', glow: 'rgba(124,58,237,0.35)', bg: 'rgba(124,58,237,0.10)' };
+    case 'outdoor':  return { border: '#16a34a', glow: 'rgba(22,163,74,0.35)',  bg: 'rgba(22,163,74,0.10)'  };
+    case 'aquatic':  return { border: '#1d4ed8', glow: 'rgba(29,78,216,0.35)',  bg: 'rgba(29,78,216,0.10)'  };
+    default:         return { border: '#0891b2', glow: 'rgba(8,145,178,0.35)',  bg: 'rgba(8,145,178,0.10)'  };
   }
 }
 
@@ -71,67 +83,58 @@ function createVenueMarkerElement(venue: Venue): HTMLElement {
     flex-direction: column;
     align-items: center;
     cursor: pointer;
-    filter: drop-shadow(0 4px 12px ${glow});
+    filter: drop-shadow(0 4px 14px ${glow});
     transition: filter 0.2s ease;
   `;
 
-  // Pin body — scale this on hover, NOT the wrapper (wrapper transform conflicts with MapLibre positioning)
   const body = document.createElement('div');
   body.style.cssText = `
     width: 40px;
     height: 40px;
     border-radius: 50% 50% 50% 4px;
     border: 2px solid ${border};
-    background: rgba(10,15,28,0.92);
+    background: rgba(8,12,24,0.94);
     display: flex;
     align-items: center;
     justify-content: center;
     color: ${border};
-    backdrop-filter: blur(6px);
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), 0 2px 8px rgba(0,0,0,0.5);
+    backdrop-filter: blur(8px);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 2px 10px rgba(0,0,0,0.6);
     position: relative;
     overflow: hidden;
     transition: transform 0.18s ease, box-shadow 0.18s ease;
     transform-origin: bottom center;
   `;
 
-  // Subtle inner glow
-  const glow2 = document.createElement('div');
-  glow2.style.cssText = `
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
+  const glowLayer = document.createElement('div');
+  glowLayer.style.cssText = `
+    position: absolute; inset: 0; border-radius: inherit;
     background: ${bg};
   `;
-  body.appendChild(glow2);
-
+  body.appendChild(glowLayer);
   body.insertAdjacentHTML('beforeend', icon);
 
-  // Pin tip
   const tip = document.createElement('div');
   tip.style.cssText = `
-    width: 0;
-    height: 0;
+    width: 0; height: 0;
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
     border-top: 8px solid ${border};
     margin-top: -1px;
-    filter: drop-shadow(0 2px 4px ${glow});
   `;
 
   wrapper.appendChild(body);
   wrapper.appendChild(tip);
 
-  // Hover — only scale the body circle, never touch wrapper transform
   wrapper.addEventListener('mouseenter', () => {
-    wrapper.style.filter = `drop-shadow(0 8px 24px ${glow})`;
+    wrapper.style.filter = `drop-shadow(0 8px 28px ${glow})`;
     body.style.transform = 'scale(1.22)';
-    body.style.boxShadow = `inset 0 1px 0 rgba(255,255,255,0.1), 0 4px 16px rgba(0,0,0,0.6), 0 0 0 1px ${border}`;
+    body.style.boxShadow = `inset 0 1px 0 rgba(255,255,255,0.12), 0 4px 20px rgba(0,0,0,0.7), 0 0 0 1px ${border}`;
   });
   wrapper.addEventListener('mouseleave', () => {
-    wrapper.style.filter = `drop-shadow(0 4px 12px ${glow})`;
+    wrapper.style.filter = `drop-shadow(0 4px 14px ${glow})`;
     body.style.transform = 'scale(1)';
-    body.style.boxShadow = `inset 0 1px 0 rgba(255,255,255,0.06), 0 2px 8px rgba(0,0,0,0.5)`;
+    body.style.boxShadow = `inset 0 1px 0 rgba(255,255,255,0.08), 0 2px 10px rgba(0,0,0,0.6)`;
   });
 
   return wrapper;
@@ -140,32 +143,44 @@ function createVenueMarkerElement(venue: Venue): HTMLElement {
 function createVenuePopupHTML(venue: Venue): string {
   const { border } = getVenueColors(venue);
   const sportsHTML = venue.sports
-    .map((s) => `<span style="display:inline-block;margin:2px 4px 2px 0;padding:2px 8px;border-radius:20px;border:1px solid #334155;font-size:10px;color:#94a3b8;">${s}</span>`)
+    .map((s) => `<span style="display:inline-block;margin:2px 4px 2px 0;padding:2px 8px;border-radius:20px;border:1px solid #1e293b;font-size:10px;color:#64748b;">${s}</span>`)
     .join('');
   return `
-    <div style="font-family:'Inter',sans-serif;color:#f1f5f9;padding:14px;min-width:210px;">
-      <div style="font-size:14px;font-weight:700;color:${border};margin-bottom:4px;">${venue.name}</div>
-      <div style="font-size:11px;color:#64748b;margin-bottom:10px;">
-        📍 ${venue.neighborhood} &nbsp;·&nbsp; ${venue.capacity.toLocaleString()} seats
+    <div style="font-family:'Inter',sans-serif;color:#e2e8f0;padding:14px;min-width:210px;">
+      <div style="font-size:13px;font-weight:700;color:${border};margin-bottom:4px;">${venue.name}</div>
+      <div style="font-size:10px;color:#475569;margin-bottom:10px;">
+        ${venue.neighborhood}&nbsp;&nbsp;·&nbsp;&nbsp;${venue.capacity.toLocaleString()} seats
       </div>
-      <div style="margin-bottom:2px;">${sportsHTML}</div>
+      <div>${sportsHTML}</div>
     </div>
   `;
 }
 
-export function OlympiMap() {
-  const mapContainer = useRef<HTMLDivElement>(null);
-  const map = useRef<maplibregl.Map | null>(null);
-  const markersRef = useRef<maplibregl.Marker[]>([]);
-  const isLoaded = useRef(false);
+// Congestion color expression shared between artery layers
+const CONGESTION_COLOR_EXPR = [
+  'interpolate', ['linear'], ['get', 'congestion'],
+  0,    '#166534',
+  0.25, '#854d0e',
+  0.50, '#9a3412',
+  0.75, '#991b1b',
+  1.0,  '#7f1d1d',
+];
 
-  const venueSurges   = useSimulationStore((s) => s.venueSurges);
+export function OlympiMap() {
+  const mapContainer   = useRef<HTMLDivElement>(null);
+  const map            = useRef<maplibregl.Map | null>(null);
+  const markersRef     = useRef<maplibregl.Marker[]>([]);
+  const isLoaded       = useRef(false);
+  const dashStepRef    = useRef(0);
+  const animRafRef     = useRef<number>(0);
+
+  const venueSurges     = useSimulationStore((s) => s.venueSurges);
   const globalIntensity = useSimulationStore((s) => s.globalIntensity);
-  const timeOfDay     = useSimulationStore((s) => s.timeOfDay);
-  const layers        = useSimulationStore((s) => s.layers);
-  const transitData   = useSimulationStore((s) => s.transitData);
+  const timeOfDay       = useSimulationStore((s) => s.timeOfDay);
+  const layers          = useSimulationStore((s) => s.layers);
+  const transitData     = useSimulationStore((s) => s.transitData);
   const heatmapBaseData = useSimulationStore((s) => s.heatmapBaseData);
-  const selectVenue   = useSimulationStore((s) => s.selectVenue);
+  const selectVenue     = useSimulationStore((s) => s.selectVenue);
 
   const getBasePoints = useCallback(() => {
     if (!heatmapBaseData) return [];
@@ -195,13 +210,59 @@ export function OlympiMap() {
       const m = map.current!;
       isLoaded.current = true;
 
+      // ── Artery road glow (major LA freeways) ────────────────────────────
+      m.addSource('arteries-source', {
+        type: 'geojson',
+        data: buildArteryGeoJSON() as GeoJSON.FeatureCollection,
+      });
+
+      // Wide outer bloom
+      m.addLayer({
+        id: 'artery-bloom',
+        type: 'line',
+        source: 'arteries-source',
+        layout: { 'line-cap': 'round', 'line-join': 'round' },
+        paint: {
+          'line-color': '#9a3412',
+          'line-width': 18,
+          'line-opacity': 0,
+          'line-blur': 6,
+        },
+      });
+
+      // Mid glow
+      m.addLayer({
+        id: 'artery-glow',
+        type: 'line',
+        source: 'arteries-source',
+        layout: { 'line-cap': 'round', 'line-join': 'round' },
+        paint: {
+          'line-color': '#7f1d1d',
+          'line-width': 8,
+          'line-opacity': 0,
+          'line-blur': 3,
+        },
+      });
+
+      // Core artery line
+      m.addLayer({
+        id: 'artery-core',
+        type: 'line',
+        source: 'arteries-source',
+        layout: { 'line-cap': 'round', 'line-join': 'round' },
+        paint: {
+          'line-color': '#9a3412',
+          'line-width': 2,
+          'line-opacity': 0,
+        },
+      });
+
       // ── Zone congestion overlay ─────────────────────────────────────────
       m.addSource('zones-source', {
         type: 'geojson',
         data: { type: 'FeatureCollection', features: [] },
       });
 
-      // Filled zone overlay — muted professional GIS ramp
       m.addLayer({
         id: 'zone-fill',
         type: 'fill',
@@ -209,20 +270,19 @@ export function OlympiMap() {
         paint: {
           'fill-color': [
             'interpolate', ['linear'], ['get', 'congestion'],
-            0,    '#166534',  // dark forest green
-            0.28, '#854d0e',  // dark amber
-            0.50, '#9a3412',  // burnt sienna
-            0.72, '#991b1b',  // dark red
-            1.0,  '#7f1d1d',  // deep crimson
+            0,    '#166534',
+            0.28, '#854d0e',
+            0.50, '#9a3412',
+            0.72, '#991b1b',
+            1.0,  '#7f1d1d',
           ],
           'fill-opacity': [
             'interpolate', ['linear'], ['get', 'congestion'],
-            0, 0.0, 0.10, 0.05, 0.30, 0.10, 0.55, 0.17, 0.80, 0.25, 1.0, 0.33,
+            0, 0.0, 0.08, 0.04, 0.25, 0.12, 0.50, 0.22, 0.75, 0.32, 1.0, 0.42,
           ],
         },
       });
 
-      // Subtle zone border
       m.addLayer({
         id: 'zone-border',
         type: 'line',
@@ -234,15 +294,15 @@ export function OlympiMap() {
             0.5, '#9a3412',
             1.0, '#991b1b',
           ],
-          'line-width': 0.6,
+          'line-width': 0.8,
           'line-opacity': [
             'interpolate', ['linear'], ['get', 'congestion'],
-            0, 0.0, 0.2, 0.25, 1.0, 0.5,
+            0, 0.0, 0.15, 0.20, 1.0, 0.55,
           ],
         },
       });
 
-      // ── Heatmap source & layer ──────────────────────────────────────────
+      // ── Heatmap — more aggressive ramp ─────────────────────────────────
       m.addSource('heatmap-source', {
         type: 'geojson',
         data: { type: 'FeatureCollection', features: [] },
@@ -254,18 +314,18 @@ export function OlympiMap() {
         source: 'heatmap-source',
         paint: {
           'heatmap-weight': ['interpolate', ['linear'], ['get', 'weight'], 0, 0, 1, 1],
-          'heatmap-intensity': ['interpolate', ['linear'], ['zoom'], 8, 0.5, 14, 2],
+          'heatmap-intensity': ['interpolate', ['linear'], ['zoom'], 8, 1.2, 14, 3.5],
           'heatmap-color': [
             'interpolate', ['linear'], ['heatmap-density'],
             0,    'rgba(0,0,0,0)',
-            0.15, 'rgba(29,78,216,0.35)',
-            0.35, 'rgba(8,145,178,0.6)',
-            0.55, 'rgba(180,83,9,0.78)',
-            0.75, 'rgba(185,28,28,0.88)',
-            1,    'rgba(127,29,29,1)',
+            0.10, 'rgba(29,78,216,0.4)',
+            0.30, 'rgba(8,145,178,0.65)',
+            0.50, 'rgba(180,83,9,0.82)',
+            0.70, 'rgba(185,28,28,0.92)',
+            1.0,  'rgba(127,29,29,1)',
           ],
-          'heatmap-radius': ['interpolate', ['linear'], ['zoom'], 8, 14, 14, 32],
-          'heatmap-opacity': 0.7,
+          'heatmap-radius': ['interpolate', ['linear'], ['zoom'], 8, 18, 14, 42],
+          'heatmap-opacity': 0.88,
         },
       });
 
@@ -275,31 +335,64 @@ export function OlympiMap() {
         data: { type: 'FeatureCollection', features: [] },
       });
 
+      // Glow casing
       m.addLayer({
         id: 'transit-casing',
         type: 'line',
         source: 'transit-source',
         layout: { 'line-cap': 'round' },
-        paint: { 'line-color': '#000', 'line-width': 5, 'line-opacity': 0.4 },
+        paint: { 'line-color': '#000', 'line-width': 6, 'line-opacity': 0.4 },
       });
 
+      // Base route line
       m.addLayer({
         id: 'transit-routes',
         type: 'line',
         source: 'transit-source',
         layout: { 'line-cap': 'round' },
         paint: {
-          'line-color': ['coalesce', ['get', 'color'], '#8b5cf6'],
+          'line-color': ['coalesce', ['get', 'color'], '#6d28d9'],
           'line-width': 2.5,
-          'line-dasharray': [3, 2],
-          'line-opacity': 0.9,
+          'line-opacity': 0.55,
         },
       });
+
+      // Animated flow layer on top of routes
+      m.addLayer({
+        id: 'transit-flow',
+        type: 'line',
+        source: 'transit-source',
+        layout: { 'line-cap': 'round' },
+        paint: {
+          'line-color': ['coalesce', ['get', 'color'], '#7c3aed'],
+          'line-width': 2,
+          'line-dasharray': [0, 4, 3],
+          'line-opacity': 0.85,
+        },
+      });
+
+      // ── Start animated dash loop ────────────────────────────────────────
+      let lastStep = -1;
+      let lastTs = 0;
+      const FRAME_MS = 80; // ~12 fps feels smooth enough for dashes
+
+      function animateDash(ts: number) {
+        if (ts - lastTs >= FRAME_MS) {
+          const step = Math.floor(ts / FRAME_MS) % DASH_SEQUENCE.length;
+          if (step !== lastStep && m.getLayer('transit-flow')) {
+            m.setPaintProperty('transit-flow', 'line-dasharray', DASH_SEQUENCE[step]);
+            dashStepRef.current = step;
+            lastStep = step;
+          }
+          lastTs = ts;
+        }
+        animRafRef.current = requestAnimationFrame(animateDash);
+      }
+      animRafRef.current = requestAnimationFrame(animateDash);
 
       // ── Venue markers ───────────────────────────────────────────────────
       for (const venue of LA28_VENUES) {
         const el = createVenueMarkerElement(venue);
-
         const popup = new maplibregl.Popup({
           offset: [0, -48],
           closeButton: false,
@@ -316,40 +409,42 @@ export function OlympiMap() {
         markersRef.current.push(marker);
       }
 
-      // ── Global popup styles ─────────────────────────────────────────────
+      // ── Global popup / control styles ───────────────────────────────────
       const style = document.createElement('style');
       style.textContent = `
         .olympi-popup .maplibregl-popup-content {
-          background: rgba(10,15,28,0.96);
-          border: 1px solid #1e293b;
+          background: rgba(8,12,24,0.97);
+          border: 1px solid #182438;
           border-radius: 12px;
           padding: 0;
-          box-shadow: 0 8px 40px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.04);
+          box-shadow: 0 8px 40px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.04);
           backdrop-filter: blur(16px);
         }
         .olympi-popup .maplibregl-popup-tip { display: none; }
         .maplibregl-ctrl-attrib { display: none !important; }
         .maplibregl-ctrl-group {
-          background: rgba(10,15,28,0.9) !important;
-          border: 1px solid #1e293b !important;
+          background: rgba(8,12,24,0.94) !important;
+          border: 1px solid #182438 !important;
           border-radius: 10px !important;
           overflow: hidden;
           backdrop-filter: blur(12px);
+          box-shadow: 0 4px 20px rgba(0,0,0,0.5);
         }
         .maplibregl-ctrl-group button {
           background: transparent !important;
-          color: #475569 !important;
+          color: #3d5270 !important;
           border: none !important;
           width: 34px !important;
           height: 34px !important;
         }
-        .maplibregl-ctrl-group button:hover { background: #1e293b !important; color: #e2e8f0 !important; }
-        .maplibregl-ctrl-group button + button { border-top: 1px solid #1e293b !important; }
+        .maplibregl-ctrl-group button:hover { background: #182438 !important; color: #e2e8f0 !important; }
+        .maplibregl-ctrl-group button + button { border-top: 1px solid #182438 !important; }
       `;
       document.head.appendChild(style);
     });
 
     return () => {
+      cancelAnimationFrame(animRafRef.current);
       map.current?.remove();
       map.current = null;
       isLoaded.current = false;
@@ -378,6 +473,27 @@ export function OlympiMap() {
     (map.current.getSource('transit-source') as maplibregl.GeoJSONSource)?.setData(transitData);
   }, [transitData]);
 
+  // ── Update artery glow based on globalIntensity ─────────────────────────
+  useEffect(() => {
+    if (!isLoaded.current || !map.current) return;
+    const m = map.current;
+    if (!m.getLayer('artery-bloom')) return;
+
+    const bloomOpacity = Math.max(0, (globalIntensity - 0.2) * 0.22);
+    const glowOpacity  = Math.max(0, (globalIntensity - 0.2) * 0.38);
+    const coreOpacity  = Math.max(0, (globalIntensity - 0.15) * 0.65);
+
+    m.setPaintProperty('artery-bloom', 'line-opacity', bloomOpacity);
+    m.setPaintProperty('artery-glow',  'line-opacity', glowOpacity);
+    m.setPaintProperty('artery-core',  'line-opacity', coreOpacity);
+
+    // Shift color toward red as intensity rises
+    const color = globalIntensity > 0.7 ? '#991b1b' : globalIntensity > 0.45 ? '#9a3412' : '#854d0e';
+    m.setPaintProperty('artery-bloom', 'line-color', color);
+    m.setPaintProperty('artery-glow',  'line-color', color);
+    m.setPaintProperty('artery-core',  'line-color', color);
+  }, [globalIntensity]);
+
   // ── Layer visibility ────────────────────────────────────────────────────
   useEffect(() => {
     if (!isLoaded.current || !map.current) return;
@@ -385,17 +501,21 @@ export function OlympiMap() {
     const vis = (id: string, on: boolean) => {
       if (m.getLayer(id)) m.setLayoutProperty(id, 'visibility', on ? 'visible' : 'none');
     };
-    vis('zone-fill', layers.heatmap);
-    vis('zone-border', layers.heatmap);
+    vis('zone-fill',    layers.heatmap);
+    vis('zone-border',  layers.heatmap);
     vis('traffic-heatmap', layers.heatmap);
+    vis('artery-bloom', layers.heatmap);
+    vis('artery-glow',  layers.heatmap);
+    vis('artery-core',  layers.heatmap);
     vis('transit-routes', layers.transit);
     vis('transit-casing', layers.transit);
+    vis('transit-flow',   layers.transit);
     markersRef.current.forEach((mk) => {
       mk.getElement().style.display = layers.venues ? 'flex' : 'none';
     });
   }, [layers]);
 
   return (
-    <div ref={mapContainer} className="w-full h-full" style={{ background: '#030712' }} />
+    <div ref={mapContainer} className="w-full h-full" style={{ background: '#04080f' }} />
   );
 }
