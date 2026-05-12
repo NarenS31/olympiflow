@@ -1,0 +1,18 @@
+# Large data files (exceed GitHub 100MB limit)
+data/Traffic_Collision_Data_from_2010_to_Present_20260512.csv
+data/socal-260511.osm.pbf
+
+node_modules/
+dist/
+.DS_Store
+*.local
+.env
+.env.*
+!.env.example
+backend/__pycache__/
+backend/**/__pycache__/
+backend/**/*.pyc
+backend/.venv/
+backend/venv/
+*.egg-info/
+.pytest_cache/
