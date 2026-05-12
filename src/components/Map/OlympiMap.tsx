@@ -79,6 +79,38 @@ const LIGHT_PALETTE = [
   { color: '#e0f9ff', glow: '#bae6fd' },  // cool white / LED
 ];
 
+// Rough LA coastline waypoints [lat, coastLng] south→north.
+// Anything west of coastLng at a given lat is the Pacific Ocean.
+const COASTLINE: [number, number][] = [
+  [33.70, -118.22],
+  [33.74, -118.32],
+  [33.76, -118.41],
+  [33.80, -118.40],
+  [33.85, -118.39],
+  [33.90, -118.40],
+  [33.93, -118.42],
+  [33.97, -118.45],
+  [33.99, -118.47],
+  [34.01, -118.50],
+  [34.04, -118.54],
+  [34.08, -118.58],
+  [34.12, -118.62],
+  [34.22, -118.70],
+];
+
+function isOnLand(lng: number, lat: number): boolean {
+  for (let i = 0; i < COASTLINE.length - 1; i++) {
+    const [lat1, lng1] = COASTLINE[i];
+    const [lat2, lng2] = COASTLINE[i + 1];
+    if (lat >= lat1 && lat < lat2) {
+      const t = (lat - lat1) / (lat2 - lat1);
+      const coastLng = lng1 + t * (lng2 - lng1);
+      return lng > coastLng; // east of coast = land
+    }
+  }
+  return true;
+}
+
 function initCityLights(): CityLight[] {
   const lights: CityLight[] = [];
   // Grid over the LA basin with jitter so it looks organic, not perfectly aligned
@@ -88,15 +120,18 @@ function initCityLights(): CityLight[] {
   for (let lng = lngMin; lng <= lngMax; lng += step) {
     for (let lat = latMin; lat <= latMax; lat += step) {
       if (Math.random() > 0.38) continue; // sparse — not every block visible
+      const jLng = lng + (Math.random() - 0.5) * step * 0.9;
+      const jLat = lat + (Math.random() - 0.5) * step * 0.9;
+      if (!isOnLand(jLng, jLat)) continue; // skip ocean
       const p = LIGHT_PALETTE[Math.floor(Math.random() * LIGHT_PALETTE.length)];
       lights.push({
-        lng: lng + (Math.random() - 0.5) * step * 0.9,
-        lat: lat + (Math.random() - 0.5) * step * 0.9,
+        lng: jLng,
+        lat: jLat,
         size: 0.55 + Math.random() * 1.05,
         color: p.color,
         glowColor: p.glow,
         phase: Math.random() * Math.PI * 2,
-        speed: 0.00022 + Math.random() * 0.00055, // very slow pulse
+        speed: 0.00022 + Math.random() * 0.00055,
         baseOpacity: 0.10 + Math.random() * 0.26,
       });
     }
