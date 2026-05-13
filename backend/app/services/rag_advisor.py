@@ -1,5 +1,6 @@
+from __future__ import annotations
 import httpx
-from typing import Any
+from typing import Any, Optional
 from .crime_loader import load_crime_area_summary
 from .data_loader import load_traffic_stats
 

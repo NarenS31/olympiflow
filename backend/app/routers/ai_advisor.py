@@ -1,6 +1,7 @@
+from __future__ import annotations
 from fastapi import APIRouter
 from pydantic import BaseModel
-from typing import Any
+from typing import Any, Optional
 
 from ..services.rag_advisor import get_traffic_advice
 
@@ -10,7 +11,7 @@ router = APIRouter(prefix="/ai", tags=["ai"])
 class AskRequest(BaseModel):
     query: str
     model: str = "llama3.2"
-    simulation_context: dict[str, Any] | None = None
+    simulation_context: Optional[dict[str, Any]] = None
 
 
 @router.post("/ask")
