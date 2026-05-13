@@ -125,7 +125,7 @@ async def get_traffic_advice(
     )
 
     try:
-        async with httpx.AsyncClient(timeout=90.0) as client:
+        async with httpx.AsyncClient(timeout=120.0) as client:
             resp = await client.post(
                 f"{OLLAMA_BASE}/api/generate",
                 json={"model": model, "prompt": prompt, "stream": False},

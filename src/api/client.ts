@@ -50,7 +50,7 @@ export async function askAIAdvisor(payload: {
   model: string;
   simulation_context?: Record<string, unknown>;
 }): Promise<AIAdvisorResponse> {
-  const { data } = await api.post('/ai/ask', payload);
+  const { data } = await api.post('/ai/ask', payload, { timeout: 120000 });
   return data as AIAdvisorResponse;
 }
 
