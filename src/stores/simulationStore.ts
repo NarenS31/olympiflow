@@ -8,6 +8,7 @@ interface SimulationState {
   isPlaying: boolean;
   playbackSpeed: number;
   globalIntensity: number;
+  staggeredArrivals: boolean;
   venueSurges: Record<string, number>; // venueId -> intensity 0-1
   roadClosures: string[];
   layers: LayerVisibility;
@@ -25,6 +26,7 @@ interface SimulationState {
   togglePlay: () => void;
   setPlaybackSpeed: (s: number) => void;
   setGlobalIntensity: (i: number) => void;
+  toggleStaggeredArrivals: () => void;
   setVenueSurge: (venueId: string, intensity: number) => void;
   removeVenueSurge: (venueId: string) => void;
   toggleLayer: (layer: keyof LayerVisibility) => void;
@@ -58,6 +60,7 @@ export const useSimulationStore = create<SimulationState>()(
     isPlaying: false,
     playbackSpeed: 1,
     globalIntensity: 0.3,
+    staggeredArrivals: false,
     venueSurges: {},
     roadClosures: [],
     layers: {
@@ -100,6 +103,8 @@ export const useSimulationStore = create<SimulationState>()(
 
     setGlobalIntensity: (i) => set({ globalIntensity: i }),
 
+    toggleStaggeredArrivals: () => set((s) => ({ staggeredArrivals: !s.staggeredArrivals })),
+
     setVenueSurge: (venueId, intensity) =>
       set((s) => ({ venueSurges: { ...s.venueSurges, [venueId]: intensity } })),
 
@@ -128,6 +133,7 @@ export const useSimulationStore = create<SimulationState>()(
       set({
         mode: 'baseline',
         globalIntensity: 0.3,
+        staggeredArrivals: false,
         venueSurges: {},
         roadClosures: [],
         metrics: DEFAULT_METRICS,

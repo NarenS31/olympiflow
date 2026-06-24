@@ -99,9 +99,16 @@ async def get_traffic_advice(
     docs = _build_docs()
     relevant = _retrieve(query, docs)
 
-    context_block = "\n\n---\n\n".join(
-        f"[{d['title']}]\n{d['text']}" for d in relevant
-    )
+    MAX_CONTEXT_CHARS = 1200
+    context_parts = []
+    budget = MAX_CONTEXT_CHARS
+    for d in relevant:
+        snippet = d["text"][:budget]
+        context_parts.append(f"[{d['title']}]\n{snippet}")
+        budget -= len(snippet)
+        if budget <= 0:
+            break
+    context_block = "\n\n---\n\n".join(context_parts)
 
     sim_line = ""
     if simulation_context:

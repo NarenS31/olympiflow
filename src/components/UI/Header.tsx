@@ -1,56 +1,96 @@
 import { useSimulationStore } from '../../stores/simulationStore';
 import type { SimulationMode } from '../../types';
 
-const MODES: { id: SimulationMode; label: string; color: string }[] = [
-  { id: 'baseline', label: 'Baseline',   color: '#64748b' },
-  { id: 'event',    label: 'Event Day',  color: '#92400e' },
-  { id: 'crisis',   label: 'Crisis',     color: '#991b1b' },
+const MODES: { id: SimulationMode; label: string }[] = [
+  { id: 'baseline', label: 'Baseline'  },
+  { id: 'event',    label: 'Event Day' },
+  { id: 'crisis',   label: 'Crisis'    },
 ];
 
-const OLYMPIC_COLORS = ['#0081C8', '#FCB131', '#EE334E', '#00A651', '#c8c8c8'];
+const RINGS = ['#0081C8', '#FCB131', '#EE334E', '#00A651', '#C8C8C8'];
 
 export function Header() {
-  const mode = useSimulationStore((s) => s.mode);
+  const mode    = useSimulationStore((s) => s.mode);
   const setMode = useSimulationStore((s) => s.setMode);
   const metrics = useSimulationStore((s) => s.metrics);
 
-  const delayColor = metrics.avgDelayIncrease > 40 ? 'text-red-500' : metrics.avgDelayIncrease > 15 ? 'text-amber-600' : 'text-slate-400';
-  const congColor  = metrics.congestionScore > 0.7  ? 'text-red-500' : metrics.congestionScore > 0.4  ? 'text-amber-600' : 'text-slate-400';
+  const congPct  = Math.round(metrics.congestionScore * 100);
+  const delayPct = metrics.avgDelayIncrease;
+
+  const congColor  = congPct  > 70 ? '#FF453A' : congPct  > 40 ? '#FF9F0A' : '#30D158';
+  const delayColor = delayPct > 40 ? '#FF453A' : delayPct > 15 ? '#FF9F0A' : '#30D158';
 
   return (
     <header
-      className="fixed top-0 left-0 right-0 z-50 h-11 flex items-stretch border-b"
-      style={{ background: 'rgba(5,8,14,0.97)', borderColor: '#141f2e', backdropFilter: 'blur(16px)' }}
+      className="fixed top-0 left-0 right-0 z-50 flex items-center"
+      style={{
+        height: '44px',
+        background: '#1C1C1E',
+        borderBottom: '0.5px solid rgba(255,255,255,0.08)',
+      }}
     >
       {/* Brand */}
-      <div className="flex items-center gap-2.5 px-5 border-r" style={{ borderColor: '#141f2e' }}>
-        <div className="flex gap-[3px] items-center">
-          {OLYMPIC_COLORS.map((c, i) => (
-            <div key={i} className="w-[5px] h-[5px] rounded-full" style={{ background: c, opacity: 0.65 }} />
+      <div className="flex items-center gap-2.5 px-4 flex-shrink-0" style={{ minWidth: '196px' }}>
+        <div className="flex items-center">
+          {RINGS.map((c, i) => (
+            <div
+              key={i}
+              className="rounded-full flex-shrink-0"
+              style={{
+                width: '9px', height: '9px',
+                background: c,
+                marginLeft: i > 0 ? '-4px' : 0,
+                opacity: 0.9,
+              }}
+            />
           ))}
         </div>
-        <span className="text-[13px] font-semibold text-slate-200 tracking-tight">OlympiFlow</span>
-        <span className="text-[9px] font-mono text-slate-700 uppercase tracking-[0.12em] hidden sm:block">
-          LA&nbsp;2028&nbsp;·&nbsp;Transport&nbsp;Model
-        </span>
+        <div>
+          <div style={{
+            fontSize: '14px', fontWeight: 600,
+            color: 'rgba(255,255,255,0.9)',
+            fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
+            letterSpacing: '-0.02em', lineHeight: 1,
+          }}>
+            OlympiFlow
+          </div>
+          <div style={{
+            fontSize: '9px', color: 'rgba(255,255,255,0.3)',
+            fontWeight: 500, letterSpacing: '0.08em',
+            textTransform: 'uppercase', lineHeight: 1, marginTop: '2px',
+          }}>
+            LA28 Transport
+          </div>
+        </div>
       </div>
 
-      {/* Mode tabs — underline style */}
-      <div className="flex items-stretch px-1">
+      {/* Separator */}
+      <div style={{ width: '0.5px', height: '20px', background: 'rgba(255,255,255,0.08)', flexShrink: 0 }} />
+
+      {/* Mode tabs */}
+      <div className="flex items-center h-full">
         {MODES.map((m) => {
           const active = mode === m.id;
           return (
             <button
               key={m.id}
               onClick={() => setMode(m.id)}
-              className="relative flex items-center px-4 text-[11px] font-medium tracking-wide transition-colors duration-150"
-              style={{ color: active ? m.color : '#475569' }}
+              className="relative h-full flex items-center px-4 transition-colors"
+              style={{ background: 'transparent', border: 'none', cursor: 'pointer' }}
             >
-              {m.label}
+              <span style={{
+                fontSize: '13px',
+                fontWeight: 500,
+                color: active ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.35)',
+                transition: 'color 0.15s',
+                letterSpacing: '-0.01em',
+              }}>
+                {m.label}
+              </span>
               {active && (
-                <span
-                  className="absolute bottom-0 left-3 right-3 h-[2px] rounded-t-full"
-                  style={{ background: m.color }}
+                <div
+                  className="absolute bottom-0 left-0 right-0"
+                  style={{ height: '2px', background: '#0A84FF' }}
                 />
               )}
             </button>
@@ -61,33 +101,84 @@ export function Header() {
       {/* Spacer */}
       <div className="flex-1" />
 
-      {/* Inline stats */}
-      <div className="flex items-stretch divide-x" style={{ borderColor: '#141f2e' }}>
-        <div className="flex items-center gap-2 px-4" style={{ borderColor: '#141f2e' }}>
-          <span className="text-[9px] font-mono text-slate-700 uppercase tracking-widest">Cong</span>
-          <span className={`text-[12px] font-mono font-semibold tabular-nums ${congColor}`}>
-            {Math.round(metrics.congestionScore * 100)}%
+      {/* Stat chips */}
+      <div className="flex items-center gap-2 px-4">
+        <StatChip label="Congestion" value={`${congPct}%`} color={congColor} />
+        <StatChip label="Delay"      value={`+${delayPct}%`} color={delayColor} />
+        <StatChip label="Venues"     value="12 / 49" color="rgba(255,255,255,0.6)" />
+      </div>
+
+      {/* System status */}
+      <div
+        className="flex items-center gap-3 px-4 flex-shrink-0"
+        style={{ borderLeft: '0.5px solid rgba(255,255,255,0.08)' }}
+      >
+        <div className="flex items-center gap-1.5">
+          <div
+            className="rounded-full animate-status-blink"
+            style={{ width: '6px', height: '6px', background: '#30D158' }}
+          />
+          <span style={{
+            fontSize: '11px', color: 'rgba(255,255,255,0.3)',
+            letterSpacing: '0.04em', fontWeight: 500,
+          }}>
+            Live
           </span>
         </div>
-        <div className="flex items-center gap-2 px-4">
-          <span className="text-[9px] font-mono text-slate-700 uppercase tracking-widest">Delay</span>
-          <span className={`text-[12px] font-mono font-semibold tabular-nums ${delayColor}`}>
-            +{metrics.avgDelayIncrease}%
-          </span>
-        </div>
-        {metrics.estimatedPersonsAffected > 0 && (
-          <div className="flex items-center gap-2 px-4">
-            <span className="text-[9px] font-mono text-slate-700 uppercase tracking-widest">Pop</span>
-            <span className="text-[12px] font-mono font-semibold tabular-nums text-slate-400">
-              {(metrics.estimatedPersonsAffected / 1000).toFixed(0)}K
-            </span>
-          </div>
-        )}
-        <div className="flex items-center gap-2 px-4">
-          <div className="w-[5px] h-[5px] rounded-full bg-green-800" />
-          <span className="text-[9px] font-mono text-slate-700 tracking-widest uppercase">Live</span>
-        </div>
+        <button
+          style={{
+            fontSize: '13px', color: '#0A84FF',
+            background: 'none', border: 'none',
+            cursor: 'pointer', fontWeight: 400,
+            fontFamily: 'inherit',
+            letterSpacing: '-0.01em',
+          }}
+        >
+          Export
+        </button>
+        <button
+          style={{
+            fontSize: '13px', color: '#0A84FF',
+            background: 'none', border: 'none',
+            cursor: 'pointer', fontWeight: 400,
+            fontFamily: 'inherit',
+            letterSpacing: '-0.01em',
+          }}
+        >
+          Scenario
+        </button>
       </div>
     </header>
+  );
+}
+
+function StatChip({ label, value, color }: { label: string; value: string; color: string }) {
+  return (
+    <div
+      className="flex items-center gap-1.5 glass-surface"
+      style={{
+        borderRadius: '8px',
+        padding: '4px 10px',
+        boxShadow: '0 4px 12px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.15)',
+      }}
+    >
+      <span style={{
+        fontSize: '11px',
+        color: 'rgba(255,255,255,0.35)',
+        fontWeight: 400,
+        letterSpacing: '-0.01em',
+      }}>
+        {label}
+      </span>
+      <span style={{
+        fontSize: '12px',
+        fontWeight: 600,
+        color,
+        fontFamily: "'SF Mono', ui-monospace, monospace",
+        letterSpacing: '-0.02em',
+      }}>
+        {value}
+      </span>
+    </div>
   );
 }

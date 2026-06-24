@@ -1,7 +1,10 @@
+import json
 import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from .routers import venues, traffic, transit, simulation, ai_advisor
+from .models.schemas import CongestionStatsResponse
+from .services.simulation_engine import compute_coliseum_congestion
 
 app = FastAPI(
     title="OlympiFlow API",
@@ -34,3 +37,18 @@ app.include_router(ai_advisor.router)
 @app.get("/api/health")
 def health():
     return {"status": "ok", "service": "OlympiFlow API"}
+
+
+@app.get("/api/congestion-stats", response_model=CongestionStatsResponse)
+def congestion_stats() -> CongestionStatsResponse:
+    """
+    BPR congestion model for LA Memorial Coliseum.
+    Returns baseline (peak 1-hr arrival) vs. intervention (staggered 3-hr arrivals)
+    side-by-side with v/c ratios, BPR travel-time multipliers, congestion index,
+    and the % travel-time improvement from staggered arrivals.
+    """
+    result = compute_coliseum_congestion()
+    print("\n--- /api/congestion-stats ---")
+    print(json.dumps(result, indent=2))
+    print("-----------------------------\n")
+    return CongestionStatsResponse(**result)

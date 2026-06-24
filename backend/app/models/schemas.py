@@ -32,3 +32,20 @@ class TrafficStatsResponse(BaseModel):
     topIntersections: list[dict[str, Any]]
     totalCount: int
     avgDailyVolume: float
+
+
+class CongestionState(BaseModel):
+    label: str
+    vc_ratio: float
+    bpr_multiplier: float
+    congestion_index: float
+    estimated_travel_time_min: float
+
+
+class CongestionStatsResponse(BaseModel):
+    venue: str
+    capacity: int
+    event_hour: float
+    baseline: CongestionState
+    intervention: CongestionState
+    reduction_pct: float

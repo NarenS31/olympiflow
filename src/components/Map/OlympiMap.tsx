@@ -139,91 +139,202 @@ function initCityLights(): CityLight[] {
   return lights;
 }
 
-// ── Venue icons ──────────────────────────────────────────────────────────────
-const VENUE_ICONS: Record<string, string> = {
-  stadium: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M3 11C3 7 7 4 12 4s9 3 9 7"/><path d="M3 11v6h18v-6"/>
-    <line x1="7" y1="17" x2="7" y2="11"/><line x1="17" y1="17" x2="17" y2="11"/><line x1="12" y1="17" x2="12" y2="11"/>
-  </svg>`,
-  arena: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-    <path d="M2 13 Q12 3 22 13"/><rect x="2" y="13" width="20" height="5" rx="1"/>
-    <line x1="12" y1="3" x2="12" y2="13"/><line x1="7" y1="18" x2="7" y2="13"/><line x1="17" y1="18" x2="17" y2="13"/>
-  </svg>`,
-  outdoor: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <polygon points="12 2 3 16 21 16"/><line x1="12" y1="16" x2="12" y2="22"/><line x1="9" y1="22" x2="15" y2="22"/>
-  </svg>`,
-  aquatic: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-    <path d="M2 12 Q5.5 7 9 12 Q12.5 17 16 12 Q19.5 7 23 12"/>
-    <path d="M2 18 Q5.5 13 9 18 Q12.5 23 16 18 Q19.5 13 23 18"/>
-  </svg>`,
-  velodrome: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-    <circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/>
-    <line x1="12" y1="3" x2="12" y2="9"/><line x1="12" y1="15" x2="12" y2="21"/>
-  </svg>`,
-  flame: `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-    <path d="M12 2C9.5 5.5 8 8.5 9 11.5c.5 1.5 1.5 2.5 2.5 3C11 13 11.5 11.5 13 11c-.5 3 1 5 2 6.5C16 15.5 16 13 14.5 11c1.5 1 2.5 3 2.5 5 1-1.5 1.5-3.5 1-5.5C17 7 14.5 4 12 2z"/>
-    <path d="M12 20c-1.5 0-2.5-1-2.5-2.5S10.5 15 12 14c1.5 1 2.5 2 2.5 3.5S13.5 20 12 20z"/>
-  </svg>`,
+// ── Venue risk data ──────────────────────────────────────────────────────────
+const VENUE_RISK_DATA: Record<string, { abbr: string; risk: number; athletes?: number; dashRoutes: number }> = {
+  'la-coliseum':      { abbr: 'COL',  risk: 78.1, athletes: 2269, dashRoutes: 1 },
+  'long-beach-arena': { abbr: 'LB',   risk: 35.3, athletes: 546,  dashRoutes: 0 },
+  'crypto-arena':     { abbr: 'CC',   risk: 35.0,                  dashRoutes: 5 },
+  'sofi':             { abbr: 'SOFI', risk: 33.9,                  dashRoutes: 0 },
+  'rose-bowl':        { abbr: 'RB',   risk: 33.9,                  dashRoutes: 0 },
+  'pauley':           { abbr: 'PAU',  risk: 20.0,                  dashRoutes: 2 },
+  'intuit-dome':      { abbr: 'INT',  risk: 28.5,                  dashRoutes: 0 },
+  'bmo-stadium':      { abbr: 'BMO',  risk: 25.0,                  dashRoutes: 1 },
+  'sepulveda-basin':  { abbr: 'SEP',  risk: 18.0,                  dashRoutes: 0 },
+  'el-dorado':        { abbr: 'ELD',  risk: 15.0,                  dashRoutes: 0 },
+  'dignity-health':   { abbr: 'DHS',  risk: 22.0,                  dashRoutes: 0 },
+  'ucla-olympic':     { abbr: 'UCLA', risk: 20.0,                  dashRoutes: 3 },
 };
 
-function getVenueIcon(venue: Venue) {
-  if (venue.isOpeningClosing) return VENUE_ICONS.flame;
-  return VENUE_ICONS[venue.type] ?? VENUE_ICONS.stadium;
+function riskColor(risk: number): string {
+  if (risk > 60) return '#FF453A';
+  if (risk > 30) return '#FF9F0A';
+  return '#30D158';
 }
 
-function getVenueColors(venue: Venue) {
-  if (venue.isOpeningClosing) return { border: '#b45309', glow: 'rgba(180,83,9,0.4)',   bg: 'rgba(180,83,9,0.12)'  };
-  switch (venue.type) {
-    case 'arena':   return { border: '#7c3aed', glow: 'rgba(124,58,237,0.35)', bg: 'rgba(124,58,237,0.10)' };
-    case 'outdoor': return { border: '#16a34a', glow: 'rgba(22,163,74,0.35)',  bg: 'rgba(22,163,74,0.10)'  };
-    case 'aquatic': return { border: '#1d4ed8', glow: 'rgba(29,78,216,0.35)',  bg: 'rgba(29,78,216,0.10)'  };
-    default:        return { border: '#0891b2', glow: 'rgba(8,145,178,0.35)',  bg: 'rgba(8,145,178,0.10)'  };
-  }
+function riskBadgeLabel(risk: number): string {
+  if (risk > 60) return 'HIGH';
+  if (risk > 30) return 'MODERATE';
+  return 'LOW';
 }
+
+// ── Hexagonal GIS-style venue markers ────────────────────────────────────────
+const HEX_CLIP = 'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)';
+
+function injectHexStyles() {
+  if (document.getElementById('hex-marker-style')) return;
+  const s = document.createElement('style');
+  s.id = 'hex-marker-style';
+  s.textContent = `
+    .hex-marker { transition: transform 0.18s ease; transform-origin: center; cursor: pointer; }
+    .hex-marker:hover { transform: scale(1.18); }
+    .col-ring { position:absolute; border-radius:50%; pointer-events:none; border-style:solid; }
+    .col-ring-1 { animation: coliseum-ring-pulse 4s ease-out infinite; }
+    .col-ring-2 { animation: coliseum-ring-pulse 4s ease-out 1.33s infinite; }
+    .col-ring-3 { animation: coliseum-ring-pulse 4s ease-out 2.66s infinite; }
+    @keyframes coliseum-ring-pulse {
+      0%   { transform: translate(-50%,-50%) scale(0.85); opacity: 0.20; }
+      60%  { transform: translate(-50%,-50%) scale(1.20); opacity: 0.08; }
+      100% { transform: translate(-50%,-50%) scale(1.40); opacity: 0; }
+    }
+  `;
+  document.head.appendChild(s);
+}
+
+const VENUE_MARKER_COLORS: Record<string, { fill: string; border: string; text: string; riskText: string }> = {
+  'la-coliseum':      { fill: '#7B1C1C', border: '#FF453A', text: '#FFFFFF', riskText: '#FF8A84' },
+  'long-beach-arena': { fill: '#1E3A5F', border: '#0A84FF', text: '#FFFFFF', riskText: '#5B9BD5' },
+  'crypto-arena':     { fill: '#1E3A5F', border: '#0A84FF', text: '#FFFFFF', riskText: '#5B9BD5' },
+  'sofi':             { fill: '#1E3A5F', border: '#0A84FF', text: '#FFFFFF', riskText: '#5B9BD5' },
+  'rose-bowl':        { fill: '#1E3A5F', border: '#0A84FF', text: '#FFFFFF', riskText: '#5B9BD5' },
+  'intuit-dome':      { fill: '#1E3A5F', border: '#0A84FF', text: '#FFFFFF', riskText: '#5B9BD5' },
+  'pauley':           { fill: '#1E3A5F', border: '#0A84FF', text: '#FFFFFF', riskText: '#5B9BD5' },
+  'bmo-stadium':      { fill: '#1E3A5F', border: '#0A84FF', text: '#FFFFFF', riskText: '#5B9BD5' },
+  'sepulveda-basin':  { fill: '#1E3A5F', border: '#0A84FF', text: '#FFFFFF', riskText: '#5B9BD5' },
+  'el-dorado':        { fill: '#1E3A5F', border: '#0A84FF', text: '#FFFFFF', riskText: '#5B9BD5' },
+  'dignity-health':   { fill: '#1E3A5F', border: '#0A84FF', text: '#FFFFFF', riskText: '#5B9BD5' },
+  'ucla-olympic':     { fill: '#1E3A5F', border: '#0A84FF', text: '#FFFFFF', riskText: '#5B9BD5' },
+};
 
 function createVenueMarkerElement(venue: Venue): HTMLElement {
-  const { border, glow, bg } = getVenueColors(venue);
+  injectHexStyles();
+
+  const rd         = VENUE_RISK_DATA[venue.id];
+  const abbr       = rd?.abbr ?? venue.shortName.substring(0, 4).toUpperCase();
+  const colors     = VENUE_MARKER_COLORS[venue.id] ?? { fill: '#1E3A5F', border: '#0A84FF', text: '#FFFFFF', riskText: '#5B9BD5' };
+  const isHighRisk = venue.id === 'la-coliseum';
+
+  const size     = isHighRisk ? 46 : 34;
+  const fontSize = isHighRisk ? '9px' : '7.5px';
+
   const wrapper = document.createElement('div');
-  wrapper.style.cssText = `display:flex;flex-direction:column;align-items:center;cursor:pointer;filter:drop-shadow(0 4px 14px ${glow});transition:filter 0.2s ease;`;
+  wrapper.style.cssText = `position:relative;width:${size}px;height:${size}px;cursor:pointer;will-change:transform;`;
 
-  const body = document.createElement('div');
-  body.style.cssText = `width:40px;height:40px;border-radius:50% 50% 50% 4px;border:2px solid ${border};background:rgba(8,12,24,0.94);display:flex;align-items:center;justify-content:center;color:${border};backdrop-filter:blur(8px);box-shadow:inset 0 1px 0 rgba(255,255,255,0.08),0 2px 10px rgba(0,0,0,0.6);position:relative;overflow:hidden;transition:transform 0.18s ease,box-shadow 0.18s ease;transform-origin:bottom center;`;
+  if (isHighRisk) {
+    const ringSize = size + 18;
+    for (let i = 1; i <= 3; i++) {
+      const ring = document.createElement('div');
+      ring.className = `col-ring col-ring-${i}`;
+      ring.style.cssText = `
+        width:${ringSize}px;height:${ringSize}px;
+        top:50%;left:50%;
+        border:2px solid #FF453A;
+        pointer-events:none;
+        opacity:0.2;
+      `;
+      wrapper.appendChild(ring);
+    }
+  }
 
-  const glowLayer = document.createElement('div');
-  glowLayer.style.cssText = `position:absolute;inset:0;border-radius:inherit;background:${bg};`;
-  body.appendChild(glowLayer);
-  body.insertAdjacentHTML('beforeend', getVenueIcon(venue));
+  const hex = document.createElement('div');
+  hex.className = 'hex-marker';
+  hex.style.cssText = `
+    position:absolute;inset:0;
+    clip-path:${HEX_CLIP};
+    background:${colors.fill};
+    box-shadow:inset 0 0 0 ${isHighRisk ? '2px' : '1.5px'} ${colors.border};
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;
+    z-index:1;
+  `;
 
-  const tip = document.createElement('div');
-  tip.style.cssText = `width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-top:8px solid ${border};margin-top:-1px;`;
+  const label = document.createElement('span');
+  label.style.cssText = `font-family:'SF Mono',ui-monospace,monospace;font-size:${fontSize};font-weight:700;color:${colors.text};letter-spacing:0.04em;text-transform:uppercase;pointer-events:none;line-height:1;text-align:center;`;
+  label.textContent = abbr;
+  hex.appendChild(label);
 
-  wrapper.appendChild(body);
-  wrapper.appendChild(tip);
+  if (rd?.risk) {
+    const riskLabel = document.createElement('span');
+    riskLabel.style.cssText = `font-family:'SF Mono',ui-monospace,monospace;font-size:7px;font-weight:500;color:${colors.riskText};pointer-events:none;line-height:1;text-align:center;`;
+    riskLabel.textContent = rd.risk.toFixed(1);
+    hex.appendChild(riskLabel);
+  }
 
-  wrapper.addEventListener('mouseenter', () => {
-    wrapper.style.filter = `drop-shadow(0 8px 28px ${glow})`;
-    body.style.transform = 'scale(1.22)';
-    body.style.boxShadow = `inset 0 1px 0 rgba(255,255,255,0.12),0 4px 20px rgba(0,0,0,0.7),0 0 0 1px ${border}`;
-  });
-  wrapper.addEventListener('mouseleave', () => {
-    wrapper.style.filter = `drop-shadow(0 4px 14px ${glow})`;
-    body.style.transform = 'scale(1)';
-    body.style.boxShadow = `inset 0 1px 0 rgba(255,255,255,0.08),0 2px 10px rgba(0,0,0,0.6)`;
-  });
+  wrapper.appendChild(hex);
   return wrapper;
 }
 
 function createVenuePopupHTML(venue: Venue): string {
-  const { border } = getVenueColors(venue);
+  const rd    = VENUE_RISK_DATA[venue.id];
+  const risk  = rd?.risk;
+  const rc    = risk ? riskColor(risk) : '#8B949E';
+  const badge = risk ? riskBadgeLabel(risk) : '';
+
+  const riskRow = risk ? `
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+      <span style="font-size:10px;color:rgba(255,255,255,0.35);letter-spacing:0.06em;text-transform:uppercase;font-weight:500;">Risk</span>
+      <span style="font-size:22px;font-weight:200;color:${rc};font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display',sans-serif;letter-spacing:-0.02em;">${risk.toFixed(1)}</span>
+      <span style="font-size:10px;padding:2px 8px;border-radius:20px;color:${rc};background:${rc}18;font-weight:600;letter-spacing:0.04em;">${badge}</span>
+    </div>
+  ` : '';
+
+  const athleteRow = rd?.athletes ? `
+    <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:0.5px solid rgba(255,255,255,0.06);">
+      <span style="font-size:10px;color:rgba(255,255,255,0.35);font-weight:500;letter-spacing:0.04em;text-transform:uppercase;">Athletes</span>
+      <span style="font-size:11px;color:rgba(255,255,255,0.7);font-family:'SF Mono',ui-monospace,monospace;">${rd.athletes.toLocaleString()}</span>
+    </div>
+  ` : '';
+
+  const dashRow = rd !== undefined ? `
+    <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:0.5px solid rgba(255,255,255,0.06);">
+      <span style="font-size:10px;color:rgba(255,255,255,0.35);font-weight:500;letter-spacing:0.04em;text-transform:uppercase;">DASH Routes</span>
+      <span style="font-size:11px;font-family:'SF Mono',ui-monospace,monospace;font-weight:600;color:${rd.dashRoutes > 0 ? '#0A84FF' : '#FF453A'};">
+        ${rd.dashRoutes > 0 ? `${rd.dashRoutes} route${rd.dashRoutes !== 1 ? 's' : ''}` : 'None'}
+      </span>
+    </div>
+  ` : '';
+
   const sports = venue.sports
-    .map((s) => `<span style="display:inline-block;margin:2px 4px 2px 0;padding:2px 8px;border-radius:20px;border:1px solid #1e293b;font-size:10px;color:#64748b;">${s}</span>`)
+    .map((s) => `<span style="display:inline-block;margin:2px 3px 2px 0;padding:2px 8px;border-radius:6px;background:rgba(255,255,255,0.06);font-size:10px;color:rgba(255,255,255,0.45);font-weight:400;letter-spacing:0.03em;">${s}</span>`)
     .join('');
-  return `<div style="font-family:'Inter',sans-serif;color:#e2e8f0;padding:14px;min-width:210px;">
-    <div style="font-size:13px;font-weight:700;color:${border};margin-bottom:4px;">${venue.name}</div>
-    <div style="font-size:10px;color:#475569;margin-bottom:10px;">${venue.neighborhood}&nbsp;·&nbsp;${venue.capacity.toLocaleString()} seats</div>
-    <div>${sports}</div>
-  </div>`;
+
+  return `
+    <div style="font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Helvetica Neue',sans-serif;color:rgba(255,255,255,0.85);padding:14px 16px;min-width:220px;">
+      <div style="font-size:10px;color:rgba(255,255,255,0.35);font-weight:500;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:3px;">
+        ${venue.neighborhood}&nbsp;·&nbsp;${venue.capacity.toLocaleString()} seats
+      </div>
+      <div style="font-size:15px;font-weight:500;color:rgba(255,255,255,0.9);margin-bottom:10px;line-height:1.2;letter-spacing:-0.01em;">${venue.name}</div>
+      ${riskRow}
+      <div style="border-top:0.5px solid rgba(255,255,255,0.08);padding-top:8px;margin-bottom:8px;">
+        ${athleteRow}
+        ${dashRow}
+        <div style="display:flex;justify-content:space-between;padding-top:4px;">
+          <span style="font-size:10px;color:rgba(255,255,255,0.35);font-weight:500;letter-spacing:0.04em;text-transform:uppercase;">Capacity</span>
+          <span style="font-size:11px;color:rgba(255,255,255,0.7);font-family:'SF Mono',ui-monospace,monospace;">${venue.capacity.toLocaleString()}</span>
+        </div>
+      </div>
+      <div>${sports}</div>
+    </div>
+  `;
 }
+
+// ── Staggered arrivals overlay (concentric rings around Coliseum) ─────────────
+const COLISEUM_CENTER: [number, number] = [-118.2879, 34.0140];
+
+function makeCirclePolygon(center: [number, number], radiusKm: number, steps = 40): GeoJSON.Feature {
+  const [lng, lat] = center;
+  const lngPerKm   = 1 / (111.32 * Math.cos((lat * Math.PI) / 180));
+  const latPerKm   = 1 / 110.574;
+  const coords: [number, number][] = [];
+  for (let i = 0; i <= steps; i++) {
+    const a = (i / steps) * Math.PI * 2;
+    coords.push([lng + Math.cos(a) * radiusKm * lngPerKm, lat + Math.sin(a) * radiusKm * latPerKm]);
+  }
+  return { type: 'Feature', geometry: { type: 'Polygon', coordinates: [coords] }, properties: { r: radiusKm } };
+}
+
+const STAGGER_ZONES: GeoJSON.FeatureCollection = {
+  type: 'FeatureCollection',
+  features: [0.6, 1.1, 1.7, 2.3].map((r) => makeCirclePolygon(COLISEUM_CENTER, r)),
+};
 
 // ── Custom event markers ─────────────────────────────────────────────────────
 const CUSTOM_EVENT_COLORS: Record<TrafficEventType, string> = {
@@ -287,16 +398,17 @@ export function OlympiMap() {
   const particlesRef          = useRef<Particle[]>([]);
   const cityLightsRef         = useRef<CityLight[]>([]);
 
-  const venueSurges          = useSimulationStore((s) => s.venueSurges);
-  const globalIntensity      = useSimulationStore((s) => s.globalIntensity);
-  const timeOfDay            = useSimulationStore((s) => s.timeOfDay);
-  const layers               = useSimulationStore((s) => s.layers);
-  const transitData          = useSimulationStore((s) => s.transitData);
-  const heatmapBaseData      = useSimulationStore((s) => s.heatmapBaseData);
-  const crimeData            = useSimulationStore((s) => s.crimeData);
-  const selectVenue          = useSimulationStore((s) => s.selectVenue);
-  const customEvents         = useSimulationStore((s) => s.customEvents);
-  const placingEvent         = useSimulationStore((s) => s.placingEvent);
+  const venueSurges           = useSimulationStore((s) => s.venueSurges);
+  const globalIntensity       = useSimulationStore((s) => s.globalIntensity);
+  const timeOfDay             = useSimulationStore((s) => s.timeOfDay);
+  const layers                = useSimulationStore((s) => s.layers);
+  const staggeredArrivals     = useSimulationStore((s) => s.staggeredArrivals);
+  const transitData           = useSimulationStore((s) => s.transitData);
+  const heatmapBaseData       = useSimulationStore((s) => s.heatmapBaseData);
+  const crimeData             = useSimulationStore((s) => s.crimeData);
+  const selectVenue           = useSimulationStore((s) => s.selectVenue);
+  const customEvents          = useSimulationStore((s) => s.customEvents);
+  const placingEvent          = useSimulationStore((s) => s.placingEvent);
   const setPendingEventLocation = useSimulationStore((s) => s.setPendingEventLocation);
   const setPlacingEvent      = useSimulationStore((s) => s.setPlacingEvent);
 
@@ -331,10 +443,11 @@ export function OlympiMap() {
       zoom: 10,
       minZoom: 8,
       maxZoom: 17,
-      pitch: 20,
+      pitch: 0,
     });
 
     map.current.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right');
+    map.current.addControl(new maplibregl.ScaleControl({ maxWidth: 120, unit: 'metric' }), 'bottom-left');
 
     map.current.on('load', () => {
       const m = map.current!;
@@ -364,18 +477,21 @@ export function OlympiMap() {
         id: 'traffic-heatmap', type: 'heatmap', source: 'heatmap-source',
         paint: {
           'heatmap-weight': ['interpolate', ['linear'], ['get', 'weight'], 0, 0, 1, 1],
-          // Softer intensity — less aggressive punch at all zooms
-          'heatmap-intensity': ['interpolate', ['linear'], ['zoom'], 8, 0.6, 14, 1.8],
-          // Single warm ramp — no blue/teal that clashes with zone greens
+          // Low intensity — venue hotspots already have high weights so multiplying less is fine
+          'heatmap-intensity': ['interpolate', ['linear'], ['zoom'], 8, 0.28, 11, 0.55, 14, 0.95],
+          // Amber → orange → red — only reaches red at high density (>0.80)
           'heatmap-color': ['interpolate', ['linear'], ['heatmap-density'],
             0,    'rgba(0,0,0,0)',
-            0.20, 'rgba(120,40,8,0.28)',
-            0.45, 'rgba(160,55,10,0.50)',
-            0.70, 'rgba(185,40,12,0.68)',
-            1.0,  'rgba(180,24,18,0.82)',
+            0.10, 'rgba(0,0,0,0)',
+            0.25, 'rgba(245,158,11,0.28)',   // amber starts
+            0.44, 'rgba(222,100,15,0.52)',   // amber-orange
+            0.62, 'rgba(210,55,10,0.70)',    // deep orange
+            0.80, 'rgba(220,38,38,0.84)',    // #DC2626 red
+            1.0,  'rgba(200,18,18,0.92)',    // deep red
           ],
-          'heatmap-radius': ['interpolate', ['linear'], ['zoom'], 8, 16, 14, 36],
-          'heatmap-opacity': 0.55,
+          // Smaller radius so venue hotspots stay tight and don't bleed into each other
+          'heatmap-radius': ['interpolate', ['linear'], ['zoom'], 8, 11, 11, 22, 14, 42],
+          'heatmap-opacity': 0.85,
         },
       });
 
@@ -411,7 +527,7 @@ export function OlympiMap() {
           'line-width': 22,
           'line-blur': 16,
           'line-opacity': ['interpolate', ['linear'], ['get', 'congestion'],
-            0, 0.0, 0.12, 0.08, 0.40, 0.22, 1.0, 0.40],
+            0, 0.0, 0.30, 0.0, 0.50, 0.16, 1.0, 0.36],
         },
       });
       m.addLayer({
@@ -420,7 +536,7 @@ export function OlympiMap() {
           'fill-color': ['interpolate', ['linear'], ['get', 'congestion'],
             0, '#166534', 0.28, '#854d0e', 0.50, '#9a3412', 0.72, '#991b1b', 1.0, '#7f1d1d'],
           'fill-opacity': ['interpolate', ['linear'], ['get', 'congestion'],
-            0, 0.0, 0.08, 0.03, 0.25, 0.10, 0.50, 0.18, 0.75, 0.27, 1.0, 0.36],
+            0, 0.0, 0.25, 0.0, 0.40, 0.06, 0.58, 0.15, 0.78, 0.26, 1.0, 0.36],
           'fill-antialias': true,
         },
       });
@@ -560,35 +676,76 @@ export function OlympiMap() {
       }
       particleRafRef.current = requestAnimationFrame(animateParticles);
 
+      // ── Staggered arrival zones (Coliseum concentric rings) ──────────────────
+      m.addSource('stagger-zones', { type: 'geojson', data: STAGGER_ZONES });
+      m.addLayer({
+        id: 'stagger-fill', type: 'fill', source: 'stagger-zones',
+        layout: { visibility: 'none' },
+        paint: { 'fill-color': '#16A34A', 'fill-opacity': 0.06 },
+      });
+      m.addLayer({
+        id: 'stagger-border', type: 'line', source: 'stagger-zones',
+        layout: { visibility: 'none' },
+        paint: { 'line-color': '#16A34A', 'line-width': 1.5, 'line-opacity': 0.6, 'line-dasharray': [4, 2] },
+      });
+
+      // ── Coordinate display ────────────────────────────────────────────────────
+      m.on('mousemove', (e) => {
+        const el = document.getElementById('coord-display');
+        if (el) {
+          const lat = e.lngLat.lat.toFixed(4);
+          const lng = Math.abs(e.lngLat.lng).toFixed(4);
+          const ns  = e.lngLat.lat >= 0 ? 'N' : 'S';
+          const ew  = e.lngLat.lng <  0 ? 'W' : 'E';
+          el.textContent = `${lat}° ${ns}, ${lng}° ${ew}`;
+        }
+      });
+
       // ── Venue markers ─────────────────────────────────────────────────────
       for (const venue of LA28_VENUES) {
         const el = createVenueMarkerElement(venue);
-        const popup = new maplibregl.Popup({ offset: [0, -48], closeButton: false, className: 'olympi-popup', maxWidth: '260px' })
+        const popup = new maplibregl.Popup({ offset: [0, -30], closeButton: false, className: 'olympi-popup', maxWidth: '270px' })
           .setHTML(createVenuePopupHTML(venue));
-        const marker = new maplibregl.Marker({ element: el, anchor: 'bottom' })
+        const marker = new maplibregl.Marker({ element: el, anchor: 'center', pitchAlignment: 'map', rotationAlignment: 'map' })
           .setLngLat([venue.lng, venue.lat]).setPopup(popup).addTo(m);
         el.addEventListener('click', () => selectVenue(venue.id));
         markersRef.current.push(marker);
       }
 
       // ── Global styles ─────────────────────────────────────────────────────
+      // Inject SVG noise filter for glass texture
+      if (!document.getElementById('glass-noise-svg')) {
+        const noiseSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        noiseSvg.id = 'glass-noise-svg';
+        noiseSvg.style.cssText = 'position:absolute;width:0;height:0;overflow:hidden;';
+        noiseSvg.innerHTML = `<defs>
+          <filter id="glass-noise" x="0%" y="0%" width="100%" height="100%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/>
+            <feColorMatrix type="saturate" values="0"/>
+            <feBlend in="SourceGraphic" mode="overlay" result="blend"/>
+            <feComposite in="blend" in2="SourceGraphic" operator="in"/>
+          </filter>
+        </defs>`;
+        document.body.appendChild(noiseSvg);
+      }
+
       const style = document.createElement('style');
       style.textContent = `
         .olympi-popup .maplibregl-popup-content {
-          background:rgba(8,12,24,0.97);border:1px solid #182438;border-radius:12px;
-          padding:0;box-shadow:0 8px 40px rgba(0,0,0,0.8),0 0 0 1px rgba(255,255,255,0.04);backdrop-filter:blur(16px);
+          background:rgba(17,19,24,0.97);border:0.5px solid rgba(255,255,255,0.1);border-radius:12px;
+          padding:0;box-shadow:0 12px 48px rgba(0,0,0,0.8);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
         }
         .olympi-popup .maplibregl-popup-tip { display:none; }
         .maplibregl-ctrl-attrib { display:none !important; }
         .maplibregl-ctrl-group {
-          background:rgba(8,12,24,0.94)!important;border:1px solid #182438!important;
-          border-radius:10px!important;overflow:hidden;backdrop-filter:blur(12px);box-shadow:0 4px 20px rgba(0,0,0,0.5);
+          background:rgba(28,28,30,0.88)!important;border:0.5px solid rgba(255,255,255,0.1)!important;
+          border-radius:10px!important;overflow:hidden;backdrop-filter:blur(20px)!important;box-shadow:0 4px 20px rgba(0,0,0,0.4);
         }
         .maplibregl-ctrl-group button {
-          background:transparent!important;color:#3d5270!important;border:none!important;width:34px!important;height:34px!important;
+          background:transparent!important;color:rgba(255,255,255,0.35)!important;border:none!important;width:34px!important;height:34px!important;
         }
-        .maplibregl-ctrl-group button:hover{background:#182438!important;color:#e2e8f0!important;}
-        .maplibregl-ctrl-group button+button{border-top:1px solid #182438!important;}
+        .maplibregl-ctrl-group button:hover{background:rgba(255,255,255,0.06)!important;color:rgba(255,255,255,0.8)!important;}
+        .maplibregl-ctrl-group button+button{border-top:0.5px solid rgba(255,255,255,0.08)!important;}
       `;
       document.head.appendChild(style);
     });
@@ -608,15 +765,15 @@ export function OlympiMap() {
   useEffect(() => {
     if (!isLoaded.current || !map.current) return;
     (map.current.getSource('zones-source') as maplibregl.GeoJSONSource)
-      ?.setData(generateZoneCongestionGeoJSON(venueSurges, globalIntensity, timeOfDay, customEvents));
-  }, [venueSurges, globalIntensity, timeOfDay, customEvents]);
+      ?.setData(generateZoneCongestionGeoJSON(venueSurges, globalIntensity, timeOfDay, customEvents, staggeredArrivals));
+  }, [venueSurges, globalIntensity, timeOfDay, customEvents, staggeredArrivals]);
 
   useEffect(() => {
     if (!isLoaded.current || !map.current) return;
     const pts = getBasePoints();
-    const geojson = generateHeatmapGeoJSON(pts, venueSurges, globalIntensity, timeOfDay, customEvents);
+    const geojson = generateHeatmapGeoJSON(pts, venueSurges, globalIntensity, timeOfDay, customEvents, staggeredArrivals);
     (map.current.getSource('heatmap-source') as maplibregl.GeoJSONSource)?.setData(geojson);
-  }, [venueSurges, globalIntensity, timeOfDay, heatmapBaseData, getBasePoints, customEvents]);
+  }, [venueSurges, globalIntensity, timeOfDay, heatmapBaseData, getBasePoints, customEvents, staggeredArrivals]);
 
   // ── Click-to-place mode ───────────────────────────────────────────────────
   useEffect(() => {
@@ -642,7 +799,7 @@ export function OlympiMap() {
     customEventMarkersRef.current = [];
     for (const event of customEvents) {
       const el = createCustomEventMarker(event);
-      const marker = new maplibregl.Marker({ element: el, anchor: 'center' })
+      const marker = new maplibregl.Marker({ element: el, anchor: 'center', pitchAlignment: 'map', rotationAlignment: 'map' })
         .setLngLat([event.lng, event.lat])
         .addTo(map.current!);
       customEventMarkersRef.current.push(marker);
@@ -689,6 +846,15 @@ export function OlympiMap() {
     markersRef.current.forEach((mk) => { mk.getElement().style.display = layers.venues ? 'flex' : 'none'; });
   }, [layers]);
 
+  // Staggered arrivals overlay
+  useEffect(() => {
+    if (!isLoaded.current || !map.current) return;
+    const m   = map.current;
+    const vis = staggeredArrivals ? 'visible' : 'none';
+    if (m.getLayer('stagger-fill'))   m.setLayoutProperty('stagger-fill',   'visibility', vis);
+    if (m.getLayer('stagger-border')) m.setLayoutProperty('stagger-border', 'visibility', vis);
+  }, [staggeredArrivals]);
+
   return (
     <div
       ref={mapContainer}
@@ -707,6 +873,47 @@ export function OlympiMap() {
           mixBlendMode: 'screen',
         }}
       />
+      {/* Coordinate display — updates on mousemove via DOM id */}
+      <div
+        id="coord-display"
+        style={{
+          position: 'absolute',
+          bottom: '108px',
+          left: '12px',
+          zIndex: 10,
+          pointerEvents: 'none',
+          fontFamily: "'IBM Plex Mono', monospace",
+          fontSize: '9px',
+          color: 'rgba(240,246,252,0.7)',
+          letterSpacing: '0.04em',
+          background: 'rgba(13,17,23,0.75)',
+          borderRadius: '3px',
+          padding: '3px 8px',
+        }}
+      >
+        34.0522° N, 118.2437° W
+      </div>
+
+      {/* Minimal compass rose */}
+      <div
+        style={{
+          position: 'absolute',
+          top: '52px',
+          right: '52px',
+          zIndex: 10,
+          pointerEvents: 'none',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '1px',
+        }}
+      >
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <polygon points="7,0 5,7 7,5 9,7" fill="white" opacity="0.8" />
+          <polygon points="7,14 5,7 7,9 9,7" fill="white" opacity="0.3" />
+        </svg>
+        <span style={{ fontSize: '10px', color: 'rgba(255,255,255,0.8)', fontFamily: "'IBM Plex Mono', monospace", fontWeight: 600, lineHeight: 1 }}>N</span>
+      </div>
     </div>
   );
 }

@@ -2,9 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ── SVG noise filter for glass texture ───────────────────── */
+/* injected once at runtime via JS, referenced as filter:url(#glass-noise) */
+
 @layer base {
   * {
     box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
   }
 
   html,
@@ -17,19 +21,49 @@
   }
 
   body {
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background: #030712;
-    color: #f1f5f9;
+    background: #0D1117;
+    color: rgba(255,255,255,0.85);
   }
 }
 
+/* Monospace data elements */
+.metric-value,
+.bpr-value,
+[class*="monospace"],
+.corridor-value,
+.travel-time-value,
+.risk-score,
+.time-display,
+.formula-text,
+.coordinate-display,
+.table-data {
+  font-family: 'SF Mono', 'Fira Code', ui-monospace, monospace !important;
+}
+
+/* ── Global keyframes ──────────────────────────────────── */
+@keyframes status-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+
+@keyframes cursor-blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+@keyframes col-glow-pulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(255,69,58,0.4); }
+  50%       { box-shadow: 0 0 32px rgba(255,69,58,0.6); }
+}
+
 @layer utilities {
-  /* Custom range input styling */
+  /* Range inputs — Apple style */
   input[type='range'] {
     -webkit-appearance: none;
     appearance: none;
+    background: transparent;
   }
 
   input[type='range']::-webkit-slider-thumb {
@@ -38,83 +72,256 @@
     width: 14px;
     height: 14px;
     border-radius: 50%;
-    background: white;
+    background: #ffffff;
     cursor: pointer;
-    border: 2px solid #334155;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+    border: none;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.2);
     transition: transform 0.15s ease;
   }
 
   input[type='range']::-webkit-slider-thumb:hover {
-    transform: scale(1.2);
+    transform: scale(1.15);
   }
 
   input[type='range']::-moz-range-thumb {
     width: 14px;
     height: 14px;
     border-radius: 50%;
-    background: white;
+    background: #ffffff;
     cursor: pointer;
-    border: 2px solid #334155;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+    border: none;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.3);
   }
 
   /* Thin scrollbar */
   .scrollbar-thin {
     scrollbar-width: thin;
-    scrollbar-color: #334155 transparent;
+    scrollbar-color: rgba(255,255,255,0.12) transparent;
   }
 
-  .scrollbar-thin::-webkit-scrollbar {
-    width: 4px;
-  }
+  .scrollbar-thin::-webkit-scrollbar        { width: 3px; }
+  .scrollbar-thin::-webkit-scrollbar-track  { background: transparent; }
+  .scrollbar-thin::-webkit-scrollbar-thumb  { background: rgba(255,255,255,0.12); border-radius: 2px; }
 
-  .scrollbar-thin::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  .scrollbar-thin::-webkit-scrollbar-thumb {
-    background: #334155;
-    border-radius: 4px;
-  }
+  .animate-status-blink { animation: status-pulse 2s ease-in-out infinite; }
+  .animate-cursor-blink { animation: cursor-blink 1s step-end infinite; }
+  .animate-col-glow     { animation: col-glow-pulse 3s ease-in-out infinite; }
 }
 
-/* MapLibre overrides */
+/* ── Apple-style toggle ────────────────────────────────── */
+.apple-toggle {
+  position: relative;
+  width: 51px;
+  height: 31px;
+  border-radius: 15.5px;
+  cursor: pointer;
+  transition: background 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  flex-shrink: 0;
+  border: none;
+  outline: none;
+}
+
+.apple-toggle-thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 27px;
+  height: 27px;
+  border-radius: 50%;
+  background: #ffffff;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 3px 8px rgba(0,0,0,0.15), 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.apple-toggle.active .apple-toggle-thumb {
+  transform: translateX(20px);
+}
+
+/* ══ LIQUID GLASS SYSTEM ════════════════════════════════════
+   Three tiers: panel (thick), surface (medium), chip (thin).
+   Each has a specular top-edge highlight simulating real glass.
+   ═══════════════════════════════════════════════════════════ */
+
+/* Tier 1 — full panel (sidebar, metrics, timeline) */
+.glass-panel {
+  background:
+    /* refraction caustic — top-left bright catch */
+    radial-gradient(ellipse 80% 40% at 20% -10%, rgba(255,255,255,0.10) 0%, transparent 60%),
+    /* base tint */
+    rgba(20, 22, 28, 0.55);
+  backdrop-filter: blur(60px) saturate(180%) brightness(1.05);
+  -webkit-backdrop-filter: blur(60px) saturate(180%) brightness(1.05);
+  border: 1px solid rgba(255,255,255,0.14);
+  border-top-color: rgba(255,255,255,0.28);   /* specular top edge */
+  border-left-color: rgba(255,255,255,0.18);  /* specular left edge */
+  box-shadow:
+    /* deep outer shadow — gives 3-D lift */
+    0 40px 80px rgba(0,0,0,0.55),
+    0 16px 32px rgba(0,0,0,0.35),
+    0 4px  8px  rgba(0,0,0,0.25),
+    /* inner top specular rim */
+    inset 0  1px 0   rgba(255,255,255,0.30),
+    /* inner bottom dark rim */
+    inset 0 -1px 0   rgba(0,0,0,0.20),
+    /* inner left highlight */
+    inset  1px 0 0   rgba(255,255,255,0.12),
+    /* inner right shadow */
+    inset -1px 0 0   rgba(0,0,0,0.12);
+}
+
+/* Tier 2 — inner card surfaces */
+.glass-surface {
+  background:
+    radial-gradient(ellipse 60% 30% at 15% 0%, rgba(255,255,255,0.08) 0%, transparent 55%),
+    rgba(255,255,255,0.04);
+  backdrop-filter: blur(30px) saturate(160%);
+  -webkit-backdrop-filter: blur(30px) saturate(160%);
+  border: 1px solid rgba(255,255,255,0.10);
+  border-top-color: rgba(255,255,255,0.20);
+  box-shadow:
+    0 8px 24px rgba(0,0,0,0.30),
+    0 2px  6px rgba(0,0,0,0.20),
+    inset 0 1px 0 rgba(255,255,255,0.18),
+    inset 0 -1px 0 rgba(0,0,0,0.12);
+}
+
+/* Tier 3 — top/bottom bars */
+.glass-bar {
+  background:
+    radial-gradient(ellipse 100% 200% at 50% -50%, rgba(255,255,255,0.06) 0%, transparent 60%),
+    rgba(18, 19, 22, 0.70);
+  backdrop-filter: blur(40px) saturate(160%);
+  -webkit-backdrop-filter: blur(40px) saturate(160%);
+  border-bottom: 1px solid rgba(255,255,255,0.10);
+  border-top-color: rgba(255,255,255,0.22);
+  box-shadow:
+    0 8px 32px rgba(0,0,0,0.40),
+    inset 0 -1px 0 rgba(255,255,255,0.04);
+}
+
+/* 3-D perspective wrapper for left/right panels */
+.panel-3d {
+  perspective: 1200px;
+  perspective-origin: 50% 40%;
+}
+
+/* Subtle 3-D tilt — panels lean slightly toward viewer */
+.tilt-left {
+  transform: perspective(1200px) rotateY(1.5deg) rotateX(0.5deg);
+  transform-style: preserve-3d;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.tilt-left:hover {
+  transform: perspective(1200px) rotateY(0.5deg) rotateX(0deg);
+}
+.tilt-right {
+  transform: perspective(1200px) rotateY(-1.5deg) rotateX(0.5deg);
+  transform-style: preserve-3d;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.tilt-right:hover {
+  transform: perspective(1200px) rotateY(-0.5deg) rotateX(0deg);
+}
+
+/* Glass shimmer sweep animation */
+@keyframes glass-shimmer {
+  0%   { opacity: 0; transform: translateX(-100%) skewX(-20deg); }
+  40%  { opacity: 1; }
+  100% { opacity: 0; transform: translateX(300%) skewX(-20deg); }
+}
+
+.glass-shimmer-wrap {
+  position: relative;
+  overflow: hidden;
+}
+.glass-shimmer-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 40%,
+    rgba(255,255,255,0.06) 50%,
+    transparent 60%
+  );
+  animation: glass-shimmer 6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* ── No-scrollbar utility ──────────────────────────────── */
+.scrollbar-none {
+  scrollbar-width: none;
+}
+.scrollbar-none::-webkit-scrollbar { display: none; }
+
+/* ── Pin/venue marker ──────────────────────────────────── */
+.pin-marker {
+  transition: transform 0.18s ease;
+  transform-origin: bottom center;
+}
+.pin-marker:hover { transform: scale(1.12); }
+
+/* ── MapLibre UI overrides ─────────────────────────────── */
 .maplibregl-map {
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
 }
+
+.maplibregl-ctrl-attrib { display: none !important; }
+.maplibregl-ctrl-scale  { display: none !important; }
 
 .maplibregl-ctrl-group {
-  background: rgba(15, 23, 42, 0.9) !important;
-  border: 1px solid rgba(51, 65, 85, 0.6) !important;
+  background: rgba(28,28,30,0.88) !important;
+  border: 0.5px solid rgba(255,255,255,0.12) !important;
   border-radius: 10px !important;
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
   overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4) !important;
 }
 
 .maplibregl-ctrl-group button {
   background: transparent !important;
-  color: #94a3b8 !important;
+  color: rgba(255,255,255,0.4) !important;
   border: none !important;
+  width: 34px !important;
+  height: 34px !important;
 }
 
 .maplibregl-ctrl-group button:hover {
-  background: rgba(51, 65, 85, 0.4) !important;
-  color: white !important;
+  background: rgba(255,255,255,0.06) !important;
+  color: rgba(255,255,255,0.85) !important;
 }
 
-.maplibregl-ctrl-scale {
-  background: rgba(15, 23, 42, 0.8) !important;
-  border: 1px solid rgba(51, 65, 85, 0.5) !important;
-  color: #64748b !important;
-  font-size: 10px !important;
-  padding: 2px 6px !important;
-  border-radius: 6px !important;
-  backdrop-filter: blur(8px);
+.maplibregl-ctrl-group button + button {
+  border-top: 0.5px solid rgba(255,255,255,0.08) !important;
 }
 
 .maplibregl-popup-content {
   padding: 0 !important;
   background: transparent !important;
   box-shadow: none !important;
+}
+
+.olympi-popup .maplibregl-popup-content {
+  background: rgba(17,19,24,0.97) !important;
+  border: 0.5px solid rgba(255,255,255,0.12) !important;
+  border-radius: 12px !important;
+  padding: 0 !important;
+  box-shadow: 0 12px 48px rgba(0,0,0,0.8) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+}
+
+.olympi-popup .maplibregl-popup-tip { display: none !important; }
+
+/* Map coordinate overlay */
+.map-coords {
+  font-family: 'SF Mono', ui-monospace, monospace;
+  font-size: 9px;
+  color: rgba(255,255,255,0.3);
+  background: rgba(17,19,24,0.75);
+  padding: 3px 8px;
+  border-radius: 4px;
+  pointer-events: none;
+  letter-spacing: 0.04em;
 }

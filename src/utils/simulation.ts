@@ -46,7 +46,51 @@ export function getTimeMultiplier(hour: number): number {
   return 0.25;
 }
 
-// Diffuse congestion from a surge epicenter in concentric rings
+// Venue risk weights for heatmap — normalized from Olympic dataset risk scores.
+// Coliseum (78.1) anchors at 1.0; everything else scales proportionally.
+const VENUE_HEATMAP_WEIGHTS: Record<string, number> = {
+  'la-coliseum':      1.00,
+  'long-beach-arena': 0.45,
+  'crypto-arena':     0.45,
+  'sofi':             0.43,
+  'rose-bowl':        0.43,
+  'intuit-dome':      0.37,
+  'bmo-stadium':      0.32,
+  'pauley':           0.26,
+  'dignity-health':   0.28,
+  'sepulveda-basin':  0.20,
+  'el-dorado':        0.19,
+  'ucla-olympic':     0.26,
+};
+
+// Tight concentric pressure rings around a venue epicenter.
+// Maximum radius ~5.3 km (0.048°) — stays venue-local, not city-wide.
+function createVenueHotspot(
+  lng: number,
+  lat: number,
+  peakWeight: number,
+): { lng: number; lat: number; weight: number }[] {
+  const pts: { lng: number; lat: number; weight: number }[] = [];
+  const rings = [
+    { r: 0.000, n:  1, w: 1.00 },
+    { r: 0.005, n:  8, w: 0.88 },
+    { r: 0.012, n: 12, w: 0.68 },
+    { r: 0.022, n: 16, w: 0.42 },
+    { r: 0.034, n: 16, w: 0.18 },
+    { r: 0.048, n: 12, w: 0.06 },
+  ];
+  for (const ring of rings) {
+    const w = ring.w * peakWeight;
+    if (w < 0.02) continue;
+    for (let i = 0; i < ring.n; i++) {
+      const angle = (i / ring.n) * Math.PI * 2;
+      pts.push({ lng: lng + ring.r * Math.cos(angle), lat: lat + ring.r * Math.sin(angle), weight: w });
+    }
+  }
+  return pts;
+}
+
+// Diffuse congestion from a custom event epicenter in concentric rings (wider decay)
 function createSurgePressurePoints(
   lng: number,
   lat: number,
@@ -82,40 +126,45 @@ export function generateHeatmapGeoJSON(
   globalIntensity: number,
   timeOfDay: number,
   customEvents: CustomTrafficEvent[] = [],
+  staggeredArrivals = false,
 ): GeoJSON.FeatureCollection {
   const timeMult = getTimeMultiplier(timeOfDay);
+  const staggerFactor = staggeredArrivals ? 0.68 : 1.0;
   const features: GeoJSON.Feature[] = [];
 
-  // Scale base points by time and global intensity
+  // Base city road-density — extremely subtle, just hints at the road network.
+  // Cap at 0.08 so base points never create city-wide red on their own.
   for (const p of basePoints) {
+    const w = Math.min(0.08, p.weight * timeMult * globalIntensity * 0.10);
+    if (w < 0.006) continue;
     features.push({
       type: 'Feature',
       geometry: { type: 'Point', coordinates: [p.lng, p.lat] },
-      properties: { weight: Math.min(1, p.weight * timeMult * globalIntensity * 3) },
+      properties: { weight: w },
     });
   }
 
-  // Add venue surge pressure rings
-  for (const [venueId, intensity] of Object.entries(venueSurges)) {
-    if (intensity <= 0) continue;
-    const venue = LA28_VENUES.find((v) => v.id === venueId);
-    if (!venue) continue;
-
-    const surgePoints = createSurgePressurePoints(venue.lng, venue.lat, intensity);
-    for (const sp of surgePoints) {
+  // Per-venue hotspots — primary heatmap signal.
+  // Each venue generates a tight cluster of points that fade to zero at ~5 km.
+  for (const venue of LA28_VENUES) {
+    const baseWeight = VENUE_HEATMAP_WEIGHTS[venue.id] ?? 0.20;
+    const surgeBoost = 1.0 + (venueSurges[venue.id] ?? 0) * 0.8;
+    const venueWeight = Math.min(1, baseWeight * globalIntensity * timeMult * surgeBoost * staggerFactor);
+    if (venueWeight < 0.03) continue;
+    for (const pt of createVenueHotspot(venue.lng, venue.lat, venueWeight)) {
       features.push({
         type: 'Feature',
-        geometry: { type: 'Point', coordinates: [sp.lng, sp.lat] },
-        properties: { weight: sp.weight },
+        geometry: { type: 'Point', coordinates: [pt.lng, pt.lat] },
+        properties: { weight: pt.weight },
       });
     }
   }
 
-  // Add custom event pressure rings, scaled by attendees and time-of-day pattern
+  // Custom event pressure rings
   for (const event of customEvents) {
     const normalizedIntensity = Math.min(1, event.attendees / 70000);
     const timeSensitivity = getEventTimeSensitivity(event.type, timeOfDay);
-    const effectiveIntensity = normalizedIntensity * timeSensitivity;
+    const effectiveIntensity = normalizedIntensity * timeSensitivity * staggerFactor;
     if (effectiveIntensity < 0.05) continue;
     const surgePoints = createSurgePressurePoints(event.lng, event.lat, effectiveIntensity);
     for (const sp of surgePoints) {
@@ -178,13 +227,14 @@ export function generateZoneCongestionGeoJSON(
   globalIntensity: number,
   timeOfDay: number,
   customEvents: CustomTrafficEvent[] = [],
+  staggeredArrivals = false,
 ): GeoJSON.FeatureCollection {
   const timeMult = getTimeMultiplier(timeOfDay);
+  const staggerFactor = staggeredArrivals ? 0.75 : 1.0;
 
   const features: GeoJSON.Feature[] = LA_ZONES.map((zone) => {
     const [cLng, cLat] = zone.centroid;
 
-    // Pressure from each active venue surge, distance-weighted
     let surgePressure = 0;
     let minDistKm = Infinity;
     for (const [venueId, intensity] of Object.entries(venueSurges)) {
@@ -193,12 +243,11 @@ export function generateZoneCongestionGeoJSON(
       if (!venue) continue;
       const distKm = haversineDistance(cLng, cLat, venue.lng, venue.lat);
       minDistKm = Math.min(minDistKm, distKm);
-      // Strong effect within 5 km, fades out past 30 km
-      const falloff = Math.max(0, 1 - distKm / 30);
+      // Strong effect within 5 km, fades out past 18 km (tight zone of influence)
+      const falloff = Math.max(0, 1 - distKm / 18);
       surgePressure = Math.max(surgePressure, intensity * falloff);
     }
 
-    // When no surges active, use nearest Olympic venue for proximity reference
     if (minDistKm === Infinity) {
       for (const venue of LA28_VENUES) {
         const distKm = haversineDistance(cLng, cLat, venue.lng, venue.lat);
@@ -206,27 +255,25 @@ export function generateZoneCongestionGeoJSON(
       }
     }
 
-    // Custom event pressure: each event contributes based on attendees, distance,
-    // event type, and a time-of-day pattern derived from historical arrival curves.
     let customPressure = 0;
     for (const event of customEvents) {
       const distKm = haversineDistance(cLng, cLat, event.lng, event.lat);
       const normalizedIntensity = Math.min(1, event.attendees / 70000);
-      // Wider decay for outdoor/spread events vs tight stadium sports
       const decayKm = event.type === 'festival' ? 28 : event.type === 'rally' ? 32 : 22;
       const falloff = Math.max(0, 1 - distKm / decayKm);
       const timeSensitivity = getEventTimeSensitivity(event.type, timeOfDay);
       customPressure = Math.max(customPressure, normalizedIntensity * falloff * timeSensitivity);
-      // Also update minDistKm so the proximity boost applies near custom events too
       minDistKm = Math.min(minDistKm, distKm);
     }
 
     const base = zone.baseLoad * timeMult;
-    // Zones within ~20 km of the nearest active venue get a congestion boost that
-    // scales with globalIntensity — so cranking the slider makes nearby zones go
-    // redder faster while far zones stay comparatively green.
-    const proximityBoost = Math.max(0, 1 - minDistKm / 20) * globalIntensity * 0.4;
-    const congestion = Math.min(1, base * globalIntensity * 1.5 + proximityBoost + surgePressure * 0.85 + customPressure * 0.9);
+    // Proximity boost only within 10 km — keeps most of the city dark.
+    // Base multiplier reduced to 0.9 (was 1.5) so low-intensity baseline stays calm.
+    const proximityBoost = Math.max(0, 1 - minDistKm / 10) * globalIntensity * 0.35;
+    const congestion = Math.min(
+      1,
+      (base * globalIntensity * 0.9 + proximityBoost + surgePressure * 0.85 + customPressure * 0.9) * staggerFactor,
+    );
 
     return {
       type: 'Feature',

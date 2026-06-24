@@ -1,5 +1,12 @@
 import math
 
+# Coliseum-specific BPR constants
+_COLISEUM_EVENT_HOUR = 18.0      # 6 PM peak arrival
+_COLISEUM_BG_INTENSITY = 0.8     # background PM-peak traffic intensity
+_COLISEUM_SURGE = 1.0            # full-capacity event surge
+_COLISEUM_STAGGER_REDUCTION = 0.25  # 3-hr stagger reduces effective v/c by 25%
+_BASELINE_TRAVEL_MIN = 20.0      # baseline free-flow travel time (minutes)
+
 # LA28 venue coordinates for server-side simulation
 VENUES = {
     "sofi":          (-118.3378, 33.9533, 70240),
@@ -74,4 +81,52 @@ def run_simulation_step(
         "peakZones": peak_zones,
         "affectedRoutes": affected_routes,
         "personsAffected": persons_affected,
+    }
+
+
+def compute_coliseum_congestion() -> dict:
+    """
+    BPR congestion model for LA Memorial Coliseum at two demand states.
+
+    Baseline: full-capacity event with all arrivals in the 1-hour peak window.
+    Intervention: same event with arrivals staggered across a 3-hour window,
+    modelled as a 25% reduction in effective v/c demand rate.
+
+    Returns both states plus the % travel-time improvement from the intervention.
+    """
+    time_mult = get_time_multiplier(_COLISEUM_EVENT_HOUR)
+
+    # v/c built the same way run_simulation_step does for an event-mode step
+    vc_baseline = min(
+        1.5,
+        _COLISEUM_BG_INTENSITY * time_mult
+        + _COLISEUM_SURGE * 0.45
+        + 0.1,   # event-mode offset (same constant used in run_simulation_step)
+    )
+    vc_intervention = vc_baseline * (1.0 - _COLISEUM_STAGGER_REDUCTION)
+
+    def _state(label: str, vc: float) -> dict:
+        bpr = bpr_delay(vc)
+        return {
+            "label": label,
+            "vc_ratio": round(vc, 4),
+            "bpr_multiplier": round(bpr, 4),
+            "congestion_index": round(min(100.0, vc / 1.5 * 100), 1),
+            "estimated_travel_time_min": round(_BASELINE_TRAVEL_MIN * bpr, 1),
+        }
+
+    baseline = _state("Peak 1-hour arrival (full capacity)", vc_baseline)
+    intervention = _state("Staggered 3-hour arrival (-25% v/c)", vc_intervention)
+
+    bpr_b = baseline["bpr_multiplier"]
+    bpr_i = intervention["bpr_multiplier"]
+    reduction_pct = round((bpr_b - bpr_i) / bpr_b * 100, 1)
+
+    return {
+        "venue": "LA Memorial Coliseum",
+        "capacity": VENUES["la-coliseum"][2],
+        "event_hour": _COLISEUM_EVENT_HOUR,
+        "baseline": baseline,
+        "intervention": intervention,
+        "reduction_pct": reduction_pct,
     }

@@ -1,161 +1,153 @@
 import { useSimulationStore } from '../../stores/simulationStore';
 import { CongestionChart } from './CongestionChart';
-import type { EmergencyRisk } from '../../types';
-
-interface MetricCardProps {
-  label: string;
-  value: string;
-  sub?: string;
-  color: string;
-  trend?: 'up' | 'down' | 'neutral';
-}
-
-function MetricCard({ label, value, sub, color, trend }: MetricCardProps) {
-  return (
-    <div className="bg-surface-800/60 rounded-lg px-3 py-2.5 border border-surface-700/60">
-      <div className="flex items-start justify-between gap-1">
-        <div>
-          <div className="text-[10px] text-surface-500 uppercase tracking-wider mb-1">{label}</div>
-          <div className={`text-[18px] font-bold font-mono leading-none ${color}`}>{value}</div>
-          {sub && <div className="text-[10px] text-surface-600 mt-0.5">{sub}</div>}
-        </div>
-        {trend && trend !== 'neutral' && (
-          <span className={`text-[11px] font-mono mt-1 ${trend === 'up' ? 'text-red-500' : 'text-slate-500'}`}>
-            {trend === 'up' ? '▲' : '▼'}
-          </span>
-        )}
-      </div>
-    </div>
-  );
-}
-
-function RiskBadge({ risk }: { risk: EmergencyRisk }) {
-  const map = {
-    low:      { label: 'Low',      bg: 'rgba(22,101,52,0.25)',  border: '#166534', text: '#4ade80' },
-    moderate: { label: 'Moderate', bg: 'rgba(133,77,14,0.25)',  border: '#854d0e', text: '#fb923c' },
-    high:     { label: 'High',     bg: 'rgba(154,52,18,0.30)',  border: '#9a3412', text: '#f87171' },
-    critical: { label: 'Critical', bg: 'rgba(153,27,27,0.35)',  border: '#991b1b', text: '#fca5a5' },
-  }[risk];
-  return (
-    <div className="bg-surface-800/60 rounded-lg px-3 py-2.5 border border-surface-700/60">
-      <div className="text-[10px] text-surface-500 uppercase tracking-wider mb-1.5">Emergency Delay Risk</div>
-      <div className="flex items-center gap-2">
-        <div
-          className="px-2.5 py-0.5 rounded text-[11px] font-bold font-mono uppercase tracking-widest"
-          style={{ background: map.bg, border: `1px solid ${map.border}`, color: map.text }}
-        >
-          {map.label}
-        </div>
-        {risk === 'critical' && (
-          <div className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse-slow" />
-        )}
-      </div>
-    </div>
-  );
-}
 
 export function MetricsPanel() {
-  const metrics = useSimulationStore((s) => s.metrics);
-  const mode    = useSimulationStore((s) => s.mode);
+  const metrics           = useSimulationStore((s) => s.metrics);
+  const mode              = useSimulationStore((s) => s.mode);
+  const staggeredArrivals = useSimulationStore((s) => s.staggeredArrivals);
+  const globalIntensity   = useSimulationStore((s) => s.globalIntensity);
 
-  const delayColor =
-    metrics.avgDelayIncrease > 60 ? 'text-red-400' :
-    metrics.avgDelayIncrease > 30 ? 'text-amber-500' :
-    'text-slate-300';
+  const modeLabel = mode === 'crisis'   ? 'Crisis Scenario'
+                  : mode === 'event'    ? 'Event Day'
+                  : 'Baseline';
 
-  const congColor =
-    metrics.congestionScore > 0.7 ? 'text-red-400' :
-    metrics.congestionScore > 0.4 ? 'text-amber-500' :
-    'text-slate-300';
+  const t0      = 20;
+  const rawVc   = 0.3 + globalIntensity * 1.2;
+  const vc      = staggeredArrivals ? Math.max(0.10, rawVc * 0.75) : rawVc;
+  const tCurrent = t0 * (1 + 0.15 * Math.pow(vc, 4));
+  const delayMin = tCurrent - t0;
 
-  const travelColor =
-    metrics.avgTravelTime > 65 ? 'text-red-400' :
-    metrics.avgTravelTime > 45 ? 'text-amber-500' :
-    'text-slate-300';
+  const congPct   = Math.round(metrics.congestionScore * 100);
+  const congLabel = metrics.congestionScore > 0.7 ? 'Critical' : metrics.congestionScore > 0.4 ? 'Moderate' : 'Normal';
 
-  const co2Color =
-    metrics.co2Increase > 80 ? 'text-red-400' :
-    metrics.co2Increase > 40 ? 'text-amber-500' :
-    'text-slate-400';
+  const delayColor  = delayMin > 5 ? (delayMin > 12 ? '#FF453A' : '#FF9F0A') : '#30D158';
+  const congColor   = metrics.congestionScore > 0.6 ? '#FF453A' : metrics.congestionScore > 0.3 ? '#FF9F0A' : '#30D158';
+  const travelColor = tCurrent > 30 ? '#FF453A' : tCurrent > 24 ? '#FF9F0A' : 'rgba(255,255,255,0.85)';
+  const co2Color    = metrics.co2Increase > 60 ? '#FF453A' : metrics.co2Increase > 30 ? '#FF9F0A' : 'rgba(255,255,255,0.85)';
+  const personsVal  = metrics.estimatedPersonsAffected > 0
+    ? `${Math.round(metrics.estimatedPersonsAffected / 1000)}K`
+    : '—';
 
-  const statusDot   = mode === 'crisis' ? 'bg-red-700' : mode === 'event' ? 'bg-amber-800' : 'bg-slate-600';
-  const statusLabel = mode === 'crisis' ? 'Crisis Mode Active' : mode === 'event' ? 'Olympic Event Day' : 'Baseline — Normal Traffic';
+  const cells: { label: string; value: string; sub: string; color: string }[] = [
+    { label: 'Avg. Delay',       value: `+${delayMin.toFixed(1)}`,  sub: 'min vs free-flow',       color: delayColor },
+    { label: 'Congestion Score', value: `${congPct}`,               sub: congLabel,                 color: congColor  },
+    { label: 'Travel Time',      value: `${tCurrent.toFixed(1)}`,   sub: `min · v/c ${vc.toFixed(2)}`, color: travelColor },
+    { label: 'Peak Zones',       value: `${metrics.peakCongestionZones}`, sub: 'active surges',    color: 'rgba(255,255,255,0.85)' },
+    { label: 'CO₂ Increase',    value: `+${metrics.co2Increase}%`,  sub: 'emissions delta',        color: co2Color   },
+    { label: 'Persons Affected', value: personsVal,                  sub: 'peak hour est.',         color: metrics.estimatedPersonsAffected > 50000 ? '#FF9F0A' : 'rgba(255,255,255,0.85)' },
+    { label: 'Transit Gap',      value: '80%',                       sub: 'underserved venues',     color: '#FF453A'  },
+    { label: 'Parking Stress',   value: '~95%',                      sub: 'vs 44.5% baseline',     color: '#FF453A'  },
+    { label: 'Collision Risk',   value: '5 PM',                      sub: '10,672 incidents',       color: '#FF453A'  },
+    { label: 'Crime Index',      value: '65%',                       sub: 'property crimes',        color: '#FF9F0A'  },
+  ];
 
   return (
-    <div className="fixed right-4 top-[68px] bottom-[100px] z-40 w-64 flex flex-col gap-2.5">
-      {/* Status badge */}
-      <div className="flex items-center gap-2 bg-surface-800/80 backdrop-blur-xl border border-surface-700/60 rounded-xl px-3 py-2">
-        <div className={`w-2 h-2 rounded-full flex-shrink-0 ${statusDot}`} />
-        <span className="text-[11px] font-medium text-surface-400 uppercase tracking-wider">
-          {statusLabel}
+    <div
+      className="fixed right-4 z-40 flex flex-col gap-3 tilt-right"
+      style={{ top: '60px', bottom: '124px', width: '268px', overflow: 'visible', marginTop: '4px' }}
+    >
+      {/* Mode badge */}
+      <div
+        className="flex items-center gap-2 px-3 py-2 rounded-xl flex-shrink-0 glass-surface"
+      >
+        <div className="rounded-full flex-shrink-0" style={{
+          width: '6px', height: '6px',
+          background: mode === 'crisis' ? '#FF453A' : mode === 'event' ? '#FF9F0A' : '#30D158',
+        }} />
+        <span style={{ fontSize: '12px', fontWeight: 500, color: 'rgba(255,255,255,0.6)', letterSpacing: '-0.01em' }}>
+          {modeLabel}
         </span>
       </div>
 
-      {/* Metric cards */}
-      <div className="bg-surface-800/80 backdrop-blur-xl border border-surface-700/60 rounded-xl p-3 space-y-2">
-        <div className="text-[10px] font-semibold text-surface-500 uppercase tracking-widest mb-1">
-          Live Metrics
+      {/* Metrics grid */}
+      <div
+        className="flex-shrink-0 rounded-2xl overflow-hidden glass-panel tilt-right glass-shimmer-wrap"
+      >
+        <div style={{ padding: '10px 14px 6px', borderBottom: '0.5px solid rgba(255,255,255,0.06)' }}>
+          <span style={{ fontSize: '11px', fontWeight: 600, color: 'rgba(255,255,255,0.3)', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+            Live Metrics
+          </span>
         </div>
-        <MetricCard
-          label="Avg. Delay"
-          value={`+${metrics.avgDelayIncrease}%`}
-          sub="vs. free-flow travel"
-          color={delayColor}
-          trend={metrics.avgDelayIncrease > 20 ? 'up' : 'neutral'}
-        />
-        <MetricCard
-          label="Congestion Score"
-          value={`${Math.round(metrics.congestionScore * 100)}%`}
-          sub="network pressure"
-          color={congColor}
-          trend={metrics.congestionScore > 0.4 ? 'up' : 'neutral'}
-        />
-        <MetricCard
-          label="Avg. Travel Time"
-          value={`${metrics.avgTravelTime} min`}
-          sub="baseline: 35 min"
-          color={travelColor}
-          trend={metrics.avgTravelTime > 40 ? 'up' : 'neutral'}
-        />
-        <MetricCard
-          label="CO₂ Increase"
-          value={`+${metrics.co2Increase}%`}
-          sub="estimated emissions delta"
-          color={co2Color}
-          trend={metrics.co2Increase > 20 ? 'up' : 'neutral'}
-        />
-        <MetricCard
-          label="Peak Zones"
-          value={String(metrics.peakCongestionZones)}
-          sub="high-pressure areas"
-          color="text-slate-300"
-        />
-        <MetricCard
-          label="Affected Routes"
-          value={String(metrics.affectedTransitRoutes)}
-          sub="transit disruptions"
-          color="text-slate-300"
-          trend={metrics.affectedTransitRoutes > 10 ? 'up' : 'neutral'}
-        />
-        <MetricCard
-          label="Persons Affected"
-          value={
-            metrics.estimatedPersonsAffected > 0
-              ? `${(metrics.estimatedPersonsAffected / 1000).toFixed(0)}K`
-              : '—'
-          }
-          sub="estimated commuters"
-          color={metrics.estimatedPersonsAffected > 50000 ? 'text-amber-500' : 'text-slate-300'}
-        />
-        <RiskBadge risk={metrics.emergencyDelayRisk} />
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
+          {cells.map(({ label, value, sub, color }, i) => {
+            const lastRow = i >= cells.length - 2;
+            const leftCol = i % 2 === 0;
+            return (
+              <div
+                key={label}
+                style={{
+                  padding: '12px 14px',
+                  borderBottom: lastRow ? 'none' : '0.5px solid rgba(255,255,255,0.04)',
+                  borderRight: leftCol ? '0.5px solid rgba(255,255,255,0.04)' : 'none',
+                }}
+              >
+                <div style={{
+                  fontSize: '10px', color: 'rgba(255,255,255,0.4)', fontWeight: 500,
+                  letterSpacing: '0.06em', textTransform: 'uppercase',
+                  lineHeight: 1, marginBottom: '6px',
+                }}>
+                  {label}
+                </div>
+                <div style={{
+                  fontSize: '24px', fontWeight: 200, color,
+                  fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
+                  lineHeight: 1, letterSpacing: '-0.02em',
+                }}>
+                  {value}
+                </div>
+                {sub && (
+                  <div style={{ fontSize: '10px', color: 'rgba(255,255,255,0.25)', marginTop: '3px', lineHeight: 1 }}>
+                    {sub}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
       </div>
 
-      {/* Chart */}
-      <div className="bg-surface-800/80 backdrop-blur-xl border border-surface-700/60 rounded-xl p-3 flex-1 min-h-0">
-        <div className="text-[10px] font-semibold text-surface-500 uppercase tracking-widest mb-2">
-          Congestion Over Time
+      {/* Interventions */}
+      {staggeredArrivals && (
+        <div
+          className="flex-shrink-0 rounded-2xl overflow-hidden glass-surface"
+        >
+          <div style={{ padding: '10px 14px 6px', borderBottom: '0.5px solid rgba(255,255,255,0.06)' }}>
+            <span style={{ fontSize: '11px', fontWeight: 600, color: 'rgba(255,255,255,0.3)', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+              Interventions
+            </span>
+          </div>
+          <div style={{ padding: '10px 14px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span style={{ fontSize: '13px', color: '#30D158', letterSpacing: '-0.01em' }}>✓ Staggered arrivals</span>
+              <span style={{ fontSize: '12px', fontFamily: "'SF Mono', ui-monospace, monospace", color: '#30D158', fontWeight: 600 }}>
+                −{(t0 * (1 + 0.15 * Math.pow(rawVc, 4)) - tCurrent).toFixed(1)} min
+              </span>
+            </div>
+            {[
+              { icon: '✓', color: '#30D158', label: 'Olympic Express Corridors',  status: 'Modeled'    },
+              { icon: '⚠', color: '#FF9F0A', label: 'Long Beach transit gap',     status: 'Unresolved' },
+              { icon: '●', color: '#FF453A', label: 'SoFi transit gap',           status: 'Unresolved' },
+            ].map((r, i) => (
+              <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span style={{ fontSize: '12px', color: r.color, flexShrink: 0, width: '12px' }}>{r.icon}</span>
+                <span style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)', flex: 1, letterSpacing: '-0.01em' }}>{r.label}</span>
+                <span style={{ fontSize: '10px', fontWeight: 600, color: r.color, letterSpacing: '0.04em' }}>{r.status}</span>
+              </div>
+            ))}
+          </div>
         </div>
-        <div className="h-full pb-4">
+      )}
+
+      {/* Congestion chart */}
+      <div
+        className="flex-1 min-h-0 rounded-2xl overflow-hidden flex flex-col glass-surface"
+      >
+        <div style={{ padding: '10px 14px 6px', borderBottom: '0.5px solid rgba(255,255,255,0.06)', flexShrink: 0 }}>
+          <span style={{ fontSize: '11px', fontWeight: 600, color: 'rgba(255,255,255,0.3)', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+            Congestion Over Time
+          </span>
+        </div>
+        <div style={{ padding: '8px', flex: 1, minHeight: 0 }}>
           <CongestionChart />
         </div>
       </div>
