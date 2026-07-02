@@ -1,0 +1,59 @@
+# XTraffic — Phase 1 data pipeline configuration.
+# No magic numbers live in code; everything the pipelines need is here.
+
+seed: 42  # global RNG seed for full reproducibility (numpy, torch, python random)
+
+# --- Sliding window (sequence-to-sequence forecasting) ---
+# At 5-minute resolution: 12 steps in = last 60 min of history,
+# 12 steps out = next 60 min forecast. Horizons of interest: 15/30/60 min = steps 3/6/12.
+window:
+  input_length: 12    # T_in  timesteps fed to the model
+  output_length: 12   # T_out timesteps predicted
+  resolution_minutes: 5
+
+# --- Chronological split ratios ---
+# We split by TIME, never by shuffling.
+# WHY: traffic is autocorrelated in time. If we shuffled samples, windows from the
+# same afternoon would land in both train and test, so the model would effectively
+# "see the future" during training — classic temporal data leakage that inflates
+# metrics and does not survive deployment. A hard chronological cut (train = earliest
+# 70%, val = next 10%, test = last 20%) simulates predicting genuinely unseen future.
+split:
+  train: 0.70
+  val: 0.10
+  test: 0.20
+
+# --- Adjacency: thresholded Gaussian kernel (DCRNN, Li et al. 2018) ---
+# A_ij = exp(-(dist_ij^2) / sigma^2) if that value >= threshold, else 0.
+# sigma = std of all finite distances (self-normalizing). threshold sparsifies the graph.
+adjacency:
+  normalized_k: 0.1   # kappa: entries below this are zeroed to keep the graph sparse
+
+# --- Datasets ---
+# URLs point at the public DCRNN data release (Li et al.). These are stable mirrors.
+datasets:
+  # Speed data comes as CSV (Zenodo 5146275): index = 5-min timestamps,
+  # columns = sensor ids, values = speed (mph); missing encoded as 0.0.
+  # The canonical node ordering is simply the CSV column order.
+  metr_la:
+    n_nodes: 207
+    speed_csv_url: "https://zenodo.org/api/records/5146275/files/METR-LA.csv/content"
+    distances_csv_url: "https://raw.githubusercontent.com/liyaguang/DCRNN/master/data/sensor_graph/distances_la_2012.csv"
+    sensor_locations_url: "https://raw.githubusercontent.com/liyaguang/DCRNN/master/data/sensor_graph/graph_sensor_locations.csv"
+
+  pems_bay:
+    n_nodes: 325
+    speed_csv_url: "https://zenodo.org/api/records/5146275/files/PEMS-BAY.csv/content"
+    distances_csv_url: "https://raw.githubusercontent.com/liyaguang/DCRNN/master/data/sensor_graph/distances_bay_2017.csv"
+    # Bay ships a metadata CSV with lat/lon for human-readable node names.
+    sensor_meta_url: "https://zenodo.org/api/records/5146275/files/PEMS-BAY-META.csv/content"
+
+  chicago:
+    # Chicago Traffic Tracker — segment-level congestion, Socrata API, no key for small volumes.
+    # 'n1i9-zdnp' is the historical estimates dataset; 'sxs8-h27x' is current. We use current
+    # for the live snapshot and build the graph from segment endpoint coordinates.
+    socrata_domain: "data.cityofchicago.org"
+    current_dataset_id: "n4j6-wkkf"      # Congestion Estimates by Segments (live, ~1250 segments)
+    historical_dataset_id: "4g9f-3jbs"   # Historical Congestion by Segment (2024-current)
+    page_limit: 50000            # max rows per Socrata request without an app token
+    segment_adjacency_tol_m: 50  # two segments are adjacent if endpoints are within 50 m

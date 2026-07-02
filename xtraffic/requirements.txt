@@ -1,0 +1,15 @@
+# XTraffic pinned dependencies (Python 3.9 compatible).
+# torch 2.2.x is the last line with clean cp39 wheels; torch-geometric 2.5.x is
+# verified compatible with torch 2.2.x. Do not bump one without the other.
+torch==2.2.2
+torch-geometric==2.5.3
+
+# Numeric / data. numpy pinned <2 because torch 2.2 wheels are built against 1.x ABI.
+numpy==1.26.4
+pandas==2.1.4
+scipy==1.11.4          # cross-correlation for propagation-lag (Phase 3)
+
+# Config / IO / plotting
+pyyaml==6.0.1
+requests==2.31.0
+matplotlib==3.8.2

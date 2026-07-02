@@ -17,3 +17,12 @@ backend/.venv/
 backend/venv/
 *.egg-info/
 .pytest_cache/
+
+# XTraffic (Phase 1+): raw/processed data and checkpoints are reproducible, not committed
+xtraffic/data/raw/
+xtraffic/data/processed/
+xtraffic/models/**/checkpoints/
+xtraffic/**/__pycache__/
+xtraffic/**/*.pyc
+xtraffic/.venv/
+xtraffic/venv/
