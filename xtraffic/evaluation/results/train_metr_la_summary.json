@@ -1,0 +1,8 @@
+{
+  "dataset": "metr_la",
+  "run_name": "metr_la",
+  "best_val_mae": 13.881851196289062,
+  "best_epoch": 1,
+  "n_params": 395059,
+  "device": "mps"
+}

@@ -1,0 +1,26 @@
+{
+  "eval0": {
+    "s00": "RAW",
+    "s01": "XAI",
+    "s02": "XTRAFFIC",
+    "s03": "RAW",
+    "s04": "XAI",
+    "s05": "XTRAFFIC"
+  },
+  "eval1": {
+    "s00": "XAI",
+    "s01": "XTRAFFIC",
+    "s02": "RAW",
+    "s03": "XAI",
+    "s04": "XTRAFFIC",
+    "s05": "RAW"
+  },
+  "eval2": {
+    "s00": "XTRAFFIC",
+    "s01": "RAW",
+    "s02": "XAI",
+    "s03": "XTRAFFIC",
+    "s04": "RAW",
+    "s05": "XAI"
+  }
+}

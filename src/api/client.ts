@@ -54,6 +54,41 @@ export async function askAIAdvisor(payload: {
   return data as AIAdvisorResponse;
 }
 
+export interface MLSurgePrediction {
+  intensity: number;
+  confidence: number;
+  venue_id: string;
+  hour: number;
+}
+
+export interface MLConditionPrediction {
+  condition: 'NORMAL' | 'ELEVATED' | 'PEAK' | 'CRITICAL';
+  condition_index: number;
+  probabilities: Record<string, number>;
+}
+
+export async function fetchMLSurgePrediction(payload: {
+  venue_id: string;
+  hour: number;
+  day_of_week: number;
+  event_type: number;
+  capacity_util: number;
+}): Promise<MLSurgePrediction> {
+  const { data } = await api.post('/ml/predict-surge', payload);
+  return data as MLSurgePrediction;
+}
+
+export async function fetchMLConditionClassification(payload: {
+  surge_intensity: number;
+  vc_ratio: number;
+  time_to_event_min: number;
+  concurrent_events: number;
+  transit_availability_score: number;
+}): Promise<MLConditionPrediction> {
+  const { data } = await api.post('/ml/classify-conditions', payload);
+  return data as MLConditionPrediction;
+}
+
 export async function postSimulationStep(payload: {
   mode: string;
   timeOfDay: number;

@@ -118,8 +118,19 @@ async def get_traffic_advice(
         sim_line = (
             f"\nCurrent simulation: mode={mode}, "
             f"traffic intensity={intensity:.0%}, "
-            f"time of day={tod:.1f}h\n"
+            f"time of day={tod:.1f}h"
         )
+        ml = simulation_context.get("mlPredictions")
+        if ml:
+            surge_pct = round(ml.get("surgeIntensity", 0) * 100)
+            confidence_pct = round(ml.get("confidence", 0) * 100)
+            condition = ml.get("condition", "UNKNOWN")
+            sim_line += (
+                f"\nML predictions: surge forecast={surge_pct}% "
+                f"(confidence {confidence_pct}%), "
+                f"condition class={condition}"
+            )
+        sim_line += "\n"
 
     prompt = (
         "You are an expert Olympic traffic engineer for the 2028 Los Angeles Games.\n"

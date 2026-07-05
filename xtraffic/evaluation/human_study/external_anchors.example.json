@@ -1,0 +1,29 @@
+{
+  "_README": [
+    "EXTERNAL GROUND-TRUTH ANCHORS — copy this file to external_anchors.json and fill in.",
+    "",
+    "WHY THIS EXISTS: our simulation ground truth is model-in-the-loop — the same",
+    "GNN both produces the predictions evaluators see AND scores which intervention",
+    "is best. That is internally consistent but circular by construction. To break",
+    "the circle at a few points, ask a domain expert (e.g. the UNCC professor) to",
+    "identify 1-2 scenarios where they KNOW the real-world correct intervention from",
+    "professional experience. Those become out-of-model ground truth. analyze.py then",
+    "ALSO reports accuracy scored against these anchors, per condition.",
+    "",
+    "HOW TO FILL: one entry per anchored scenario. Key = scenario_id (see",
+    "scenarios.json). `intervention` MUST be one of the candidate action names:",
+    "no_action | signal_retiming | ramp_metering | reroute | transit_surge.",
+    "`source` and `rationale` are for the paper's audit trail (who said so, and why).",
+    "Delete this _README key in the real file, or leave it — the loader ignores it."
+  ],
+  "metr_la_0000": {
+    "intervention": "ramp_metering",
+    "source": "expert judgment — Prof. <name>, during eval session 2026-XX-XX",
+    "rationale": "Known recurring PM bottleneck at this interchange; metering the feeding on-ramps is standard Caltrans practice here and demonstrably clears it."
+  },
+  "metr_la_0001": {
+    "intervention": "reroute",
+    "source": "expert judgment — Prof. <name>",
+    "rationale": "Incident-type congestion on a corridor with a parallel arterial; diversion is the field-standard response."
+  }
+}

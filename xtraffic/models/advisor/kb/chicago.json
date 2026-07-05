@@ -1,0 +1,61 @@
+{
+  "city": "chicago",
+  "display_name": "Chicago",
+  "_schema_note": "Same schema as la.json. region_tags are lowercase keywords scored against the explanation's node names/regions; the area tags MUST match the Chicago region labels emitted by models/explainer/node_names.py (_CHICAGO_REGIONS) so retrieval lines up. Text is factual, from public CDOT / IDOT / CTA corridor information — no invented capacities.",
+  "chunks": [
+    {
+      "id": "corridor_i90_94_dan_ryan",
+      "title": "I-90/94 Dan Ryan Expressway corridor",
+      "region_tags": ["the loop / downtown", "south loop", "bronzeville / south side", "far south side", "i-90", "i-94", "dan ryan expressway"],
+      "text": "I-90/94 (Dan Ryan Expy) is the primary north-south freeway through the South Side into downtown, merging with the Kennedy at the Circle Interchange. Chronic recurrent congestion approaching the Circle Interchange (I-90/94/290) and at the 31st/35th St segments. Local north-south relief arterials: State St and Martin Luther King Jr Dr; CTA Red Line runs in the median and is a direct transit alternative."
+    },
+    {
+      "id": "corridor_i90_kennedy",
+      "title": "I-90 Kennedy Expressway corridor",
+      "region_tags": ["near north side", "northwest side / o'hare corridor", "the loop / downtown", "i-90", "kennedy expressway"],
+      "text": "I-90 (Kennedy Expy) links O'Hare and the Northwest Side to downtown. Has reversible express lanes whose direction is set for peak flow (inbound AM, outbound PM). Recurrent bottleneck at the Circle Interchange and the Ohio St feeder ramps. CTA Blue Line runs in the median all the way to O'Hare — the main transit reliever."
+    },
+    {
+      "id": "corridor_i290_eisenhower",
+      "title": "I-290 Eisenhower Expressway corridor",
+      "region_tags": ["near west side", "west side / garfield park", "the loop / downtown", "i-290", "eisenhower expressway"],
+      "text": "I-290 (Eisenhower Expy) is the main east-west corridor from the western suburbs into the Loop. Severe recurrent PM westbound congestion; narrow left-side ramps limit metering. CTA Blue Line (Forest Park branch) runs in the median. Parallel arterials: Harrison St and Roosevelt Rd."
+    },
+    {
+      "id": "corridor_i55_stevenson",
+      "title": "I-55 Stevenson Expressway corridor",
+      "region_tags": ["southwest side / midway", "south loop", "i-55", "stevenson expressway"],
+      "text": "I-55 (Stevenson Expy) connects the Southwest Side and Midway area to downtown near Lake Shore Drive. Recurrent inbound AM congestion at the Damen Ave and Pulaski Rd segments and the LSD terminus. Archer Ave is the principal parallel arterial; CTA Orange Line serves the corridor to Midway."
+    },
+    {
+      "id": "lake_shore_drive",
+      "title": "DuSable Lake Shore Drive corridor",
+      "region_tags": ["near north side", "lincoln park / north side", "lakeview / uptown", "south loop", "hyde park / woodlawn", "lake shore drive", "us-41"],
+      "text": "DuSable Lake Shore Drive (US-41) is the scenic north-south lakefront arterial. No trucks; frequent weather-driven slowdowns off Lake Michigan. Heavy event surges near Soldier Field, Museum Campus, and North Ave Beach. CDOT can adjust signal timing at the at-grade northern segments; CTA express buses (J14) use the Drive."
+    },
+    {
+      "id": "the_loop_grid",
+      "title": "Central Loop signalized grid",
+      "region_tags": ["the loop / downtown", "south loop", "near north side"],
+      "text": "The Loop is a dense one-way signalized grid managed by CDOT. Congestion is dominated by signal cycles, transit (the elevated 'L' Loop tracks), pedestrians, and rideshare loading, not freeway flow. Interventions here are signal-timing and curb-management actions rather than ramp metering. Served by every CTA rail line converging on the Loop."
+    },
+    {
+      "id": "transit_cta",
+      "title": "CTA rail + bus network",
+      "region_tags": ["the loop / downtown", "near north side", "lincoln park / north side", "lakeview / uptown", "west side / garfield park", "bronzeville / south side", "northwest side / o'hare corridor", "cta", "red line", "blue line"],
+      "text": "CTA runs 8 rail lines and a dense bus grid. Red and Blue lines run 24 hours. Rail lines share right-of-way with expressways (Red in the Dan Ryan median, Blue in the Kennedy and Eisenhower medians), so transit is a direct substitute during freeway incidents. Bus Bridge and added-service protocols exist for rail disruptions."
+    },
+    {
+      "id": "bottleneck_circle_interchange",
+      "title": "Circle Interchange (I-90/94/290) bottleneck",
+      "region_tags": ["near west side", "the loop / downtown", "i-90", "i-94", "i-290", "circle interchange"],
+      "text": "The Circle Interchange where the Kennedy, Dan Ryan, and Eisenhower meet just west of the Loop is one of the nation's most congested freeway junctions. It is the shared failure point for all three corridors; queues here propagate back onto every connected expressway during peaks and incidents."
+    },
+    {
+      "id": "incident_response",
+      "title": "IDOT / CDOT incident + weather operations",
+      "region_tags": ["the loop / downtown", "near west side", "west side / garfield park", "far south side"],
+      "text": "IDOT operates Traffic Management Center cameras and dynamic message signs on the expressways; CDOT manages arterial signals. Winter weather (lake-effect snow, ice) is a major recurrent congestion driver Chicago plans for explicitly. Emergency Traffic Patrol (minutemen) clear stalls on the expressways to restore capacity quickly."
+    }
+  ]
+}

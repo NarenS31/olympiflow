@@ -1,0 +1,180 @@
+{
+  "prediction": {
+    "node_id": 46,
+    "node_name": "NE of Downtown LA (sensor 767609, 34.186, -118.217)",
+    "predicted_speed_mph": 63.02,
+    "horizon_minutes": 30,
+    "current_speed_mph": 64.17
+  },
+  "explanation": {
+    "meta": {
+      "city": "metr_la",
+      "timestamp": "test#5823 @ 08:30",
+      "model_checkpoint": "metr_la_best.pt",
+      "scenario": "weekend_proxy",
+      "scenario_note": "PROXY: free-flowing daytime window (day-of-week is not a model feature)."
+    },
+    "prediction": {
+      "node_id": 46,
+      "node_name": "NE of Downtown LA (sensor 767609, 34.186, -118.217)",
+      "predicted_speed_mph": 63.02,
+      "horizon_minutes": 30,
+      "current_speed_mph": 64.17
+    },
+    "top_nodes": [
+      {
+        "node_id": 43,
+        "node_name": "San Fernando Valley (sensor 760024, 34.159, -118.465)",
+        "importance": 0.8366,
+        "current_speed_mph": 65.0
+      },
+      {
+        "node_id": 124,
+        "node_name": "East LA (sensor 716942, 34.059, -118.215)",
+        "importance": 0.8084,
+        "current_speed_mph": 65.71
+      },
+      {
+        "node_id": 138,
+        "node_name": "Downtown LA (sensor 772513, 34.069, -118.237)",
+        "importance": 0.8075,
+        "current_speed_mph": 66.29
+      },
+      {
+        "node_id": 5,
+        "node_name": "Downtown LA (sensor 717445, 34.069, -118.259)",
+        "importance": 0.8038,
+        "current_speed_mph": 66.86
+      },
+      {
+        "node_id": 59,
+        "node_name": "San Fernando Valley (sensor 767366, 34.212, -118.473)",
+        "importance": 0.8018,
+        "current_speed_mph": 66.0
+      },
+      {
+        "node_id": 112,
+        "node_name": "Glendale / Burbank (sensor 716968, 34.166, -118.298)",
+        "importance": 0.7987,
+        "current_speed_mph": 67.14
+      },
+      {
+        "node_id": 121,
+        "node_name": "Glendale / Burbank (sensor 769847, 34.210, -118.224)",
+        "importance": 0.7973,
+        "current_speed_mph": 66.71
+      },
+      {
+        "node_id": 143,
+        "node_name": "Glendale / Burbank (sensor 718499, 34.155, -118.313)",
+        "importance": 0.7953,
+        "current_speed_mph": 65.29
+      }
+    ],
+    "top_edges": [
+      {
+        "from_id": 11,
+        "to_id": 46,
+        "importance": 0.7911
+      },
+      {
+        "from_id": 51,
+        "to_id": 112,
+        "importance": 0.7714
+      },
+      {
+        "from_id": 92,
+        "to_id": 46,
+        "importance": 0.7699
+      },
+      {
+        "from_id": 197,
+        "to_id": 43,
+        "importance": 0.6855
+      },
+      {
+        "from_id": 46,
+        "to_id": 46,
+        "importance": 0.4848
+      },
+      {
+        "from_id": 46,
+        "to_id": 50,
+        "importance": 0.3242
+      },
+      {
+        "from_id": 130,
+        "to_id": 43,
+        "importance": 0.2897
+      },
+      {
+        "from_id": 43,
+        "to_id": 81,
+        "importance": 0.2288
+      }
+    ],
+    "propagation_path": [
+      43,
+      76,
+      52,
+      73,
+      118,
+      0,
+      42,
+      173,
+      11,
+      46
+    ],
+    "propagation_lag_minutes": 30.0,
+    "explanation_confidence": 0.2244
+  },
+  "advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley, specifically at sensor 760024 (65.0 mph), which is driving the prediction with an importance of 0.837. This slow speed is contributing to a decrease in speed over time along a path of 10 sensors, with an estimated lag of 30 minutes between the source and the target.",
+    "cited_causes": [
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 43
+      },
+      {
+        "location": "NE of Downtown LA",
+        "resolved_node_id": null
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering",
+        "location": "I-5/SR-134 interchange (PM peak)",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion in the San Fernando Valley and subsequent areas",
+        "grounded_in": [
+          "City-context fact: Recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Reroute traffic before merge",
+        "location": "I-5/SR-134 interchange (PM peak)",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion in the San Fernando Valley and subsequent areas",
+        "grounded_in": [
+          "City-context fact: Recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Increase transit capacity on parallel rail lines",
+        "location": "Wilshire, Expo/I-10, Harbor/I-110, Pasadena A Line",
+        "time_window_minutes": 15,
+        "expected_effect": "Divert some traffic away from the San Fernando Valley and subsequent areas",
+        "grounded_in": [
+          "Transit alternatives: Metro rail relief options"
+        ]
+      }
+    ]
+  },
+  "context_used": [
+    "Known recurrent bottlenecks (LA basin)",
+    "Glendale/Burbank freeways (SR-134, I-5, SR-2)",
+    "Transit alternatives (Metro rail/bus)",
+    "San Fernando Valley freeways (US-101, I-405, SR-118)"
+  ],
+  "model": "llama3.1:8b"
+}

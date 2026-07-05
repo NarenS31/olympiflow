@@ -8,8 +8,17 @@ torch-geometric==2.5.3
 numpy==1.26.4
 pandas==2.1.4
 scipy==1.11.4          # cross-correlation for propagation-lag (Phase 3)
+rapidfuzz==3.6.1       # fuzzy entity resolution in the faithfulness metric
+                       # (Phase 5). Code falls back to stdlib difflib if absent.
 
 # Config / IO / plotting
 pyyaml==6.0.1
 requests==2.31.0
 matplotlib==3.8.2
+
+# Human-evaluation web app (Phase 8). fastapi + uvicorn only; the app has no
+# database and no external assets. python-multipart is required by FastAPI to
+# parse the HTML form POSTs.
+fastapi==0.110.0
+uvicorn==0.29.0
+python-multipart==0.0.9

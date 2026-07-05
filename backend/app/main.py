@@ -2,7 +2,7 @@ import json
 import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from .routers import venues, traffic, transit, simulation, ai_advisor
+from .routers import venues, traffic, transit, simulation, ai_advisor, ml as ml_router
 from .models.schemas import CongestionStatsResponse
 from .services.simulation_engine import compute_coliseum_congestion
 
@@ -32,6 +32,7 @@ app.include_router(traffic.router)
 app.include_router(transit.router)
 app.include_router(simulation.router)
 app.include_router(ai_advisor.router)
+app.include_router(ml_router.router)
 
 
 @app.get("/api/health")

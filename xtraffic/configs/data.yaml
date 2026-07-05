@@ -48,6 +48,19 @@ datasets:
     # Bay ships a metadata CSV with lat/lon for human-readable node names.
     sensor_meta_url: "https://zenodo.org/api/records/5146275/files/PEMS-BAY-META.csv/content"
 
+# --- Phase 6: transit modality (GTFS static feeds -> nearby stop count per node) ---
+# GTFS static is a public, keyless zip; stops.txt carries stop_id/lat/lon. We count
+# stops within `radius_m` of each sensor as a static per-node context feature.
+# URLs are the agencies' published static feeds; editable if an agency moves them.
+transit:
+  radius_m: 1000              # a stop within 1 km counts toward a sensor's density
+  feeds:
+    metr_la:                  # LA Metro (bus + rail) serving the METR-LA sensors
+      - "https://gitlab.com/LACMTA/gtfs_bus/-/raw/master/gtfs_bus.zip"
+      - "https://gitlab.com/LACMTA/gtfs_rail/-/raw/master/gtfs_rail.zip"
+    chicago:                  # CTA (bus + rail) — used in Phase 6 cross-city
+      - "https://www.transitchicago.com/downloads/sch_data/google_transit.zip"
+
   chicago:
     # Chicago Traffic Tracker — segment-level congestion, Socrata API, no key for small volumes.
     # 'n1i9-zdnp' is the historical estimates dataset; 'sxs8-h27x' is current. We use current

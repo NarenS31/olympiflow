@@ -1,0 +1,10 @@
+
+# transient training console log (per-epoch CSV is the real record)
+xtraffic/evaluation/results/_train_live.log
+
+# Phase 8 human-study runtime outputs (participant data + generated bundles).
+# The build scripts regenerate scenarios/figures; responses are private eval data.
+xtraffic/evaluation/results/human_study/responses.jsonl
+xtraffic/evaluation/results/human_study/analysis_report.json
+xtraffic/evaluation/results/human_study/analysis_per_condition.csv
+xtraffic/evaluation/results/human_study/figures/

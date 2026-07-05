@@ -2,6 +2,14 @@ import { create } from 'zustand';
 import { subscribeWithSelector } from 'zustand/middleware';
 import type { SimulationMode, LayerVisibility, SimulationMetrics, VenueSurge, CustomTrafficEvent } from '../types';
 
+export interface MLPredictions {
+  surgeIntensity: number;
+  confidence: number;
+  condition: 'NORMAL' | 'ELEVATED' | 'PEAK' | 'CRITICAL';
+  probabilities: Record<string, number>;
+  loading: boolean;
+}
+
 interface SimulationState {
   mode: SimulationMode;
   timeOfDay: number;
@@ -20,6 +28,7 @@ interface SimulationState {
   customEvents: CustomTrafficEvent[];
   placingEvent: boolean;
   pendingEventLocation: { lng: number; lat: number } | null;
+  mlPredictions: MLPredictions | null;
 
   setMode: (mode: SimulationMode) => void;
   setTimeOfDay: (t: number | ((prev: number) => number)) => void;
@@ -40,6 +49,7 @@ interface SimulationState {
   removeCustomEvent: (id: string) => void;
   setPlacingEvent: (placing: boolean) => void;
   setPendingEventLocation: (loc: { lng: number; lat: number } | null) => void;
+  setMLPredictions: (preds: MLPredictions | null) => void;
 }
 
 const DEFAULT_METRICS: SimulationMetrics = {
@@ -79,6 +89,7 @@ export const useSimulationStore = create<SimulationState>()(
     customEvents: [],
     placingEvent: false,
     pendingEventLocation: null,
+    mlPredictions: null,
 
     setMode: (mode) =>
       set((state) => {
@@ -156,6 +167,8 @@ export const useSimulationStore = create<SimulationState>()(
     setPlacingEvent: (placing) => set({ placingEvent: placing }),
 
     setPendingEventLocation: (loc) => set({ pendingEventLocation: loc }),
+
+    setMLPredictions: (preds) => set({ mlPredictions: preds }),
   }))
 );
 

@@ -1,0 +1,116 @@
+{
+  "per_condition": {
+    "RAW": {
+      "n": 1,
+      "correct": 1.0,
+      "confidence": 5.0,
+      "usefulness": 5.0
+    },
+    "XAI": {
+      "n": 1,
+      "correct": 0.0,
+      "confidence": 5.0,
+      "usefulness": 5.0
+    },
+    "XTRAFFIC": {
+      "n": 1,
+      "correct": 0.0,
+      "confidence": 5.0,
+      "usefulness": 5.0
+    }
+  },
+  "paired_tests": {
+    "accuracy": {
+      "XTRAFFIC_vs_RAW": {
+        "n_pairs": 1,
+        "median_diff": -1.0,
+        "stat": 0.0,
+        "p_value": 1.0,
+        "effect_size_r": -1.0
+      },
+      "XTRAFFIC_vs_XAI": {
+        "n_pairs": 1,
+        "median_diff": 0.0,
+        "stat": null,
+        "p_value": null,
+        "effect_size_r": null,
+        "note": "no non-zero differences"
+      },
+      "XAI_vs_RAW": {
+        "n_pairs": 1,
+        "median_diff": -1.0,
+        "stat": 0.0,
+        "p_value": 1.0,
+        "effect_size_r": -1.0
+      }
+    },
+    "confidence": {
+      "XTRAFFIC_vs_RAW": {
+        "n_pairs": 1,
+        "median_diff": 0.0,
+        "stat": null,
+        "p_value": null,
+        "effect_size_r": null,
+        "note": "no non-zero differences"
+      },
+      "XTRAFFIC_vs_XAI": {
+        "n_pairs": 1,
+        "median_diff": 0.0,
+        "stat": null,
+        "p_value": null,
+        "effect_size_r": null,
+        "note": "no non-zero differences"
+      },
+      "XAI_vs_RAW": {
+        "n_pairs": 1,
+        "median_diff": 0.0,
+        "stat": null,
+        "p_value": null,
+        "effect_size_r": null,
+        "note": "no non-zero differences"
+      }
+    },
+    "usefulness": {
+      "XTRAFFIC_vs_RAW": {
+        "n_pairs": 1,
+        "median_diff": 0.0,
+        "stat": null,
+        "p_value": null,
+        "effect_size_r": null,
+        "note": "no non-zero differences"
+      },
+      "XTRAFFIC_vs_XAI": {
+        "n_pairs": 1,
+        "median_diff": 0.0,
+        "stat": null,
+        "p_value": null,
+        "effect_size_r": null,
+        "note": "no non-zero differences"
+      },
+      "XAI_vs_RAW": {
+        "n_pairs": 1,
+        "median_diff": 0.0,
+        "stat": null,
+        "p_value": null,
+        "effect_size_r": null,
+        "note": "no non-zero differences"
+      }
+    }
+  },
+  "external_anchor_accuracy": {
+    "RAW": {
+      "n": 1,
+      "accuracy": 1.0
+    },
+    "XAI": {
+      "n": 1,
+      "accuracy": 1.0
+    },
+    "XTRAFFIC": {
+      "n": 0,
+      "accuracy": NaN
+    }
+  },
+  "n_responses": 3,
+  "excluded_degenerate": false
+}

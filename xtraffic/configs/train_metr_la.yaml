@@ -1,0 +1,47 @@
+# XTraffic — Phase 2 training config for METR-LA.
+# No magic numbers in code: every knob the model/trainer needs lives here.
+
+dataset: metr_la          # reads xtraffic/data/processed/metr_la/
+seed: 42                  # numpy + torch + python RNG (reproducibility, CLAUDE.md)
+
+# --- Modalities present in this dataset (MOD 3 heterogeneous fusion) ---
+# For Phase 2 only "traffic" carries real data (channel 0 = z-scored speed,
+# channel 1 = time-of-day). weather/events/transit are declared so the encoders
+# exist, but fed None until Phase 6. Value = number of input feature channels.
+modalities:
+  traffic: 2
+  weather: 3     # temp, precip, visibility  (stub -> None for now)
+  events: 1      # proximity-decayed event indicator (stub)
+  transit: 1     # nearby stop count (stub)
+# Which channels of the processed X tensor belong to the "traffic" modality.
+# X is [B, 12, N, 2]; both channels are the traffic modality's inputs.
+traffic_channels: [0, 1]
+
+# --- Model hyperparameters (kept modest for a consumer laptop / Colab T4) ---
+model:
+  residual_channels: 32
+  dilation_channels: 32
+  skip_channels: 64
+  end_channels: 128
+  n_blocks: 4          # 4 stacked spatial-temporal blocks
+  embed_dim: 10        # dim of semantic (MOD 1) and adaptive node embeddings
+  gcn_order: 2         # diffusion hops in each graph conv
+  dropout: 0.3
+  out_len: 12          # forecast 12 steps (60 min)
+
+# --- Optimisation ---
+train:
+  epochs: 100
+  batch_size: 32
+  lr: 0.001
+  weight_decay: 0.0001
+  grad_clip: 5.0       # clip global grad norm (Graph WaveNet is prone to spikes)
+  early_stopping_patience: 15   # stop if val MAE hasn't improved in N epochs
+  num_workers: 0       # 0 keeps it simple + deterministic on laptop
+
+# Horizons to report (in 5-min steps): 15 / 30 / 60 min.
+horizons_steps: [3, 6, 12]
+
+# Where checkpoints + logs go (CLAUDE.md: results to /evaluation/results/).
+checkpoint_dir: models/gnn/checkpoints
+results_dir: evaluation/results

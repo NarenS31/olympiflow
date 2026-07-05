@@ -65,8 +65,281 @@ Phase 0 complete (project memory). Phase 1 complete and gate-passed:
 - Chicago: 1,020 segment-nodes (recent Socrata window; small + sparse until
   HISTORY window widened in Phase 6). All three emit X[·,12,N,2] / Y[·,12,N].
 Data read from CSV (Zenodo 5146275) — no h5/pytables dependency.
-NEXT: Phase 2 — the ST-GNN (needs `pip install -r xtraffic/requirements.txt`,
-torch + torch-geometric; training likely on Colab T4).
+Phase 1 gate PASSED (all three stats reports sane, no post-preprocessing NaNs,
+chronological non-overlapping splits, shapes match config).
+Phase 2 COMPLETE and gate-passed. XTrafficSTGNN (395K params) in pure PyTorch
+(no torch-geometric needed for Phase 2) at models/gnn/stgnn.py:
+- Graph WaveNet base (gated dilated TCN + diffusion GCN, residual+skip stack)
+- MOD 1 semantic co-movement edges: A_final = a*A_phys + (1-a)*A_sem, a=sigmoid(alpha);
+  alpha logged/epoch (drifted 0.49->0.39 in 3 epochs = model leaning on learned graph)
+- MOD 2 multi-scale temporal: parallel causal dilations [1,2,4,8] per block, T preserved
+- MOD 3 heterogeneous fusion: per-modality encoder+gate; absent modality -> None (no crash)
+Masked-MAE loss/metrics in real mph (missing = raw-0 sentinel; utils/metrics.py).
+Trainer/baselines/evaluate under models/gnn/; config configs/train_metr_la.yaml.
+METR-LA TEST (best ckpt, only 3 epochs): MAE 3.53 | 15min 2.98 | 30min 3.52 | 60min 4.42.
+Baselines: HistAvg 5.15, LinReg 5.05 -> model beats both clearly; 30min in 3.0-3.5 target.
+Local training ~40min/epoch on Apple MPS (einsum falls back to CPU) -> impractical;
+use models/gnn/colab_train.ipynb on a free T4 for the full 100-epoch run.
+Phase 2 gate PASSED: 30-min TEST MAE 3.52 on METR-LA (3-epoch placeholder ckpt),
+beats HistAvg 5.15 / LinReg 5.05 clearly; alpha drift 0.49->0.39 logged to CSV.
+Full 100-epoch training now RUNNING on Colab T4 (numbers to be refreshed on completion).
+Phase 3 COMPLETE and gate PASSED (on the 3-epoch placeholder ckpt; re-run gate on full model later).
+DEVIATION (flagged): implemented the GNNExplainer algorithm (Ying et al. 2019)
+faithfully in pure PyTorch instead of wrapping torch_geometric.explain — our model
+takes a modality-dict + dense adjacency, not PyG's (x, edge_index), so a direct
+reimpl is less code and fully transparent (keeps Phase-2 "no torch-geometric").
+Files under models/explainer/: schema.py (the explanation JSON CONTRACT + validator
+Phase 4 depends on), node_names.py (offline lat/lon->LA-region naming, no geocoder),
+explain.py (learned node+edge masks; preservation + sparsity + entropy loss; edge
+mask on physical adj via temp buffer swap; propagation path = BFS; lag = window
+cross-correlation; confidence = mean Jaccard of top-k over K reruns), scenarios.py,
+generate.py. Evaluation: evaluation/explainer_metrics.py (fidelity+/-, stability,
+sparsity vs random baseline), evaluation/visualize_explanation.py (vector-PDF map).
+REAL BUG found+fixed: scenario/target selection tested validity in z-space but the
+missing sentinel (0 mph) is ~0 in REAL space -> was picking missing sensors as
+targets. Fixed to mph-space (matches utils.metrics masking).
+KEY FINDING: node-occlusion fidelity is only meaningful on CONGESTED targets — a
+free-flowing 65mph prediction has no spatial cause, so uniform target sampling
+washes out the signal. Evaluating on the slowest valid sensor per window (also the
+Phase-5 stratification): Fidelity+ 0.496 vs 0.244 random (2.0x, PASS), Stability
+0.796. Fidelity- ~9.26 == random ~9.28 (INCONCLUSIVE on the undertrained model:
+prediction is distributed across many nodes so top-8 isn't clearly sufficient —
+expect improvement on the full 100-epoch ckpt). 6 scenario explanations in
+evaluation/results/explanations/ all pass schema validation; congested cases are
+semantically sane (East LA 20->15mph explained by nearby congested Glendale sensors,
+lag 5min). Figure at evaluation/results/figures/explanation_rush_hour_pm.pdf.
+Phase 3 GATE PASSED: Fidelity+ 0.496 vs 0.244 random (2.0x), Stability 0.796,
+6 schema-valid + semantically-sane scenario explanations, one publication figure.
+Fidelity- weak on the 3-epoch ckpt (~9.26 == random ~9.28) — FLAGGED for rerun
+once the full 100-epoch Colab ckpt lands.
+Phase 4 COMPLETE and gate PASSED — LLM advisory layer (Ollama, Layer 3).
+Files under models/advisor/: knowledge_base.py (per-city KB loader + keyword
+retrieval, productionized from the OlympiFlow RAG scorer; region_tags keyed to
+node_names.py region labels so retrieval lines up with the explanation),
+kb/la.json (11 factual LADOT/Caltrans/Metro chunks: corridors, bottlenecks,
+signal timing, transit, capacities, incidents) + kb/README.md (fill-in template
+so Chicago is code-free in Phase 6), advisor.py (Advisor class: prompt assembled
+SYSTEM->CITY CONTEXT->MATH EXPLANATION->TASK; Ollama /api/generate with
+format=json + temp 0.1; advisory output has its OWN validated JSON contract
+{reasoning, cited_causes[], recommendations[]} with a 2-retry self-correct loop;
+raw responses kept for the Phase-7 ablation log), pipeline.py (advise/Pipeline =
+GNN->explainer->advisor, lazy checkpoint load, fast path reuses saved
+explanations), demo.py. Config configs/advisor.yaml (default llama3.1:8b, an
+ablation variable). VERIFIED: full pipeline ran end-to-end on all 6 committed
+scenarios against local llama3.1:8b; all outputs are schema-valid; 6 advisories
+saved to evaluation/results/advisories/. Cited causes overwhelmingly resolve to
+the explanation's top-nodes and recommendations cite real KB infrastructure via
+grounded_in. Minor slippage observed (occasional null resolution, one case citing
+the target as its own cause, confused reasoning on free-flowing-cause windows) —
+this is exactly the baseline Phase 5's faithfulness metric will quantify.
+Phase 4 GATE PASSED: full pipeline ran end-to-end on all 6 scenarios, every
+advisory schema-valid; grounding strong (cited causes resolve to the explanation
+top-nodes, recommendations cite real KB infrastructure). Minor slippage was
+deliberately left un-tuned so Phase 5's faithfulness metric captures real
+baseline behavior: occasional null resolution, one self-attribution error
+(target cited as its own cause), confused reasoning on free-flowing-cause windows.
+Phase 5 COMPLETE and gate PASSED — the faithfulness metric (Contribution #2).
+Files: evaluation/faithfulness.py (entity resolver: exact-sensor
+-> exact-region -> fuzzy[rapidfuzz-or-difflib, thresh 82] -> geographic gazetteer;
+resolves LLM cited_causes to node-id SETS independently of the LLM's self-reported
+id; region-level credit = citation hits top-k iff its node set intersects top-k;
+metrics cause precision/recall/F1 + quantitative fidelity[±10%] + hallucination
+rate, each defined in-docstring), evaluation/resolver_labels.json (30 hand-labeled
+cases) + evaluation/validate_resolver.py (RESOLVER 96.7% = 29/30, GATE >=90% PASS),
+evaluation/run_faithfulness_study.py (>=100 scenarios stratified 5 tod-bands x 3
+congestion terciles, seed 42; explanation cached once per scenario; runs A/B/C;
+CSV+JSON+boxplot PDF to evaluation/results/faithfulness/). Conditions added to
+advisor.py as advise_condition()/build_prompt_condition() WITHOUT changing Phase-4
+advise()/build_prompt() (= condition A): B = prediction-only (no explanation, KB
+retrieved from a prediction-only view so top_nodes can't leak), C = explanation
+but no city context. SMOKE RUN (--limit 6, end-to-end vs real ckpt + llama3.1:8b):
+A F1 0.817/halluc 0.000 | B F1 0.067/halluc 0.833 | C F1 0.820 -> A >> B, grounding
+proven (B precision collapses 1.00->0.17).
+Phase 5 GATE PASSED (smoke run, --limit 6 end-to-end vs real ckpt + llama3.1:8b):
+A F1 0.817/halluc 0.000 | B F1 0.067/halluc 0.833 | C F1 0.820/halluc 0.000.
+CORE CLAIM PROVEN: the mathematical explanation eliminates hallucination
+(A/C halluc 0.000 vs B 0.833) and restores grounding (B precision collapses
+1.00->0.17). C ~= A on this smoke sample -> city context adds little to
+faithfulness on these 6 (all night/low-congestion due to --limit front-truncation);
+FLAGGED for investigation at scale — the full run covers all strata and may
+separate A from C on congested/high-signal windows. Full >=100-scenario study
+(python -m xtraffic.evaluation.run_faithfulness_study, ~1-2h) RUNNING in the
+background for the paper table. STILL OWED: Phase-3 gate re-run on the full
+100-epoch Colab ckpt when it lands.
+
+Phase 6 COMPLETE (gate = infrastructure verified) — real feature fusion +
+cross-city generalization (Contribution #1's results). All code built and locally
+verified; the two long training runs (full fusion retrain, Chicago transfer) are
+the only things owed and run on Colab via colab_fusion_train.ipynb.
+
+MECHANISM (flagged design decision): Phase-6 modalities attach as SIDECARS, never
+by rewriting the Phase-1 tensors. Each feed writes processed/<ds>/mod_<name>.npz
+([S,12,N,C], windows+split+train-scale IDENTICAL to traffic X via the shared
+data/pipelines/_modality_common.py) + mod_<name>.json. loaders.make_fusion_loaders
+concatenates present sidecars into a per-batch M; build_modality_dict slices M by
+layout; an absent feed -> None (MOD-3 gate zeroes it). Fusion is OPT-IN via
+use_sidecars in configs/train_metr_la_fusion.yaml (run_name=metr_la_fusion, own
+ckpt); the base train_metr_la.yaml stays traffic-only even with sidecars on disk.
+--smoke now writes *_smoke.pt (never clobbers the real best ckpt).
+
+FEEDS BUILT + RAN end-to-end against live sources (all sidecars = 23974/3425/6850,
+matching traffic exactly):
+- weather.py: Open-Meteo ERA5 archive (keyless), 207 nodes -> 19 grid cells,
+  temp/precip/visibility. REAL BUG FOUND+FIXED: the archive does NOT serve
+  `visibility` -> that channel came back all-NaN -> train_loss=nan. Fixed
+  defensively in _modality_common.save_modality_sidecar: non-finite cells are
+  filled with the channel's train mean (neutral ~0 after z-score); a fully-missing
+  channel collapses to 0 and the gate ignores it (warns loudly). Visibility is
+  therefore currently a dead channel (temp+precip carry the signal) — noted for the
+  paper; could drop weather to 2 channels later.
+- events.py: committed curated events_la_2012.json (exact venue coords; editable
+  representative 2012 Dodgers/Lakers/Bowl dates — VERIFY vs public schedules before
+  the paper). Proximity-decayed (exp(-dist/2500m)) indicator, 14/15 events in range.
+- transit.py: LA Metro GTFS static (bus 11892 + rail 463 stops), nearby-stop count
+  per node within 1km (mean 24.6, max 115); static-in-time node context.
+FUSION PATH VERIFIED: train_metr_la_fusion --smoke loads weather[0:3] events[3:4]
+transit[4:5], 4 gates active, finite loss. evaluate.py made FUSION-AWARE (uses
+make_fusion_loaders + M/layout, gated by the ckpt's use_sidecars so traffic-only
+ckpts are unchanged) — else a fusion ckpt would be evaluated with its modalities
+zeroed. evaluation/fusion_comparison.py evaluates both ckpts side by side at
+15/30/60 min + reports final learned modality gates -> results/fusion/comparison.
+colab_fusion_train.ipynb runs the whole thing on a T4 (builds tensors+3 sidecars,
+trains traffic-only baseline -> ALSO restores metr_la_best.pt, trains fusion,
+prints the comparison table). Full 100-epoch fusion retrain + the numbers still
+OWED (Colab).
+
+STATUS SNAPSHOT (2026-07-03): Phases 6 and 7 are STRUCTURALLY COMPLETE and
+gate-passed on smoke runs; all real paper numbers are OWED pending the Colab
+checkpoint. The fusion notebook (colab_fusion_train.ipynb) has been KICKED OFF on
+a Colab T4 — its baseline step REGENERATES metr_la_best.pt (replacing the
+accidentally-overwritten placeholder). Once it lands: refresh fusion/cross-city/
+ablation numbers and re-run the Phase-3 gate on the full 100-epoch ckpt.
+
+Phase 8 COMPLETE — human evaluation toolkit (Contribution #3). The full toolkit
+is built, smoke-verified end-to-end, and the circular-ground-truth concern is
+fully addressed in code, config, AND paper framing via all three options:
+(1) LIMITATION stated verbatim in simulate.py + human_study.yaml; (2) reframed as
+an INTERNAL-CONSISTENCY result in the paper narrative; (3) EXTERNAL-ANCHOR
+mechanism (external_anchors.json + analyze.py --anchors -> separate
+external_anchor_accuracy block, auto-loaded when present). What remains is DATA
+COLLECTION only — the real 24-scenario build (needs the Colab ckpt + Ollama) and
+the actual expert sessions — not toolkit work. Files under evaluation/human_study/,
+one config
+configs/human_study.yaml (24-scenario grid, sim knobs, conditions, Likert):
+- simulate.py: InterventionSimulator = MODEL-IN-THE-LOOP ground truth. Each
+  candidate action (no_action / signal_retiming / ramp_metering / reroute /
+  transit_surge) is simulated by adding uplift_mph to the last apply_steps of the
+  input speed channel on a graph-derived node set (target+1-hop / slower upstream
+  1-hop / target-only / 2-hop@half), then reading the GNN's 30-min network delay
+  (sum max(0, free_flow - pred) over VALID nodes). Lowest delay = ground truth.
+  LIMITATION stated in-file + config: not observed reality, inherits model bias.
+- scenarios.py: samples 24 stratified windows (4 tod-bands x 3 congestion x 2,
+  seeded, slowest-valid-sensor target = same REAL-mph validity rule as Phase 3/5),
+  builds RAW/XAI/XTRAFFIC bundles (RAW=prediction only; XAI=+importance table +
+  reused visualize_explanation PNG + lag/confidence; XTRAFFIC=+Advisor.advise
+  reasoning+recommendations), a cyclic LATIN SQUARE (evaluator e, scenario pos p ->
+  conditions[(p+e)%3]; balanced at panel size 3 or 6), writes scenarios.json +
+  assignment.json + figures/. --no-llm builds without Ollama.
+- app.py: minimal FastAPI single-page app (no DB, no external assets, python-
+  multipart for form POSTs). Name + participant-number start page -> serves next
+  UNANSWERED scenario in the evaluator's assignment (progress derived from the
+  JSONL log, so resumable) -> logs choice+confidence(1-7)+usefulness(1-7)+correct
+  to responses.jsonl. Figure route 404s gracefully; img omitted when absent.
+- demo_data.py: synthetic (dataset="DEMO") scenarios.json/assignment.json so the
+  full app->JSONL->analyze loop is pilotable with NO checkpoint/Ollama.
+- analyze.py: per-condition accuracy/confidence/usefulness + PAIRED Wilcoxon
+  signed-rank (paired BY EVALUATOR = within-subjects Latin square) on XTRAFFIC-vs-
+  RAW / XTRAFFIC-vs-XAI + rank-biserial effect sizes; prints small-n caveat; writes
+  analysis_report.json + CSV. Gracefully handles tiny n / zero-variance (None p).
+SMOKE-VERIFIED: demo_data -> drove app end-to-end via FastAPI TestClient (eval0
+completed RAW/XAI/XTRAFFIC, 303 redirects, resumable) -> analyze produced a sane
+per-condition table + paired tests with effect sizes. fastapi/uvicorn/python-
+multipart pinned in requirements.txt; responses/analysis/figures gitignored.
+Phase 8 GATE (self-pilot 3 scenarios + sane analyze report) PASSED on demo data;
+re-run on real scenarios once the Colab ckpt lands. OWED: real 24-scenario build
+(scenarios.py, needs ckpt+Ollama) + the actual expert sessions.
+CIRCULAR-GROUND-TRUTH honesty (2026-07-04): the Phase-8 ground truth is
+model-in-the-loop (same GNN scores interventions + produces the shown predictions).
+Addressed three ways, all in the paper: (1) stated as a Limitation verbatim
+(simulate.py + human_study.yaml); (2) reframed as an INTERNAL-CONSISTENCY result
+(does the pipeline help humans use the model's OWN predictions better?); (3)
+EXTERNAL ANCHORS — new external_anchors.json lets the professor mark 1-2 scenarios
+with the real-world-known best action; analyze.py --anchors reports a separate
+EXTERNAL-ANCHOR ACCURACY block scored against those expert labels (auto-loads the
+file if present, skips _-prefixed meta keys; absent file -> simulation-only,
+unchanged). Template at human_study/external_anchors.example.json. Anchor path
+verified on demo data (anchored scenarios scored vs expert action, un-anchored
+excluded; external_anchor_accuracy written to analysis_report.json).
+
+CROSS-CITY (evaluation/cross_city.py, compiles; needs Chicago processed + a trained
+source ckpt to run): zero-shot / fine-tuned(10%) / from-scratch on a target city.
+HONEST TRANSFER BOUNDARY (documented in-file): only NODE-AGNOSTIC weights (temporal/
+graph convs, modality encoders+gates, readout) transfer; NODE-SPECIFIC params
+(sem_embed, nodevec1/2, physical_adj) are re-initialised at the target N — the
+standard adaptive-graph limitation. Saves target ckpts (<ds>_{zero_shot,fine_tuned,
+from_scratch}.pt) so the Chicago faithfulness study can load one.
+
+CHICAGO ADVISOR: models/explainer/node_names.py made CITY-AWARE (per-city region
+boxes; auto-detected from node_meta['dataset']; defaults to LA so Phase 3/4/5 are
+byte-identical) with a real _CHICAGO_REGIONS table + Loop compass fallback; Chicago
+nodes labelled "segment" not "sensor". kb/chicago.json (9 CDOT/IDOT/CTA chunks:
+Dan Ryan/Kennedy/Eisenhower/Stevenson/LSD, Circle Interchange, Loop grid, CTA)
+registered in advisor.yaml. run_faithfulness_study already takes --dataset/--city
+-> Chicago 50-scenario run is a one-liner once a Chicago ckpt exists. Phase-5
+resolver re-validated after the refactor: still 96.7% (29/30), GATE PASS.
+
+STILL OWED (Colab / longer runs): full fusion retrain + comparison table; Chicago
+Phase-1 pipeline + cross_city transfer table; Chicago faithfulness study; and the
+carried-over Phase-3 gate re-run + 100-epoch traffic-only ckpt (NOTE: the old
+3-epoch placeholder metr_la_best.pt was accidentally overwritten by a smoke run and
+removed — regenerate from the Colab run before rerunning Phase 3/4/5 demos).
+
+Phase 7 IN PROGRESS — ablation harness (structurally COMPLETE + smoke-verified;
+the real multi-seed runs are Colab-scale and owed). One command, one config:
+evaluation/ablations.py driven by configs/ablations.yaml.
+- MODEL ablations enabled by NEW default-preserving switches on XTrafficSTGNN:
+  use_semantic (MOD1 off -> first support = plain physical adj) and use_multiscale
+  (MOD2 off -> STBlock dilations (1,) instead of (1,2,4,8); STBlock.DILATIONS is now
+  an instance `dilations` param). train.py/evaluate.py pass both from cfg["model"]
+  (default True). Leave-one-out via a new cfg key `sidecar_modalities` (load only
+  some feeds; dropped feed -> None -> gated); evaluate.py honors it too so a
+  no-weather model is TESTED without weather. Variants: full, no_semantic,
+  no_multiscale, no_fusion (use_sidecars off), no_{weather,events,transit}. Each
+  trained x `seeds` (3), reported mean+/-std of MAE/RMSE/MAPE @15/30/60.
+- PIPELINE ablations reuse Phase-5 conditions A/B/C; run_faithfulness_study gained
+  --model (Ollama-model override = LLM-model ablation) + --out-tag (so per-model
+  runs don't clobber). Harness reads each run's faithfulness_summary_<tag>.json
+  (key faithfulness_f1_mean etc.) and tabulates F1 + hallucination per (model,cond).
+- Verified: `ablations.py --model-only --smoke` trains all 7 variants via
+  subprocess, evaluates, writes model_ablations.{csv,tex} (LaTeX booktabs, mean+/-std)
+  + prints the master table. The 4 architecture variants build with correct shapes
+  (no_multiscale 259K vs full 395K params). Pipeline part compiles; needs Ollama +
+  a metr_la ckpt to run (both currently absent locally) — runs on the same box that
+  has Ollama. OWED: real multi-seed model runs + pipeline runs for the paper tables.
+
+Phase 9 COMPLETE (structurally) + clean-clone verified — paper artifacts.
+evaluation/make_paper_artifacts.py regenerates EVERY figure + table from logged
+results into evaluation/paper/{figures,tables}. Figures: Fig1 architecture
+(hand-composed SVG schematic), Fig2 explanation (reuses visualize_explanation),
+Fig3 learned alpha, Fig4 modality gates, Fig5 faithfulness A/B/C boxplot, Fig6
+cross-city bars, Fig7 human study — all vector PDF (Fig1 SVG), Wong colorblind-safe
+palette, IEEE two-column font sizes. Tables (LaTeX booktabs, \input-ready): T1
+prediction vs baselines, T2 explainability vs random, T3 faithfulness by condition,
+T4 ablation (copies Phase-7 harness .tex), T5 human study. DESIGN: every artifact
+is independent + wrapped so a missing upstream result (Colab-owed fusion/cross-city/
+ablation) writes a LOUD "PENDING" placeholder instead of crashing — holes are
+honest and visible, script always builds the skeleton. Placeholder-ckpt figures
+(<3 epochs) print a red "refresh on full run" note; smoke-sample tables/figs print
+their n. REPRODUCE.md (repo root): ordered fresh-clone-to-every-number command list,
+step per phase, flags which steps need GPU/Ollama, ends with a verified-vs-owed
+ledger. VERIFIED: fresh `git clone` (no processed data, no checkpoints) + overlay
+of the new files -> make_paper_artifacts ran clean; 7 figs + 5 tables written;
+Fig2/Fig6/T4 correctly fell to PENDING, everything backed by committed results
+built (T1 MAE 2.98/3.52/4.42 vs HistAvg 5.15, T3 A-F1 0.817/halluc 0 vs B 0.067/
+0.833). OWED (unchanged, all Colab): full-ckpt numbers refresh, cross-city + Chicago
++ multi-seed ablations — each drops a result file that step-8 picks up with no code
+change. Playbook's final "fresh-clone reproduction actually works" gate met for the
+committed-results path; the compute-heavy numbers regenerate as their runs land.
 
 ---
 

@@ -1,0 +1,50 @@
+# XTraffic — Phase 6 FUSION training config for METR-LA.
+# Identical model/optimisation to train_metr_la.yaml, but with use_sidecars: true
+# so the trainer loads the real weather/events/transit sidecars (MOD 3). This
+# produces the fusion checkpoint we compare against the traffic-only Phase-2 model.
+#
+# Prereq: build the sidecars first —
+#   python -m xtraffic.data.pipelines.weather  --dataset metr_la
+#   python -m xtraffic.data.pipelines.events   --dataset metr_la
+#   python -m xtraffic.data.pipelines.transit  --dataset metr_la
+
+dataset: metr_la
+run_name: metr_la_fusion   # separate checkpoint/log from the traffic-only run
+seed: 42
+
+# Turn Phase-6 heterogeneous fusion ON (opt-in; the base config leaves this off).
+use_sidecars: true
+
+# Modalities + their channel counts. traffic = X channels; the rest are read from
+# the sidecars (mod_weather.npz = 3, mod_events.npz = 1, mod_transit.npz = 1).
+modalities:
+  traffic: 2
+  weather: 3
+  events: 1
+  transit: 1
+traffic_channels: [0, 1]
+
+model:
+  residual_channels: 32
+  dilation_channels: 32
+  skip_channels: 64
+  end_channels: 128
+  n_blocks: 4
+  embed_dim: 10
+  gcn_order: 2
+  dropout: 0.3
+  out_len: 12
+
+train:
+  epochs: 100
+  batch_size: 32
+  lr: 0.001
+  weight_decay: 0.0001
+  grad_clip: 5.0
+  early_stopping_patience: 15
+  num_workers: 0
+
+horizons_steps: [3, 6, 12]
+
+checkpoint_dir: models/gnn/checkpoints
+results_dir: evaluation/results

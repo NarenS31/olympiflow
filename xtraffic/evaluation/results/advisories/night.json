@@ -1,0 +1,176 @@
+{
+  "prediction": {
+    "node_id": 106,
+    "node_name": "Glendale / Burbank (sensor 718072, 34.149, -118.226)",
+    "predicted_speed_mph": 64.94,
+    "horizon_minutes": 30,
+    "current_speed_mph": 68.8
+  },
+  "explanation": {
+    "meta": {
+      "city": "metr_la",
+      "timestamp": "test#2302 @ 03:05",
+      "model_checkpoint": "metr_la_best.pt",
+      "scenario": "night",
+      "scenario_note": "Overnight, light traffic."
+    },
+    "prediction": {
+      "node_id": 106,
+      "node_name": "Glendale / Burbank (sensor 718072, 34.149, -118.226)",
+      "predicted_speed_mph": 64.94,
+      "horizon_minutes": 30,
+      "current_speed_mph": 68.8
+    },
+    "top_nodes": [
+      {
+        "node_id": 11,
+        "node_name": "Glendale / Burbank (sensor 767471, 34.157, -118.225)",
+        "importance": 0.7473,
+        "current_speed_mph": 67.8
+      },
+      {
+        "node_id": 55,
+        "node_name": "Glendale / Burbank (sensor 767470, 34.157, -118.224)",
+        "importance": 0.7304,
+        "current_speed_mph": 62.8
+      },
+      {
+        "node_id": 183,
+        "node_name": "N of Downtown LA (sensor 767495, 34.104, -118.250)",
+        "importance": 0.6686,
+        "current_speed_mph": 69.4
+      },
+      {
+        "node_id": 28,
+        "node_name": "NE of Downtown LA (sensor 767573, 34.130, -118.229)",
+        "importance": 0.6387,
+        "current_speed_mph": 69.4
+      },
+      {
+        "node_id": 66,
+        "node_name": "NE of Downtown LA (sensor 767610, 34.186, -118.218)",
+        "importance": 0.6356,
+        "current_speed_mph": 63.2
+      },
+      {
+        "node_id": 108,
+        "node_name": "Glendale / Burbank (sensor 767454, 34.144, -118.227)",
+        "importance": 0.6114,
+        "current_speed_mph": 69.6
+      },
+      {
+        "node_id": 79,
+        "node_name": "NE of Downtown LA (sensor 718066, 34.123, -118.229)",
+        "importance": 0.6061,
+        "current_speed_mph": 66.8
+      },
+      {
+        "node_id": 96,
+        "node_name": "Hollywood (sensor 717481, 34.106, -118.328)",
+        "importance": 0.588,
+        "current_speed_mph": 69.6
+      }
+    ],
+    "top_edges": [
+      {
+        "from_id": 11,
+        "to_id": 11,
+        "importance": 0.7867
+      },
+      {
+        "from_id": 66,
+        "to_id": 55,
+        "importance": 0.7788
+      },
+      {
+        "from_id": 66,
+        "to_id": 105,
+        "importance": 0.7746
+      },
+      {
+        "from_id": 105,
+        "to_id": 106,
+        "importance": 0.7737
+      },
+      {
+        "from_id": 55,
+        "to_id": 55,
+        "importance": 0.7659
+      },
+      {
+        "from_id": 11,
+        "to_id": 55,
+        "importance": 0.7627
+      },
+      {
+        "from_id": 11,
+        "to_id": 106,
+        "importance": 0.7619
+      },
+      {
+        "from_id": 55,
+        "to_id": 106,
+        "importance": 0.7575
+      }
+    ],
+    "propagation_path": [
+      11,
+      106
+    ],
+    "propagation_lag_minutes": 20.0,
+    "explanation_confidence": 0.6444
+  },
+  "advisory": {
+    "reasoning": "The predicted congestion in Glendale/Burbank is due to a propagation of congestion from multiple locations, with the top contributing sensors being located in Glendale/Burbank and Downtown LA. The congestion appears to travel along a path of 2 sensors, with an estimated lag of 20 minutes between the source and the target.",
+    "cited_causes": [
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 106
+      },
+      {
+        "location": "N of Downtown LA",
+        "resolved_node_id": 183
+      },
+      {
+        "location": "NE of Downtown LA",
+        "resolved_node_id": 28
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering",
+        "location": "Glendale / Burbank (sensor 718072)",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduce congestion by 5-7 mph",
+        "grounded_in": [
+          "City-context fact: recurrent bottlenecks are structural and require upstream metering"
+        ]
+      },
+      {
+        "action": "Reroute traffic before the merge",
+        "location": "I-5/SR-134/SR-2 interchange",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduce congestion by 10-12 mph",
+        "grounded_in": [
+          "City-context fact: recurrent bottlenecks are structural and require reroute-before-the-merge"
+        ]
+      },
+      {
+        "action": "Signal-coordinated surface relief",
+        "location": "Sunset Blvd and Santa Monica Blvd",
+        "time_window_minutes": 5,
+        "expected_effect": "Reduce congestion by 2-4 mph",
+        "grounded_in": [
+          "City-context fact: surface reliefs are ATSAC signal-coordinated"
+        ]
+      }
+    ]
+  },
+  "context_used": [
+    "Known recurrent bottlenecks (LA basin)",
+    "Transit alternatives (Metro rail/bus)",
+    "Glendale/Burbank freeways (SR-134, I-5, SR-2)",
+    "US-101 Hollywood Freeway corridor"
+  ],
+  "model": "llama3.1:8b"
+}

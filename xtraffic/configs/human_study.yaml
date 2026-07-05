@@ -1,0 +1,72 @@
+# XTraffic — Phase 8 human-evaluation study configuration.
+# No magic numbers in code (CLAUDE.md): every knob the study needs lives here.
+
+seed: 42                      # reproducible scenario sampling + Latin-square build
+
+# --- How many scenarios and how they're stratified ---------------------------
+# 24 incident-response scenarios, balanced across congestion x time-of-day so the
+# study isn't dominated by one regime. 3 congestion terciles x 4 tod-bands x 2 = 24.
+scenarios:
+  n_total: 24
+  # Time-of-day bands (fraction of day) — a subset of the Phase-5 bands chosen so
+  # 4 bands x 3 congestion levels x 2 per cell = 24 cleanly.
+  tod_bands:                  # (label, lo_fraction, hi_fraction)
+    - ["am_rush", 0.25, 0.42]   # ~06:00-10:00
+    - ["midday",  0.42, 0.62]   # ~10:00-15:00
+    - ["pm_rush", 0.62, 0.83]   # ~15:00-20:00
+    - ["evening", 0.83, 1.00]   # ~20:00-24:00
+  congestion_levels: ["low", "medium", "high"]   # by mean-speed tercile (high=slow)
+  per_cell: 2                 # windows sampled per (band x level) cell
+
+# --- Intervention simulation (the ground-truth mechanism) --------------------
+# HONEST LIMITATION (state this in the paper): "ground truth" is not observed
+# reality. We SIMULATE each candidate intervention by perturbing the model's own
+# input window and reading its 30-min-ahead forecast. The best-outcome
+# intervention is therefore the one the trained GNN believes helps most — a
+# model-in-the-loop proxy, not a field measurement. It is internally consistent
+# (same model the conditions are built from) and fully reproducible, which is what
+# a decision-quality study needs, but it inherits the model's biases.
+#
+# HOW THE PAPER ADDRESSES THE CIRCULARITY (all three, not one):
+#   1. STATE IT (required regardless): the circularity is named in the Limitations
+#      section verbatim — same GNN scores interventions and produces the shown
+#      predictions.
+#   2. REFRAME as an INTERNAL-CONSISTENCY result: the question we can actually
+#      answer is "does the full pipeline help humans use the MODEL'S OWN
+#      predictions better than raw numbers or explanations alone?" That is a valid,
+#      useful decision-quality finding on its own terms — no external truth needed.
+#   3. ANCHOR externally at a few points: have the domain expert (professor) mark
+#      1-2 scenarios where the real-world correct action is known from professional
+#      experience (external_anchors.json). analyze.py reports accuracy against those
+#      too — a small out-of-model validation set. Costs one conversation during the
+#      eval session; strengthens the claim. See human_study/external_anchors.example.json.
+simulation:
+  horizon_step: 6             # 1-based forecast step scored; 6 = 30 min at 5-min res
+  free_flow_mph: 60.0         # reference speed; network delay = sum max(0, ff - pred)
+  # Each intervention raises the recent input speed (last `apply_steps` timesteps)
+  # on a set of nodes by `uplift_mph`, modelling the throughput gain of that action
+  # before it propagates through the GNN to the 30-min forecast.
+  uplift_mph: 8.0             # speed gain applied by an active intervention
+  apply_steps: 4              # how many of the last 12 input steps the action touches
+  # Node sets per intervention are derived from the physical graph around the
+  # target (see simulate.py for the exact rule + rationale for each).
+  interventions:
+    - "no_action"             # baseline: change nothing
+    - "signal_retiming"       # target + its 1-hop physical neighbours
+    - "ramp_metering"         # upstream (slower) 1-hop neighbours feeding the target
+    - "reroute"               # target segment only (demand removed from it)
+    - "transit_surge"         # broad 2-hop neighbourhood, half uplift (mode shift)
+
+# --- LLM advisory for the XTRAFFIC condition ---------------------------------
+advisor_city: "metr_la"       # which KB / city the advisor uses when pre-generating
+checkpoint: "models/gnn/checkpoints/metr_la_best.pt"
+dataset: "metr_la"
+
+# --- Presentation conditions shown to evaluators -----------------------------
+# RAW      = prediction numbers only (control)
+# XAI      = prediction + explanation figure + node-importance table (current SOTA)
+# XTRAFFIC = full pipeline output (prediction + explanation + LLM advisory)
+conditions: ["RAW", "XAI", "XTRAFFIC"]
+
+# --- Response scales ---------------------------------------------------------
+likert_max: 7                 # confidence + usefulness both on a 1-7 Likert scale

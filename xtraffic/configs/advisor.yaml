@@ -1,0 +1,31 @@
+# XTraffic — Phase 4 LLM advisory-layer config (Layer 3).
+# No magic numbers in code (CLAUDE.md): every knob the advisor needs lives here.
+
+# --- Ollama backend (local only — no external APIs, no keys, CLAUDE.md) ---
+ollama:
+  host: "http://localhost:11434"   # local Ollama server
+  # Model choice is an EXPERIMENTAL VARIABLE we ablate in Phase 7 — note in the
+  # paper that swapping this is how we show results aren't an artifact of one LLM.
+  model: "llama3.1:8b"
+  # Low temperature: we want faithful TRANSLATION of the math explanation, not
+  # creative writing. Near-0 keeps the model from inventing causes.
+  temperature: 0.1
+  # Ollama can be slow on a cold start (model load); generous timeout so a first
+  # call doesn't spuriously fail. Same lesson as the OlympiFlow advisor (120s).
+  timeout_seconds: 180
+  # Ask Ollama to constrain output to JSON. Ollama supports format:"json".
+  force_json: true
+
+# --- Retrieval (city knowledge base) ---
+retrieval:
+  top_k: 4               # how many KB chunks to inject as CITY CONTEXT
+  max_context_chars: 2000  # hard cap on injected KB text (keeps prompt small)
+
+# --- Robustness: malformed-JSON retry loop ---
+retry:
+  max_retries: 2         # re-ask up to N times, appending the parse error
+
+# --- City -> knowledge-base file (under models/advisor/kb/) ---
+cities:
+  metr_la: "la.json"
+  chicago: "chicago.json"   # Phase 6: built from the kb/README.md template

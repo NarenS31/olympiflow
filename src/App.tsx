@@ -6,10 +6,12 @@ import { MetricsPanel } from './components/Dashboard/MetricsPanel';
 import { TimelineSlider } from './components/Dashboard/TimelineSlider';
 import { MapLegend } from './components/UI/MapLegend';
 import { useSimulationData, useSimulationTick } from './hooks/useSimulation';
+import { useMLPredictions } from './hooks/useMLPredictions';
 
 function App() {
   useSimulationData();
   useSimulationTick();
+  useMLPredictions();
 
   useEffect(() => {
     const handler = (e: WheelEvent) => {

@@ -1,0 +1,185 @@
+{
+  "prediction": {
+    "node_id": 23,
+    "node_name": "East LA (sensor 716941, 34.058, -118.214)",
+    "predicted_speed_mph": 4.54,
+    "horizon_minutes": 30,
+    "current_speed_mph": 3.88
+  },
+  "explanation": {
+    "meta": {
+      "city": "metr_la",
+      "timestamp": "test#3287 @ 13:10",
+      "model_checkpoint": "metr_la_best.pt",
+      "scenario": "midday",
+      "scenario_note": "Midday off-peak."
+    },
+    "prediction": {
+      "node_id": 23,
+      "node_name": "East LA (sensor 716941, 34.058, -118.214)",
+      "predicted_speed_mph": 4.54,
+      "horizon_minutes": 30,
+      "current_speed_mph": 3.88
+    },
+    "top_nodes": [
+      {
+        "node_id": 57,
+        "node_name": "Hollywood (sensor 764949, 34.129, -118.347)",
+        "importance": 0.8447,
+        "current_speed_mph": 52.88
+      },
+      {
+        "node_id": 58,
+        "node_name": "Glendale / Burbank (sensor 773954, 34.155, -118.293)",
+        "importance": 0.8311,
+        "current_speed_mph": 56.25
+      },
+      {
+        "node_id": 59,
+        "node_name": "San Fernando Valley (sensor 767366, 34.212, -118.473)",
+        "importance": 0.8283,
+        "current_speed_mph": 60.87
+      },
+      {
+        "node_id": 54,
+        "node_name": "Glendale / Burbank (sensor 773953, 34.155, -118.293)",
+        "importance": 0.8151,
+        "current_speed_mph": 59.87
+      },
+      {
+        "node_id": 39,
+        "node_name": "Hollywood (sensor 769418, 34.127, -118.345)",
+        "importance": 0.8111,
+        "current_speed_mph": 53.25
+      },
+      {
+        "node_id": 126,
+        "node_name": "Glendale / Burbank (sensor 769867, 34.218, -118.239)",
+        "importance": 0.8059,
+        "current_speed_mph": 61.38
+      },
+      {
+        "node_id": 194,
+        "node_name": "Glendale / Burbank (sensor 759772, 34.171, -118.305)",
+        "importance": 0.8027,
+        "current_speed_mph": 38.5
+      },
+      {
+        "node_id": 19,
+        "node_name": "Hollywood (sensor 769402, 34.121, -118.339)",
+        "importance": 0.8026,
+        "current_speed_mph": 54.12
+      }
+    ],
+    "top_edges": [
+      {
+        "from_id": 126,
+        "to_id": 126,
+        "importance": 0.8501
+      },
+      {
+        "from_id": 124,
+        "to_id": 23,
+        "importance": 0.8447
+      },
+      {
+        "from_id": 165,
+        "to_id": 23,
+        "importance": 0.8295
+      },
+      {
+        "from_id": 189,
+        "to_id": 126,
+        "importance": 0.7989
+      },
+      {
+        "from_id": 23,
+        "to_id": 124,
+        "importance": 0.7947
+      },
+      {
+        "from_id": 194,
+        "to_id": 194,
+        "importance": 0.7783
+      },
+      {
+        "from_id": 23,
+        "to_id": 165,
+        "importance": 0.7762
+      },
+      {
+        "from_id": 57,
+        "to_id": 57,
+        "importance": 0.734
+      }
+    ],
+    "propagation_path": [
+      57,
+      20,
+      96,
+      160,
+      4,
+      16,
+      23
+    ],
+    "propagation_lag_minutes": 15.0,
+    "explanation_confidence": 0.1678
+  },
+  "advisory": {
+    "reasoning": "The congestion is predicted because of the high speeds in the Glendale/Burbank area, which are causing a ripple effect and slowing down traffic at the East LA location. Specifically, the high speeds (56-61 mph) at sensors 773954, 773953, 769867, and 759772 are contributing to the congestion.",
+    "cited_causes": [
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 58
+      },
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 54
+      },
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 126
+      },
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 194
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering",
+        "location": "East LA (sensor 716941)",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduce congestion by slowing down traffic before it reaches the East LA location",
+        "grounded_in": [
+          "The high speeds in Glendale/Burbank are causing a ripple effect"
+        ]
+      },
+      {
+        "action": "Reroute traffic through surface streets",
+        "location": "Glendale / Burbank (Brand Blvd, San Fernando Rd, Colorado Blvd)",
+        "time_window_minutes": 15,
+        "expected_effect": "Divert some traffic away from the freeways and reduce congestion",
+        "grounded_in": [
+          "Metro is limited in this area, so demand is car-dominant"
+        ]
+      },
+      {
+        "action": "Adjust signal timing at nearby intersections",
+        "location": "Hollywood (sensor 764949)",
+        "time_window_minutes": 5,
+        "expected_effect": "Improve traffic flow through Hollywood and reduce congestion in the East LA location",
+        "grounded_in": [
+          "The high speeds in Glendale/Burbank are causing a ripple effect"
+        ]
+      }
+    ]
+  },
+  "context_used": [
+    "Known recurrent bottlenecks (LA basin)",
+    "Glendale/Burbank freeways (SR-134, I-5, SR-2)",
+    "Transit alternatives (Metro rail/bus)",
+    "San Fernando Valley freeways (US-101, I-405, SR-118)"
+  ],
+  "model": "llama3.1:8b"
+}

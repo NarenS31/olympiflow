@@ -1,0 +1,73 @@
+{
+  "city": "metr_la",
+  "display_name": "Los Angeles",
+  "_schema_note": "Each chunk: id (unique), title, region_tags (lowercase keywords used for retrieval scoring against the explanation's node names/regions), and text (the planner-facing knowledge). Regions in region_tags MUST match the labels emitted by models/explainer/node_names.py so retrieval lines up with the explanation. Keep text factual and sourced from public LADOT/Caltrans corridor information — no invented capacities.",
+  "chunks": [
+    {
+      "id": "corridor_i10",
+      "title": "I-10 Santa Monica Freeway corridor",
+      "region_tags": ["downtown la", "koreatown / mid-city", "west la / sawtelle", "santa monica / westside", "i-10", "santa monica freeway"],
+      "text": "I-10 (Santa Monica Fwy) is the primary east-west corridor linking Downtown LA to the Westside and Santa Monica. Recurrent PM bottleneck at the I-10/I-110 interchange downtown and the La Cienega/Robertson stretch. Caltrans ramp meters operate on most eastbound on-ramps during peak. Parallel relief arterials: Olympic Blvd and Pico Blvd (both signal-coordinated by LADOT ATSAC)."
+    },
+    {
+      "id": "corridor_i110",
+      "title": "I-110 Harbor Freeway corridor",
+      "region_tags": ["downtown la", "n of downtown la", "south la", "i-110", "harbor freeway"],
+      "text": "I-110 (Harbor Fwy) runs north-south through Downtown LA toward South LA and the ports. Chronic congestion at the 4-level interchange (I-110/US-101) and the I-10 merge. Has HOV/ExpressLanes (Metro ExpressLanes) between Adams Blvd and the 105 that can be opened to general purpose during incidents. Figueroa St and Vermont Ave are the parallel north-south arterials."
+    },
+    {
+      "id": "corridor_us101",
+      "title": "US-101 Hollywood Freeway corridor",
+      "region_tags": ["downtown la", "hollywood", "n of downtown la", "us-101", "hollywood freeway"],
+      "text": "US-101 (Hollywood Fwy) connects Downtown LA through Hollywood toward the San Fernando Valley over the Cahuenga Pass. Bottleneck at the US-101/I-110 four-level and at the Cahuenga Pass grade. Surface relief: Sunset Blvd and Santa Monica Blvd, both ATSAC signal-coordinated."
+    },
+    {
+      "id": "corridor_i405",
+      "title": "I-405 San Diego Freeway corridor",
+      "region_tags": ["west la / sawtelle", "santa monica / westside", "san fernando valley", "inglewood / lax", "i-405", "san diego freeway", "sepulveda pass"],
+      "text": "I-405 (San Diego Fwy) is the north-south Westside spine over the Sepulveda Pass connecting the San Fernando Valley to West LA, LAX and the South Bay. One of the most congested segments in the US; Sepulveda Pass saturates in both peaks. Sepulveda Blvd is the parallel arterial. Ramp metering is active pass-wide."
+    },
+    {
+      "id": "corridor_sr134_i5_glendale",
+      "title": "Glendale/Burbank freeways (SR-134, I-5, SR-2)",
+      "region_tags": ["glendale / burbank", "pasadena / east", "sr-134", "i-5", "ventura freeway", "golden state freeway"],
+      "text": "SR-134 (Ventura Fwy) and I-5 (Golden State Fwy) carry Glendale/Burbank traffic between the eastern San Fernando Valley and Pasadena/Downtown. Key merge congestion at the I-5/SR-134/SR-2 interchange. Brand Blvd, San Fernando Rd and Colorado Blvd are the surface reliefs. Metro is limited here, so demand is car-dominant."
+    },
+    {
+      "id": "corridor_valley",
+      "title": "San Fernando Valley freeways (US-101, I-405, SR-118)",
+      "region_tags": ["san fernando valley", "us-101", "i-405", "sr-118", "ventura freeway"],
+      "text": "The San Fernando Valley feeds US-101 (Ventura Fwy, east-west) and I-405 (over the Sepulveda Pass, south). Ventura Blvd is the primary east-west surface arterial and Sepulveda/Van Nuys Blvd the primary north-south. Congestion builds westbound US-101 in the AM peak and southbound I-405 approaching the pass."
+    },
+    {
+      "id": "bottlenecks",
+      "title": "Known recurrent bottlenecks (LA basin)",
+      "region_tags": ["downtown la", "san fernando valley", "west la / sawtelle", "glendale / burbank"],
+      "text": "Recurrent bottlenecks a planner should assume unless told otherwise: (1) I-10/I-110 downtown interchange, PM peak; (2) I-405 Sepulveda Pass, both peaks; (3) US-101/I-110 four-level, AM peak; (4) I-5/SR-134 interchange, PM peak. These are structural (geometry/merges), so upstream metering and reroute-before-the-merge are the levers, not signal timing at the interchange itself."
+    },
+    {
+      "id": "signal_timing",
+      "title": "Signal-timing control (LADOT ATSAC) constraints",
+      "region_tags": ["downtown la", "hollywood", "koreatown / mid-city", "signal", "atsac", "arterial"],
+      "text": "LADOT's ATSAC/ATCS system adaptively controls ~4,900 signalized intersections and can push a special timing plan to a corridor within minutes from the Transportation Management Center. Practical constraints: coordinated corridors (Olympic, Pico, Wilshire, Sunset, Figueroa, Vermont) can have green-band extended by 10-20% for up to ~30 min before side-street queues become unacceptable; changes need TMC operator action, not field crews."
+    },
+    {
+      "id": "transit_alternatives",
+      "title": "Transit alternatives (Metro rail/bus)",
+      "region_tags": ["downtown la", "hollywood", "koreatown / mid-city", "south la", "pasadena / east", "long beach corridor", "transit", "metro"],
+      "text": "Metro rail relief options by area: B/D (Red/Purple) Lines under Wilshire and through Hollywood; A Line (Blue/Gold) Downtown to Long Beach and to Pasadena; E Line (Expo) Downtown to Santa Monica along the I-10; ExpressLanes bus on I-110. Transit is a viable diversion lever only where a parallel rail line exists (Wilshire, Expo/I-10, Harbor/I-110, Pasadena A Line); the Valley and Glendale/Burbank are largely rail-poor."
+    },
+    {
+      "id": "incident_history",
+      "title": "Incident-history summary",
+      "region_tags": ["downtown la", "i-10", "i-110", "i-405", "incident"],
+      "text": "Historically, non-recurrent delay in this network is dominated by incidents on I-10, I-110 and I-405 during peaks; a single blocking incident on the Sepulveda Pass or the downtown interchanges can add 15-25 min of network delay within 30 min. Fast detection + upstream diversion is the highest-value response. Caltrans/CHP clearance times average 20-40 min for injury incidents."
+    },
+    {
+      "id": "road_capacities",
+      "title": "Approximate road capacities (per direction)",
+      "region_tags": ["freeway", "arterial", "capacity"],
+      "text": "Planning capacities (per lane, per direction): urban freeway lane ~1,900-2,200 veh/hr at free flow, dropping to ~1,500 in stop-and-go; major coordinated arterial lane ~700-900 veh/hr including signal delay. A freeway loses ~40-50% of throughput once it breaks down, which is why keeping flow above the critical density (metering, diversion BEFORE the queue) matters more than reacting after."
+    }
+  ]
+}

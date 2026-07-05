@@ -1,0 +1,797 @@
+{
+  "dataset": "DEMO",
+  "conditions": [
+    "RAW",
+    "XAI",
+    "XTRAFFIC"
+  ],
+  "likert_max": 7,
+  "scenarios": [
+    {
+      "scenario_id": "s00",
+      "sample_index": 0,
+      "target_node": 0,
+      "tod_band": "am_rush",
+      "congestion": "low",
+      "mean_speed_mph": 23.5,
+      "timestamp": "demo#0",
+      "ground_truth_intervention": "reroute",
+      "no_action_is_best": false,
+      "simulation": [
+        {
+          "intervention": "no_action",
+          "network_delay": 86.7,
+          "target_speed_mph": 21.3,
+          "n_nodes_affected": 3
+        },
+        {
+          "intervention": "signal_retiming",
+          "network_delay": 70.9,
+          "target_speed_mph": 21.3,
+          "n_nodes_affected": 3
+        },
+        {
+          "intervention": "ramp_metering",
+          "network_delay": 65.4,
+          "target_speed_mph": 21.3,
+          "n_nodes_affected": 3
+        },
+        {
+          "intervention": "reroute",
+          "network_delay": 161.1,
+          "target_speed_mph": 21.3,
+          "n_nodes_affected": 3
+        },
+        {
+          "intervention": "transit_surge",
+          "network_delay": 131.8,
+          "target_speed_mph": 21.3,
+          "n_nodes_affected": 3
+        }
+      ],
+      "conditions": {
+        "RAW": {
+          "prediction": {
+            "location": "Demo location 0",
+            "current_speed_mph": 23.5,
+            "predicted_speed_mph": 21.3,
+            "horizon_minutes": 30
+          },
+          "candidates": [
+            "no_action",
+            "signal_retiming",
+            "ramp_metering",
+            "reroute",
+            "transit_surge"
+          ]
+        },
+        "XAI": {
+          "prediction": {
+            "location": "Demo location 0",
+            "current_speed_mph": 23.5,
+            "predicted_speed_mph": 21.3,
+            "horizon_minutes": 30
+          },
+          "candidates": [
+            "no_action",
+            "signal_retiming",
+            "ramp_metering",
+            "reroute",
+            "transit_surge"
+          ],
+          "figure": "",
+          "propagation_lag_minutes": 5.0,
+          "explanation_confidence": 0.8,
+          "importance_table": [
+            {
+              "location": "Upstream corridor A",
+              "importance": 0.42,
+              "current_speed_mph": 18.0
+            },
+            {
+              "location": "Upstream corridor B",
+              "importance": 0.31,
+              "current_speed_mph": 22.0
+            }
+          ]
+        },
+        "XTRAFFIC": {
+          "prediction": {
+            "location": "Demo location 0",
+            "current_speed_mph": 23.5,
+            "predicted_speed_mph": 21.3,
+            "horizon_minutes": 30
+          },
+          "candidates": [
+            "no_action",
+            "signal_retiming",
+            "ramp_metering",
+            "reroute",
+            "transit_surge"
+          ],
+          "figure": "",
+          "propagation_lag_minutes": 5.0,
+          "explanation_confidence": 0.8,
+          "importance_table": [
+            {
+              "location": "Upstream corridor A",
+              "importance": 0.42,
+              "current_speed_mph": 18.0
+            },
+            {
+              "location": "Upstream corridor B",
+              "importance": 0.31,
+              "current_speed_mph": 22.0
+            }
+          ],
+          "advisory": {
+            "reasoning": "Congestion at Demo location 0 is driven by slowdowns on the upstream corridors; acting there 30 min ahead relieves the target.",
+            "recommendations": [
+              {
+                "action": "signal_retiming",
+                "location": "Upstream corridor A",
+                "time_window_minutes": 15,
+                "expected_effect": "raise throughput ~8 mph"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "s01",
+      "sample_index": 1,
+      "target_node": 1,
+      "tod_band": "midday",
+      "congestion": "medium",
+      "mean_speed_mph": 22.6,
+      "timestamp": "demo#1",
+      "ground_truth_intervention": "signal_retiming",
+      "no_action_is_best": false,
+      "simulation": [
+        {
+          "intervention": "no_action",
+          "network_delay": 82.8,
+          "target_speed_mph": 20.4,
+          "n_nodes_affected": 3
+        },
+        {
+          "intervention": "signal_retiming",
+          "network_delay": 125.8,
+          "target_speed_mph": 20.4,
+          "n_nodes_affected": 3
+        },
+        {
+          "intervention": "ramp_metering",
+          "network_delay": 54.0,
+          "target_speed_mph": 20.4,
+          "n_nodes_affected": 3
+        },
+        {
+          "intervention": "reroute",
+          "network_delay": 79.8,
+          "target_speed_mph": 20.4,
+          "n_nodes_affected": 3
+        },
+        {
+          "intervention": "transit_surge",
+          "network_delay": 147.5,
+          "target_speed_mph": 20.4,
+          "n_nodes_affected": 3
+        }
+      ],
+      "conditions": {
+        "RAW": {
+          "prediction": {
+            "location": "Demo location 1",
+            "current_speed_mph": 22.6,
+            "predicted_speed_mph": 20.4,
+            "horizon_minutes": 30
+          },
+          "candidates": [
+            "no_action",
+            "signal_retiming",
+            "ramp_metering",
+            "reroute",
+            "transit_surge"
+          ]
+        },
+        "XAI": {
+          "prediction": {
+            "location": "Demo location 1",
+            "current_speed_mph": 22.6,
+            "predicted_speed_mph": 20.4,
+            "horizon_minutes": 30
+          },
+          "candidates": [
+            "no_action",
+            "signal_retiming",
+            "ramp_metering",
+            "reroute",
+            "transit_surge"
+          ],
+          "figure": "",
+          "propagation_lag_minutes": 5.0,
+          "explanation_confidence": 0.8,
+          "importance_table": [
+            {
+              "location": "Upstream corridor A",
+              "importance": 0.42,
+              "current_speed_mph": 18.0
+            },
+            {
+              "location": "Upstream corridor B",
+              "importance": 0.31,
+              "current_speed_mph": 22.0
+            }
+          ]
+        },
+        "XTRAFFIC": {
+          "prediction": {
+            "location": "Demo location 1",
+            "current_speed_mph": 22.6,
+            "predicted_speed_mph": 20.4,
+            "horizon_minutes": 30
+          },
+          "candidates": [
+            "no_action",
+            "signal_retiming",
+            "ramp_metering",
+            "reroute",
+            "transit_surge"
+          ],
+          "figure": "",
+          "propagation_lag_minutes": 5.0,
+          "explanation_confidence": 0.8,
+          "importance_table": [
+            {
+              "location": "Upstream corridor A",
+              "importance": 0.42,
+              "current_speed_mph": 18.0
+            },
+            {
+              "location": "Upstream corridor B",
+              "importance": 0.31,
+              "current_speed_mph": 22.0
+            }
+          ],
+          "advisory": {
+            "reasoning": "Congestion at Demo location 1 is driven by slowdowns on the upstream corridors; acting there 30 min ahead relieves the target.",
+            "recommendations": [
+              {
+                "action": "signal_retiming",
+                "location": "Upstream corridor A",
+                "time_window_minutes": 15,
+                "expected_effect": "raise throughput ~8 mph"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "s02",
+      "sample_index": 2,
+      "target_node": 2,
+      "tod_band": "pm_rush",
+      "congestion": "high",
+      "mean_speed_mph": 21.8,
+      "timestamp": "demo#2",
+      "ground_truth_intervention": "reroute",
+      "no_action_is_best": false,
+      "simulation": [
+        {
+          "intervention": "no_action",
+          "network_delay": 171.4,
+          "target_speed_mph": 18.5,
+          "n_nodes_affected": 3
+        },
+        {
+          "intervention": "signal_retiming",
+          "network_delay": 51.0,
+          "target_speed_mph": 18.5,
+          "n_nodes_affected": 3
+        },
+        {
+          "intervention": "ramp_metering",
+          "network_delay": 170.9,
+          "target_speed_mph": 18.5,
+          "n_nodes_affected": 3
+        },
+        {
+          "intervention": "reroute",
+          "network_delay": 154.7,
+          "target_speed_mph": 18.5,
+          "n_nodes_affected": 3
+        },
+        {
+          "intervention": "transit_surge",
+          "network_delay": 101.0,
+          "target_speed_mph": 18.5,
+          "n_nodes_affected": 3
+        }
+      ],
+      "conditions": {
+        "RAW": {
+          "prediction": {
+            "location": "Demo location 2",
+            "current_speed_mph": 21.8,
+            "predicted_speed_mph": 18.5,
+            "horizon_minutes": 30
+          },
+          "candidates": [
+            "no_action",
+            "signal_retiming",
+            "ramp_metering",
+            "reroute",
+            "transit_surge"
+          ]
+        },
+        "XAI": {
+          "prediction": {
+            "location": "Demo location 2",
+            "current_speed_mph": 21.8,
+            "predicted_speed_mph": 18.5,
+            "horizon_minutes": 30
+          },
+          "candidates": [
+            "no_action",
+            "signal_retiming",
+            "ramp_metering",
+            "reroute",
+            "transit_surge"
+          ],
+          "figure": "",
+          "propagation_lag_minutes": 5.0,
+          "explanation_confidence": 0.8,
+          "importance_table": [
+            {
+              "location": "Upstream corridor A",
+              "importance": 0.42,
+              "current_speed_mph": 18.0
+            },
+            {
+              "location": "Upstream corridor B",
+              "importance": 0.31,
+              "current_speed_mph": 22.0
+            }
+          ]
+        },
+        "XTRAFFIC": {
+          "prediction": {
+            "location": "Demo location 2",
+            "current_speed_mph": 21.8,
+            "predicted_speed_mph": 18.5,
+            "horizon_minutes": 30
+          },
+          "candidates": [
+            "no_action",
+            "signal_retiming",
+            "ramp_metering",
+            "reroute",
+            "transit_surge"
+          ],
+          "figure": "",
+          "propagation_lag_minutes": 5.0,
+          "explanation_confidence": 0.8,
+          "importance_table": [
+            {
+              "location": "Upstream corridor A",
+              "importance": 0.42,
+              "current_speed_mph": 18.0
+            },
+            {
+              "location": "Upstream corridor B",
+              "importance": 0.31,
+              "current_speed_mph": 22.0
+            }
+          ],
+          "advisory": {
+            "reasoning": "Congestion at Demo location 2 is driven by slowdowns on the upstream corridors; acting there 30 min ahead relieves the target.",
+            "recommendations": [
+              {
+                "action": "signal_retiming",
+                "location": "Upstream corridor A",
+                "time_window_minutes": 15,
+                "expected_effect": "raise throughput ~8 mph"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "s03",
+      "sample_index": 3,
+      "target_node": 3,
+      "tod_band": "evening",
+      "congestion": "low",
+      "mean_speed_mph": 14.8,
+      "timestamp": "demo#3",
+      "ground_truth_intervention": "reroute",
+      "no_action_is_best": false,
+      "simulation": [
+        {
+          "intervention": "no_action",
+          "network_delay": 65.3,
+          "target_speed_mph": 7.1,
+          "n_nodes_affected": 3
+        },
+        {
+          "intervention": "signal_retiming",
+          "network_delay": 107.0,
+          "target_speed_mph": 7.1,
+          "n_nodes_affected": 3
+        },
+        {
+          "intervention": "ramp_metering",
+          "network_delay": 103.8,
+          "target_speed_mph": 7.1,
+          "n_nodes_affected": 3
+        },
+        {
+          "intervention": "reroute",
+          "network_delay": 101.6,
+          "target_speed_mph": 7.1,
+          "n_nodes_affected": 3
+        },
+        {
+          "intervention": "transit_surge",
+          "network_delay": 89.7,
+          "target_speed_mph": 7.1,
+          "n_nodes_affected": 3
+        }
+      ],
+      "conditions": {
+        "RAW": {
+          "prediction": {
+            "location": "Demo location 3",
+            "current_speed_mph": 14.8,
+            "predicted_speed_mph": 7.1,
+            "horizon_minutes": 30
+          },
+          "candidates": [
+            "no_action",
+            "signal_retiming",
+            "ramp_metering",
+            "reroute",
+            "transit_surge"
+          ]
+        },
+        "XAI": {
+          "prediction": {
+            "location": "Demo location 3",
+            "current_speed_mph": 14.8,
+            "predicted_speed_mph": 7.1,
+            "horizon_minutes": 30
+          },
+          "candidates": [
+            "no_action",
+            "signal_retiming",
+            "ramp_metering",
+            "reroute",
+            "transit_surge"
+          ],
+          "figure": "",
+          "propagation_lag_minutes": 5.0,
+          "explanation_confidence": 0.8,
+          "importance_table": [
+            {
+              "location": "Upstream corridor A",
+              "importance": 0.42,
+              "current_speed_mph": 18.0
+            },
+            {
+              "location": "Upstream corridor B",
+              "importance": 0.31,
+              "current_speed_mph": 22.0
+            }
+          ]
+        },
+        "XTRAFFIC": {
+          "prediction": {
+            "location": "Demo location 3",
+            "current_speed_mph": 14.8,
+            "predicted_speed_mph": 7.1,
+            "horizon_minutes": 30
+          },
+          "candidates": [
+            "no_action",
+            "signal_retiming",
+            "ramp_metering",
+            "reroute",
+            "transit_surge"
+          ],
+          "figure": "",
+          "propagation_lag_minutes": 5.0,
+          "explanation_confidence": 0.8,
+          "importance_table": [
+            {
+              "location": "Upstream corridor A",
+              "importance": 0.42,
+              "current_speed_mph": 18.0
+            },
+            {
+              "location": "Upstream corridor B",
+              "importance": 0.31,
+              "current_speed_mph": 22.0
+            }
+          ],
+          "advisory": {
+            "reasoning": "Congestion at Demo location 3 is driven by slowdowns on the upstream corridors; acting there 30 min ahead relieves the target.",
+            "recommendations": [
+              {
+                "action": "signal_retiming",
+                "location": "Upstream corridor A",
+                "time_window_minutes": 15,
+                "expected_effect": "raise throughput ~8 mph"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "s04",
+      "sample_index": 4,
+      "target_node": 4,
+      "tod_band": "am_rush",
+      "congestion": "medium",
+      "mean_speed_mph": 12.8,
+      "timestamp": "demo#4",
+      "ground_truth_intervention": "signal_retiming",
+      "no_action_is_best": false,
+      "simulation": [
+        {
+          "intervention": "no_action",
+          "network_delay": 196.0,
+          "target_speed_mph": 8.0,
+          "n_nodes_affected": 3
+        },
+        {
+          "intervention": "signal_retiming",
+          "network_delay": 106.8,
+          "target_speed_mph": 8.0,
+          "n_nodes_affected": 3
+        },
+        {
+          "intervention": "ramp_metering",
+          "network_delay": 132.8,
+          "target_speed_mph": 8.0,
+          "n_nodes_affected": 3
+        },
+        {
+          "intervention": "reroute",
+          "network_delay": 174.4,
+          "target_speed_mph": 8.0,
+          "n_nodes_affected": 3
+        },
+        {
+          "intervention": "transit_surge",
+          "network_delay": 142.8,
+          "target_speed_mph": 8.0,
+          "n_nodes_affected": 3
+        }
+      ],
+      "conditions": {
+        "RAW": {
+          "prediction": {
+            "location": "Demo location 4",
+            "current_speed_mph": 12.8,
+            "predicted_speed_mph": 8.0,
+            "horizon_minutes": 30
+          },
+          "candidates": [
+            "no_action",
+            "signal_retiming",
+            "ramp_metering",
+            "reroute",
+            "transit_surge"
+          ]
+        },
+        "XAI": {
+          "prediction": {
+            "location": "Demo location 4",
+            "current_speed_mph": 12.8,
+            "predicted_speed_mph": 8.0,
+            "horizon_minutes": 30
+          },
+          "candidates": [
+            "no_action",
+            "signal_retiming",
+            "ramp_metering",
+            "reroute",
+            "transit_surge"
+          ],
+          "figure": "",
+          "propagation_lag_minutes": 5.0,
+          "explanation_confidence": 0.8,
+          "importance_table": [
+            {
+              "location": "Upstream corridor A",
+              "importance": 0.42,
+              "current_speed_mph": 18.0
+            },
+            {
+              "location": "Upstream corridor B",
+              "importance": 0.31,
+              "current_speed_mph": 22.0
+            }
+          ]
+        },
+        "XTRAFFIC": {
+          "prediction": {
+            "location": "Demo location 4",
+            "current_speed_mph": 12.8,
+            "predicted_speed_mph": 8.0,
+            "horizon_minutes": 30
+          },
+          "candidates": [
+            "no_action",
+            "signal_retiming",
+            "ramp_metering",
+            "reroute",
+            "transit_surge"
+          ],
+          "figure": "",
+          "propagation_lag_minutes": 5.0,
+          "explanation_confidence": 0.8,
+          "importance_table": [
+            {
+              "location": "Upstream corridor A",
+              "importance": 0.42,
+              "current_speed_mph": 18.0
+            },
+            {
+              "location": "Upstream corridor B",
+              "importance": 0.31,
+              "current_speed_mph": 22.0
+            }
+          ],
+          "advisory": {
+            "reasoning": "Congestion at Demo location 4 is driven by slowdowns on the upstream corridors; acting there 30 min ahead relieves the target.",
+            "recommendations": [
+              {
+                "action": "signal_retiming",
+                "location": "Upstream corridor A",
+                "time_window_minutes": 15,
+                "expected_effect": "raise throughput ~8 mph"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "s05",
+      "sample_index": 5,
+      "target_node": 5,
+      "tod_band": "midday",
+      "congestion": "high",
+      "mean_speed_mph": 27.5,
+      "timestamp": "demo#5",
+      "ground_truth_intervention": "signal_retiming",
+      "no_action_is_best": false,
+      "simulation": [
+        {
+          "intervention": "no_action",
+          "network_delay": 56.9,
+          "target_speed_mph": 22.0,
+          "n_nodes_affected": 3
+        },
+        {
+          "intervention": "signal_retiming",
+          "network_delay": 84.2,
+          "target_speed_mph": 22.0,
+          "n_nodes_affected": 3
+        },
+        {
+          "intervention": "ramp_metering",
+          "network_delay": 93.4,
+          "target_speed_mph": 22.0,
+          "n_nodes_affected": 3
+        },
+        {
+          "intervention": "reroute",
+          "network_delay": 62.0,
+          "target_speed_mph": 22.0,
+          "n_nodes_affected": 3
+        },
+        {
+          "intervention": "transit_surge",
+          "network_delay": 84.9,
+          "target_speed_mph": 22.0,
+          "n_nodes_affected": 3
+        }
+      ],
+      "conditions": {
+        "RAW": {
+          "prediction": {
+            "location": "Demo location 5",
+            "current_speed_mph": 27.5,
+            "predicted_speed_mph": 22.0,
+            "horizon_minutes": 30
+          },
+          "candidates": [
+            "no_action",
+            "signal_retiming",
+            "ramp_metering",
+            "reroute",
+            "transit_surge"
+          ]
+        },
+        "XAI": {
+          "prediction": {
+            "location": "Demo location 5",
+            "current_speed_mph": 27.5,
+            "predicted_speed_mph": 22.0,
+            "horizon_minutes": 30
+          },
+          "candidates": [
+            "no_action",
+            "signal_retiming",
+            "ramp_metering",
+            "reroute",
+            "transit_surge"
+          ],
+          "figure": "",
+          "propagation_lag_minutes": 5.0,
+          "explanation_confidence": 0.8,
+          "importance_table": [
+            {
+              "location": "Upstream corridor A",
+              "importance": 0.42,
+              "current_speed_mph": 18.0
+            },
+            {
+              "location": "Upstream corridor B",
+              "importance": 0.31,
+              "current_speed_mph": 22.0
+            }
+          ]
+        },
+        "XTRAFFIC": {
+          "prediction": {
+            "location": "Demo location 5",
+            "current_speed_mph": 27.5,
+            "predicted_speed_mph": 22.0,
+            "horizon_minutes": 30
+          },
+          "candidates": [
+            "no_action",
+            "signal_retiming",
+            "ramp_metering",
+            "reroute",
+            "transit_surge"
+          ],
+          "figure": "",
+          "propagation_lag_minutes": 5.0,
+          "explanation_confidence": 0.8,
+          "importance_table": [
+            {
+              "location": "Upstream corridor A",
+              "importance": 0.42,
+              "current_speed_mph": 18.0
+            },
+            {
+              "location": "Upstream corridor B",
+              "importance": 0.31,
+              "current_speed_mph": 22.0
+            }
+          ],
+          "advisory": {
+            "reasoning": "Congestion at Demo location 5 is driven by slowdowns on the upstream corridors; acting there 30 min ahead relieves the target.",
+            "recommendations": [
+              {
+                "action": "signal_retiming",
+                "location": "Upstream corridor A",
+                "time_window_minutes": 15,
+                "expected_effect": "raise throughput ~8 mph"
+              }
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

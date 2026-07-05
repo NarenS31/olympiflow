@@ -25,6 +25,7 @@ export function AIAdvisorSection() {
   const globalIntensity = useSimulationStore((s) => s.globalIntensity);
   const mode            = useSimulationStore((s) => s.mode);
   const timeOfDay       = useSimulationStore((s) => s.timeOfDay);
+  const mlPredictions   = useSimulationStore((s) => s.mlPredictions);
 
   const handleAsk = async () => {
     const q = query.trim();
@@ -38,7 +39,18 @@ export function AIAdvisorSection() {
       const res = await askAIAdvisor({
         query: q,
         model: model.trim() || 'llama3.2',
-        simulation_context: { globalIntensity, mode, timeOfDay },
+        simulation_context: {
+          globalIntensity,
+          mode,
+          timeOfDay,
+          ...(mlPredictions && {
+            mlPredictions: {
+              surgeIntensity: mlPredictions.surgeIntensity,
+              confidence: mlPredictions.confidence,
+              condition: mlPredictions.condition,
+            },
+          }),
+        },
       });
       setResult(res);
     } catch {

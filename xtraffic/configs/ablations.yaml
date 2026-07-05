@@ -1,0 +1,56 @@
+# XTraffic — Phase 7 ablation study configuration.
+# One harness, every configuration, one command:
+#   python -m xtraffic.evaluation.ablations                 # full (Colab-scale)
+#   python -m xtraffic.evaluation.ablations --smoke         # structural check
+#   python -m xtraffic.evaluation.ablations --model-only    # skip the LLM part
+#
+# Each MODEL ablation is a named override on the base fusion config. Each is trained
+# from scratch under `seeds` seeds; we report mean +/- std. This is deliberately
+# heavy — the real run belongs on Colab; --smoke (1 epoch, tiny subset) verifies the
+# harness end to end locally.
+
+dataset: metr_la
+base_config: configs/train_metr_la_fusion.yaml   # the full model (all 3 modalities)
+seeds: [42, 43, 44]        # 3 seeds per configuration (mean +/- std)
+epochs: 100                # per-variant training length for the real run
+
+# ---- MODEL ablations (prediction metrics on METR-LA) ----------------------
+# overrides:
+#   model:              -> merged into cfg["model"] (architecture switches)
+#   use_sidecars:       -> turn heterogeneous fusion off entirely (traffic only)
+#   sidecar_modalities: -> load only these feeds (leave-one-out; traffic implied)
+model_ablations:
+  - name: full
+    # no overrides = the complete model
+  - name: no_semantic          # - MOD 1 (semantic co-movement edges)
+    model: {use_semantic: false}
+  - name: no_multiscale        # - MOD 2 (multi-scale temporal -> single dilation)
+    model: {use_multiscale: false}
+  - name: no_fusion            # - MOD 3 (heterogeneous fusion -> traffic only)
+    use_sidecars: false
+  - name: no_weather           # leave-one-out: drop weather
+    sidecar_modalities: [events, transit]
+  - name: no_events            # leave-one-out: drop events
+    sidecar_modalities: [weather, transit]
+  - name: no_transit           # leave-one-out: drop transit
+    sidecar_modalities: [weather, events]
+
+# ---- PIPELINE ablations (faithfulness on the scenario set) -----------------
+# Conditions A/B/C are already implemented in the faithfulness study:
+#   A = full pipeline (explanation + city context)
+#   B = no explanation (grounding removed -> hallucination should spike)
+#   C = explanation but no city context
+# The LLM-model ablation reruns them against a second local model to show the
+# result isn't an artifact of one LLM. GNN-only (raw prediction) and GNN+explainer
+# (explanation, no LLM) are non-LLM references reported from the prediction +
+# explainer metrics rather than re-run here.
+pipeline_ablations:
+  checkpoint: models/gnn/checkpoints/metr_la_best.pt
+  city: metr_la
+  conditions: [A, B, C]
+  per_stratum: 7             # ~105 scenarios; --smoke drops this to a handful
+  llm_models:                # first = primary (advisor.yaml default); rest = ablation
+    - llama3.1:8b
+    - qwen2.5:7b
+
+results_subdir: evaluation/results/ablations

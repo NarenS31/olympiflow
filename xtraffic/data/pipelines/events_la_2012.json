@@ -1,0 +1,28 @@
+{
+  "_README": "Curated major-venue events overlapping the METR-LA window (Mar-Jun 2012). Venue coordinates are exact; the game/event datetimes are a representative, EDITABLE set — verify against published 2012 schedules (baseball-reference, basketball-reference, venue archives) before using in the paper, and expand as needed. Encoded as a proximity-decayed indicator (Phase 6 events modality). Times are America/Los_Angeles local, 24h. duration_minutes is the on-site event length; the pipeline adds pre/post traffic windows.",
+  "timezone": "America/Los_Angeles",
+  "venues": {
+    "dodger_stadium": {"lat": 34.0739, "lon": -118.2400, "capacity": 56000},
+    "staples_center": {"lat": 34.0430, "lon": -118.2673, "capacity": 19000},
+    "la_coliseum": {"lat": 34.0141, "lon": -118.2879, "capacity": 77500},
+    "rose_bowl": {"lat": 34.1613, "lon": -118.1676, "capacity": 90000},
+    "hollywood_bowl": {"lat": 34.1122, "lon": -118.3391, "capacity": 17500}
+  },
+  "events": [
+    {"venue": "dodger_stadium", "date": "2012-04-10", "time": "13:10", "duration_minutes": 195, "label": "Dodgers home opener vs Pirates"},
+    {"venue": "dodger_stadium", "date": "2012-04-11", "time": "19:10", "duration_minutes": 195, "label": "Dodgers vs Pirates"},
+    {"venue": "dodger_stadium", "date": "2012-04-12", "time": "19:10", "duration_minutes": 195, "label": "Dodgers vs Pirates"},
+    {"venue": "dodger_stadium", "date": "2012-04-27", "time": "19:10", "duration_minutes": 195, "label": "Dodgers vs Nationals"},
+    {"venue": "dodger_stadium", "date": "2012-04-28", "time": "18:10", "duration_minutes": 195, "label": "Dodgers vs Nationals"},
+    {"venue": "dodger_stadium", "date": "2012-05-07", "time": "19:10", "duration_minutes": 195, "label": "Dodgers vs Giants"},
+    {"venue": "dodger_stadium", "date": "2012-05-08", "time": "19:10", "duration_minutes": 195, "label": "Dodgers vs Giants"},
+    {"venue": "dodger_stadium", "date": "2012-05-20", "time": "13:10", "duration_minutes": 195, "label": "Dodgers vs Cardinals"},
+    {"venue": "dodger_stadium", "date": "2012-06-11", "time": "19:10", "duration_minutes": 195, "label": "Dodgers vs Angels"},
+    {"venue": "dodger_stadium", "date": "2012-06-30", "time": "19:10", "duration_minutes": 195, "label": "Dodgers vs Mets"},
+    {"venue": "staples_center", "date": "2012-04-15", "time": "18:30", "duration_minutes": 165, "label": "Lakers playoff-race home game"},
+    {"venue": "staples_center", "date": "2012-05-12", "time": "19:30", "duration_minutes": 165, "label": "Lakers playoffs Game 3"},
+    {"venue": "staples_center", "date": "2012-05-19", "time": "17:30", "duration_minutes": 165, "label": "Lakers playoffs home game"},
+    {"venue": "staples_center", "date": "2012-05-21", "time": "19:30", "duration_minutes": 165, "label": "Lakers playoffs home game"},
+    {"venue": "hollywood_bowl", "date": "2012-06-22", "time": "20:00", "duration_minutes": 150, "label": "Hollywood Bowl opening weekend"}
+  ]
+}

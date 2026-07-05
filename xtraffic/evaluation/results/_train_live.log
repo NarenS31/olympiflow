@@ -1,0 +1,7 @@
+/Users/narensara/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+[train] dataset=metr_la device=mps smoke=False
+[train] XTrafficSTGNN: 395,059 parameters, 207 nodes
+[epoch   1/4] train_loss=3.971  val_mae=3.326  val_mae@30min=3.319  alpha=0.491  (2384.3s)
+[epoch   2/4] train_loss=3.509  val_mae=3.374  val_mae@30min=3.382  alpha=0.433  (46491.1s)
+[epoch   3/4] train_loss=3.398  val_mae=3.226  val_mae@30min=3.215  alpha=0.393  (40787.5s)

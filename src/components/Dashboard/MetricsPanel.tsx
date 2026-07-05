@@ -1,11 +1,19 @@
 import { useSimulationStore } from '../../stores/simulationStore';
 import { CongestionChart } from './CongestionChart';
 
+const CONDITION_COLORS: Record<string, string> = {
+  NORMAL:   '#30D158',
+  ELEVATED: '#FF9F0A',
+  PEAK:     '#FF6B2B',
+  CRITICAL: '#FF453A',
+};
+
 export function MetricsPanel() {
   const metrics           = useSimulationStore((s) => s.metrics);
   const mode              = useSimulationStore((s) => s.mode);
   const staggeredArrivals = useSimulationStore((s) => s.staggeredArrivals);
   const globalIntensity   = useSimulationStore((s) => s.globalIntensity);
+  const mlPredictions     = useSimulationStore((s) => s.mlPredictions);
 
   const modeLabel = mode === 'crisis'   ? 'Crisis Scenario'
                   : mode === 'event'    ? 'Event Day'
@@ -134,6 +142,67 @@ export function MetricsPanel() {
                 <span style={{ fontSize: '10px', fontWeight: 600, color: r.color, letterSpacing: '0.04em' }}>{r.status}</span>
               </div>
             ))}
+          </div>
+        </div>
+      )}
+
+      {/* ML Predictions */}
+      {mlPredictions && (
+        <div className="flex-shrink-0 rounded-2xl overflow-hidden glass-surface">
+          <div style={{ padding: '10px 14px 6px', borderBottom: '0.5px solid rgba(255,255,255,0.06)' }}>
+            <span style={{ fontSize: '11px', fontWeight: 600, color: '#2DD4BF', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+              ML Predictions
+            </span>
+          </div>
+          <div style={{ padding: '10px 14px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            {/* Row 1: Surge Forecast */}
+            <div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+                <span style={{ fontSize: '10px', color: 'rgba(255,255,255,0.4)', fontWeight: 500, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+                  Surge Forecast
+                </span>
+                <span style={{ fontSize: '14px', fontWeight: 200, color: '#2DD4BF', letterSpacing: '-0.02em', fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif' }}>
+                  {Math.round(mlPredictions.surgeIntensity * 100)}%
+                </span>
+              </div>
+              {/* Confidence bar */}
+              <div style={{ height: '3px', borderRadius: '2px', background: 'rgba(255,255,255,0.08)', overflow: 'hidden' }}>
+                <div style={{
+                  height: '100%',
+                  width: `${Math.round(mlPredictions.confidence * 100)}%`,
+                  background: '#2DD4BF',
+                  borderRadius: '2px',
+                  transition: 'width 0.5s ease',
+                }} />
+              </div>
+              <div style={{ fontSize: '9px', color: 'rgba(255,255,255,0.2)', marginTop: '2px' }}>
+                {Math.round(mlPredictions.confidence * 100)}% confidence
+              </div>
+            </div>
+
+            {/* Row 2: Condition Class */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span style={{ fontSize: '10px', color: 'rgba(255,255,255,0.4)', fontWeight: 500, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+                Condition Class
+              </span>
+              <span style={{
+                fontSize: '10px',
+                fontWeight: 700,
+                letterSpacing: '0.08em',
+                padding: '2px 8px',
+                borderRadius: '4px',
+                background: `${CONDITION_COLORS[mlPredictions.condition]}20`,
+                color: CONDITION_COLORS[mlPredictions.condition],
+                border: `1px solid ${CONDITION_COLORS[mlPredictions.condition]}40`,
+              }}>
+                {mlPredictions.condition}
+              </span>
+            </div>
+
+            {/* Model attribution */}
+            <div style={{ fontSize: '9px', color: 'rgba(255,255,255,0.15)', lineHeight: 1.4 }}>
+              Random Forest · Gradient Boosting · Trained on BPR simulations
+            </div>
           </div>
         </div>
       )}
