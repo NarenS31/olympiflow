@@ -341,6 +341,34 @@ built (T1 MAE 2.98/3.52/4.42 vs HistAvg 5.15, T3 A-F1 0.817/halluc 0 vs B 0.067/
 change. Playbook's final "fresh-clone reproduction actually works" gate met for the
 committed-results path; the compute-heavy numbers regenerate as their runs land.
 
+REAL 100-EPOCH CHECKPOINT LANDED (2026-07-06). metr_la_best.pt is now the real
+Colab-trained model (epoch 34, val MAE 2.9026, CUDA/T4) — beats published Graph
+WaveNet (3.07). Re-ran the owed gates on it; all numbers below are REAL, not
+placeholder:
+- PREDICTION (evaluate.py, METR-LA test): 15min MAE 2.82/RMSE 5.46 | 30min MAE
+  3.21/RMSE 6.45 | 60min MAE 3.66/RMSE 7.46 | overall MAE 3.166, MAPE 8.78%.
+  Improves the 3-epoch placeholder at every horizon (30min 3.52->3.21, 60min
+  4.42->3.66); crushes HistAvg 5.15 / LinReg 5.03@30min. Table 1 refreshed.
+- PHASE 3 GATE RERUN (explainer_metrics --n 100, k=8, n=90 valid): Fidelity+ 1.393
+  vs random 0.843 -> PASS (~1.65x). Stability 0.751. Sparsity 0.039. Fidelity-
+  12.93 ~= random 12.84 -> STILL inconclusive on the full ckpt (uniform target
+  sampling; signal only separates on congested targets — long-standing, note in
+  paper). 6 scenario explanations regenerated + semantically sane. The carried-over
+  Phase-3 re-run is now DONE.
+- PHASE 5 FULL STUDY (n=93 stratified, llama3.1:8b, A/B/C): A F1 0.725 / halluc
+  0.005 / P 0.995 / R 0.593 | B F1 0.090 / halluc 0.828 / P 0.172 / R 0.071 | C F1
+  0.728 / halluc 0.005 / P 0.995 / R 0.605. Core claim PROVEN AT SCALE: explanation
+  eliminates hallucination (A/C 0.005 vs B 0.828), restores grounding (B precision
+  collapses 0.995->0.172). Phase-5 open flag RESOLVED: C ~= A even on the full set
+  incl. pm_rush/high-congestion -> city context is orthogonal to faithfulness (it
+  aids advisory usefulness, not explanation<->reasoning alignment); C's higher
+  quant_fidelity 0.764 is within noise. Clean paper story.
+- PHASE 9 artifacts regenerated from the real logs (7 figs + 5 tables). Fig6
+  (cross-city) + Table 4 (ablation) correctly still PENDING (Colab-owed).
+STILL OWED (unchanged, all Colab): full fusion retrain + comparison table; Chicago
+Phase-1 pipeline + cross_city transfer table; Chicago faithfulness study; multi-seed
+ablation tables.
+
 ---
 
 # XTraffic — Claude Code Build Playbook

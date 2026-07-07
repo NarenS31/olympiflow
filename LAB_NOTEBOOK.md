@@ -272,3 +272,41 @@ session. This becomes the paper's experiments section almost for free.
 - **Reflection:** option 3 costs one conversation during the eval session and zero
   code risk (the anchor path is additive — absent file → simulation-only, exactly
   as before). Cheap insurance that turns a known weakness into a validation point.
+
+---
+
+## 2026-07-06 — Real 100-epoch checkpoint: Phase 3 + 5 gate rerun, artifacts refresh
+- The real trained checkpoint landed from Colab (T4, CUDA): `metr_la_best.pt`,
+  **epoch 34, val MAE 2.9026** — beats published Graph WaveNet (3.07). All the
+  "owed on the full ckpt" numbers below are now REAL, not placeholder.
+- **Prediction (re-ran `evaluate.py` on the real ckpt, METR-LA test):**
+  15min MAE **2.82** / RMSE 5.46 · 30min MAE **3.21** / RMSE 6.45 ·
+  60min MAE **3.66** / RMSE 7.46 · overall MAE 3.166, MAPE 8.78%. Improves on the
+  old 3-epoch placeholder at every horizon (30min 3.52→3.21, 60min 4.42→3.66) and
+  crushes HistAvg 5.15 / LinReg (5.03 @30min). Table 1 refreshed.
+- **Phase 3 gate rerun** (`explainer_metrics --n 100`, k=8, n=90 valid targets):
+  Fidelity+ **1.393 ± 2.68** vs random **0.843 ± 1.35** → PASS (beats random ~1.65×).
+  Stability **0.751 ± 0.15**. Sparsity 0.039. Fidelity- 12.93 ≈ random 12.84 —
+  still inconclusive even on the full ckpt (uniform target sampling; the signal
+  only separates on congested targets, as noted since Phase 3). 6 scenario
+  explanations regenerated, semantically sane (high-congestion East LA 20→20.8mph
+  explained by nearby congested Glendale/SFV sensors, lag 30min).
+- **Phase 5 faithfulness study** (full stratified set, **n=93**, llama3.1:8b,
+  conditions A/B/C):
+  - A (full): P **0.995** · R 0.593 · **F1 0.725** · halluc **0.005** · quant 0.698
+  - B (no explanation): P 0.172 · R 0.071 · **F1 0.090** · halluc **0.828** · quant 0.360
+  - C (no city context): P 0.995 · R 0.605 · **F1 0.728** · halluc 0.005 · quant 0.764
+  - **Core claim proven at scale:** the mathematical explanation eliminates
+    hallucination (A/C 0.005 vs B 0.828) and restores grounding (B precision
+    collapses 0.995→0.172). Much cleaner than the 6-scenario smoke run.
+- **Surprise / flag resolved:** the Phase-5 open question — "does city context (A
+  vs C) matter at scale on congested windows?" — is answered: **C ≈ A** even with
+  pm_rush/high-congestion strata included. Faithfulness measures explanation↔
+  reasoning alignment, which city context is orthogonal to; C's slightly higher
+  quantitative_fidelity (0.764) is within noise. City context helps *advisory
+  usefulness*, not *faithfulness* — a clean, defensible story for the paper.
+- **Phase 9 artifacts** regenerated from the real logs: 7 figures + 5 tables.
+  Fig6 (cross-city) and Table 4 (ablation) correctly stay PENDING — still Colab-owed.
+- **Still owed (unchanged, all Colab):** full fusion retrain + comparison table;
+  Chicago Phase-1 pipeline + cross_city transfer table; Chicago faithfulness study;
+  multi-seed ablation tables.

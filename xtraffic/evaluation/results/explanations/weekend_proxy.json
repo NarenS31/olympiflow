@@ -9,114 +9,110 @@
   "prediction": {
     "node_id": 46,
     "node_name": "NE of Downtown LA (sensor 767609, 34.186, -118.217)",
-    "predicted_speed_mph": 63.02,
+    "predicted_speed_mph": 65.49,
     "horizon_minutes": 30,
     "current_speed_mph": 64.17
   },
   "top_nodes": [
     {
-      "node_id": 43,
-      "node_name": "San Fernando Valley (sensor 760024, 34.159, -118.465)",
-      "importance": 0.8366,
-      "current_speed_mph": 65.0
+      "node_id": 16,
+      "node_name": "Downtown LA (sensor 771667, 34.073, -118.234)",
+      "importance": 0.8457,
+      "current_speed_mph": 32.14
     },
     {
-      "node_id": 124,
-      "node_name": "East LA (sensor 716942, 34.059, -118.215)",
-      "importance": 0.8084,
-      "current_speed_mph": 65.71
+      "node_id": 29,
+      "node_name": "NE of Downtown LA (sensor 773012, 34.084, -118.221)",
+      "importance": 0.6931,
+      "current_speed_mph": 46.29
     },
     {
-      "node_id": 138,
-      "node_name": "Downtown LA (sensor 772513, 34.069, -118.237)",
-      "importance": 0.8075,
-      "current_speed_mph": 66.29
-    },
-    {
-      "node_id": 5,
-      "node_name": "Downtown LA (sensor 717445, 34.069, -118.259)",
-      "importance": 0.8038,
-      "current_speed_mph": 66.86
+      "node_id": 202,
+      "node_name": "Glendale / Burbank (sensor 717592, 34.146, -118.224)",
+      "importance": 0.6867,
+      "current_speed_mph": 66.57
     },
     {
       "node_id": 59,
       "node_name": "San Fernando Valley (sensor 767366, 34.212, -118.473)",
-      "importance": 0.8018,
+      "importance": 0.6602,
       "current_speed_mph": 66.0
     },
     {
-      "node_id": 112,
-      "node_name": "Glendale / Burbank (sensor 716968, 34.166, -118.298)",
-      "importance": 0.7987,
-      "current_speed_mph": 67.14
+      "node_id": 152,
+      "node_name": "NE of Downtown LA (sensor 773996, 34.145, -118.216)",
+      "importance": 0.6598,
+      "current_speed_mph": 67.29
     },
     {
-      "node_id": 121,
-      "node_name": "Glendale / Burbank (sensor 769847, 34.210, -118.224)",
-      "importance": 0.7973,
-      "current_speed_mph": 66.71
+      "node_id": 189,
+      "node_name": "Glendale / Burbank (sensor 769926, 34.214, -118.231)",
+      "importance": 0.6527,
+      "current_speed_mph": 68.29
     },
     {
-      "node_id": 143,
-      "node_name": "Glendale / Burbank (sensor 718499, 34.155, -118.313)",
-      "importance": 0.7953,
-      "current_speed_mph": 65.29
+      "node_id": 56,
+      "node_name": "N of Downtown LA (sensor 716955, 34.096, -118.244)",
+      "importance": 0.6413,
+      "current_speed_mph": 0.0
+    },
+    {
+      "node_id": 13,
+      "node_name": "Glendale / Burbank (sensor 773906, 34.157, -118.303)",
+      "importance": 0.6169,
+      "current_speed_mph": 69.14
     }
   ],
   "top_edges": [
     {
+      "from_id": 138,
+      "to_id": 16,
+      "importance": 0.8519
+    },
+    {
+      "from_id": 152,
+      "to_id": 92,
+      "importance": 0.8018
+    },
+    {
       "from_id": 11,
       "to_id": 46,
-      "importance": 0.7911
+      "importance": 0.8014
     },
     {
-      "from_id": 51,
-      "to_id": 112,
-      "importance": 0.7714
-    },
-    {
-      "from_id": 92,
-      "to_id": 46,
-      "importance": 0.7699
-    },
-    {
-      "from_id": 197,
-      "to_id": 43,
-      "importance": 0.6855
+      "from_id": 29,
+      "to_id": 29,
+      "importance": 0.7973
     },
     {
       "from_id": 46,
       "to_id": 46,
-      "importance": 0.4848
+      "importance": 0.7906
     },
     {
-      "from_id": 46,
-      "to_id": 50,
-      "importance": 0.3242
+      "from_id": 16,
+      "to_id": 16,
+      "importance": 0.7874
     },
     {
-      "from_id": 130,
-      "to_id": 43,
-      "importance": 0.2897
+      "from_id": 152,
+      "to_id": 11,
+      "importance": 0.7669
     },
     {
-      "from_id": 43,
-      "to_id": 81,
-      "importance": 0.2288
+      "from_id": 29,
+      "to_id": 166,
+      "importance": 0.7658
     }
   ],
   "propagation_path": [
-    43,
-    76,
-    52,
-    73,
-    118,
-    0,
-    42,
-    173,
+    16,
+    101,
+    1,
+    7,
     11,
     46
   ],
-  "propagation_lag_minutes": 30.0,
-  "explanation_confidence": 0.2244
+  "propagation_lag_minutes": 55.0,
+  "explanation_confidence": 0.7511
 }
