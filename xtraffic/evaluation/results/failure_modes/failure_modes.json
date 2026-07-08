@@ -1,0 +1,363 @@
+{
+  "dataset": "metr_la",
+  "n_condition_a": 93,
+  "n_failures": 7,
+  "failure_rate_pct": 7.53,
+  "thresholds": {
+    "FREE_FLOW_MPH": 50.0,
+    "GEO_HOPS": 2,
+    "CONF_HIGH": 0.8,
+    "F1_LOW": 0.5
+  },
+  "advisory_source": "llama3.1:8b",
+  "note": "Failure set + F1/hallucination are the Phase-5 LOGGED metrics; advisories were regenerated from cached explanations to recover cited-cause detail for classification (see module docstring).",
+  "categories": {
+    "SELF_ATTRIBUTION": {
+      "definition": "LLM cites the target as its own cause",
+      "count": 1,
+      "freq_pct": 1.08,
+      "mean_f1": 0.556,
+      "mean_halluc": 0.5,
+      "representative_example": {
+        "sample_index": 1926,
+        "tod_band": "pm_rush",
+        "congestion": "low",
+        "target_region": "San Fernando Valley",
+        "target_predicted_mph": 60.34,
+        "explanation_confidence": 0.6065,
+        "cited_regions": [
+          "Glendale / Burbank",
+          "San Fernando Valley"
+        ],
+        "topk_regions": [
+          "Glendale / Burbank",
+          "NW of Downtown LA",
+          "Downtown LA"
+        ],
+        "faithfulness_f1": 0.556,
+        "hallucination_rate": 0.5
+      },
+      "hypothesized_cause": "When the upstream causal signal is weak, the model restates the target region as a cause -- the same error seen in the untuned Phase-4 advisor.",
+      "mitigation": "Drop the target node/region from the prompt's cause list and add a system rule forbidding self-citation; reject any self-citation in the advisory validator.",
+      "member_indices": [
+        1926
+      ]
+    },
+    "TEMPORAL_CONFUSION": {
+      "definition": "correct nodes, wrong time relationship",
+      "count": 0,
+      "freq_pct": 0.0,
+      "mean_f1": null,
+      "mean_halluc": null,
+      "representative_example": null,
+      "hypothesized_cause": "With several near-equal-importance sources the LLM garbles the propagation lag or the lead/lag ordering between source and target.",
+      "mitigation": "Render each source's propagation lag explicitly in the prompt and require the advisory to echo it; validate stated lags against the explanation JSON.",
+      "member_indices": []
+    },
+    "GEOGRAPHIC_HALLUCINATION": {
+      "definition": "cited nodes not in top-k and >2 hops away",
+      "count": 0,
+      "freq_pct": 0.0,
+      "mean_f1": null,
+      "mean_halluc": null,
+      "representative_example": null,
+      "hypothesized_cause": "The LLM pattern-matches to well-known corridors that are not in the explanation's graph neighbourhood.",
+      "mitigation": "Constrain citations to an enumerated allow-list of the top-k region names and reject out-of-list causes in the validator.",
+      "member_indices": []
+    },
+    "CONFIDENCE_MISMATCH": {
+      "definition": "explanation_confidence > 0.8 but F1 < 0.5",
+      "count": 0,
+      "freq_pct": 0.0,
+      "mean_f1": null,
+      "mean_halluc": null,
+      "representative_example": null,
+      "hypothesized_cause": "The explainer's stability-based confidence over-states reliability on diffuse-cause windows where many nodes share the influence.",
+      "mitigation": "Recalibrate explanation_confidence against realised faithfulness and gate advisories whose confidence is below a faithfulness-predictive threshold.",
+      "member_indices": []
+    },
+    "FREE_FLOW_FAILURE": {
+      "definition": "target predicted at free flow -- no real spatial cause",
+      "count": 1,
+      "freq_pct": 1.08,
+      "mean_f1": 0.4,
+      "mean_halluc": 0.0,
+      "representative_example": {
+        "sample_index": 3296,
+        "tod_band": "midday",
+        "congestion": "high",
+        "target_region": "Glendale / Burbank",
+        "target_predicted_mph": 60.7,
+        "explanation_confidence": 0.4303,
+        "cited_regions": [
+          "North of Downtown LA",
+          "East LA",
+          "Hollywood"
+        ],
+        "topk_regions": [
+          "N of Downtown LA",
+          "NW of Downtown LA",
+          "East LA",
+          "Hollywood",
+          "Downtown LA",
+          "NE of Downtown LA",
+          "San Fernando Valley",
+          "Glendale / Burbank"
+        ],
+        "faithfulness_f1": 0.4,
+        "hallucination_rate": 0.0
+      },
+      "hypothesized_cause": "With the target predicted at free flow there is no congestion to explain, so the explainer surfaces noise that the LLM dutifully narrates.",
+      "mitigation": "Detect free flow (predicted speed >= 50 mph or a missing target sensor) and suppress causal advisories, returning 'no actionable congestion'.",
+      "member_indices": [
+        3296
+      ]
+    },
+    "OTHER": {
+      "definition": "does not fit the above (here: under-citation)",
+      "count": 5,
+      "freq_pct": 5.38,
+      "mean_f1": 0.364,
+      "mean_halluc": 0.0,
+      "representative_example": {
+        "sample_index": 2917,
+        "tod_band": "am_rush",
+        "congestion": "medium",
+        "target_region": "San Fernando Valley",
+        "target_predicted_mph": 8.76,
+        "explanation_confidence": 0.2609,
+        "cited_regions": [
+          "San Fernando Valley",
+          "San Fernando Valley"
+        ],
+        "topk_regions": [
+          "San Fernando Valley",
+          "Glendale / Burbank",
+          "NW of Downtown LA",
+          "NE of Downtown LA"
+        ],
+        "faithfulness_f1": 0.4,
+        "hallucination_rate": 0.0
+      },
+      "hypothesized_cause": "The LLM names only the single strongest source and omits the rest of the top-k, so recall -- not precision -- collapses.",
+      "mitigation": "Instruct the advisory to address every top-k source or explicitly justify each omission, and score recall inside the self-correction loop.",
+      "member_indices": [
+        2917,
+        4367,
+        5668,
+        5049,
+        219
+      ]
+    }
+  },
+  "per_failure": [
+    {
+      "sample_index": 2917,
+      "target_node": 77,
+      "category": "OTHER",
+      "logged_f1": 0.4,
+      "logged_halluc": 0.0,
+      "regenerated_precision": 1.0,
+      "regenerated_hallucination": 0.0,
+      "example": {
+        "sample_index": 2917,
+        "tod_band": "am_rush",
+        "congestion": "medium",
+        "target_region": "San Fernando Valley",
+        "target_predicted_mph": 8.76,
+        "explanation_confidence": 0.2609,
+        "cited_regions": [
+          "San Fernando Valley",
+          "San Fernando Valley"
+        ],
+        "topk_regions": [
+          "San Fernando Valley",
+          "Glendale / Burbank",
+          "NW of Downtown LA",
+          "NE of Downtown LA"
+        ],
+        "faithfulness_f1": 0.4,
+        "hallucination_rate": 0.0
+      }
+    },
+    {
+      "sample_index": 4367,
+      "target_node": 29,
+      "category": "OTHER",
+      "logged_f1": 0.4,
+      "logged_halluc": 0.0,
+      "regenerated_precision": 1.0,
+      "regenerated_hallucination": 0.0,
+      "example": {
+        "sample_index": 4367,
+        "tod_band": "am_rush",
+        "congestion": "high",
+        "target_region": "NE of Downtown LA",
+        "target_predicted_mph": 3.48,
+        "explanation_confidence": 0.6574,
+        "cited_regions": [
+          "San Fernando Valley"
+        ],
+        "topk_regions": [
+          "NW of Downtown LA",
+          "San Fernando Valley",
+          "N of Downtown LA",
+          "Glendale / Burbank",
+          "NE of Downtown LA",
+          "Pasadena / East"
+        ],
+        "faithfulness_f1": 0.4,
+        "hallucination_rate": 0.0
+      }
+    },
+    {
+      "sample_index": 3296,
+      "target_node": 121,
+      "category": "FREE_FLOW_FAILURE",
+      "logged_f1": 0.4,
+      "logged_halluc": 0.0,
+      "regenerated_precision": 1.0,
+      "regenerated_hallucination": 0.0,
+      "example": {
+        "sample_index": 3296,
+        "tod_band": "midday",
+        "congestion": "high",
+        "target_region": "Glendale / Burbank",
+        "target_predicted_mph": 60.7,
+        "explanation_confidence": 0.4303,
+        "cited_regions": [
+          "North of Downtown LA",
+          "East LA",
+          "Hollywood"
+        ],
+        "topk_regions": [
+          "N of Downtown LA",
+          "NW of Downtown LA",
+          "East LA",
+          "Hollywood",
+          "Downtown LA",
+          "NE of Downtown LA",
+          "San Fernando Valley",
+          "Glendale / Burbank"
+        ],
+        "faithfulness_f1": 0.4,
+        "hallucination_rate": 0.0
+      }
+    },
+    {
+      "sample_index": 5668,
+      "target_node": 144,
+      "category": "OTHER",
+      "logged_f1": 0.4,
+      "logged_halluc": 0.0,
+      "regenerated_precision": 1.0,
+      "regenerated_hallucination": 0.0,
+      "example": {
+        "sample_index": 5668,
+        "tod_band": "pm_rush",
+        "congestion": "low",
+        "target_region": "Downtown LA",
+        "target_predicted_mph": 20.31,
+        "explanation_confidence": 0.3056,
+        "cited_regions": [
+          "San Fernando Valley",
+          "Glendale / Burbank"
+        ],
+        "topk_regions": [
+          "San Fernando Valley",
+          "Glendale / Burbank",
+          "N of Downtown LA",
+          "NE of Downtown LA",
+          "Hollywood"
+        ],
+        "faithfulness_f1": 0.4,
+        "hallucination_rate": 0.0
+      }
+    },
+    {
+      "sample_index": 1926,
+      "target_node": 77,
+      "category": "SELF_ATTRIBUTION",
+      "logged_f1": 0.5555555555555556,
+      "logged_halluc": 0.5,
+      "regenerated_precision": 0.5,
+      "regenerated_hallucination": 0.5,
+      "example": {
+        "sample_index": 1926,
+        "tod_band": "pm_rush",
+        "congestion": "low",
+        "target_region": "San Fernando Valley",
+        "target_predicted_mph": 60.34,
+        "explanation_confidence": 0.6065,
+        "cited_regions": [
+          "Glendale / Burbank",
+          "San Fernando Valley"
+        ],
+        "topk_regions": [
+          "Glendale / Burbank",
+          "NW of Downtown LA",
+          "Downtown LA"
+        ],
+        "faithfulness_f1": 0.556,
+        "hallucination_rate": 0.5
+      }
+    },
+    {
+      "sample_index": 5049,
+      "target_node": 38,
+      "category": "OTHER",
+      "logged_f1": 0.4,
+      "logged_halluc": 0.0,
+      "regenerated_precision": 1.0,
+      "regenerated_hallucination": 0.0,
+      "example": {
+        "sample_index": 5049,
+        "tod_band": "pm_rush",
+        "congestion": "high",
+        "target_region": "Downtown LA",
+        "target_predicted_mph": 9.69,
+        "explanation_confidence": 0.3576,
+        "cited_regions": [
+          "Hollywood",
+          "East LA"
+        ],
+        "topk_regions": [
+          "Hollywood",
+          "East LA",
+          "NW of Downtown LA",
+          "Downtown LA"
+        ],
+        "faithfulness_f1": 0.4,
+        "hallucination_rate": 0.0
+      }
+    },
+    {
+      "sample_index": 219,
+      "target_node": 16,
+      "category": "OTHER",
+      "logged_f1": 0.2222222222222222,
+      "logged_halluc": 0.0,
+      "regenerated_precision": 1.0,
+      "regenerated_hallucination": 0.0,
+      "example": {
+        "sample_index": 219,
+        "tod_band": "evening",
+        "congestion": "low",
+        "target_region": "Downtown LA",
+        "target_predicted_mph": 33.87,
+        "explanation_confidence": 0.5973,
+        "cited_regions": [
+          "San Fernando Valley"
+        ],
+        "topk_regions": [
+          "San Fernando Valley",
+          "Pasadena / East",
+          "Glendale / Burbank",
+          "NE of Downtown LA"
+        ],
+        "faithfulness_f1": 0.222,
+        "hallucination_rate": 0.0
+      }
+    }
+  ]
+}

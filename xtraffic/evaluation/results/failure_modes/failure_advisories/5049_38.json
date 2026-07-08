@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in areas surrounding Downtown LA, particularly at Hollywood (9.5 mph), East LA (8.0 mph), and NW of Downtown LA (11.87 mph). These slow speeds are propagating along a path of 4 sensors with an estimated lag of 5 minutes between the source and the target.",
+  "cited_causes": [
+    {
+      "location": "Hollywood",
+      "resolved_node_id": 160
+    },
+    {
+      "location": "East LA",
+      "resolved_node_id": 23
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Push a special timing plan to the Olympic corridor",
+      "location": "Olympic Blvd and Pico Blvd",
+      "time_window_minutes": 10,
+      "expected_effect": "Extend green-band by 10-20% for up to ~30 min",
+      "grounded_in": [
+        "city-context fact: parallel relief arterials"
+      ]
+    },
+    {
+      "action": "Activate Caltrans ramp meters on eastbound on-ramps during peak",
+      "location": "I-10 (Santa Monica Fwy)",
+      "time_window_minutes": 5,
+      "expected_effect": "Reduce congestion at the I-10/I-110 interchange downtown and the La Cienega/Robertson stretch",
+      "grounded_in": [
+        "city-context fact: Caltrans ramp meters operate on most eastbound on-ramps during peak"
+      ]
+    },
+    {
+      "action": "Coordinate signal timing with LADOT ATSAC to extend green-band by 10-20% for up to ~30 min",
+      "location": "Wilshire, Sunset, Figueroa, Vermont",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduce congestion in the area",
+      "grounded_in": [
+        "city-context fact: coordinated corridors can have green-band extended by 10-20% for up to ~30 min"
+      ]
+    }
+  ]
+}

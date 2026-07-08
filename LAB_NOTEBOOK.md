@@ -310,3 +310,145 @@ session. This becomes the paper's experiments section almost for free.
 - **Still owed (unchanged, all Colab):** full fusion retrain + comparison table;
   Chicago Phase-1 pipeline + cross_city transfer table; Chicago faithfulness study;
   multi-seed ablation tables.
+
+## Phase 10 — simulation-based decision evaluation (2026-07-06)
+- **Goal:** replace the human study as Contribution #3 with a reproducible,
+  at-scale decision-quality experiment. 500 stratified scenarios; 3 decision
+  agents (RANDOM / RAW-LLM / XTRAFFIC-LLM) pick one of 5 interventions; score vs a
+  model-in-the-loop ground truth (lowest predicted 30-min network delay).
+- **What the smoke test caught (this is why we smoke first):** the first design —
+  each intervention a fixed-% speed uplift on its node set — gave a DEGENERATE
+  ground truth. `signal_retiming` won ~80% of scenarios because the target is by
+  construction the slowest node (biggest delay contributor) and only signal/transit
+  touch it directly. The LLM agents reasoned toward reroute/ramp_metering (the
+  plausible traffic-engineering actions) and so scored *worse than random*
+  (XTRAFFIC 0.10 < RAW 0.17 < RANDOM 0.47). An indefensible Contribution #3.
+- **Fix (chosen with Naren — Option 1, equal-budget + two physical mechanisms):**
+  every active intervention spends the SAME uplift budget, but (1) only on its
+  CONGESTED nodes (spending on already-fast nodes is wasted), and (2) with a
+  per-segment cap (one action can't teleport a segment to free-flow). Reroute =
+  source-node relief + top-edge weight cut. Now the best action depends on WHERE
+  congestion sits, not on which action hits the worst node.
+- **Calibrated on cached explanations** (fast --gt-only sweeps over budget/cap).
+  Locked budget=45 mph, cap=24 mph. **Confirmed GT distribution (n=41): transit
+  34% · ramp 32% · signal 27% · reroute 5% · no_action 2%** — a genuine 4-way
+  decision problem, reached by physical mechanisms, NOT by hand-tuning outcome
+  weights (important for defensibility).
+- **Harness:** evaluation/sim_eval.py + configs/sim_eval.yaml. Explanations +
+  advisories cached; every decision appended to decisions.jsonl so the ~8h full
+  run (500 scenarios × 3 seeds × 3 conditions, llama3.1:8b) is fully resumable.
+  Outputs CSV + JSON + booktabs table_sim_eval.tex. Full run KICKED OFF; numbers
+  land here on completion.
+
+---
+
+## Phase 11 — cross-city × cross-model faithfulness (2026-07-07)
+- **Goal:** stress-test Contribution #2. Phase 5 proved "the math explanation kills
+  LLM hallucination" on ONE city + ONE model. A reviewer will ask: METR-LA quirk?
+  llama3.1 quirk? So rerun the A/B/C study on 3 cities × 2 LLMs → one master table.
+  File: `evaluation/cross_city_faithfulness.py` + `configs/cross_city_faith.yaml`.
+- **Zero-shot transfer, done honestly.** PEMS-BAY (325) and Chicago (1020) don't
+  match METR-LA's 207 nodes, so I reuse `cross_city.py`'s transfer: node-agnostic
+  weights copy, node-specific embeddings re-init at target N (copied 119, re-init 4).
+  **The argument that makes this valid:** faithfulness is a *prompt-structural*
+  property — condition A shows the LLM the explainer's top-k and forbids inventing
+  causes; B hides them. Whether the LLM obeys is independent of how *accurate* the
+  transferred prediction is. So a possibly-inaccurate zero-shot model is a perfectly
+  clean probe of the grounding effect. (Bonus gotcha learned: `load_state_dict`
+  raises on the 207→325 shape mismatch *even with strict=False*, so I pre-build the
+  transferred checkpoint at the target N instead of loading cross-N.)
+- **Chicago is tiny:** 15 test windows (< my 20 floor). Pooled train+val+test = 76 →
+  stratified sample gives 33 (≥20, no fallback). Zero-shot ⇒ never trained on
+  Chicago ⇒ pooling adds no leakage for a *faithfulness* (not accuracy) measurement.
+- **Surprise:** the playbook's second model `qwen2.5:7b` AND its `tinyllama` fallback
+  are BOTH missing from local Ollama. Auto-detect ladder picked **mistral:7b** —
+  actually the *better* choice (different family from llama3.1, same size class →
+  stronger "not two llamas" evidence). Logged the substitution on the record.
+- **Smoke-verified end-to-end** (mock-LLM, isolated dir): transfer ckpts build,
+  real explainer runs on all 3 cities incl. the 1020-node Chicago transfer, metric +
+  aggregation + LaTeX table all produce the expected A-halluc 0 / B-halluc 1 shape.
+  Also ran ONE real llama3.1:8b advisory on a transferred PEMS-BAY explanation with
+  the empty-KB path → schema-valid, cond A F1 0.667 / halluc 0.000, 3 grounded
+  causes. Skeleton `table_cross_city_faith.tex` emitted (all PENDING until the run).
+- **Owed:** the full run — multi-hour and it shares the one local Ollama with the
+  running Phase-10 sim, so it goes AFTER Phase 10 (fully resumable, so it can be
+  killed/resumed freely). Numbers land here on completion.
+
+---
+
+## Phase 12 — SHAP baseline comparison ("why not just use SHAP?") (2026-07-07)
+- **Goal:** answer the inevitable reviewer question with an EXPERIMENT, not a
+  sentence. Build a SHAP explainer that plugs into the exact same pipeline, feed
+  its output to the same LLM advisor, and measure whether the reasoning stays as
+  faithful. Files: `models/explainer/shap_explainer.py` (explainer) +
+  `evaluation/shap_comparison.py` (study/table). Pinned `shap==0.44.1` (last clean
+  cp39 wheel; it held numpy at 1.26 — bumping numpy to 2.x would break torch).
+- **The clean design idea:** SHAP scores the same unit GNNExplainer does — the N
+  nodes. A coalition is a binary node mask; masking a node pushes its speed to the
+  z-space mean, which is *literally GNNExplainer's own "remove this node" op*. So
+  the two explainers share one definition of "absence" → a fair, controlled swap.
+  Because I gave `ShapExplainer` the same `explain_target()` signature, I reuse
+  100% of `ExplanationBuilder` (naming, top-k, path, lag, confidence, schema
+  validation) — the ONLY thing that changes is the importances. Byte-compatible
+  schema JSON, produced by SHAP.
+- **What the smoke taught me (nsamples=50 is the assignment's speed choice):** 50
+  coalitions for 207 nodes is underdetermined, so SHAP needs an L1 sparse solve.
+  `aic`/`bic` literally *crash* (LassoLarsIC can't estimate noise variance when
+  samples < features); `num_features(k)` works but LARS goes degenerate and only
+  ~13–18 nodes get nonzero SHAP, and the top-k *changes between runs*. So SHAP here
+  is slow **and** unstable — which is itself part of the answer, and I documented it
+  rather than hiding it.
+- **Real 3-scenario smoke (n=3, night/low-congestion — do NOT over-read):**
+  GNNExplainer F1 0.764 / halluc 0.000 · SHAP F1 0.853 / halluc 0.000 · No-explainer
+  F1 0.000 / halluc 1.000. Two honest takeaways: (1) on *faithfulness*, SHAP is NOT
+  worse — both explainers keep the LLM grounded, because the advisor is instructed
+  to cite only what it's shown, and it obeys for either. So the argument for
+  GNNExplainer leans on its *other* axes (speed, stability, edge/propagation
+  structure). (2) **GNN vs SHAP top-k overlap = 0.00** — the two explainers pick
+  completely different nodes (free-flow regime here, where there's no real spatial
+  cause). Whether that 0-overlap + SHAP's instability makes the LLM confabulate more
+  under *congestion* is exactly what the full 30 (stratified) will show.
+- **Owed:** the full 30-scenario real run (`python -m
+  xtraffic.evaluation.shap_comparison`, ~84 LLM calls). Resumable — the smoke's 3
+  decisions are reused. Runs in the same Ollama queue after Phase 10/11.
+
+---
+
+## Phase 13 — condition-A failure taxonomy (paper Section 6) (2026-07-07)
+- **Goal:** an honest account of when the FULL pipeline (condition A) still fails —
+  reviewers trust a system whose authors mapped its limits. Also closes the loop on
+  the Phase-4 self-attribution error: does it survive into the tuned study?
+  File: `evaluation/failure_modes.py`.
+- **Data reality I had to handle:** Phase 5 logged the per-scenario *metrics* but
+  threw away the LLM's cited causes, and 3 of the 6 categories need them. So for
+  each of the 7 failures I regenerate condition A on the *cached explanation* (~7
+  LLM calls, no explainer cost) to recover the cited-cause detail; the failure set
+  and F1/hallucination stay Phase-5's logged numbers. The regen reproduced the
+  logged 0.50 hallucination on the one hallucination case, so it's faithful.
+- **Two real bugs the smoke caught (this is why I smoke):**
+  1. My first SELF_ATTRIBUTION rule ("target in the resolved set") false-fired: the
+     mock cited "San Fernando Valley", which via *region-level credit* resolves to a
+     set containing both a real top-k sensor AND the target (same region) → wrongly
+     flagged. Fix: self-attribution requires a cited cause that *misses* top-k and
+     resolves to the target — i.e. it's a specific kind of hallucination, not just
+     "the target appeared in a region set."
+  2. TEMPORAL_CONFUSION false-fired on all 3 "correct-node" failures because the
+     advisory says "...will reach the target in **30 minutes**" — that's the forecast
+     *horizon*, not a propagation lag. Fix: only count a "N min" as a lag claim if
+     lead/lag *language* sits next to it, and exclude the horizon. After the fix,
+     temporal = 0 (there genuinely are no lag-contradiction claims here).
+- **Result (real llama3.1:8b, 7 failures / 93 = 7.5%):** SELF_ATTRIBUTION 1 (1.1%),
+  FREE_FLOW 1 (1.1%), OTHER = under-citation 5 (5.4%), and GEOGRAPHIC / TEMPORAL /
+  CONFIDENCE_MISMATCH all **0**. **The story I did NOT expect to be this clean:** the
+  pipeline essentially never *fabricates* — precision stays 1.0 on 6/7 failures and
+  there are zero geographic hallucinations. Its failures are *incompleteness*
+  (it names the strongest source and drops the rest → recall collapses while
+  precision holds) plus two rare regime artifacts. The single self-attribution case
+  (the Phase-4 bug, confirmed but rare) turns out to co-occur with free flow: a
+  missing-sensor target predicted at 60 mph, where with no real cause the LLM falls
+  back to blaming the target. And CONFIDENCE_MISMATCH = 0 because the explainer was
+  correctly *un*-confident (conf < 0.8) on every single failure — a nice consistency
+  result on its own.
+- **Output:** `table_failure_modes.tex` + `failure_modes.json` (per-category example
+  in region names only, hypothesised cause, concrete mitigation) + a Section-6
+  console report. Complete — no owed run (only 7 LLM calls, already done).

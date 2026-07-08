@@ -1,0 +1,44 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in the Glendale/Burbank area, specifically at sensor 769867 (34.218, -118.239), which has a speed of 65.33 mph and an importance of 0.752. This slow speed is contributing to the congestion at the target location in the San Fernando Valley, with a predicted speed of 60.34 mph in 30 minutes.",
+  "cited_causes": [
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 126
+    },
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": null
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement ramp metering at the I-405 Sepulveda Pass",
+      "location": "Sepulveda Pass",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in the San Fernando Valley",
+      "grounded_in": [
+        "I-405 San Diego Freeway corridor",
+        "Ramp metering is active pass-wide"
+      ]
+    },
+    {
+      "action": "Optimize traffic signal timing at Brand Blvd, San Fernando Rd and Colorado Blvd",
+      "location": "Glendale/Burbank freeways (SR-134, I-5, SR-2)",
+      "time_window_minutes": 15,
+      "expected_effect": "Improved traffic flow in the Glendale/Burbank area",
+      "grounded_in": [
+        "Glendale/Burbank freeways (SR-134, I-5, SR-2)",
+        "Key merge congestion at the I-5/SR-134/SR-2 interchange"
+      ]
+    },
+    {
+      "action": "Increase traffic monitoring in the Glendale/Burbank area",
+      "location": "Glendale / Burbank",
+      "time_window_minutes": 10,
+      "expected_effect": "Better understanding of congestion patterns in the area",
+      "grounded_in": [
+        "Glendale / Burbank (sensor 769867, 34.218, -118.239)"
+      ]
+    }
+  ]
+}

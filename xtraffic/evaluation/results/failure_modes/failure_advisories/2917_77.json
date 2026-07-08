@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley, specifically at sensor 765171 (node_id 77), which is currently moving at 12.62 mph and will be reduced to 8.76 mph in 30 minutes. This slowdown is caused by slower traffic upstream, particularly from sensors 767351 (node_id 89) and 716968 (node_id 112), which are moving at 69.0 mph and 58.37 mph respectively.",
+  "cited_causes": [
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 77
+    },
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 89
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "Upstream of sensor 767351 (node_id 89)",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in the San Fernando Valley",
+      "grounded_in": [
+        "congestion appears to travel along a path of 2 sensors"
+      ]
+    },
+    {
+      "action": "Reroute traffic before merge",
+      "location": "I-5/SR-134/SR-2 interchange",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion in the San Fernando Valley",
+      "grounded_in": [
+        "structural (geometry/merges)"
+      ]
+    },
+    {
+      "action": "Activate ramp metering",
+      "location": "Sepulveda Pass on I-405",
+      "time_window_minutes": 5,
+      "expected_effect": "Reduced congestion in the San Fernando Valley",
+      "grounded_in": [
+        "Ramp metering is active pass-wide"
+      ]
+    }
+  ]
+}
