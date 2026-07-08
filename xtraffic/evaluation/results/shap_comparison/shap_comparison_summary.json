@@ -1,0 +1,80 @@
+{
+  "dataset": "metr_la",
+  "n_scenarios": 3,
+  "nsamples_shap": 50,
+  "model": "llama3.1:8b",
+  "methods": {
+    "A": {
+      "label": "GNNExplainer (ours)"
+    },
+    "D": {
+      "label": "SHAP (KernelExplainer)"
+    },
+    "B": {
+      "label": "No explainer"
+    }
+  },
+  "aggregate": {
+    "A": {
+      "condition": "A",
+      "n": 3,
+      "cause_precision_mean": 1.0,
+      "cause_precision_std": 0.0,
+      "cause_precision_n": 3,
+      "cause_recall_mean": 0.625,
+      "cause_recall_std": 0.10206207261596575,
+      "cause_recall_n": 3,
+      "faithfulness_f1_mean": 0.7643467643467643,
+      "faithfulness_f1_std": 0.07783822930651638,
+      "faithfulness_f1_n": 3,
+      "hallucination_rate_mean": 0.0,
+      "hallucination_rate_std": 0.0,
+      "hallucination_rate_n": 3,
+      "quantitative_fidelity_mean": 0.5,
+      "quantitative_fidelity_std": 0.08164965809277258,
+      "quantitative_fidelity_n": 3
+    },
+    "D": {
+      "condition": "D",
+      "n": 3,
+      "cause_precision_mean": 1.0,
+      "cause_precision_std": 0.0,
+      "cause_precision_n": 3,
+      "cause_recall_mean": 0.75,
+      "cause_recall_std": 0.10206207261596575,
+      "cause_recall_n": 3,
+      "faithfulness_f1_mean": 0.8532356532356532,
+      "faithfulness_f1_std": 0.0670515352448567,
+      "faithfulness_f1_n": 3,
+      "hallucination_rate_mean": 0.0,
+      "hallucination_rate_std": 0.0,
+      "hallucination_rate_n": 3,
+      "quantitative_fidelity_mean": 0.611111111111111,
+      "quantitative_fidelity_std": 0.28327886186626583,
+      "quantitative_fidelity_n": 3
+    },
+    "B": {
+      "condition": "B",
+      "n": 3,
+      "cause_precision_mean": 0.0,
+      "cause_precision_std": 0.0,
+      "cause_precision_n": 3,
+      "cause_recall_mean": 0.0,
+      "cause_recall_std": 0.0,
+      "cause_recall_n": 3,
+      "faithfulness_f1_mean": 0.0,
+      "faithfulness_f1_std": 0.0,
+      "faithfulness_f1_n": 3,
+      "hallucination_rate_mean": 1.0,
+      "hallucination_rate_std": 0.0,
+      "hallucination_rate_n": 3,
+      "quantitative_fidelity_mean": 0.1111111111111111,
+      "quantitative_fidelity_std": 0.15713484026367722,
+      "quantitative_fidelity_n": 3
+    }
+  },
+  "gnn_vs_shap_topk_overlap": {
+    "mean": 0.0,
+    "std": 0.0
+  }
+}

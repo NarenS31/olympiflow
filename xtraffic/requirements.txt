@@ -10,6 +10,10 @@ pandas==2.1.4
 scipy==1.11.4          # cross-correlation for propagation-lag (Phase 3)
 rapidfuzz==3.6.1       # fuzzy entity resolution in the faithfulness metric
                        # (Phase 5). Code falls back to stdlib difflib if absent.
+shap==0.44.1           # Phase 12: SHAP baseline explainer (KernelExplainer) we
+                       # compare GNNExplainer against. 0.44.1 is the last line with
+                       # clean cp39 wheels and it holds numpy 1.26 (never bump numpy
+                       # to 2.x — the torch wheels are built against the 1.x ABI).
 
 # Config / IO / plotting
 pyyaml==6.0.1
