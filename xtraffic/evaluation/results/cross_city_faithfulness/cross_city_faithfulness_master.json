@@ -1,0 +1,47 @@
+{
+  "cities": [
+    "metr_la",
+    "pems_bay",
+    "chicago"
+  ],
+  "models": [
+    "llama3.1:8b",
+    "mistral:7b"
+  ],
+  "cells": [
+    {
+      "city": "metr_la",
+      "model": "llama3.1:8b",
+      "status": "PENDING"
+    },
+    {
+      "city": "metr_la",
+      "model": "mistral:7b",
+      "status": "PENDING"
+    },
+    {
+      "city": "pems_bay",
+      "model": "llama3.1:8b",
+      "status": "PENDING"
+    },
+    {
+      "city": "pems_bay",
+      "model": "mistral:7b",
+      "status": "PENDING"
+    },
+    {
+      "city": "chicago",
+      "model": "llama3.1:8b",
+      "status": "PENDING"
+    },
+    {
+      "city": "chicago",
+      "model": "mistral:7b",
+      "status": "PENDING"
+    }
+  ],
+  "n_computed": 0,
+  "n_pending": 6,
+  "hallucination_gap_holds_everywhere": false,
+  "note": "no cells computed yet (6 PENDING) -- run the full study to populate the table"
+}

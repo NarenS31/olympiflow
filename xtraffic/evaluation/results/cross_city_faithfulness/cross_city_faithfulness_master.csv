@@ -1,0 +1,7 @@
+city,model,status
+metr_la,llama3.1:8b,PENDING
+metr_la,mistral:7b,PENDING
+pems_bay,llama3.1:8b,PENDING
+pems_bay,mistral:7b,PENDING
+chicago,llama3.1:8b,PENDING
+chicago,mistral:7b,PENDING

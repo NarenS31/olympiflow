@@ -1,0 +1,56 @@
+# XTraffic — Phase 11 cross-city x cross-model faithfulness study.
+# No magic numbers in code (CLAUDE.md): every knob the harness needs lives here.
+#
+# GOAL: show the Phase-5 hallucination result is NOT a METR-LA quirk and NOT a
+# llama3.1 quirk. We rerun the A/B/C faithfulness study on TWO more cities
+# (PEMS-BAY, Chicago -- both via ZERO-SHOT transfer of the METR-LA model) and a
+# SECOND local LLM. If "condition A (with explanation) has near-zero
+# hallucination while condition B (no explanation) spikes" holds across every
+# city x model cell, the paper's core claim generalizes.
+
+seed: 42                                         # reproducible sampling (CLAUDE.md)
+source_city: metr_la                             # the city the checkpoint was trained on
+source_checkpoint: models/gnn/checkpoints/metr_la_best.pt
+
+# Cities to evaluate. metr_la runs on its own (in-domain) checkpoint; the others
+# run ZERO-SHOT: node-agnostic weights transfer, node-specific embeddings are
+# re-initialised at the target node count (the standard adaptive-graph limit,
+# see evaluation/cross_city.py). Faithfulness is a PROMPT-STRUCTURAL property
+# (does the LLM cite only what the explainer surfaced?), so it is well-defined
+# even when zero-shot PREDICTION accuracy is degraded -- that is exactly why this
+# is a clean "not-a-quirk" test.
+cities: [metr_la, pems_bay, chicago]
+
+# Stratified sampling: 5 time-of-day bands x 3 congestion terciles = 15 cells.
+# per_stratum 7 -> up to ~105 windows, ~93 in practice (same as Phase 5).
+per_stratum: 7
+# Chicago is a small recent Socrata window (only 15 test windows), so we POOL
+# train+val+test to reach this floor. Zero-shot => no Chicago training => pooling
+# introduces no train/test leakage for a faithfulness (not accuracy) measurement.
+chicago_min_scenarios: 20
+
+models:
+  # null -> use the model in configs/advisor.yaml (llama3.1:8b).
+  primary: null
+  # Second-model ladder (LLM-model ablation). We use the FIRST one that is
+  # actually installed in the local Ollama. qwen2.5:7b is the playbook's first
+  # choice, tinyllama the documented fallback; the rest are strong installed
+  # alternatives from a DIFFERENT model family than llama3.1 (mistral) so the
+  # cross-model evidence is not just "two llamas".
+  second_ladder: [qwen2.5:7b, tinyllama, mistral:7b, gemma2:9b, llama3.2:3b]
+
+conditions:
+  primary: [A, B, C]     # full study on the primary model (A/C vs B is the story)
+  second: [A, B]         # the second model only needs A vs B (the hallucination gap)
+
+explainer:
+  epochs: 200            # GNNExplainer mask-optimisation steps (Phase-3 default)
+  confidence_runs: 5     # reruns for explanation_confidence (Phase-3 default)
+  top_k: 8               # top-k causal nodes per explanation (Phase-3 default)
+
+output:
+  results_dir: evaluation/results/cross_city_faithfulness
+  tex: evaluation/paper/table_cross_city_faith.tex
+  # Reuse the committed Phase-5 llama3.1 METR-LA summary for that one cell instead
+  # of recomputing ~93 scenarios we already have logged.
+  reuse_phase5_metr_la: true
