@@ -1,0 +1,46 @@
+{
+  "reasoning": "The congestion is predicted because there are multiple sensors in the San Fernando Valley reporting zero speed, indicating a traffic jam. This congestion appears to be traveling along a path of three sensors with no lag between them.",
+  "cited_causes": [
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": null
+    },
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": null
+    },
+    {
+      "location": "NE of Downtown LA",
+      "resolved_node_id": null
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement ramp metering on I-405 Sepulveda Pass",
+      "location": "I-405 Sepulveda Pass",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in the San Fernando Valley",
+      "grounded_in": [
+        "City-context fact: Recurrent bottlenecks a planner should assume unless told otherwise"
+      ]
+    },
+    {
+      "action": "Optimize signal timing on Sepulveda Blvd and Van Nuys Blvd",
+      "location": "Sepulveda Blvd and Van Nuys Blvd",
+      "time_window_minutes": 5,
+      "expected_effect": "Improved traffic flow in the San Fernando Valley",
+      "grounded_in": [
+        "City-context fact: Congestion builds westbound US-101 in the AM peak"
+      ]
+    },
+    {
+      "action": "Activate upstream metering on I-405 approaching Sepulveda Pass",
+      "location": "I-405 approaching Sepulveda Pass",
+      "time_window_minutes": 5,
+      "expected_effect": "Reduced congestion at the bottleneck",
+      "grounded_in": [
+        "City-context fact: Upstream metering and reroute-before-the-merge are the levers, not signal timing at the interchange itself"
+      ]
+    }
+  ]
+}

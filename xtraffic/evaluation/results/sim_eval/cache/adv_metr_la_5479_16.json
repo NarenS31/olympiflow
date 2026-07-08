@@ -1,0 +1,46 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in the Glendale/Burbank area, specifically at sensor 717582 (node_id 167), which has a speed of 64.78 mph. This slow speed is also observed at nearby sensors 717595 (node_id 203) and 767585 (node_id 92), all with similar speeds. The congestion appears to be propagating along a path of 6 sensors, starting from the Glendale/Burbank area.",
+  "cited_causes": [
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 167
+    },
+    {
+      "location": "Pasadena / East",
+      "resolved_node_id": 203
+    },
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 92
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering on I-5/SR-134 interchange",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in the Glendale/Burbank area",
+      "grounded_in": [
+        "Glendale / Burbank (sensor 717582, node_id 167)"
+      ]
+    },
+    {
+      "action": "Reroute traffic before the merge at I-5/SR-134 interchange",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion in the Glendale/Burbank area",
+      "grounded_in": [
+        "Glendale / Burbank (sensor 717582, node_id 167)"
+      ]
+    },
+    {
+      "action": "Coordinate signal timing on parallel relief arterials Olympic Blvd and Pico Blvd",
+      "location": "Olympic Blvd and Pico Blvd",
+      "time_window_minutes": 5,
+      "expected_effect": "Reduced congestion in the Downtown LA area",
+      "grounded_in": [
+        "City context: Parallel relief arterials"
+      ]
+    }
+  ]
+}

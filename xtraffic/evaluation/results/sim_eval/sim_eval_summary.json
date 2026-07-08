@@ -1,0 +1,91 @@
+{
+  "meta": {
+    "dataset": "metr_la",
+    "n_scenarios": 6,
+    "n_seeds": 3,
+    "model": "mock"
+  },
+  "conditions": [
+    {
+      "condition": "RANDOM",
+      "n_seeds": 3,
+      "accuracy_mean": 0.4444444444444444,
+      "accuracy_std": 0.07856742013183862,
+      "delay_reduction_mean": 11.891666666666667,
+      "delay_reduction_std": 3.43275226744221,
+      "consistency_mean": 1.0,
+      "consistency_std": 0.0,
+      "per_seed": [
+        {
+          "accuracy": 0.3333333333333333,
+          "delay_reduction": 8.740833333333335,
+          "consistency": 1.0
+        },
+        {
+          "accuracy": 0.5,
+          "delay_reduction": 16.6655,
+          "consistency": 1.0
+        },
+        {
+          "accuracy": 0.5,
+          "delay_reduction": 10.268666666666668,
+          "consistency": 1.0
+        }
+      ]
+    },
+    {
+      "condition": "RAW",
+      "n_seeds": 3,
+      "accuracy_mean": 0.3333333333333333,
+      "accuracy_std": 0.0,
+      "delay_reduction_mean": 14.031333333333334,
+      "delay_reduction_std": 0.0,
+      "consistency_mean": 1.0,
+      "consistency_std": 0.0,
+      "per_seed": [
+        {
+          "accuracy": 0.3333333333333333,
+          "delay_reduction": 14.031333333333334,
+          "consistency": 1.0
+        },
+        {
+          "accuracy": 0.3333333333333333,
+          "delay_reduction": 14.031333333333334,
+          "consistency": 1.0
+        },
+        {
+          "accuracy": 0.3333333333333333,
+          "delay_reduction": 14.031333333333334,
+          "consistency": 1.0
+        }
+      ]
+    },
+    {
+      "condition": "XTRAFFIC",
+      "n_seeds": 3,
+      "accuracy_mean": 0.16666666666666666,
+      "accuracy_std": 0.0,
+      "delay_reduction_mean": 15.189666666666668,
+      "delay_reduction_std": 0.0,
+      "consistency_mean": 1.0,
+      "consistency_std": 0.0,
+      "per_seed": [
+        {
+          "accuracy": 0.16666666666666666,
+          "delay_reduction": 15.189666666666668,
+          "consistency": 1.0
+        },
+        {
+          "accuracy": 0.16666666666666666,
+          "delay_reduction": 15.189666666666668,
+          "consistency": 1.0
+        },
+        {
+          "accuracy": 0.16666666666666666,
+          "delay_reduction": 15.189666666666668,
+          "consistency": 1.0
+        }
+      ]
+    }
+  ]
+}

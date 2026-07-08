@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the slower speeds in the San Fernando Valley, specifically at sensor 717497 (node_id 69), which is currently traveling at 63.37 mph. This slow speed is contributing to the congestion at the target location, with a propagation path of 4 sensors and an estimated lag of 15 minutes.",
+  "cited_causes": [
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 69
+    },
+    {
+      "location": "NE of Downtown LA",
+      "resolved_node_id": 45
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Reroute traffic before the merge",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion at target location",
+      "grounded_in": [
+        "Upstream metering and reroute-before-the-merge are the levers, not signal timing at the interchange itself (City Context)"
+      ]
+    },
+    {
+      "action": "Signal coordination on surface relief roads",
+      "location": "Sunset Blvd and Santa Monica Blvd",
+      "time_window_minutes": 5,
+      "expected_effect": "Improved traffic flow through Hollywood",
+      "grounded_in": [
+        "Surface relief: Sunset Blvd and Santa Monica Blvd, both ATSAC signal-coordinated (City Context)"
+      ]
+    },
+    {
+      "action": "Encourage transit use where possible",
+      "location": "Wilshire and Expo/I-10 rail lines",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced demand on roads in the San Fernando Valley",
+      "grounded_in": [
+        "Transit is a viable diversion lever only where a parallel rail line exists (City Context)"
+      ]
+    }
+  ]
+}

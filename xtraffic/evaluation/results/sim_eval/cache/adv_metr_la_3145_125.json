@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in the Glendale/Burbank area, specifically at sensor 773954 (node_id 58), which has a speed of 42.0 mph and an importance of 0.793. This slow speed is contributing to the congestion at the target location, which is also in the Glendale/Burbank area.",
+  "cited_causes": [
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 58
+    },
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 10
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion at the target location",
+      "grounded_in": [
+        "The Glendale/Burbank area has slow speeds, and upstream metering is a lever to address this issue (city-context fact)."
+      ]
+    },
+    {
+      "action": "Reroute traffic before the merge",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion at the target location",
+      "grounded_in": [
+        "The Glendale/Burbank area has slow speeds, and rerouting traffic before the merge is a lever to address this issue (city-context fact)."
+      ]
+    },
+    {
+      "action": "Adjust ramp metering in Sepulveda Pass",
+      "location": "Sepulveda Pass",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion at the target location",
+      "grounded_in": [
+        "The San Fernando Valley has slow speeds, and adjusting ramp metering is a lever to address this issue (city-context fact)."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,103 @@
+# XTraffic — Phase 10 simulation-based decision-evaluation configuration.
+# No magic numbers in code (CLAUDE.md): every knob the harness needs lives here.
+#
+# This experiment REPLACES the Phase-8 human study as Contribution #3. Instead of
+# asking human experts to pick an intervention, we ask three DECISION AGENTS
+# (RANDOM / RAW-LLM / XTRAFFIC-LLM) to pick, and score them against a model-in-the-
+# loop ground truth. Fully reproducible, runs at 500-scenario scale, no scheduling.
+
+seed: 42                       # reproducible scenario sampling (CLAUDE.md)
+dataset: "metr_la"             # Chicago is auto-added by sim_eval.py once a ckpt exists
+city: "metr_la"                # which advisor knowledge base the XTRAFFIC condition uses
+checkpoint: "models/gnn/checkpoints/metr_la_best.pt"
+
+n_scenarios: 500               # total stratified scenarios to sample
+decision_seeds: [0, 1, 2]      # 3 seeds -> mean +/- std per condition (CLAUDE.md asks for this)
+
+# --- Stratification grid -----------------------------------------------------
+# 5 time-of-day bands x 3 congestion terciles = 15 cells; ~33-34 scenarios/cell to
+# reach 500. Congestion is cut on the finite mean-speed distribution (high = slow).
+# Same band edges as the Phase-5 faithfulness study so results are comparable.
+stratify:
+  tod_bands:                   # (label, lo_fraction, hi_fraction) over the clock channel
+    - ["night",   0.00, 0.25]  # ~00:00-06:00
+    - ["am_rush", 0.25, 0.42]  # ~06:00-10:00
+    - ["midday",  0.42, 0.62]  # ~10:00-15:00
+    - ["pm_rush", 0.62, 0.83]  # ~15:00-20:00
+    - ["evening", 0.83, 1.00]  # ~20:00-24:00
+  congestion_levels: ["low", "medium", "high"]   # by mean-speed tercile (high = slowest)
+
+# --- Intervention simulation (the ground-truth mechanism) --------------------
+# HONEST LIMITATION (state in the paper): "ground truth" is what the trained GNN
+# BELIEVES helps, not observed reality — a model-in-the-loop proxy. It is internally
+# consistent (same model produces the predictions the agents see) and reproducible,
+# but it inherits the model's biases. Inherited from Phase 8's simulate.py.
+#
+# MODELING NOTE: the GNN input channel is SPEED (mph), there is no flow channel. A
+# demand/flow reduction relieves congestion => higher speed, so we model each action
+# as a SPEED uplift on the last `apply_steps` input timesteps of its characteristic
+# node set. Rerouting changes graph CONNECTIVITY, so it ALSO cuts the top explanation
+# edge's weight (temp buffer swap, like the explainer).
+#
+# EQUAL-BUDGET DESIGN (fixes the degenerate ground truth found in the first smoke):
+# every ACTIVE intervention spends the SAME total uplift budget `uplift_budget_mph`,
+# split evenly across its node set (single-node actions get the whole budget). Two
+# mechanisms make the best action depend on WHERE congestion is (not on which action
+# touches the slowest node):
+#   1. CLIPPING: perturbed input speed is clipped at free_flow_mph — a road can't go
+#      faster than free-flow, so CONCENTRATING budget on an already-fast-ish node
+#      WASTES it. Spreading (ramp/transit) avoids that waste when the target isn't the
+#      only problem.
+#   2. PROPAGATION: the uplift is applied to the INPUT and read out 30 min later, so
+#      relieving upstream feeders (ramp) or the corridor source (reroute) can help the
+#      target more than boosting the target directly, when congestion is upstream.
+# Result: signal wins isolated on-target bottlenecks; ramp wins upstream-fed jams;
+# transit wins diffuse regional congestion; reroute wins single-corridor spillover.
+simulation:
+  horizon_step: 6              # 1-based forecast step scored; 6 = 30 min at 5-min res
+  free_flow_mph: 60.0          # reference speed; network delay = sum max(0, ff - pred); also the clip cap
+  apply_steps: 4               # how many of the last 12 input steps a perturbation touches
+  uplift_budget_mph: 45.0      # EQUAL total speed-uplift budget every active action spends
+  max_per_node_mph: 24.0       # cap on any single segment's uplift (diminishing returns; one
+                               # action can't teleport a segment to free-flow). This is what
+                               # stops the concentrated signal-retiming action from dominating:
+                               # signal (1 node) can deploy at most this much, while ramp/transit
+                               # spread the budget across several congested nodes and deploy more.
+  reroute_edge_cut: 0.30       # top-explanation-edge weight reduction for the reroute action
+
+# Exactly 5 candidate interventions. Each entry:
+#   name  : label used everywhere (LLM choice, ground truth, tables)
+#   kind  : "none" | "speed_uplift" (spread budget over nodes) | "reroute" (source uplift + edge cut)
+#   scope : node set the budget lands on -> "target" | "feeders" (1-hop) | "two_hop" | "source" (top-edge from)
+#   desc  : one-line human description shown to the LLM decision agents
+interventions:
+  - name: "no_action"
+    kind: "none"
+    scope: "none"
+    desc: "Take no action (baseline)."
+  - name: "signal_retiming"
+    kind: "speed_uplift"
+    scope: "target"
+    desc: "Retime signals at the target segment (relieve the bottleneck itself)."
+  - name: "ramp_metering"
+    kind: "speed_uplift"
+    scope: "feeders"
+    desc: "Meter the on-ramps feeding the target (relieve its immediate upstream neighbours)."
+  - name: "reroute"
+    kind: "reroute"
+    scope: "source"
+    desc: "Divert traffic off the primary upstream corridor (relieve the source segment + cut that link)."
+  - name: "transit_surge"
+    kind: "speed_uplift"
+    scope: "two_hop"
+    desc: "Add transit capacity across the wider neighbourhood (relieve diffuse regional demand)."
+
+# --- LLM decision agents (RAW + XTRAFFIC) ------------------------------------
+# Host/model default to configs/advisor.yaml (llama3.1:8b); --model overrides both
+# the decision agent and the advisory generation so a whole run uses one model.
+llm:
+  decision_temperature: 0.2    # a touch above the advisor's 0.1 so the 3 seeds vary
+  advisory_for_xtraffic: true  # XTRAFFIC condition also shows the LLM advisory text
+
+# --- Output ------------------------------------------------------------------
+output_tex: "evaluation/paper/table_sim_eval.tex"   # \input-ready booktabs table

@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in areas north and northwest of Downtown LA, which are affecting traffic flow all the way to the San Fernando Valley. Specifically, sensors NW of Downtown LA (node_id 147) and N of Downtown LA (node_id 49) are reporting very low speeds, indicating a bottleneck that is propagating downstream.",
+  "cited_causes": [
+    {
+      "location": "NW of Downtown LA",
+      "resolved_node_id": 147
+    },
+    {
+      "location": "N of Downtown LA",
+      "resolved_node_id": 49
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "I-10/I-110 downtown interchange",
+      "time_window_minutes": 5,
+      "expected_effect": "Reduced congestion in the San Fernando Valley",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Reroute traffic before merge",
+      "location": "I-405 Sepulveda Pass",
+      "time_window_minutes": 10,
+      "expected_effect": "Reducing the impact of congestion on the San Fernando Valley",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Signal-coordinated relief at surface streets",
+      "location": "Sunset Blvd and Santa Monica Blvd",
+      "time_window_minutes": 15,
+      "expected_effect": "Providing an alternative route for traffic to bypass the congested areas",
+      "grounded_in": [
+        "city-context fact: surface reliefs"
+      ]
+    }
+  ]
+}

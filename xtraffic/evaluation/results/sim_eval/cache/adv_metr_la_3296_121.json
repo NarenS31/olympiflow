@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in areas north and northwest of Downtown LA, which are affecting traffic flow as it propagates towards Glendale/Burbank. Specifically, the speed at sensor 716955 (north of Downtown LA) is 16.14 mph, and at sensor 717452 (northwest of Downtown LA) is 41.63 mph.",
+  "cited_causes": [
+    {
+      "location": "N of Downtown LA",
+      "resolved_node_id": 56
+    },
+    {
+      "location": "NW of Downtown LA",
+      "resolved_node_id": 192
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Reroute traffic before the merge at I-5/SR-134/SR-2 interchange",
+      "location": "Glendale/Burbank (SR-134, I-5)",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in Glendale/Burbank area",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Coordinate signals on surface relief roads (Sunset Blvd and Santa Monica Blvd)",
+      "location": "Hollywood Freeway corridor (US-101)",
+      "time_window_minutes": 5,
+      "expected_effect": "Improved traffic flow through Hollywood",
+      "grounded_in": [
+        "city-context fact: ATSAC signal-coordinated"
+      ]
+    },
+    {
+      "action": "Meter traffic upstream of the I-5/SR-134/SR-2 interchange",
+      "location": "Glendale/Burbank (SR-134, I-5)",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion in Glendale/Burbank area",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    }
+  ]
+}
