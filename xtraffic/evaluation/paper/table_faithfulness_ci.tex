@@ -1,0 +1,22 @@
+% Phase 15b — faithfulness with bootstrap 95% CIs (93 scenarios, 10000 iters, seed 42).
+\begin{tabular}{lccc}
+\toprule
+Metric & A & B & C \\
+\midrule
+Precision & 0.995 [0.984, 1.000] & 0.172 [0.108, 0.242] & 0.995 [0.984, 1.000] \\
+Recall & 0.593 [0.555, 0.629] & 0.071 [0.040, 0.105] & 0.605 [0.560, 0.648] \\
+F1 & 0.725 [0.693, 0.755] & 0.090 [0.054, 0.128] & 0.728 [0.692, 0.763] \\
+Halluc. & 0.005 [0.000, 0.016] & 0.828 [0.758, 0.898] & 0.005 [0.000, 0.016] \\
+Quant.\,fid. & 0.698 [0.650, 0.745] & 0.360 [0.290, 0.432] & 0.764 [0.714, 0.811] \\
+\bottomrule
+\end{tabular}
+
+% Paired-difference 95% CIs (mean diff [lo, hi]; * = CI excludes 0).
+\begin{tabular}{llccccc}
+\toprule
+Contrast & & Precision & Recall & F1 & Halluc. & Quant.\,fid. \\
+\midrule
+A-B & & +0.823* & +0.522* & +0.635* & -0.823* & +0.344* \\
+A-C & & +0.000 & -0.012 & -0.003 & +0.000 & -0.061 \\
+\bottomrule
+\end{tabular}

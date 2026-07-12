@@ -1,0 +1,12 @@
+% Table -- sparse-sensor regime (METR-LA). Prediction MAE at the retained
+% (core) sensors + faithfulness/hallucination per sensor-density level.
+% PENDING cells (--) are Ollama-owed faithfulness numbers; run python -m xtraffic.evaluation.sparse_regime --faith-only.
+\begin{tabular}{lcccccc}
+\toprule
+Density & 15-min MAE & 30-min MAE & 60-min MAE & Faith. F1 (A) & Halluc. (A/B) & Dominant failure \\
+\midrule
+100\% & 3.254 & 3.743 & 4.241 & 0.667 & 0.00/0.00 & None \\
+50\% & 4.039 & 5.323 & 7.002 & 0.400 & 0.00/0.00 & Other \\
+10\% & 5.066 & 6.768 & 9.152 & 0.545 & 0.00/0.00 & None \\
+\bottomrule
+\end{tabular}

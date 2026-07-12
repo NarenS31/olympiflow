@@ -1,0 +1,46 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley, specifically at sensor 767351 (node_id 89), which is currently traveling at 64.63 mph, and sensors 717819 and 763995, both with similar speeds. This slow traffic is propagating downstream to Downtown LA, where the target sensor is located.",
+  "cited_causes": [
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 89
+    },
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 36
+    },
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 145
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering on I-5/SR-134 interchange",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in the San Fernando Valley and subsequent propagation to Downtown LA",
+      "grounded_in": [
+        "City-context fact: Recurrent bottlenecks at I-5/SR-134 interchange"
+      ]
+    },
+    {
+      "action": "Activate ramp metering on Sepulveda Blvd",
+      "location": "Sepulveda Blvd",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion in the San Fernando Valley and subsequent propagation to Downtown LA",
+      "grounded_in": [
+        "City-context fact: Ramp metering is active pass-wide on I-405"
+      ]
+    },
+    {
+      "action": "Reroute traffic before merge at I-5/SR-134 interchange",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in the San Fernando Valley and subsequent propagation to Downtown LA",
+      "grounded_in": [
+        "City-context fact: Upstream metering and reroute-before-the-merge are levers for structural bottlenecks"
+      ]
+    }
+  ]
+}

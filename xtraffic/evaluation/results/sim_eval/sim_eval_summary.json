@@ -1,61 +1,46 @@
 {
   "meta": {
     "dataset": "metr_la",
-    "n_scenarios": 6,
+    "n_scenarios": 24,
     "n_seeds": 3,
-    "model": "mock"
+    "random_report_seeds": 200,
+    "model": "llama3.1:8b"
   },
   "conditions": [
     {
       "condition": "RANDOM",
-      "n_seeds": 3,
-      "accuracy_mean": 0.4444444444444444,
-      "accuracy_std": 0.07856742013183862,
-      "delay_reduction_mean": 11.891666666666667,
-      "delay_reduction_std": 3.43275226744221,
-      "consistency_mean": 1.0,
-      "consistency_std": 0.0,
-      "per_seed": [
-        {
-          "accuracy": 0.3333333333333333,
-          "delay_reduction": 8.740833333333335,
-          "consistency": 1.0
-        },
-        {
-          "accuracy": 0.5,
-          "delay_reduction": 16.6655,
-          "consistency": 1.0
-        },
-        {
-          "accuracy": 0.5,
-          "delay_reduction": 10.268666666666668,
-          "consistency": 1.0
-        }
-      ]
+      "n_seeds": 200,
+      "accuracy_mean": 0.19958333333333336,
+      "accuracy_std": 0.08391360471077118,
+      "delay_reduction_mean": 13.405612500000004,
+      "delay_reduction_std": 2.654754447586286,
+      "consistency_mean": 0.6027083333333333,
+      "consistency_std": 0.058612057325168915,
+      "per_seed": []
     },
     {
       "condition": "RAW",
       "n_seeds": 3,
-      "accuracy_mean": 0.3333333333333333,
+      "accuracy_mean": 0.2916666666666667,
       "accuracy_std": 0.0,
-      "delay_reduction_mean": 14.031333333333334,
+      "delay_reduction_mean": 18.493,
       "delay_reduction_std": 0.0,
       "consistency_mean": 1.0,
       "consistency_std": 0.0,
       "per_seed": [
         {
-          "accuracy": 0.3333333333333333,
-          "delay_reduction": 14.031333333333334,
+          "accuracy": 0.2916666666666667,
+          "delay_reduction": 18.493,
           "consistency": 1.0
         },
         {
-          "accuracy": 0.3333333333333333,
-          "delay_reduction": 14.031333333333334,
+          "accuracy": 0.2916666666666667,
+          "delay_reduction": 18.493,
           "consistency": 1.0
         },
         {
-          "accuracy": 0.3333333333333333,
-          "delay_reduction": 14.031333333333334,
+          "accuracy": 0.2916666666666667,
+          "delay_reduction": 18.493,
           "consistency": 1.0
         }
       ]
@@ -63,27 +48,27 @@
     {
       "condition": "XTRAFFIC",
       "n_seeds": 3,
-      "accuracy_mean": 0.16666666666666666,
-      "accuracy_std": 0.0,
-      "delay_reduction_mean": 15.189666666666668,
-      "delay_reduction_std": 0.0,
-      "consistency_mean": 1.0,
-      "consistency_std": 0.0,
+      "accuracy_mean": 0.3194444444444444,
+      "accuracy_std": 0.019641855032959635,
+      "delay_reduction_mean": 20.942916666666665,
+      "delay_reduction_std": 0.8704090320658731,
+      "consistency_mean": 0.8194444444444443,
+      "consistency_std": 0.039283710065919325,
       "per_seed": [
         {
-          "accuracy": 0.16666666666666666,
-          "delay_reduction": 15.189666666666668,
-          "consistency": 1.0
+          "accuracy": 0.3333333333333333,
+          "delay_reduction": 21.4305,
+          "consistency": 0.7916666666666666
         },
         {
-          "accuracy": 0.16666666666666666,
-          "delay_reduction": 15.189666666666668,
-          "consistency": 1.0
+          "accuracy": 0.2916666666666667,
+          "delay_reduction": 19.720291666666668,
+          "consistency": 0.875
         },
         {
-          "accuracy": 0.16666666666666666,
-          "delay_reduction": 15.189666666666668,
-          "consistency": 1.0
+          "accuracy": 0.3333333333333333,
+          "delay_reduction": 21.677958333333333,
+          "consistency": 0.7916666666666666
         }
       ]
     }

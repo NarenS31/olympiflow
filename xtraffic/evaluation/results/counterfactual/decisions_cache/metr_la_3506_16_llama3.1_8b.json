@@ -1,0 +1,148 @@
+{
+  "sample_index": 3506,
+  "target_node": 16,
+  "tod_band": "am_rush",
+  "congestion": "low",
+  "timestamp": "test#3506 @ 07:25",
+  "predicted_speed": 32.98,
+  "predicted_speed_after": 35.99,
+  "flip_achieved": true,
+  "reason": "flip",
+  "n_critical": 8,
+  "n_levers": 1,
+  "n_nodes_changed": 1,
+  "n_upstream_changed": 0,
+  "changed_target": true,
+  "perturbation_budget": 6.0,
+  "implied_lead_minutes": 0.0,
+  "cf": {
+    "factual": {
+      "predicted_speed": 32.98,
+      "target_name": "Downtown LA (sensor 771667, 34.073, -118.234)",
+      "critical_nodes": [
+        {
+          "node_id": 69,
+          "node_name": "San Fernando Valley (sensor 717497, 34.157, -118.415)",
+          "current_speed": 67.89
+        },
+        {
+          "node_id": 186,
+          "node_name": "San Fernando Valley (sensor 717823, 34.203, -118.473)",
+          "current_speed": 66.89
+        },
+        {
+          "node_id": 86,
+          "node_name": "San Fernando Valley (sensor 772596, 34.171, -118.505)",
+          "current_speed": 65.89
+        },
+        {
+          "node_id": 96,
+          "node_name": "Hollywood (sensor 717481, 34.106, -118.328)",
+          "current_speed": 70.0
+        },
+        {
+          "node_id": 134,
+          "node_name": "NE of Downtown LA (sensor 716951, 34.086, -118.232)",
+          "current_speed": 66.67
+        },
+        {
+          "node_id": 136,
+          "node_name": "Downtown LA (sensor 765182, 34.065, -118.251)",
+          "current_speed": 68.56
+        },
+        {
+          "node_id": 127,
+          "node_name": "Hollywood (sensor 717472, 34.100, -118.316)",
+          "current_speed": 69.11
+        },
+        {
+          "node_id": 182,
+          "node_name": "San Fernando Valley (sensor 717825, 34.222, -118.473)",
+          "current_speed": 68.89
+        }
+      ]
+    },
+    "counterfactual": {
+      "required_changes": [
+        {
+          "node_id": 16,
+          "node_name": "Downtown LA (sensor 771667, 34.073, -118.234)",
+          "current_speed": 33.44,
+          "required_speed": 39.44,
+          "delta_mph": 6.0,
+          "is_target": true
+        }
+      ],
+      "predicted_speed_after": 35.99,
+      "total_perturbation_budget": 6.0,
+      "flip_achieved": true
+    },
+    "meta": {
+      "flip_threshold_mph": 35.0,
+      "free_flow_mph": 60.0,
+      "max_uplift_mph": 20.0,
+      "step_mph": 2.0,
+      "implied_lead_minutes": 0.0,
+      "reason": "flip",
+      "target_node": 16,
+      "n_critical": 8,
+      "n_levers": 1,
+      "dataset": "metr_la",
+      "sample_index": 3506,
+      "tod_band": "am_rush",
+      "congestion": "low",
+      "timestamp": "test#3506 @ 07:25"
+    }
+  },
+  "narrated": true,
+  "faithfulness_f1": 1.0,
+  "cause_precision": 1.0,
+  "cause_recall": 1.0,
+  "hallucination_rate": 0.0,
+  "narration": {
+    "advisory": {
+      "reasoning": "The minimum intervention to prevent congestion in Downtown LA is to raise the speed from 33.44 mph to 39.44 mph at a specific location, which would have prevented the congestion.",
+      "cited_causes": [
+        {
+          "location": "Downtown LA",
+          "resolved_node_id": 16
+        }
+      ],
+      "recommendations": [
+        {
+          "action": "Adjust signal timing on Sunset Blvd and Santa Monica Blvd to allow for more green time during peak hours",
+          "location": "US-101 Hollywood Freeway corridor",
+          "time_window_minutes": 10,
+          "expected_effect": "Increase speed by up to 6.0 mph",
+          "grounded_in": [
+            "raise from 33.44 mph to 39.44 mph (+6.0 mph)"
+          ]
+        },
+        {
+          "action": "Implement ramp metering on the I-405 Sepulveda Pass to regulate traffic flow and reduce congestion",
+          "location": "I-405 San Diego Freeway corridor",
+          "time_window_minutes": 15,
+          "expected_effect": "Increase speed by up to 6.0 mph",
+          "grounded_in": [
+            "raise from 33.44 mph to 39.44 mph (+6.0 mph)"
+          ]
+        },
+        {
+          "action": "Optimize traffic signal coordination on Ventura Blvd and Sepulveda/Van Nuys Blvd to reduce congestion in the San Fernando Valley",
+          "location": "San Fernando Valley freeways (US-101, I-405, SR-118)",
+          "time_window_minutes": 20,
+          "expected_effect": "Increase speed by up to 6.0 mph",
+          "grounded_in": [
+            "raise from 33.44 mph to 39.44 mph (+6.0 mph)"
+          ]
+        }
+      ]
+    },
+    "context_used": [
+      "Known recurrent bottlenecks (LA basin)",
+      "US-101 Hollywood Freeway corridor",
+      "I-405 San Diego Freeway corridor",
+      "San Fernando Valley freeways (US-101, I-405, SR-118)"
+    ]
+  }
+}

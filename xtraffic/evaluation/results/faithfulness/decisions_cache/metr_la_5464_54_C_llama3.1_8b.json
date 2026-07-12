@@ -1,0 +1,22 @@
+{
+  "sample_index": 5464,
+  "target_node": 54,
+  "tod_band": "night",
+  "congestion": "low",
+  "condition": "C",
+  "advisory_error": "",
+  "cited_locations": [
+    "San Fernando Valley",
+    "San Fernando Valley",
+    "San Fernando Valley",
+    "San Fernando Valley"
+  ],
+  "context_used": [],
+  "cause_precision": 1.0,
+  "cause_recall": 0.5,
+  "faithfulness_f1": 0.6666666666666666,
+  "hallucination_rate": 0.0,
+  "quantitative_fidelity": 0.6666666666666666,
+  "n_cited_causes": 4,
+  "n_topk": 8
+}

@@ -1,0 +1,148 @@
+{
+  "sample_index": 5849,
+  "target_node": 197,
+  "tod_band": "midday",
+  "congestion": "low",
+  "timestamp": "test#5849 @ 10:40",
+  "predicted_speed": 27.37,
+  "predicted_speed_after": 36.26,
+  "flip_achieved": true,
+  "reason": "flip",
+  "n_critical": 8,
+  "n_levers": 1,
+  "n_nodes_changed": 1,
+  "n_upstream_changed": 0,
+  "changed_target": true,
+  "perturbation_budget": 16.0,
+  "implied_lead_minutes": 25.0,
+  "cf": {
+    "factual": {
+      "predicted_speed": 27.37,
+      "target_name": "San Fernando Valley (sensor 772167, 34.165, -118.480)",
+      "critical_nodes": [
+        {
+          "node_id": 66,
+          "node_name": "NE of Downtown LA (sensor 767610, 34.186, -118.218)",
+          "current_speed": 68.0
+        },
+        {
+          "node_id": 171,
+          "node_name": "Glendale / Burbank (sensor 717587, 34.154, -118.239)",
+          "current_speed": 69.13
+        },
+        {
+          "node_id": 186,
+          "node_name": "San Fernando Valley (sensor 717823, 34.203, -118.473)",
+          "current_speed": 67.0
+        },
+        {
+          "node_id": 99,
+          "node_name": "San Fernando Valley (sensor 764120, 34.202, -118.404)",
+          "current_speed": 67.5
+        },
+        {
+          "node_id": 45,
+          "node_name": "NE of Downtown LA (sensor 774011, 34.147, -118.201)",
+          "current_speed": 69.0
+        },
+        {
+          "node_id": 203,
+          "node_name": "Pasadena / East (sensor 717595, 34.142, -118.183)",
+          "current_speed": 69.0
+        },
+        {
+          "node_id": 168,
+          "node_name": "Glendale / Burbank (sensor 717583, 34.156, -118.255)",
+          "current_speed": 69.5
+        },
+        {
+          "node_id": 42,
+          "node_name": "Glendale / Burbank (sensor 773927, 34.153, -118.280)",
+          "current_speed": 69.0
+        }
+      ]
+    },
+    "counterfactual": {
+      "required_changes": [
+        {
+          "node_id": 197,
+          "node_name": "San Fernando Valley (sensor 772167, 34.165, -118.480)",
+          "current_speed": 24.62,
+          "required_speed": 40.62,
+          "delta_mph": 16.0,
+          "is_target": true
+        }
+      ],
+      "predicted_speed_after": 36.26,
+      "total_perturbation_budget": 16.0,
+      "flip_achieved": true
+    },
+    "meta": {
+      "flip_threshold_mph": 35.0,
+      "free_flow_mph": 60.0,
+      "max_uplift_mph": 20.0,
+      "step_mph": 2.0,
+      "implied_lead_minutes": 25.0,
+      "reason": "flip",
+      "target_node": 197,
+      "n_critical": 8,
+      "n_levers": 1,
+      "dataset": "metr_la",
+      "sample_index": 5849,
+      "tod_band": "midday",
+      "congestion": "low",
+      "timestamp": "test#5849 @ 10:40"
+    }
+  },
+  "narrated": true,
+  "faithfulness_f1": 1.0,
+  "cause_precision": 1.0,
+  "cause_recall": 1.0,
+  "hallucination_rate": 0.0,
+  "narration": {
+    "advisory": {
+      "reasoning": "The minimum intervention that would have prevented the congestion is to raise the speed from 24.62 mph to 40.62 mph at a specific location in the San Fernando Valley, approximately 25 minutes before the target congestion.",
+      "cited_causes": [
+        {
+          "location": "San Fernando Valley",
+          "resolved_node_id": 197
+        }
+      ],
+      "recommendations": [
+        {
+          "action": "Implement dynamic speed limit adjustments to increase the speed limit from 24.62 mph to 40.62 mph",
+          "location": "San Fernando Valley (sensor 772167, 34.165, -118.480)",
+          "time_window_minutes": 25,
+          "expected_effect": "Increase in traffic speed and reduction in congestion",
+          "grounded_in": [
+            "raise from 24.62 mph to 40.62 mph (+16.0 mph)"
+          ]
+        },
+        {
+          "action": "Optimize traffic signal timing at nearby intersections to reduce congestion and increase traffic flow",
+          "location": "San Fernando Valley (sensor 772167, 34.165, -118.480)",
+          "time_window_minutes": 20,
+          "expected_effect": "Increase in traffic speed and reduction in congestion",
+          "grounded_in": [
+            "raise from 24.62 mph to 40.62 mph (+16.0 mph)"
+          ]
+        },
+        {
+          "action": "Implement ramp metering at nearby on-ramps to regulate traffic flow and reduce congestion",
+          "location": "San Fernando Valley (sensor 772167, 34.165, -118.480)",
+          "time_window_minutes": 15,
+          "expected_effect": "Increase in traffic speed and reduction in congestion",
+          "grounded_in": [
+            "raise from 24.62 mph to 40.62 mph (+16.0 mph)"
+          ]
+        }
+      ]
+    },
+    "context_used": [
+      "Glendale/Burbank freeways (SR-134, I-5, SR-2)",
+      "Known recurrent bottlenecks (LA basin)",
+      "Transit alternatives (Metro rail/bus)",
+      "San Fernando Valley freeways (US-101, I-405, SR-118)"
+    ]
+  }
+}

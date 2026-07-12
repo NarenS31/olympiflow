@@ -34,6 +34,7 @@ import csv
 import json
 import os
 import random
+import re
 from typing import Any, Dict, List, Optional, Tuple
 
 import numpy as np
@@ -44,6 +45,7 @@ from ..models.explainer.explain import ExplanationBuilder
 from ..models.explainer.scenarios import SPEED_CHANNEL, TOD_CHANNEL, _tod_to_clock
 from ..models.gnn.loaders import _load_split, load_node_meta
 from ..utils.io_utils import PKG_ROOT
+from .bootstrap_ci import bootstrap_from_rows
 from .faithfulness import NodeTable, mean_std, score_advisory
 
 SEED = 42  # CLAUDE.md: fixed seed everywhere for reproducibility.
@@ -163,10 +165,32 @@ def build_or_load_explanation(builder: ExplanationBuilder, dataset: str,
 
 
 # ---------------------------------------------------------------------------
+# Decision caching (Phase 15b): make the study RESUMABLE and let the bootstrap
+# run "on cached decisions, no full recompute" (the 15b gate). Each (scenario,
+# condition, model) advisory+metrics is cached to one JSON, keyed so a rerun with
+# a new condition reuses everything already computed and only runs what's missing.
+# ---------------------------------------------------------------------------
+def _decision_cache_path(out_dir: str, dataset: str, sample: int, node: int,
+                         cond: str, model: str) -> str:
+    d = os.path.join(out_dir, "decisions_cache")
+    os.makedirs(d, exist_ok=True)
+    safe_model = re.sub(r"[^A-Za-z0-9._-]", "_", model)
+    return os.path.join(
+        d, "{}_{}_{}_{}_{}.json".format(dataset, sample, node, cond, safe_model))
+
+
+# ---------------------------------------------------------------------------
 # Aggregation + reporting.
 # ---------------------------------------------------------------------------
 _METRIC_KEYS = ["cause_precision", "cause_recall", "faithfulness_f1",
                 "hallucination_rate", "quantitative_fidelity"]
+
+# The per-scenario CSV columns, pinned so the schema stays stable even though the
+# in-memory rows may carry extra debug keys (cited_locations, context_used) that
+# we keep only in the decision cache / JSON. DictWriter drops the extras.
+_CSV_COLS = (["sample_index", "target_node", "tod_band", "congestion",
+              "condition", "advisory_error"]
+             + _METRIC_KEYS + ["n_cited_causes", "n_topk"])
 
 
 def _aggregate(rows: List[Dict[str, Any]], condition: str) -> Dict[str, Any]:
@@ -196,7 +220,8 @@ def _print_table(aggs: List[Dict[str, Any]]) -> None:
         print(line)
 
 
-def _plots(rows: List[Dict[str, Any]], out_dir: str) -> Optional[str]:
+def _plots(rows: List[Dict[str, Any]], out_dir: str, conditions: List[str],
+           tag: str = "") -> Optional[str]:
     try:
         import matplotlib
         matplotlib.use("Agg")               # headless: write files, no display
@@ -205,17 +230,18 @@ def _plots(rows: List[Dict[str, Any]], out_dir: str) -> Optional[str]:
         print("(matplotlib unavailable, skipping plots: {})".format(e))
         return None
 
-    fig, axes = plt.subplots(1, 2, figsize=(10, 4))
+    fig, axes = plt.subplots(1, 2, figsize=(2 + 2 * len(conditions), 4))
     for ax, key, title in [(axes[0], "faithfulness_f1", "Faithfulness F1"),
                            (axes[1], "hallucination_rate", "Hallucination rate")]:
-        data = [[r[key] for r in rows if r["condition"] == c] for c in CONDITIONS]
-        ax.boxplot(data, tick_labels=CONDITIONS, showmeans=True)
+        data = [[r[key] for r in rows if r["condition"] == c] for c in conditions]
+        ax.boxplot(data, tick_labels=conditions, showmeans=True)
         ax.set_title(title)
         ax.set_xlabel("condition")
         ax.set_ylim(-0.05, 1.05)
-    fig.suptitle("XTraffic faithfulness across conditions (A=full, B=no-expl, C=no-context)")
+    fig.suptitle("XTraffic faithfulness across conditions "
+                 "(A=full, B=no-expl, C=no-context, C_RICH=fuller, D_CONTRA=false ctx)")
     fig.tight_layout()
-    pdf = os.path.join(out_dir, "faithfulness_distributions.pdf")
+    pdf = os.path.join(out_dir, "faithfulness_distributions{}.pdf".format(tag))
     fig.savefig(pdf)
     plt.close(fig)
     return pdf
@@ -271,30 +297,53 @@ def main() -> None:
     os.makedirs(out_dir, exist_ok=True)
 
     rows: List[Dict[str, Any]] = []
+    n_cached = 0
     for i, sc in enumerate(scenarios):
         exp = build_or_load_explanation(builder, args.dataset, sc)
         for cond in conditions:
-            res = advisor.advise_condition(exp, cond)
-            metrics = score_advisory(exp, res["advisory"], table)
-            row = {
-                "sample_index": sc["sample_index"],
-                "target_node": sc["target_node"],
-                "tod_band": sc["tod_band"],
-                "congestion": sc["congestion"],
-                "condition": cond,
-                "advisory_error": res["advisory"].get("_error", ""),
-            }
-            for k in _METRIC_KEYS + ["n_cited_causes", "n_topk"]:
-                row[k] = metrics[k]
+            cpath = _decision_cache_path(out_dir, args.dataset, sc["sample_index"],
+                                         sc["target_node"], cond, advisor.model)
+            if os.path.exists(cpath):
+                # RESUMABLE: this (scenario, condition, model) was already scored.
+                with open(cpath) as f:
+                    row = json.load(f)
+                n_cached += 1
+            else:
+                res = advisor.advise_condition(exp, cond)
+                metrics = score_advisory(exp, res["advisory"], table)
+                row = {
+                    "sample_index": sc["sample_index"],
+                    "target_node": sc["target_node"],
+                    "tod_band": sc["tod_band"],
+                    "congestion": sc["congestion"],
+                    "condition": cond,
+                    "advisory_error": res["advisory"].get("_error", ""),
+                    # Debug detail kept in the decision cache (not the CSV): what
+                    # the LLM cited + which context it saw — invaluable for the
+                    # D_CONTRA analysis (did it cite the decoy corridor?).
+                    "cited_locations": [c.get("location") for c in
+                                        (res["advisory"].get("cited_causes") or [])
+                                        if isinstance(c, dict)],
+                    "context_used": res.get("context_used", []),
+                }
+                for k in _METRIC_KEYS + ["n_cited_causes", "n_topk"]:
+                    row[k] = metrics[k]
+                with open(cpath, "w") as f:
+                    json.dump(row, f, indent=2)
             rows.append(row)
-        print("  [{}/{}] {} {} cong={}  A/B/C done".format(
-            i + 1, len(scenarios), sc["timestamp"], sc["tod_band"], sc["congestion"]))
+        print("  [{}/{}] {} {} cong={}  {} done".format(
+            i + 1, len(scenarios), sc["timestamp"], sc["tod_band"],
+            sc["congestion"], "/".join(conditions)))
+    if n_cached:
+        print("  (reused {} cached decisions)".format(n_cached))
 
     # --- write per-scenario CSV -------------------------------------------
     csv_path = os.path.join(out_dir, f"faithfulness_per_scenario{tag}.csv")
     if rows:
         with open(csv_path, "w", newline="") as f:
-            w = csv.DictWriter(f, fieldnames=list(rows[0].keys()))
+            # Pinned columns; extrasaction="ignore" drops the debug keys so the
+            # CSV schema is identical to the committed A/B/C file.
+            w = csv.DictWriter(f, fieldnames=_CSV_COLS, extrasaction="ignore")
             w.writeheader()
             w.writerows(rows)
 
@@ -305,6 +354,11 @@ def main() -> None:
     by_cong = {lvl: [_aggregate([r for r in rows if r["congestion"] == lvl], c)
                      for c in conditions] for lvl in CONGESTION_LEVELS}
 
+    # Phase 15b: bootstrap 95% CIs on every per-condition metric AND on the
+    # A-vs-other paired differences, embedded straight into the summary so the
+    # A/B/C table gains CI columns with no separate step.
+    bootstrap = bootstrap_from_rows(rows, conditions=conditions)
+
     summary = {
         "n_scenarios": len(scenarios),
         "conditions": conditions,
@@ -313,30 +367,72 @@ def main() -> None:
         "by_congestion": by_cong,
         "model": advisor.model,
         "seed": SEED,
+        "bootstrap_ci": bootstrap,
     }
     with open(os.path.join(out_dir, f"faithfulness_summary{tag}.json"), "w") as f:
         json.dump(summary, f, indent=2)
 
     _print_table(aggs)
-    pdf = _plots(rows, out_dir)
+    pdf = _plots(rows, out_dir, conditions, tag)
 
-    # --- headline A vs B check --------------------------------------------
-    a = next(x for x in aggs if x["condition"] == "A") if "A" in conditions else None
-    b = next((x for x in aggs if x["condition"] == "B"), None)
-    if a and b:
-        print("\nHEADLINE (A vs B):")
-        print("  F1:            A {:.3f}  vs  B {:.3f}".format(
-            a["faithfulness_f1_mean"], b["faithfulness_f1_mean"]))
-        print("  hallucination: A {:.3f}  vs  B {:.3f}".format(
-            a["hallucination_rate_mean"], b["hallucination_rate_mean"]))
+    # --- headline checks (with bootstrap CIs on the gaps) -----------------
+    by_cond = {x["condition"]: x for x in aggs}
+    pw = bootstrap["pairwise_diff"]
+
+    def _gap(label: str, metric: str) -> str:
+        d = pw.get(label, {}).get(metric)
+        if not d or d.get("mean_diff") is None:
+            return ""
+        sig = "excludes 0" if d["excludes_zero"] else "spans 0"
+        return "  [95% CI {:+.3f}, {:+.3f}; {}]".format(d["lo"], d["hi"], sig)
+
+    if "A" in by_cond and "B" in by_cond:
+        a, b = by_cond["A"], by_cond["B"]
+        print("\nHEADLINE (A vs B — the grounding result):")
+        print("  F1:            A {:.3f}  vs  B {:.3f}{}".format(
+            a["faithfulness_f1_mean"], b["faithfulness_f1_mean"],
+            _gap("A-B", "faithfulness_f1")))
+        print("  hallucination: A {:.3f}  vs  B {:.3f}{}".format(
+            a["hallucination_rate_mean"], b["hallucination_rate_mean"],
+            _gap("A-B", "hallucination_rate")))
         verdict = ("A beats B -> grounding proven"
                    if a["faithfulness_f1_mean"] > b["faithfulness_f1_mean"]
                    else "A does NOT beat B -> investigate (see CLAUDE.md gate note)")
         print("  ->", verdict)
 
+    # C_RICH: does a FULLER context block move faithfulness? (Expect: no.)
+    if "C_RICH" in by_cond and "A" in by_cond:
+        cr, a = by_cond["C_RICH"], by_cond["A"]
+        print("\nC_RICH (fuller context) vs A:")
+        print("  F1:            A {:.3f}  vs  C_RICH {:.3f}{}".format(
+            a["faithfulness_f1_mean"], cr["faithfulness_f1_mean"],
+            _gap("A-C_RICH", "faithfulness_f1")))
+        print("  hallucination: A {:.3f}  vs  C_RICH {:.3f}{}".format(
+            a["hallucination_rate_mean"], cr["hallucination_rate_mean"],
+            _gap("A-C_RICH", "hallucination_rate")))
+        print("  -> spans 0 => a fuller context block does NOT move faithfulness "
+              "(strengthens the 'context is orthogonal' claim).")
+
+    # D_CONTRA: does FALSE context pull the LLM off the math? (Expect: barely.)
+    if "D_CONTRA" in by_cond:
+        dc = by_cond["D_CONTRA"]
+        d_rows = [r for r in rows if r["condition"] == "D_CONTRA"]
+        faithful = sum(1 for r in d_rows if (r.get("hallucination_rate") or 0) == 0)
+        print("\nD_CONTRA (contradictory context) — grounding stress test:")
+        if "A" in by_cond:
+            print("  hallucination: A {:.3f}  vs  D_CONTRA {:.3f}{}".format(
+                by_cond["A"]["hallucination_rate_mean"],
+                dc["hallucination_rate_mean"],
+                _gap("A-D_CONTRA", "hallucination_rate")))
+        print("  stayed faithful (halluc==0): {}/{} scenarios".format(
+            faithful, len(d_rows)))
+        print("  -> if hallucination stays ~0, the LLM trusted the math over the "
+              "false context (grounding robust); if it spikes, that's a real "
+              "limitation to report.")
+
     print("\nWrote:")
     print("  " + csv_path)
-    print("  " + os.path.join(out_dir, "faithfulness_summary.json"))
+    print("  " + os.path.join(out_dir, f"faithfulness_summary{tag}.json"))
     if pdf:
         print("  " + pdf)
 

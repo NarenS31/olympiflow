@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley, specifically at sensors 717490 and 717491, which are currently at 0.0 mph. This slow speed is propagating along a path of 6 sensors with no lag between the source and target.",
+  "cited_causes": [
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 70
+    },
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 71
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Reroute traffic before the merge",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion at the target location",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Implement upstream metering",
+      "location": "San Fernando Valley (sensors 717490 and 717491)",
+      "time_window_minutes": 5,
+      "expected_effect": "Reduced slow speeds in the San Fernando Valley",
+      "grounded_in": [
+        "cited cause: slow speeds at sensors 717490 and 717491"
+      ]
+    },
+    {
+      "action": "Adjust ramp metering on I-405",
+      "location": "Sepulveda Pass",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion approaching the Sepulveda Pass",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks at I-405 Sepulveda Pass"
+      ]
+    }
+  ]
+}

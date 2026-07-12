@@ -1,0 +1,54 @@
+{
+  "reasoning": "The predicted congestion in the San Fernando Valley is due to a wave of slowing traffic that originated from Hollywood, where the speed was 70.0 mph. This slowdown has propagated through several sensors in the San Fernando Valley, with speeds ranging from 68.62 to 69.5 mph, and is expected to reach the target location within 30 minutes.",
+  "cited_causes": [
+    {
+      "location": "Hollywood",
+      "resolved_node_id": 96
+    },
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 87
+    },
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 52
+    },
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 122
+    },
+    {
+      "location": "Pasadena / East",
+      "resolved_node_id": 200
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "Hollywood (sensor 717481)",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduce the speed of the incoming traffic wave, potentially alleviating congestion in the San Fernando Valley.",
+      "grounded_in": [
+        "The Hollywood sensor is a top contributing cause and has a high importance value."
+      ]
+    },
+    {
+      "action": "Reroute traffic before the merge",
+      "location": "San Fernando Valley (surface reliefs)",
+      "time_window_minutes": 10,
+      "expected_effect": "Redirect some of the traffic away from the congested area, potentially reducing congestion in the San Fernando Valley.",
+      "grounded_in": [
+        "The San Fernando Valley is a key location for recurrent bottlenecks and has limited transit options."
+      ]
+    },
+    {
+      "action": "Adjust signal timing at nearby intersections",
+      "location": "San Fernando Valley (surface reliefs)",
+      "time_window_minutes": 5,
+      "expected_effect": "Optimize traffic flow through the area by adjusting signal timing, potentially reducing congestion in the San Fernando Valley.",
+      "grounded_in": [
+        "The San Fernando Valley has limited transit options and is a key location for recurrent bottlenecks."
+      ]
+    }
+  ]
+}

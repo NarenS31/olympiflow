@@ -1,0 +1,40 @@
+{
+  "n_scenarios": 20,
+  "n_valid": 8,
+  "n_narrated": 8,
+  "validity_rate": 0.4,
+  "n_valid_with_upstream": 0,
+  "n_valid_target_only": 8,
+  "mean_upstream_nodes_changed": 0.0,
+  "std_upstream_nodes_changed": 0.0,
+  "mean_perturbation_budget": 10.0,
+  "std_perturbation_budget": 4.58257569495584,
+  "mean_nodes_changed": 1.0,
+  "std_nodes_changed": 0.0,
+  "mean_implied_lead_minutes": 11.875,
+  "std_implied_lead_minutes": 10.288798520721455,
+  "mean_faithfulness_f1": 1.0,
+  "std_faithfulness_f1": 0.0,
+  "mean_cause_precision": 1.0,
+  "std_cause_precision": 0.0,
+  "mean_cause_recall": 1.0,
+  "std_cause_recall": 0.0,
+  "mean_hallucination_rate": 0.0,
+  "std_hallucination_rate": 0.0,
+  "infeasible_reasons": {
+    "infeasible_within_budget": 11,
+    "no_congested_causes": 1
+  },
+  "dataset": "metr_la",
+  "model": "llama3.1:8b",
+  "flip_threshold_mph": 35.0,
+  "search": {
+    "horizon_step": 6,
+    "flip_threshold_mph": 35.0,
+    "free_flow_mph": 60.0,
+    "step_mph": 2.0,
+    "max_uplift_mph": 20.0,
+    "apply_steps": 4,
+    "top_k": 8
+  }
+}

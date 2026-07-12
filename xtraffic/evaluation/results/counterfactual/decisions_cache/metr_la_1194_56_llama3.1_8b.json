@@ -1,0 +1,94 @@
+{
+  "sample_index": 1194,
+  "target_node": 56,
+  "tod_band": "am_rush",
+  "congestion": "medium",
+  "timestamp": "test#1194 @ 06:45",
+  "predicted_speed": 12.46,
+  "predicted_speed_after": 12.46,
+  "flip_achieved": false,
+  "reason": "no_congested_causes",
+  "n_critical": 8,
+  "n_levers": 0,
+  "n_nodes_changed": 0,
+  "n_upstream_changed": 0,
+  "changed_target": false,
+  "perturbation_budget": 0.0,
+  "implied_lead_minutes": 30.0,
+  "cf": {
+    "factual": {
+      "predicted_speed": 12.46,
+      "target_name": "N of Downtown LA (sensor 716955, 34.096, -118.244)",
+      "critical_nodes": [
+        {
+          "node_id": 59,
+          "node_name": "San Fernando Valley (sensor 767366, 34.212, -118.473)",
+          "current_speed": 62.0
+        },
+        {
+          "node_id": 185,
+          "node_name": "San Fernando Valley (sensor 717821, 34.201, -118.474)",
+          "current_speed": 64.89
+        },
+        {
+          "node_id": 49,
+          "node_name": "N of Downtown LA (sensor 716956, 34.107, -118.255)",
+          "current_speed": 62.67
+        },
+        {
+          "node_id": 121,
+          "node_name": "Glendale / Burbank (sensor 769847, 34.210, -118.224)",
+          "current_speed": 63.33
+        },
+        {
+          "node_id": 50,
+          "node_name": "NE of Downtown LA (sensor 769831, 34.207, -118.201)",
+          "current_speed": 63.33
+        },
+        {
+          "node_id": 179,
+          "node_name": "Glendale / Burbank (sensor 773974, 34.146, -118.223)",
+          "current_speed": 63.67
+        },
+        {
+          "node_id": 21,
+          "node_name": "NE of Downtown LA (sensor 769819, 34.206, -118.198)",
+          "current_speed": 65.56
+        },
+        {
+          "node_id": 27,
+          "node_name": "NE of Downtown LA (sensor 767572, 34.130, -118.229)",
+          "current_speed": 62.89
+        }
+      ]
+    },
+    "counterfactual": {
+      "required_changes": [],
+      "predicted_speed_after": 12.46,
+      "total_perturbation_budget": 0.0,
+      "flip_achieved": false
+    },
+    "meta": {
+      "flip_threshold_mph": 35.0,
+      "free_flow_mph": 60.0,
+      "max_uplift_mph": 20.0,
+      "step_mph": 2.0,
+      "implied_lead_minutes": 30.0,
+      "reason": "no_congested_causes",
+      "target_node": 56,
+      "n_critical": 8,
+      "n_levers": 0,
+      "dataset": "metr_la",
+      "sample_index": 1194,
+      "tod_band": "am_rush",
+      "congestion": "medium",
+      "timestamp": "test#1194 @ 06:45"
+    }
+  },
+  "narrated": false,
+  "faithfulness_f1": null,
+  "cause_precision": null,
+  "cause_recall": null,
+  "hallucination_rate": null,
+  "narration": null
+}

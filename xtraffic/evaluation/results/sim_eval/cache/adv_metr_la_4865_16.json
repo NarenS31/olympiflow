@@ -1,0 +1,46 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley and Glendale/Burbank areas, which are causing a ripple effect downstream. Specifically, sensor 763995 in the San Fernando Valley (node_id 149) is reporting a speed of 67.25 mph, while sensors 773880, 760987, 761003, 718076, and 717582 in Glendale/Burbank are reporting speeds ranging from 64.12 to 66.75 mph.",
+  "cited_causes": [
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 149
+    },
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 67
+    },
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": null
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Reroute traffic before the merge",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion at the target location (Downtown LA)",
+      "grounded_in": [
+        "structural geometry/merges in city context"
+      ]
+    },
+    {
+      "action": "Implement upstream metering",
+      "location": "SR-134 and I-5 freeways",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion at the target location (Downtown LA)",
+      "grounded_in": [
+        "structural geometry/merges in city context"
+      ]
+    },
+    {
+      "action": "Coordinate ATSAC signals on surface relief roads",
+      "location": "Sunset Blvd and Santa Monica Blvd",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion at the target location (Downtown LA)",
+      "grounded_in": [
+        "ATSAC signal-coordinated in city context"
+      ]
+    }
+  ]
+}

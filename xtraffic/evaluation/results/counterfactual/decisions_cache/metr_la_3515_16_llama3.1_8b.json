@@ -1,0 +1,148 @@
+{
+  "sample_index": 3515,
+  "target_node": 16,
+  "tod_band": "am_rush",
+  "congestion": "low",
+  "timestamp": "test#3515 @ 08:10",
+  "predicted_speed": 32.29,
+  "predicted_speed_after": 35.4,
+  "flip_achieved": true,
+  "reason": "flip",
+  "n_critical": 8,
+  "n_levers": 1,
+  "n_nodes_changed": 1,
+  "n_upstream_changed": 0,
+  "changed_target": true,
+  "perturbation_budget": 8.0,
+  "implied_lead_minutes": 20.0,
+  "cf": {
+    "factual": {
+      "predicted_speed": 32.29,
+      "target_name": "Downtown LA (sensor 771667, 34.073, -118.234)",
+      "critical_nodes": [
+        {
+          "node_id": 145,
+          "node_name": "Glendale / Burbank (sensor 761003, 34.155, -118.308)",
+          "current_speed": 69.13
+        },
+        {
+          "node_id": 111,
+          "node_name": "Glendale / Burbank (sensor 773916, 34.152, -118.285)",
+          "current_speed": 68.13
+        },
+        {
+          "node_id": 99,
+          "node_name": "San Fernando Valley (sensor 764120, 34.202, -118.404)",
+          "current_speed": 66.38
+        },
+        {
+          "node_id": 67,
+          "node_name": "Glendale / Burbank (sensor 773880, 34.154, -118.348)",
+          "current_speed": 68.25
+        },
+        {
+          "node_id": 203,
+          "node_name": "Pasadena / East (sensor 717595, 34.142, -118.183)",
+          "current_speed": 69.37
+        },
+        {
+          "node_id": 124,
+          "node_name": "East LA (sensor 716942, 34.059, -118.215)",
+          "current_speed": 63.63
+        },
+        {
+          "node_id": 171,
+          "node_name": "Glendale / Burbank (sensor 717587, 34.154, -118.239)",
+          "current_speed": 67.25
+        },
+        {
+          "node_id": 105,
+          "node_name": "Glendale / Burbank (sensor 718076, 34.163, -118.225)",
+          "current_speed": 67.87
+        }
+      ]
+    },
+    "counterfactual": {
+      "required_changes": [
+        {
+          "node_id": 16,
+          "node_name": "Downtown LA (sensor 771667, 34.073, -118.234)",
+          "current_speed": 32.87,
+          "required_speed": 40.87,
+          "delta_mph": 8.0,
+          "is_target": true
+        }
+      ],
+      "predicted_speed_after": 35.4,
+      "total_perturbation_budget": 8.0,
+      "flip_achieved": true
+    },
+    "meta": {
+      "flip_threshold_mph": 35.0,
+      "free_flow_mph": 60.0,
+      "max_uplift_mph": 20.0,
+      "step_mph": 2.0,
+      "implied_lead_minutes": 20.0,
+      "reason": "flip",
+      "target_node": 16,
+      "n_critical": 8,
+      "n_levers": 1,
+      "dataset": "metr_la",
+      "sample_index": 3515,
+      "tod_band": "am_rush",
+      "congestion": "low",
+      "timestamp": "test#3515 @ 08:10"
+    }
+  },
+  "narrated": true,
+  "faithfulness_f1": 1.0,
+  "cause_precision": 1.0,
+  "cause_recall": 1.0,
+  "hallucination_rate": 0.0,
+  "narration": {
+    "advisory": {
+      "reasoning": "The minimum intervention that would have prevented the congestion is to raise the speed from 32.87 mph to 40.87 mph at Downtown LA (sensor 771667, 34.073, -118.234). This means that traffic planners need to find a way to increase the speed of vehicles in this area by approximately 8.0 mph.",
+      "cited_causes": [
+        {
+          "location": "Downtown LA",
+          "resolved_node_id": 16
+        }
+      ],
+      "recommendations": [
+        {
+          "action": "Implement dynamic lane management on I-110, allowing for high-occupancy vehicle (HOV) lanes to be converted into general-purpose lanes during peak hours.",
+          "location": "I-110",
+          "time_window_minutes": 20,
+          "expected_effect": "Increase speed by approximately 4.0 mph due to reduced congestion and increased capacity.",
+          "grounded_in": [
+            "raise from 32.87 mph to 40.87 mph at Downtown LA"
+          ]
+        },
+        {
+          "action": "Optimize traffic signal timing on nearby arterials, such as Brand Blvd or San Fernando Rd, to reduce congestion and increase speed by approximately 2.0 mph.",
+          "location": "Brand Blvd or San Fernando Rd",
+          "time_window_minutes": 15,
+          "expected_effect": "Reduce congestion and increase speed by approximately 2.0 mph due to optimized traffic signal timing.",
+          "grounded_in": [
+            "raise from 32.87 mph to 40.87 mph at Downtown LA"
+          ]
+        },
+        {
+          "action": "Implement ramp metering on the I-5/SR-134 interchange, reducing congestion and increasing speed by approximately 2.0 mph.",
+          "location": "I-5/SR-134 interchange",
+          "time_window_minutes": 10,
+          "expected_effect": "Reduce congestion and increase speed by approximately 2.0 mph due to ramp metering.",
+          "grounded_in": [
+            "raise from 32.87 mph to 40.87 mph at Downtown LA"
+          ]
+        }
+      ]
+    },
+    "context_used": [
+      "Glendale/Burbank freeways (SR-134, I-5, SR-2)",
+      "Known recurrent bottlenecks (LA basin)",
+      "Transit alternatives (Metro rail/bus)",
+      "San Fernando Valley freeways (US-101, I-405, SR-118)"
+    ]
+  }
+}

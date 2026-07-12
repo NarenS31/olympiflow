@@ -1,0 +1,293 @@
+{
+  "dataset": "metr_la",
+  "headline_node_set": "core",
+  "densities": [
+    1.0,
+    0.5,
+    0.1
+  ],
+  "prediction": {
+    "n_nodes": 207,
+    "n_core": 21,
+    "densities": [
+      1.0,
+      0.5,
+      0.1
+    ],
+    "by_density": {
+      "1.00": {
+        "density": 1.0,
+        "n_kept": 207,
+        "all": {
+          "15min": {
+            "mae": 2.9498291015625,
+            "rmse": 5.612820148468018,
+            "mape": 8.073811531066895
+          },
+          "30min": {
+            "mae": 3.3363208770751953,
+            "rmse": 6.5382080078125,
+            "mape": 9.552630424499512
+          },
+          "60min": {
+            "mae": 3.7232205867767334,
+            "rmse": 7.432097434997559,
+            "mape": 10.840950012207031
+          }
+        },
+        "kept": {
+          "15min": {
+            "mae": 2.9498291015625,
+            "rmse": 5.612820148468018,
+            "mape": 8.073811531066895
+          },
+          "30min": {
+            "mae": 3.3363208770751953,
+            "rmse": 6.5382080078125,
+            "mape": 9.552630424499512
+          },
+          "60min": {
+            "mae": 3.7232205867767334,
+            "rmse": 7.432097434997559,
+            "mape": 10.840950012207031
+          }
+        },
+        "core": {
+          "15min": {
+            "mae": 3.2541024684906006,
+            "rmse": 6.298119068145752,
+            "mape": 9.428476333618164
+          },
+          "30min": {
+            "mae": 3.742654800415039,
+            "rmse": 7.4127373695373535,
+            "mape": 11.493074417114258
+          },
+          "60min": {
+            "mae": 4.241069316864014,
+            "rmse": 8.399419784545898,
+            "mape": 13.307685852050781
+          }
+        }
+      },
+      "0.50": {
+        "density": 0.5,
+        "n_kept": 104,
+        "all": {
+          "15min": {
+            "mae": 6.657321929931641,
+            "rmse": 10.643452644348145,
+            "mape": 20.62160301208496
+          },
+          "30min": {
+            "mae": 6.720189094543457,
+            "rmse": 11.157975196838379,
+            "mape": 21.612873077392578
+          },
+          "60min": {
+            "mae": 7.32453727722168,
+            "rmse": 12.741405487060547,
+            "mape": 23.254716873168945
+          }
+        },
+        "kept": {
+          "15min": {
+            "mae": 3.664494752883911,
+            "rmse": 6.743940830230713,
+            "mape": 10.706650733947754
+          },
+          "30min": {
+            "mae": 4.734736919403076,
+            "rmse": 8.707039833068848,
+            "mape": 14.600774765014648
+          },
+          "60min": {
+            "mae": 6.3878374099731445,
+            "rmse": 11.680757522583008,
+            "mape": 19.47183609008789
+          }
+        },
+        "core": {
+          "15min": {
+            "mae": 4.038510799407959,
+            "rmse": 7.393082618713379,
+            "mape": 12.091582298278809
+          },
+          "30min": {
+            "mae": 5.323456764221191,
+            "rmse": 9.704705238342285,
+            "mape": 16.778703689575195
+          },
+          "60min": {
+            "mae": 7.002346992492676,
+            "rmse": 12.562226295471191,
+            "mape": 22.226299285888672
+          }
+        }
+      },
+      "0.10": {
+        "density": 0.1,
+        "n_kept": 21,
+        "all": {
+          "15min": {
+            "mae": 8.436004638671875,
+            "rmse": 13.190937042236328,
+            "mape": 29.603343963623047
+          },
+          "30min": {
+            "mae": 7.954405307769775,
+            "rmse": 13.608616828918457,
+            "mape": 29.43992042541504
+          },
+          "60min": {
+            "mae": 9.354125022888184,
+            "rmse": 15.33056354522705,
+            "mape": 31.646150588989258
+          }
+        },
+        "kept": {
+          "15min": {
+            "mae": 5.065644264221191,
+            "rmse": 8.36176872253418,
+            "mape": 16.78840446472168
+          },
+          "30min": {
+            "mae": 6.768100738525391,
+            "rmse": 10.78879165649414,
+            "mape": 22.376718521118164
+          },
+          "60min": {
+            "mae": 9.152280807495117,
+            "rmse": 14.15123462677002,
+            "mape": 29.036575317382812
+          }
+        },
+        "core": {
+          "15min": {
+            "mae": 5.065644264221191,
+            "rmse": 8.36176872253418,
+            "mape": 16.78840446472168
+          },
+          "30min": {
+            "mae": 6.768100738525391,
+            "rmse": 10.78879165649414,
+            "mape": 22.376718521118164
+          },
+          "60min": {
+            "mae": 9.152280807495117,
+            "rmse": 14.15123462677002,
+            "mape": 29.036575317382812
+          }
+        }
+      }
+    }
+  },
+  "faithfulness": {
+    "densities": [
+      1.0,
+      0.5,
+      0.1
+    ],
+    "by_density": {
+      "1.00": {
+        "density": 1.0,
+        "A": {
+          "n": 1,
+          "cause_precision_mean": 1.0,
+          "cause_precision_std": 0.0,
+          "cause_recall_mean": 0.5,
+          "cause_recall_std": 0.0,
+          "faithfulness_f1_mean": 0.6666666666666666,
+          "faithfulness_f1_std": 0.0,
+          "hallucination_rate_mean": 0.0,
+          "hallucination_rate_std": 0.0,
+          "quantitative_fidelity_mean": NaN,
+          "quantitative_fidelity_std": NaN
+        },
+        "B": {
+          "n": 1,
+          "cause_precision_mean": 1.0,
+          "cause_precision_std": 0.0,
+          "cause_recall_mean": 0.5,
+          "cause_recall_std": 0.0,
+          "faithfulness_f1_mean": 0.6666666666666666,
+          "faithfulness_f1_std": 0.0,
+          "hallucination_rate_mean": 0.0,
+          "hallucination_rate_std": 0.0,
+          "quantitative_fidelity_mean": NaN,
+          "quantitative_fidelity_std": NaN
+        },
+        "failure_counts": {},
+        "n_failures": 0,
+        "dominant_failure": "none"
+      },
+      "0.50": {
+        "density": 0.5,
+        "A": {
+          "n": 1,
+          "cause_precision_mean": 1.0,
+          "cause_precision_std": 0.0,
+          "cause_recall_mean": 0.25,
+          "cause_recall_std": 0.0,
+          "faithfulness_f1_mean": 0.4,
+          "faithfulness_f1_std": 0.0,
+          "hallucination_rate_mean": 0.0,
+          "hallucination_rate_std": 0.0,
+          "quantitative_fidelity_mean": NaN,
+          "quantitative_fidelity_std": NaN
+        },
+        "B": {
+          "n": 1,
+          "cause_precision_mean": 1.0,
+          "cause_precision_std": 0.0,
+          "cause_recall_mean": 0.25,
+          "cause_recall_std": 0.0,
+          "faithfulness_f1_mean": 0.4,
+          "faithfulness_f1_std": 0.0,
+          "hallucination_rate_mean": 0.0,
+          "hallucination_rate_std": 0.0,
+          "quantitative_fidelity_mean": NaN,
+          "quantitative_fidelity_std": NaN
+        },
+        "failure_counts": {
+          "OTHER": 1
+        },
+        "n_failures": 1,
+        "dominant_failure": "OTHER"
+      },
+      "0.10": {
+        "density": 0.1,
+        "A": {
+          "n": 1,
+          "cause_precision_mean": 1.0,
+          "cause_precision_std": 0.0,
+          "cause_recall_mean": 0.375,
+          "cause_recall_std": 0.0,
+          "faithfulness_f1_mean": 0.5454545454545454,
+          "faithfulness_f1_std": 0.0,
+          "hallucination_rate_mean": 0.0,
+          "hallucination_rate_std": 0.0,
+          "quantitative_fidelity_mean": NaN,
+          "quantitative_fidelity_std": NaN
+        },
+        "B": {
+          "n": 1,
+          "cause_precision_mean": 1.0,
+          "cause_precision_std": 0.0,
+          "cause_recall_mean": 0.375,
+          "cause_recall_std": 0.0,
+          "faithfulness_f1_mean": 0.5454545454545454,
+          "faithfulness_f1_std": 0.0,
+          "hallucination_rate_mean": 0.0,
+          "hallucination_rate_std": 0.0,
+          "quantitative_fidelity_mean": NaN,
+          "quantitative_fidelity_std": NaN
+        },
+        "failure_counts": {},
+        "n_failures": 0,
+        "dominant_failure": "none"
+      }
+    }
+  },
+  "interpretation": "PREDICTION: 30-min MAE at the retained (core) sensors degrades gracefully (roughly linear) as sensor density drops from 100% to 10% (3.743 -> 6.768 mph, +80.8%).\n  At 10% density (rural analog) the system shows a 30-min MAE of 6.768 mph (+80.8% vs the fully-instrumented 100% network) \u2014 the prediction a planner would act on in a sparsely-sensored region.\nFAITHFULNESS: condition-A faithfulness F1 collapses off a cliff as density thins (0.667 at 100% -> 0.545 at 10%). Hallucination in the grounded system (A) stays 0.000->0.000 while the ungrounded baseline (B) sits at 0.000->0.000, so the explanation keeps suppressing hallucination even under sparsity.\n  At 10% density the dominant failure mode is none (0 condition-A failures), telling us HOW faithfulness breaks first when sensors are scarce."
+}

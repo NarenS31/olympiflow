@@ -1,0 +1,46 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in several locations upstream of Downtown LA. Specifically, Pasadena / East (68.13 mph), San Fernando Valley (67.38 mph), and Glendale / Burbank (67.38 mph) are all moving at slower-than-normal speeds, which will propagate to Downtown LA within 30 minutes.",
+  "cited_causes": [
+    {
+      "location": "Pasadena / East",
+      "resolved_node_id": 203
+    },
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 186
+    },
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 173
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "Pasadena / East (SR-134)",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduce speed to 70 mph, slowing congestion propagation",
+      "grounded_in": [
+        "slow speeds in Pasadena / East"
+      ]
+    },
+    {
+      "action": "Reroute traffic before the merge",
+      "location": "Glendale / Burbank (SR-134)",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduce congestion at I-5/SR-134/SR-2 interchange",
+      "grounded_in": [
+        "key merge congestion at the I-5/SR-134/SR-2 interchange"
+      ]
+    },
+    {
+      "action": "Use transit as a diversion lever",
+      "location": "Wilshire (B/D Lines)",
+      "time_window_minutes": 10,
+      "expected_effect": "Divert 10% of traffic to rail, reducing congestion on SR-134",
+      "grounded_in": [
+        "transit is a viable diversion lever where a parallel rail line exists"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,195 @@
+{
+  "csv": [
+    "evaluation/results/faithfulness/faithfulness_per_scenario.csv"
+  ],
+  "n_iters": 10000,
+  "seed": 42,
+  "ci_level": 0.95,
+  "n_scenarios": 93,
+  "conditions": [
+    "A",
+    "B",
+    "C"
+  ],
+  "metrics": [
+    "cause_precision",
+    "cause_recall",
+    "faithfulness_f1",
+    "hallucination_rate",
+    "quantitative_fidelity"
+  ],
+  "per_condition": {
+    "A": {
+      "cause_precision": {
+        "mean": 0.9946236559139785,
+        "lo": 0.9838709677419355,
+        "hi": 1.0,
+        "n": 93
+      },
+      "cause_recall": {
+        "mean": 0.592741935483871,
+        "lo": 0.5551075268817204,
+        "hi": 0.6290322580645161,
+        "n": 93
+      },
+      "faithfulness_f1": {
+        "mean": 0.724576021350215,
+        "lo": 0.6930171620494201,
+        "hi": 0.7553339253339255,
+        "n": 93
+      },
+      "hallucination_rate": {
+        "mean": 0.005376344086021506,
+        "lo": 0.0,
+        "hi": 0.016129032258064516,
+        "n": 93
+      },
+      "quantitative_fidelity": {
+        "mean": 0.6978707886316582,
+        "lo": 0.6501811594202899,
+        "hi": 0.7454511634199136,
+        "n": 92
+      }
+    },
+    "B": {
+      "cause_precision": {
+        "mean": 0.17204301075268819,
+        "lo": 0.10752688172043011,
+        "hi": 0.24193548387096775,
+        "n": 93
+      },
+      "cause_recall": {
+        "mean": 0.07123655913978495,
+        "lo": 0.04032258064516129,
+        "hi": 0.10483870967741936,
+        "n": 93
+      },
+      "faithfulness_f1": {
+        "mean": 0.08961003154551542,
+        "lo": 0.054377880184331796,
+        "hi": 0.12813186813186814,
+        "n": 93
+      },
+      "hallucination_rate": {
+        "mean": 0.8279569892473119,
+        "lo": 0.7580645161290323,
+        "hi": 0.8978494623655914,
+        "n": 93
+      },
+      "quantitative_fidelity": {
+        "mean": 0.36041666666666666,
+        "lo": 0.2897727272727273,
+        "hi": 0.4316335227272727,
+        "n": 88
+      }
+    },
+    "C": {
+      "cause_precision": {
+        "mean": 0.9946236559139785,
+        "lo": 0.9838709677419355,
+        "hi": 1.0,
+        "n": 93
+      },
+      "cause_recall": {
+        "mean": 0.6048387096774194,
+        "lo": 0.5604838709677419,
+        "hi": 0.6478494623655914,
+        "n": 93
+      },
+      "faithfulness_f1": {
+        "mean": 0.7277437019372506,
+        "lo": 0.6923312649119101,
+        "hi": 0.7633999692064211,
+        "n": 93
+      },
+      "hallucination_rate": {
+        "mean": 0.005376344086021506,
+        "lo": 0.0,
+        "hi": 0.016129032258064516,
+        "n": 93
+      },
+      "quantitative_fidelity": {
+        "mean": 0.7636185243328101,
+        "lo": 0.7135397043432756,
+        "hi": 0.8109500915750917,
+        "n": 91
+      }
+    }
+  },
+  "pairwise_diff": {
+    "A-B": {
+      "cause_precision": {
+        "mean_diff": 0.8225806451612904,
+        "lo": 0.7526881720430108,
+        "hi": 0.8870967741935484,
+        "excludes_zero": true,
+        "n": 93
+      },
+      "cause_recall": {
+        "mean_diff": 0.521505376344086,
+        "lo": 0.4717741935483871,
+        "hi": 0.5698924731182796,
+        "excludes_zero": true,
+        "n": 93
+      },
+      "faithfulness_f1": {
+        "mean_diff": 0.6349659898046993,
+        "lo": 0.5854468977856073,
+        "hi": 0.6829989992086765,
+        "excludes_zero": true,
+        "n": 93
+      },
+      "hallucination_rate": {
+        "mean_diff": -0.8225806451612904,
+        "lo": -0.8870967741935484,
+        "hi": -0.7526881720430108,
+        "excludes_zero": true,
+        "n": 93
+      },
+      "quantitative_fidelity": {
+        "mean_diff": 0.3441085734189182,
+        "lo": 0.2566088533114395,
+        "hi": 0.4307525687913619,
+        "excludes_zero": true,
+        "n": 87
+      }
+    },
+    "A-C": {
+      "cause_precision": {
+        "mean_diff": 0.0,
+        "lo": -0.016129032258064516,
+        "hi": 0.016129032258064516,
+        "excludes_zero": false,
+        "n": 93
+      },
+      "cause_recall": {
+        "mean_diff": -0.012096774193548387,
+        "lo": -0.06048387096774194,
+        "hi": 0.03763440860215054,
+        "excludes_zero": false,
+        "n": 93
+      },
+      "faithfulness_f1": {
+        "mean_diff": -0.003167680587035419,
+        "lo": -0.044150926731571886,
+        "hi": 0.03896598025630282,
+        "excludes_zero": false,
+        "n": 93
+      },
+      "hallucination_rate": {
+        "mean_diff": 0.0,
+        "lo": -0.016129032258064516,
+        "hi": 0.016129032258064516,
+        "excludes_zero": false,
+        "n": 93
+      },
+      "quantitative_fidelity": {
+        "mean_diff": -0.060575998075998075,
+        "lo": -0.12546497715247715,
+        "hi": 0.003613245550745518,
+        "excludes_zero": false,
+        "n": 90
+      }
+    }
+  }
+}

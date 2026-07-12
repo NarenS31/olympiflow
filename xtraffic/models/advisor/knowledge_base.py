@@ -88,17 +88,34 @@ class KnowledgeBase:
                 score += 1.0            # body hit: weaker
         return score
 
-    def retrieve(self, exp: Dict[str, Any], top_k: int = 4) -> List[Dict[str, Any]]:
+    def retrieve(self, exp: Dict[str, Any], top_k: int = 4,
+                 pad_to_k: bool = False) -> List[Dict[str, Any]]:
         """Return the top_k most relevant chunks for this explanation, highest
-        first. Ties break by original KB order (stable sort) for determinism."""
+        first. Ties break by original KB order (stable sort) for determinism.
+
+        pad_to_k (Phase 15b, for the C_RICH condition): when True, after the
+        signal-bearing chunks are taken we KEEP GOING down the ranked list and
+        include zero-scoring chunks too, until we reach top_k. That turns a
+        normal (relevant-only) retrieval into a deliberately FULLER context block
+        — the most relevant corridors first, then the rest of the KB (capacities,
+        signal-timing, transit, incident history). The default pad_to_k=False path
+        is byte-identical to the Phase-4 behaviour, so conditions A/B/C are
+        untouched."""
         query_terms = _tokens(self.query_from_explanation(exp))
         scored = [(self._score(query_terms, c), i, c)
                   for i, c in enumerate(self.chunks)]
         # Sort by score desc, then original index asc (stable, reproducible).
         scored.sort(key=lambda x: (-x[0], x[1]))
-        # Keep only chunks with any signal; if everything scores 0 (unlikely),
-        # fall back to the first top_k so the advisor still gets some context.
-        relevant = [c for s, i, c in scored if s > 0][:top_k]
+        # Default: keep only chunks with any signal. Rich mode: include zero-
+        # scoring chunks too so the context is genuinely fuller, not just re-ranked.
+        relevant: List[Dict[str, Any]] = []
+        for s, i, c in scored:
+            if s > 0 or pad_to_k:
+                relevant.append(c)
+            if len(relevant) >= top_k:
+                break
+        # If everything scored 0 (unlikely), fall back to the first top_k so the
+        # advisor still gets some context.
         if not relevant:
             relevant = self.chunks[:top_k]
         return relevant

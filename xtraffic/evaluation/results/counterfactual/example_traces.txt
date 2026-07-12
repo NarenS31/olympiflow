@@ -1,0 +1,91 @@
+==========================================================================
+FULL CHAIN — test#3506 @ 07:25
+==========================================================================
+
+[1] PREDICTION (Layer 1 ST-GNN)
+    Target: Downtown LA (sensor 771667, 34.073, -118.234)
+    Current 33.44 mph -> predicted 32.98 mph in 30 min  (CONGESTED)
+
+[2] EXPLANATION (Layer 2 GNNExplainer) — top critical sources
+    - San Fernando Valley          importance 0.410  currently 67.89 mph
+    - San Fernando Valley          importance 0.397  currently 66.89 mph
+    - San Fernando Valley          importance 0.396  currently 65.89 mph
+    - Hollywood                    importance 0.395  currently 70.0 mph
+    - NE of Downtown LA            importance 0.392  currently 66.67 mph
+    - Downtown LA                  importance 0.381  currently 68.56 mph
+    propagation lag (source->target): 0.0 min | confidence 0.15
+
+[3] COUNTERFACTUAL (Layer 2 — minimum flip-to-free-flow perturbation)
+    Minimum required upstream changes:
+    - Downtown LA                  33.44 -> 39.44 mph  (+6.0 mph)
+    total budget 6.0 mph over 1 node(s); implied lead ~0.0 min
+    target prediction AFTER change: 32.98 -> 35.99 mph (flipped above 35.0 mph).
+
+[4] LLM NARRATIVE (Layer 3 advisory — counterfactual mode)
+    reasoning: The minimum intervention to prevent congestion in Downtown LA is to raise the speed from 33.44 mph to 39.44 mph at a specific location, which would have prevented the congestion.
+    cited causes: Downtown LA
+    rec: Adjust signal timing on Sunset Blvd and Santa Monica Blvd to allow for more green time during peak hours @ US-101 Hollywood Freeway corridor (10 min) -> Increase speed by up to 6.0 mph
+    rec: Implement ramp metering on the I-405 Sepulveda Pass to regulate traffic flow and reduce congestion @ I-405 San Diego Freeway corridor (15 min) -> Increase speed by up to 6.0 mph
+    rec: Optimize traffic signal coordination on Ventura Blvd and Sepulveda/Van Nuys Blvd to reduce congestion in the San Fernando Valley @ San Fernando Valley freeways (US-101, I-405, SR-118) (20 min) -> Increase speed by up to 6.0 mph
+
+
+==========================================================================
+FULL CHAIN — test#1770 @ 06:45
+==========================================================================
+
+[1] PREDICTION (Layer 1 ST-GNN)
+    Target: Downtown LA (sensor 771667, 34.073, -118.234)
+    Current 34.22 mph -> predicted 34.23 mph in 30 min  (CONGESTED)
+
+[2] EXPLANATION (Layer 2 GNNExplainer) — top critical sources
+    - Glendale / Burbank           importance 0.859  currently 68.22 mph
+    - San Fernando Valley          importance 0.856  currently 67.33 mph
+    - East LA                      importance 0.853  currently 63.89 mph
+    - Glendale / Burbank           importance 0.848  currently 67.89 mph
+    - N of Downtown LA             importance 0.846  currently 68.89 mph
+    - Pasadena / East              importance 0.842  currently 69.78 mph
+    propagation lag (source->target): 0.0 min | confidence 0.37
+
+[3] COUNTERFACTUAL (Layer 2 — minimum flip-to-free-flow perturbation)
+    Minimum required upstream changes:
+    - Downtown LA                  34.22 -> 38.22 mph  (+4.0 mph)
+    total budget 4.0 mph over 1 node(s); implied lead ~0.0 min
+    target prediction AFTER change: 34.23 -> 35.76 mph (flipped above 35.0 mph).
+
+[4] LLM NARRATIVE (Layer 3 advisory — counterfactual mode)
+    reasoning: The minimum intervention that would have prevented the congestion is to raise the speed from 34.22 mph to 38.22 mph at a single location in Downtown LA, which is node_id 16.
+    cited causes: Downtown LA
+    rec: Implement dynamic speed limit adjustments on the I-110 freeway @ I-110 in Downtown LA (10 min) -> Increase speed by up to 4.0 mph
+    rec: Optimize traffic signal timing on adjacent streets (e.g., Main St, Broadway) @ Adjacent streets in Downtown LA (15 min) -> Increase speed by up to 4.0 mph
+    rec: Implement ramp metering on the I-5/SR-134 interchange @ I-5/SR-134 interchange (20 min) -> Increase speed by up to 4.0 mph upstream of node_id 16
+
+
+==========================================================================
+FULL CHAIN — test#3515 @ 08:10
+==========================================================================
+
+[1] PREDICTION (Layer 1 ST-GNN)
+    Target: Downtown LA (sensor 771667, 34.073, -118.234)
+    Current 32.87 mph -> predicted 32.29 mph in 30 min  (CONGESTED)
+
+[2] EXPLANATION (Layer 2 GNNExplainer) — top critical sources
+    - Glendale / Burbank           importance 0.861  currently 69.13 mph
+    - Glendale / Burbank           importance 0.858  currently 68.13 mph
+    - San Fernando Valley          importance 0.854  currently 66.38 mph
+    - Glendale / Burbank           importance 0.852  currently 68.25 mph
+    - Pasadena / East              importance 0.848  currently 69.37 mph
+    - East LA                      importance 0.848  currently 63.63 mph
+    propagation lag (source->target): 20.0 min | confidence 0.44
+
+[3] COUNTERFACTUAL (Layer 2 — minimum flip-to-free-flow perturbation)
+    Minimum required upstream changes:
+    - Downtown LA                  32.87 -> 40.87 mph  (+8.0 mph)
+    total budget 8.0 mph over 1 node(s); implied lead ~20.0 min
+    target prediction AFTER change: 32.29 -> 35.4 mph (flipped above 35.0 mph).
+
+[4] LLM NARRATIVE (Layer 3 advisory — counterfactual mode)
+    reasoning: The minimum intervention that would have prevented the congestion is to raise the speed from 32.87 mph to 40.87 mph at Downtown LA (sensor 771667, 34.073, -118.234). This means that traffic planners need to find a way to increase the speed of vehicles in this area by approximately 8.0 mph.
+    cited causes: Downtown LA
+    rec: Implement dynamic lane management on I-110, allowing for high-occupancy vehicle (HOV) lanes to be converted into general-purpose lanes during peak hours. @ I-110 (20 min) -> Increase speed by approximately 4.0 mph due to reduced congestion and increased capacity.
+    rec: Optimize traffic signal timing on nearby arterials, such as Brand Blvd or San Fernando Rd, to reduce congestion and increase speed by approximately 2.0 mph. @ Brand Blvd or San Fernando Rd (15 min) -> Reduce congestion and increase speed by approximately 2.0 mph due to optimized traffic signal timing.
+    rec: Implement ramp metering on the I-5/SR-134 interchange, reducing congestion and increasing speed by approximately 2.0 mph. @ I-5/SR-134 interchange (10 min) -> Reduce congestion and increase speed by approximately 2.0 mph due to ramp metering.

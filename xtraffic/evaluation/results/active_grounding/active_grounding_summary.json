@@ -1,0 +1,90 @@
+{
+  "n_scenarios": 5,
+  "f1_threshold": 0.7,
+  "max_rounds": 3,
+  "per_round": [
+    {
+      "round": 0,
+      "mean_f1": 0.43829059829059824,
+      "std_f1": 0.17922357525230362,
+      "mean_recall": 0.3,
+      "mean_precision": 1.0,
+      "mean_hallucination": 0.0,
+      "frac_reached_threshold": 0.2,
+      "n_reached_threshold": 1
+    },
+    {
+      "round": 1,
+      "mean_f1": 0.9119413919413919,
+      "std_f1": 0.08869662148410759,
+      "mean_recall": 0.85,
+      "mean_precision": 1.0,
+      "mean_hallucination": 0.0,
+      "frac_reached_threshold": 1.0,
+      "n_reached_threshold": 5
+    },
+    {
+      "round": 2,
+      "mean_f1": 0.9119413919413919,
+      "std_f1": 0.08869662148410759,
+      "mean_recall": 0.85,
+      "mean_precision": 1.0,
+      "mean_hallucination": 0.0,
+      "frac_reached_threshold": 1.0,
+      "n_reached_threshold": 5
+    },
+    {
+      "round": 3,
+      "mean_f1": 0.9119413919413919,
+      "std_f1": 0.08869662148410759,
+      "mean_recall": 0.85,
+      "mean_precision": 1.0,
+      "mean_hallucination": 0.0,
+      "frac_reached_threshold": 1.0,
+      "n_reached_threshold": 5
+    }
+  ],
+  "mean_f1_gain": 0.47365079365079366,
+  "mean_rounds_used": 0.8,
+  "frac_reached_overall": 1.0,
+  "stop_reasons": {
+    "threshold_reached": 5
+  },
+  "select": "low-f1",
+  "dataset": "metr_la",
+  "model": "llama3.1:8b",
+  "most_missed_regions": [
+    [
+      "Glendale / Burbank",
+      12
+    ],
+    [
+      "NE of Downtown LA",
+      5
+    ],
+    [
+      "Pasadena / East",
+      2
+    ],
+    [
+      "NW of Downtown LA",
+      2
+    ],
+    [
+      "N of Downtown LA",
+      2
+    ],
+    [
+      "Hollywood",
+      2
+    ],
+    [
+      "East LA",
+      1
+    ],
+    [
+      "Downtown LA",
+      1
+    ]
+  ]
+}

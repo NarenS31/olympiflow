@@ -562,6 +562,120 @@ confidence-mismatch -> other.
   when predicted speed >= free-flow; under-citation -> require the advisory to
   address every top-k source).
 
+Phase 16 COMPLETE (structurally + smoke-gate PASSED) — the ACTIVE GROUNDING LOOP
+(the "under-citation" mitigation from Phase 13, now BUILT and MEASURED). Turns the
+Phase-5 faithfulness metric from a measurement into a closed-loop MECHANISM. File:
+models/advisor/active_grounding.py, one config block (active_grounding: f1_threshold
+0.7 / max_rounds 3) in configs/advisor.yaml.
+- THE LOOP: run condition A -> score with the SAME Phase-5 metric (score_advisory +
+  NodeTable, no second notion of "faithful") -> if F1 < threshold, append a targeted
+  correction naming the SPECIFIC explainer top-k nodes the LLM failed to cite (with
+  importance + current speed) and re-prompt; repeat up to max_rounds. Records F1/
+  precision/recall/halluc at EVERY round = a per-scenario convergence curve.
+- REUSE (kept the file small): advisor.advise_condition(exp, "A", extra_instruction=
+  correction) for every round; run_faithfulness_study.sample_scenarios +
+  build_or_load_explanation for the SAME stratified population + cached explanations
+  as Phase 5 (so this runs free on cached explanations).
+- FLAGGED default-preserving change to advisor.py: NEW optional `extra_instruction`
+  param on advise_condition()/build_prompt_condition(), appended AFTER the TASK.
+  Default None => the prompt is BYTE-IDENTICAL to Phase 4/5/15b (verified). No
+  earlier behaviour changed.
+- WHY IT TARGETS RECALL (honest, follows Phase 13): condition-A failures are
+  overwhelmingly UNDER-CITATION (precision ~1, recall collapses, halluc ~0), so
+  "you did not address these locations" is the right lever. If a failure is instead
+  precision-side (nothing under-cited while F1 < thr), the recall-correction has no
+  missed node to name -> the loop STOPS with reason "no_missed_nodes" instead of
+  looping uselessly. Honest by construction.
+- SMOKE (REAL llama3.1:8b, 5 WORST Phase-5 condition-A failures, --select low-f1):
+  mean F1 0.438 -> 0.912 in ONE correction round (gain +0.474), 20% -> 100% reaching
+  threshold, mean 0.80 rounds used. CRITICAL HONEST FINDING: precision stays 1.000 at
+  EVERY round and hallucination stays 0.000 — the correction lifts recall (0.30 ->
+  0.85; n_cited jumps 1-2 -> 5-8) WITHOUT inducing fabrication. The no-needless-
+  reprompt gate is demonstrated on the real model too: idx 2917 regenerated at F1
+  0.769 >= 0.70 and exited with ZERO corrections. Most-missed region at round 0:
+  Glendale / Burbank (12). --mock-llm reproduces the climb with no Ollama.
+- CAVEAT (state in the paper): this optimises the advisory TOWARD the explainer
+  top-k, so it is an ENFORCEMENT / internal-consistency result, NOT independent
+  evidence the explanation is correct. Report as "we BUILT a system that ENFORCES
+  grounding in a closed loop", not "we proved the explanation is right".
+- Outputs: evaluation/paper/{table_active_grounding.tex, fig_active_grounding.pdf}
+  (2-panel convergence figure) + results/active_grounding/{per_round.csv,
+  decisions.jsonl, summary.json, decisions_cache/} (resumable, keyed by model).
+  OWED: the full stratified >=93-scenario run (python -m
+  xtraffic.models.advisor.active_grounding, the default --select stratified;
+  multi-hour, shares the one local Ollama with the Phase 10/11/12 queue, resumable)
+  for the paper table numbers — the committed table/fig are the n=5 smoke (captions
+  say n=5).
+
+Phase 17 COMPLETE (built + full 20-scenario real run) — COUNTERFACTUAL EXPLANATIONS.
+Turns the WHY-explanation into the planner's next question ("what could I have done
+differently?"): find the MINIMUM speed uplift that flips a congested target's 30-min
+prediction back above free flow, then have the LLM narrate that counterfactual.
+Files: models/explainer/counterfactual.py (searcher + record + faithfulness-reference
++ one-scenario demo `main`), evaluation/counterfactual_study.py (the 20-scenario
+study + table + traces), configs/counterfactual.yaml (all knobs). FLAGGED
+default-preserving addition to advisor.py: render_counterfactual_text /
+build_prompt_counterfactual / Advisor.advise_counterfactual — a counterfactual-mode
+prompt (SYSTEM->CITY CONTEXT->COUNTERFACTUAL->TASK) that reuses the SAME advisory
+JSON contract, so validate_advisory + the Phase-5 faithfulness metric apply
+unchanged. advise()/advise_condition() are byte-identical (verified).
+- SEARCH (gradient-free, documented): candidate levers = congested top-k critical
+  nodes. Stage 1 = uniform uplift sweep (2 mph steps up to 20) until the target
+  crosses 35 mph; Stage 2 = greedy per-node minimisation (relax each lever toward 0,
+  least-important first, keeping the flip) -> the MINIMAL per-node change. Perturbation
+  = the SAME family as the Phase-8/10 simulator (speed uplift on the last apply_steps,
+  clipped at free-flow), so one notion of "what an action does" across the project.
+- KEY DESIGN DECISION (flagged, calibration earned its keep — like Phase 10):
+  perturbing ONLY the upstream top-k barely moves the target (e.g. 34.2->34.2 mph even
+  at +40), because this ST-GNN's 30-min forecast is DOMINATED by the target's own
+  recent speed (= the Phase-3 Fidelity- result resurfacing). Perturbing the TARGET
+  flips it (34.2->56.2). So the candidate lever set INCLUDES THE TARGET BOTTLENECK
+  itself (the standard actionable lever: signal retiming / incident clearance = the
+  Phase-8/10 target-scope action); upstream levers stay in the set so propagation is
+  used where it has leverage, and the study REPORTS how often upstream actually
+  contributed. Calibration (target+top-k): flip<=20mph on 45% of congested targets, and
+  it tracks depth cleanly — mild (pred 25-35) 93% flip @ median 8 mph, medium (15-25)
+  31%, deep (0-15) 17%. Deeply-congested targets are honestly INFEASIBLE (can't be
+  prevented by a modest intervention).
+- CORRECTNESS FIX (flagged real latent bug): run_faithfulness_study.build_or_load_
+  explanation caches by FILENAME PRESENCE only, never checking the checkpoint — 6/93
+  cached explanations predate the epoch-34 metr_la_best.pt (same filename overwrote the
+  3-epoch placeholder) and are STALE. The study is now staleness-aware: it uses the
+  shared Phase-5 cache ONLY when newer than the checkpoint, else rebuilds into its OWN
+  cache (never mutating Phase-5 artifacts), and filters congestion on the LIVE model
+  prediction (not the cached speed). All 49 congested-by-live targets happen to have
+  fresh caches (the 6 stale are free-flow by the live model -> skipped), so the run
+  needed zero rebuilds.
+- REAL RESULT (n=20 congested METR-LA scenarios, llama3.1:8b): 21 free-flow targets
+  skipped ("no counterfactual needed"); VALIDITY 40% (8/20 flip within 20 mph); mean
+  budget 10.0 +/- 4.58 mph; mean 1.0 node changed; ALL 8 valid counterfactuals
+  TARGET-ONLY (0/8 needed upstream — the honest Fidelity- finding, now a measured
+  number); mean implied lead 11.9 min. NARRATIVE FAITHFULNESS to the counterfactual
+  (Phase-5 metric scored vs the required-change nodes): F1 1.000 / precision 1.000 /
+  recall 1.000 / HALLUCINATION 0.000 across all 8 — the LLM narrates exactly the nodes
+  the counterfactual requires and invents nothing. (Prompt fix that earned its keep:
+  the counterfactual TASK must explicitly request 3-5 recommendations or llama3.1
+  returns 1 and fails the advisory contract -> empty advisory -> F1 0; fixed, then all
+  8 pass.) Note: "cite the target" is CORRECT here (the counterfactual says CHANGE the
+  target), the opposite of the Phase-13 self-attribution error in the WHY context.
+- Outputs: evaluation/paper/table_counterfactual.tex (booktabs) +
+  results/counterfactual/{counterfactual_per_scenario.csv, counterfactual_summary.json,
+  example_traces.txt/.json (3 full prediction->explanation->counterfactual->narrative
+  chains)}; resumable per-scenario cache keyed by model. Verified: `--mock-llm`
+  reproduces the harness (mock cites required changes -> F1 1.0); `--smoke` prints the
+  full chain for each scenario; single-scenario demo at
+  `python -m xtraffic.models.explainer.counterfactual`.
+- HONEST CAVEATS (state in the paper): (1) the counterfactual concentrates on the
+  bottleneck because upstream leverage is limited under this model (Fidelity-), so it
+  reads as "the minimum bottleneck intervention that prevents the congestion", not an
+  upstream-cascade story — report that plainly. (2) validity is only 40% at the
+  assignment's 20 mph budget; deeply-congested targets are unpreventable by a modest
+  intervention (honest, and a finding). OWED (feasible locally, not Colab): a larger
+  CONGESTED-ONLY sweep (>=50 mild/medium targets, or stratified by congestion tercile)
+  to tighten the validity-vs-depth curve for the paper — the committed table is n=20
+  and its caption says so; rerun via `python -m xtraffic.evaluation.counterfactual_study`
+  (resumable, shares the one local Ollama with the Phase 10/11/12 queue).
+
 ---
 
 # XTraffic — Claude Code Build Playbook
@@ -1149,3 +1263,208 @@ Roughly 7–8 months of consistent work. Start writing the paper's related-work 
 
 1. **Your UNCC professor, this month:** show them this playbook and the paper outline. The ask is co-authorship and weekly-or-biweekly check-ins, not just advice. Their name and guidance is the difference between "impressive teenager" and "credible submission."
 2. **Yourself, honestly, at every gate:** if a result is bad, that's data. Never smooth it over. The paper survives negative results; it does not survive results you can't defend.
+
+---
+
+# EXTENDED PHASES
+
+> Added 2026-07-12. These extend the original 0–9 playbook (and the in-progress
+> 10–13 work logged in the status section at the top of this file) with one round
+> of reviewer-driven robustness work plus four new research directions.
+>
+> **NOTHING in this section is built yet.** Only empty/stub scaffolds exist under
+> the canonical directories so the structure is ready. Build them one at a time
+> and gate each exactly like the earlier phases. Intended order:
+> **15b → 16 → 17 → 18 → 19.**
+>
+> **NUMBERING NOTE (flagged honestly).** The playbook proper stops at Phase 9;
+> Phases 10–13 live only in the status log above; there was never a written
+> Phase 14 or Phase 15. "Phase 15b" is named as requested — a bundle of targeted
+> improvements that slot in *before* Phase 16 — and the new work then continues
+> at Phase 16. If we later want a clean paper numbering we can renumber, but the
+> build order is what matters.
+
+---
+
+## Phase 15b — Targeted Improvements (reviewer feedback)
+
+**Location:** updates to EXISTING files — `evaluation/run_faithfulness_study.py`,
+`evaluation/faithfulness.py`, `models/advisor/advisor.py`, and the faithfulness
+configs. This is why 15b has **no stub file of its own**: it is edits to code we
+already built, not a new module. (Per the CLAUDE.md rule, any change to Phase-4/5
+behaviour must be FLAGGED in-file and here, not slipped in silently.)
+
+Three improvements, all inside the Phase-5 faithfulness study:
+
+1. **Rich-context condition `C_RICH`.** Phase 5 already proved plain city context
+   (condition A vs C) is ORTHOGONAL to faithfulness. `C_RICH` tests whether a
+   *fuller* context block (more KB chunks retrieved, corridor+incident history
+   expanded) changes that — a stronger test of the "context doesn't move
+   faithfulness" claim. Add as a new condition alongside A/B/C, same scoring
+   against the explainer top-k, same stratified sample.
+2. **Contradictory-context condition (`D_CONTRA`).** Feed the advisor city context
+   that DISAGREES with the explanation (e.g. names a different corridor as the
+   known bottleneck) and measure whether the LLM stays faithful to the math or
+   gets pulled toward the false context. This is the sharp stress test of
+   grounding: if hallucination stays ~0 under contradictory context, grounding is
+   robust; if it spikes, we've found a real limitation to report.
+   - ⚠️ NAMING CLASH (flag): Phase 12 already uses **condition D = SHAP** in a
+     *different* study/table (`shap_comparison.py`). These don't collide in code
+     (separate files), but in the PAPER "condition D" would be ambiguous. Suggest
+     labelling this one `D_CONTRA` (or `E`) in prose so the two never blur.
+3. **Bootstrap confidence intervals on all A/B/C (and new-condition) comparisons.**
+   Right now the study reports mean ± std. Add nonparametric bootstrap 95% CIs on
+   each per-condition metric AND on the A−B / A−C differences (resample scenarios
+   with replacement, seed 42, ~10k iters). This is what turns "A beats B" into "A
+   beats B, 95% CI on the gap excludes 0" — the rigor a reviewer expects and cheap
+   to add since every per-scenario metric is already logged.
+
+**Contribution:** hardens Contribution #2 against the obvious reviewer pushback
+(is the context result real? is the grounding robust to bad context? are the
+gaps statistically meaningful?) without any new model or LLM — pure evaluation.
+
+**Verification gate:** the faithfulness study runs with the new conditions +
+bootstrap CIs on the existing cached decisions (resumable, no full recompute);
+the A/B/C table gains CI columns; `D_CONTRA` produces a sane hallucination number;
+resolver still ≥90%.
+
+---
+
+## Phase 16 — Active Grounding Loop
+
+**Location:** `xtraffic/models/advisor/active_grounding.py` (stub created).
+
+**What it does:** closes the loop on the faithfulness metric. After the advisor
+generates an advisory, AUTOMATICALLY compute its faithfulness F1 (reuse
+`evaluation/faithfulness.py`). If F1 < 0.7, build a TARGETED correction prompt
+that names the specific explainer top-k nodes the LLM failed to cite, and
+re-prompt. Repeat up to 3 rounds or until F1 ≥ threshold. Record the F1 (and
+hallucination) at each round = a per-scenario CONVERGENCE CURVE.
+
+**Design sketch (build it readable, 3.9-compatible):**
+- Reuse `Advisor.advise_condition(...)` for the initial + corrective prompts and
+  the faithfulness resolver/metrics for scoring — no new LLM plumbing.
+- Correction prompt = the Phase-4 prompt + an appended block: "You did not address
+  these locations from the explanation: {missed top-k node names}. Revise your
+  reasoning and recommendations to account for them; still cite ONLY what appears
+  in the explanation."
+- Config knobs (new `configs/active_grounding.yaml` or a block in `advisor.yaml`):
+  `f1_threshold=0.7`, `max_rounds=3`. No magic numbers in code.
+- Output: per-scenario convergence curves (round → F1/halluc) to
+  `evaluation/results/active_grounding/` as JSONL + CSV, plus an aggregate
+  "fraction reaching threshold within k rounds" table/figure.
+
+**Contribution:** upgrades the story from "we MEASURED that grounding helps" to
+"we BUILT a system that ENFORCES grounding in a closed loop" — an actionable
+mechanism, not just a metric. Honest caveat to state: this optimises the advisory
+toward the explainer's top-k, so report it as enforcement/consistency, not as
+independent evidence the explanation is correct.
+
+**Verification gate:** on a handful of scenarios (incl. a known low-F1 one from
+the Phase-13 failure set), the loop measurably raises F1 across rounds and the
+convergence curve is logged; a scenario already ≥0.7 exits in one round (no
+needless re-prompting).
+
+---
+
+## Phase 17 — Counterfactual Explanations
+
+**Location:** `xtraffic/models/explainer/counterfactual.py` (stub created).
+
+**What it does:** instead of explaining WHY congestion is predicted, find the
+MINIMUM perturbation to critical (top-k) nodes that FLIPS the target prediction to
+free flow — then have the LLM narrate the counterfactual: "If signal timing on the
+Glendale feeder had been eased ~8 minutes earlier, the cascade would not have
+reached Downtown."
+
+**Design sketch:**
+- Candidate node set = the explainer's top-k (already the causal frontier), so we
+  search a small space, not all N.
+- Perturbation = a speed uplift on those nodes over the last few input steps (same
+  mechanism family as the Phase-8/10 intervention simulator — reuse it), searched
+  for the SMALLEST uplift (and/or fewest nodes) that pushes the target's 30-min
+  prediction back above a free-flow threshold. Gradient-guided or small grid/greedy
+  search; document the method — reviewers will ask.
+- Emit a counterfactual record (which nodes, how much, the implied lead time from
+  the propagation lag) and feed it to the advisor via a counterfactual-mode prompt.
+
+**Contribution:** makes the system genuinely ACTIONABLE — planners see not just the
+cause but what they could have done differently, with a concrete magnitude and
+lead time. Complements Contribution #3 (decision quality).
+
+**Verification gate:** on a congested scenario, a counterfactual is found (target
+flips to free flow) with a plausibly small perturbation, and the LLM's narration
+matches the counterfactual record (no invented nodes/magnitudes). On a free-flow
+target, it correctly reports "no counterfactual needed."
+
+---
+
+## Phase 18 — Uncertainty-Aware Explanations
+
+**Location:** `xtraffic/models/explainer/uncertain_explainer.py` (stub created).
+
+**What it does:** run GNNExplainer K=10 times with different random
+initialisations, then classify each node by how often it lands in the top-k:
+CORE (>80% of runs), PERIPHERAL (20–80%), NOISE (<20%). Inject this uncertainty
+distribution into the LLM prompt so the advisory becomes epistemically honest:
+"East LA corridor confirmed in 9/10 runs. The I-10 connector is uncertain
+(4/10 runs)."
+
+**Design sketch:**
+- Reuse `explain.py`'s GNNExplainer / `ExplanationBuilder`; this is essentially the
+  Phase-3 `explanation_confidence` machinery (mean Jaccard over K reruns) promoted
+  from a single scalar to a PER-NODE frequency, so K=10 solves already fit the cost
+  model.
+- Extend the schema (additively, don't break the Phase-4 contract) with a per-node
+  `stability_tier` / `runs_in_topk` field; the advisor prompt renders it as
+  confidence language.
+- The LLM is instructed to hedge on peripheral nodes and never assert noise nodes.
+
+**Contribution:** epistemically honest explanations that reflect GENUINE model
+uncertainty — directly answers "how do I trust a single explainer run?" and pairs
+naturally with the Phase-16 active-grounding loop (enforce citation of CORE nodes,
+allow hedged peripheral ones).
+
+**Verification gate:** across K=10 runs the core/peripheral/noise split is sensible
+on a congested scenario (a real upstream corridor is CORE), the schema stays
+Phase-4-valid, and the advisory's confidence language matches the tiers (asserts
+core, hedges peripheral, omits noise).
+
+---
+
+## Phase 19 — Cross-Modal Grounding Transfer
+
+**Location:** `xtraffic/data/pipelines/second_domain.py` (stub created).
+
+> ⚠️ **DISCUSS WITH PROFESSOR BEFORE BUILDING.** This phase needs faculty guidance
+> on domain choice and scope. Start with DATA EXPLORATION ONLY — do not train
+> anything until the domain is agreed.
+
+**What it does:** prove the hallucination-reduction result transfers to a COMPLETELY
+DIFFERENT domain with NO architecture changes. Step 1 is exploration: identify which
+second-domain graph dataset is most accessible and legally/technically usable —
+candidates: IEEE 14-bus power grid, MIMIC-III patient flow, or SupplyGraph supply
+chain. Then window it into the SAME `X[·,T,N,C] / Y[·,T,N]` tensor contract, train
+the SAME `XTrafficSTGNN`, run the Phase-5 A/B conditions, and report the
+hallucination gap.
+
+**Design sketch:**
+- Exploration deliverable first: a short DIFFERENCES-style note per candidate
+  (access method, licence, graph definition, node/edge semantics, whether it fits
+  our tensor contract) so the professor can pick with full information.
+- Reuse the whole downstream stack unchanged — that's the entire point (the
+  cross-city pipelines already prove the contract is portable; this pushes it
+  cross-DOMAIN).
+- A domain with no natural KB → empty city context (Phase 5 already showed context
+  is orthogonal to faithfulness, so A/B is unaffected — no fabricated facts).
+
+**Contribution:** if the hallucination gap holds across domains, the claim
+generalises from "works on traffic" to **"mathematical GNN-explanation grounding is
+a DOMAIN-AGNOSTIC mechanism for eliminating LLM hallucination."** That is the
+strongest possible framing of Contribution #2 — but only if the professor agrees the
+domain and scope are defensible.
+
+**Verification gate:** (exploration) a written comparison of the three candidate
+datasets + a recommendation; (build, only after sign-off) the second domain loads
+into the tensor contract, the shared model trains to a non-trivial baseline, and
+the A/B hallucination gap is reported alongside the METR-LA numbers.

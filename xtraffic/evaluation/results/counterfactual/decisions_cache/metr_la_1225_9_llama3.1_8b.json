@@ -1,0 +1,148 @@
+{
+  "sample_index": 1225,
+  "target_node": 9,
+  "tod_band": "am_rush",
+  "congestion": "high",
+  "timestamp": "test#1225 @ 09:20",
+  "predicted_speed": 23.79,
+  "predicted_speed_after": 35.51,
+  "flip_achieved": true,
+  "reason": "flip",
+  "n_critical": 8,
+  "n_levers": 1,
+  "n_nodes_changed": 1,
+  "n_upstream_changed": 0,
+  "changed_target": true,
+  "perturbation_budget": 12.0,
+  "implied_lead_minutes": 15.0,
+  "cf": {
+    "factual": {
+      "predicted_speed": 23.79,
+      "target_name": "San Fernando Valley (sensor 717816, 34.156, -118.469)",
+      "critical_nodes": [
+        {
+          "node_id": 65,
+          "node_name": "NE of Downtown LA (sensor 767751, 34.093, -118.206)",
+          "current_speed": 63.75
+        },
+        {
+          "node_id": 78,
+          "node_name": "N of Downtown LA (sensor 718064, 34.113, -118.245)",
+          "current_speed": 66.63
+        },
+        {
+          "node_id": 79,
+          "node_name": "NE of Downtown LA (sensor 718066, 34.123, -118.229)",
+          "current_speed": 67.12
+        },
+        {
+          "node_id": 85,
+          "node_name": "Glendale / Burbank (sensor 767621, 34.135, -118.230)",
+          "current_speed": 67.38
+        },
+        {
+          "node_id": 110,
+          "node_name": "Glendale / Burbank (sensor 717099, 34.156, -118.247)",
+          "current_speed": 65.0
+        },
+        {
+          "node_id": 28,
+          "node_name": "NE of Downtown LA (sensor 767573, 34.130, -118.229)",
+          "current_speed": 68.5
+        },
+        {
+          "node_id": 190,
+          "node_name": "San Fernando Valley (sensor 764858, 34.153, -118.375)",
+          "current_speed": 64.12
+        },
+        {
+          "node_id": 132,
+          "node_name": "Glendale / Burbank (sensor 762329, 34.139, -118.229)",
+          "current_speed": 68.88
+        }
+      ]
+    },
+    "counterfactual": {
+      "required_changes": [
+        {
+          "node_id": 9,
+          "node_name": "San Fernando Valley (sensor 717816, 34.156, -118.469)",
+          "current_speed": 20.0,
+          "required_speed": 32.0,
+          "delta_mph": 12.0,
+          "is_target": true
+        }
+      ],
+      "predicted_speed_after": 35.51,
+      "total_perturbation_budget": 12.0,
+      "flip_achieved": true
+    },
+    "meta": {
+      "flip_threshold_mph": 35.0,
+      "free_flow_mph": 60.0,
+      "max_uplift_mph": 20.0,
+      "step_mph": 2.0,
+      "implied_lead_minutes": 15.0,
+      "reason": "flip",
+      "target_node": 9,
+      "n_critical": 8,
+      "n_levers": 1,
+      "dataset": "metr_la",
+      "sample_index": 1225,
+      "tod_band": "am_rush",
+      "congestion": "high",
+      "timestamp": "test#1225 @ 09:20"
+    }
+  },
+  "narrated": true,
+  "faithfulness_f1": 1.0,
+  "cause_precision": 1.0,
+  "cause_recall": 1.0,
+  "hallucination_rate": 0.0,
+  "narration": {
+    "advisory": {
+      "reasoning": "The minimum intervention to prevent congestion is to raise the speed from 20.0 mph to 32.0 mph at a location in the San Fernando Valley, approximately 15 minutes before the target congestion.",
+      "cited_causes": [
+        {
+          "location": "San Fernando Valley",
+          "resolved_node_id": 9
+        }
+      ],
+      "recommendations": [
+        {
+          "action": "Implement ramp metering to regulate traffic flow",
+          "location": "I-405 Sepulveda Pass, southbound approaching the pass",
+          "time_window_minutes": 15,
+          "expected_effect": "Increase speed by up to 12.0 mph",
+          "grounded_in": [
+            "raise from 20.0 mph to 32.0 mph"
+          ]
+        },
+        {
+          "action": "Optimize traffic signal timing at nearby intersections",
+          "location": "Sepulveda Blvd and Van Nuys Blvd, north-south arterials in the San Fernando Valley",
+          "time_window_minutes": 10,
+          "expected_effect": "Increase speed by up to 8.0 mph",
+          "grounded_in": [
+            "raise from 20.0 mph to 32.0 mph"
+          ]
+        },
+        {
+          "action": "Implement dynamic lane management, converting a general-purpose lane to a high-occupancy vehicle (HOV) lane during peak hours",
+          "location": "I-405 Sepulveda Pass, southbound approaching the pass",
+          "time_window_minutes": 20,
+          "expected_effect": "Increase speed by up to 12.0 mph",
+          "grounded_in": [
+            "raise from 20.0 mph to 32.0 mph"
+          ]
+        }
+      ]
+    },
+    "context_used": [
+      "Known recurrent bottlenecks (LA basin)",
+      "Glendale/Burbank freeways (SR-134, I-5, SR-2)",
+      "I-405 San Diego Freeway corridor",
+      "San Fernando Valley freeways (US-101, I-405, SR-118)"
+    ]
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "reasoning": "The predicted congestion in Hollywood is due to a wave of slow traffic traveling from Downtown LA, where the current speed is 15.38 mph (sensor 718045), and other surrounding areas such as NE of Downtown LA (21.87 mph, sensor 760650) and Pasadena / East (67.12 mph, sensor 769806). This congestion appears to be propagating along a path of 5 sensors with an estimated lag of 30 minutes between the source and the target.",
+  "cited_causes": [
+    {
+      "location": "NE of Downtown LA",
+      "resolved_node_id": 48
+    },
+    {
+      "location": "Downtown LA",
+      "resolved_node_id": 38
+    },
+    {
+      "location": "Pasadena / East",
+      "resolved_node_id": 200
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "NE of Downtown LA (sensor 760650)",
+      "time_window_minutes": 5,
+      "expected_effect": "Reduced congestion in Hollywood by slowing down traffic before it reaches the bottleneck",
+      "grounded_in": [
+        "congestion appears to travel along a path of 5 sensors"
+      ]
+    },
+    {
+      "action": "Reroute traffic before the merge",
+      "location": "I-5/SR-134 interchange (city-context fact)",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in Hollywood by diverting traffic away from the bottleneck",
+      "grounded_in": [
+        "Recurrent bottlenecks a planner should assume unless told otherwise"
+      ]
+    },
+    {
+      "action": "Signal-coordinated surface relief on Sunset Blvd and Santa Monica Blvd",
+      "location": "US-101 Hollywood Freeway corridor (city-context fact)",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion in Hollywood by improving traffic flow on parallel roads",
+      "grounded_in": [
+        "Surface relief: Sunset Blvd and Santa Monica Blvd, both ATSAC signal-coordinated"
+      ]
+    }
+  ]
+}

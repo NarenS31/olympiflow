@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds detected by sensors in the Hollywood area, particularly at locations with node IDs 22 and 20. These sensors are reporting speeds of 12.89 mph and 11.89 mph respectively, which suggests that traffic is slowing down as it approaches the target location. The propagation of congestion appears to be traveling along a path of 2 sensors, with an estimated lag of 50 minutes between the source and the target.",
+  "cited_causes": [
+    {
+      "location": "Hollywood",
+      "resolved_node_id": 22
+    },
+    {
+      "location": "Hollywood",
+      "resolved_node_id": 20
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Extend green-band timing for coordinated corridors",
+      "location": "Sunset Blvd and Santa Monica Blvd",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion in the Hollywood area by allowing more vehicles to pass through the area during the green phase.",
+      "grounded_in": [
+        "ATSAC signal-coordinated"
+      ]
+    },
+    {
+      "action": "Open HOV/ExpressLanes on I-110",
+      "location": "I-110 (Harbor Fwy)",
+      "time_window_minutes": 10,
+      "expected_effect": "Redirecting traffic to the HOV/ExpressLanes can help alleviate congestion in the Hollywood area.",
+      "grounded_in": [
+        "HOV/ExpressLanes between Adams Blvd and the 105"
+      ]
+    },
+    {
+      "action": "Activate transit diversion",
+      "location": "Wilshire and Expo/I-10 rail lines",
+      "time_window_minutes": 5,
+      "expected_effect": "Encouraging drivers to use public transportation can help reduce traffic congestion in the Hollywood area.",
+      "grounded_in": [
+        "Metro rail relief options by area"
+      ]
+    }
+  ]
+}

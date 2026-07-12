@@ -185,6 +185,21 @@ def build_prompt(exp: Dict[str, Any], kb_block: str) -> str:
 #                         hallucination should spike. This is the money result.
 #   C (no city context) : SYSTEM + EXPLANATION + TASK  (KB block empty)
 #                         Isolates the contribution of the city knowledge base.
+#
+# Phase 15b adds two MORE conditions (reviewer-driven robustness). They reuse the
+# same scoring against the explainer top-k; only the CITY CONTEXT block changes:
+#   C_RICH (fuller context)      : like A but a DELIBERATELY FULLER context block
+#                                  (more KB chunks + bigger budget). Tests whether
+#                                  MORE context — not just any context — moves
+#                                  faithfulness. If C_RICH ~= A ~= C, the "context
+#                                  is orthogonal to faithfulness" claim is stronger.
+#   D_CONTRA (contradictory ctx) : city context that DISAGREES with the math (names
+#                                  a DIFFERENT, real corridor as the active
+#                                  bottleneck). The sharp grounding stress test: if
+#                                  hallucination stays ~0 the LLM trusted the math
+#                                  over the false context; if it spikes we found a
+#                                  real limitation. (Labelled D_CONTRA, not "D", so
+#                                  it never blurs with Phase-12's condition D=SHAP.)
 # ----------------------------------------------------------------------------
 def render_prediction_only_text(exp: Dict[str, Any]) -> str:
     """Condition B input: the target prediction WITHOUT the explanation's
@@ -209,15 +224,29 @@ _TASK_NO_EXPLANATION = _TASK.replace(
 
 
 def build_prompt_condition(exp: Dict[str, Any], kb_block: str,
-                           condition: str) -> str:
-    """Assemble the prompt for condition 'A', 'B', or 'C'."""
-    if condition == "A":
-        return build_prompt(exp, kb_block)
-    if condition == "C":
+                           condition: str,
+                           extra_instruction: Optional[str] = None) -> str:
+    """Assemble the prompt for a condition.
+
+    A, C_RICH, and D_CONTRA are structurally IDENTICAL (SYSTEM + CITY CONTEXT +
+    EXPLANATION + TASK) — they differ ONLY in what `kb_block` the caller passes
+    (normal / fuller / contradictory). advise_condition() builds the right block;
+    this function just places it. C blanks the context; B swaps the explanation
+    for a prediction-only view.
+
+    Phase 16 (FLAGGED, default-preserving): `extra_instruction` appends one more
+    block AFTER the TASK — used by the Active Grounding Loop to attach a targeted
+    correction ("you did not address these top-k nodes ..."). When it is None
+    (every Phase-4/5/15b caller), the returned prompt is BYTE-IDENTICAL to before,
+    so no earlier behaviour changes. It goes last so the model reads the correction
+    as the final, most recent instruction."""
+    if condition in ("A", "C_RICH", "D_CONTRA"):
+        prompt = build_prompt(exp, kb_block)
+    elif condition == "C":
         # Same as A but with the city context deliberately blanked out.
-        return build_prompt(exp, "")
-    if condition == "B":
-        return (
+        prompt = build_prompt(exp, "")
+    elif condition == "B":
+        prompt = (
             "{system}\n\n"
             "=== CITY CONTEXT (retrieved knowledge base) ===\n{kb}\n\n"
             "=== PREDICTION ===\n{pred}\n\n"
@@ -226,7 +255,165 @@ def build_prompt_condition(exp: Dict[str, Any], kb_block: str,
                  kb=kb_block or "(no city context retrieved)",
                  pred=render_prediction_only_text(exp),
                  task=_TASK_NO_EXPLANATION)
-    raise ValueError("condition must be 'A', 'B', or 'C', got {!r}".format(condition))
+    else:
+        raise ValueError(
+            "condition must be one of A/B/C/C_RICH/D_CONTRA, got {!r}".format(condition))
+
+    if extra_instruction:
+        prompt = prompt + "\n\n" + extra_instruction
+    return prompt
+
+
+# ----------------------------------------------------------------------------
+# Phase 15b — D_CONTRA: a contradictory CITY CONTEXT block.
+# ----------------------------------------------------------------------------
+def build_contradictory_context(exp: Dict[str, Any],
+                                kb: "KnowledgeBase") -> Tuple[str, str]:
+    """Construct a CITY CONTEXT block that DISAGREES with the mathematical
+    explanation: it asserts a DIFFERENT, real corridor is the active bottleneck.
+
+    The explanation shown to the model still points at the true top-k nodes; only
+    the city context lies. This is a deliberate grounding stress test — if the LLM
+    stays faithful to the math, its cited causes still resolve to the true top-k
+    and hallucination stays ~0; if the false context pulls it off, it will cite the
+    decoy corridor (which is NOT in the top-k) and hallucination spikes.
+
+    Choosing the decoy HONESTLY: we pick the REAL corridor whose regions overlap
+    the explanation's regions the LEAST (ideally not at all), so it is genuinely
+    elsewhere, not a paraphrase of the truth. We fabricate no sensors or numbers —
+    only the framing ("this corridor is the cause") is false, which is exactly the
+    confound a planner might carry in from stale operational chatter. Returns
+    (block, decoy_title).
+
+    We compare FULL REGION LABELS, not word tokens: the KB region_tags are keyed to
+    node_names.py region labels, so an exact-label overlap count is the right,
+    noise-free measure. (An earlier token version spuriously matched on generic
+    words like 'downtown' or 'i-405' and could pick the explanation's OWN region as
+    the decoy — the opposite of what we want.)"""
+    def _region_of(name: str) -> str:
+        # node_name looks like "San Fernando Valley (sensor 772167, ...)"; the
+        # region label is the part before the parenthetical.
+        return name.split("(")[0].strip().lower()
+
+    exp_regions = {_region_of(exp["prediction"]["node_name"])}
+    for n in exp.get("top_nodes", []):
+        exp_regions.add(_region_of(n["node_name"]))
+
+    corridors = [c for c in kb.chunks
+                 if str(c.get("id", "")).startswith("corridor_")]
+    if not corridors:                        # some cities may not id chunks "corridor_"
+        corridors = [c for c in kb.chunks if c.get("region_tags")]
+
+    def _overlap(c: Dict[str, Any]) -> int:
+        tags = {str(t).strip().lower() for t in c.get("region_tags", [])}
+        return len(tags & exp_regions)
+
+    # Fewest shared regions first; ties break by KB order (stable, reproducible).
+    decoy = min(corridors, key=lambda c: (_overlap(c), corridors.index(c))) \
+        if corridors else kb.chunks[-1]
+
+    block = (
+        "[FIELD-OPERATIONS BULLETIN — reported active bottleneck]\n"
+        "Operations reports the dominant cause of the current network slowdown is "
+        "the {title}. Prioritise mitigation on this corridor.\n{text}"
+    ).format(title=decoy["title"], text=decoy["text"])
+    return block, decoy["title"]
+
+
+# ----------------------------------------------------------------------------
+# Phase 17 — COUNTERFACTUAL narration (default-preserving addition, FLAGGED).
+#
+# Phases 3-5 explain WHY congestion is predicted. Phase 17 finds the MINIMUM speed
+# uplift on the explainer's critical nodes that would have FLIPPED the target back
+# to free flow (models/explainer/counterfactual.py), and this block lets the LLM
+# narrate that counterfactual: "if the Glendale feeder had been eased ~8 min
+# earlier, the cascade would not have reached Downtown."
+#
+# It reuses the SAME advisory output contract (reasoning / cited_causes /
+# recommendations) so validate_advisory() and the Phase-5 faithfulness metric both
+# apply UNCHANGED — the faithfulness of the narrative is then scored against the
+# counterfactual's required-change node set (Phase-17 study). NOTHING here touches
+# advise()/advise_condition() or their prompts, so Phase 4/5/15b/16 are byte-identical.
+# ----------------------------------------------------------------------------
+def render_counterfactual_text(cf: Dict[str, Any]) -> str:
+    """Render the counterfactual record (models/explainer/counterfactual.py) as
+    clean structured text for the narration prompt. Shows the target being
+    prevented and, for each required change, current -> required speed with the
+    delta, plus the implied lead time (the explanation's propagation lag)."""
+    fac = cf["factual"]
+    ctr = cf["counterfactual"]
+    lines: List[str] = []
+    lines.append("TARGET CONGESTION TO PREVENT:")
+    lines.append("  Location: {}".format(fac["target_name"]))
+    lines.append("  Predicted speed (factual): {} mph (congested; below the "
+                 "{} mph free-flow threshold)".format(
+                     fac["predicted_speed"], cf["meta"]["flip_threshold_mph"]))
+    lines.append("")
+    lines.append("MINIMUM UPSTREAM CHANGE THAT WOULD HAVE PREVENTED IT "
+                 "(the counterfactual — ONLY these locations are valid causes):")
+    for r in ctr["required_changes"]:
+        lines.append(
+            "  - {} (node_id {}): raise from {} mph to {} mph (+{} mph)".format(
+                r["node_name"], r["node_id"], r["current_speed"],
+                r["required_speed"], r["delta_mph"]))
+    lines.append("")
+    lines.append("  Total speed-uplift budget: {} mph across {} location(s).".format(
+        ctr["total_perturbation_budget"], len(ctr["required_changes"])))
+    lead = cf["meta"].get("implied_lead_minutes")
+    if lead is not None:
+        lines.append("  Implied lead time: the change would have had to happen "
+                     "~{} minutes before the target congestion (the estimated "
+                     "propagation lag from source to target).".format(lead))
+    lines.append("  Predicted target speed AFTER this change: {} mph "
+                 "(back above free-flow -> congestion prevented).".format(
+                     ctr["predicted_speed_after"]))
+    return "\n".join(lines)
+
+
+_TASK_COUNTERFACTUAL = (
+    "TASK:\n"
+    "The minimum intervention that would have prevented this congestion is listed "
+    "above. Explain in plain language what this means for a traffic planner and "
+    "what specific actions could achieve this change. Reference ONLY the locations "
+    "and quantities in the counterfactual above — do NOT invent sensors, roads, "
+    "incidents, or numbers.\n"
+    "Provide 3 to 5 concrete recommendations, each a way to achieve the required "
+    "speed change at a counterfactual location, with a time window (minutes) and an "
+    "expected effect.\n\n"
+    "Return ONLY a JSON object with EXACTLY this shape (no prose outside JSON):\n"
+    "{\n"
+    '  "reasoning": "<plain-language explanation of the minimum intervention and '
+    'what it means>",\n'
+    '  "cited_causes": [\n'
+    '    {"location": "<a location name from the counterfactual>", '
+    '"resolved_node_id": <its node_id, or null>}\n'
+    "  ],\n"
+    '  "recommendations": [\n'
+    '    {"action": "<a concrete action that would achieve the required speed '
+    'change at this location>", "location": "<where>", '
+    '"time_window_minutes": <int>, "expected_effect": "<result>", '
+    '"grounded_in": ["<which counterfactual change this rests on>"]}\n'
+    "  ]\n"
+    "}"
+)
+
+
+def build_prompt_counterfactual(cf: Dict[str, Any], kb_block: str) -> str:
+    """Assemble the counterfactual-narration prompt in the required order:
+    SYSTEM -> CITY CONTEXT -> COUNTERFACTUAL -> TASK.
+
+    We deliberately show the COUNTERFACTUAL (the required changes), NOT the full
+    explanation top_nodes table, so the faithfulness measurement is clean: the only
+    causes 'above' are the counterfactual's required-change nodes, so citing
+    something else is genuinely off-counterfactual (measured as reduced precision),
+    not just echoing a bigger table."""
+    return (
+        "{system}\n\n"
+        "=== CITY CONTEXT (retrieved knowledge base) ===\n{kb}\n\n"
+        "=== COUNTERFACTUAL (minimum intervention) ===\n{cf}\n\n"
+        "=== {task}"
+    ).format(system=_SYSTEM, kb=kb_block or "(no city context retrieved)",
+             cf=render_counterfactual_text(cf), task=_TASK_COUNTERFACTUAL)
 
 
 # ----------------------------------------------------------------------------
@@ -260,6 +447,14 @@ class Advisor:
         self.top_k: int = int(self.cfg["retrieval"]["top_k"])
         self.max_context_chars: int = int(self.cfg["retrieval"]["max_context_chars"])
         self.max_retries: int = int(self.cfg["retry"]["max_retries"])
+        # Phase 15b — the C_RICH condition's fuller-context knobs. Default to
+        # doubling the normal budgets if the config predates 15b, so an old
+        # advisor.yaml still works.
+        self.rich_top_k: int = int(
+            self.cfg["retrieval"].get("rich_top_k", self.top_k * 2))
+        self.rich_max_context_chars: int = int(
+            self.cfg["retrieval"].get("rich_max_context_chars",
+                                      self.max_context_chars * 2))
 
     # --- the raw Ollama call ------------------------------------------------
     def _call_ollama(self, prompt: str) -> str:
@@ -347,31 +542,84 @@ class Advisor:
         }
 
     def advise_condition(self, exp: Dict[str, Any],
-                         condition: str) -> Dict[str, Any]:
-        """Run one advisory under Phase-5 condition A/B/C. Same output shape as
-        advise() plus the condition tag, so the faithfulness study can score all
-        three identically.
+                         condition: str,
+                         extra_instruction: Optional[str] = None) -> Dict[str, Any]:
+        """Run one advisory under a Phase-5/15b condition. Same output shape as
+        advise() plus the condition tag, so the faithfulness study can score every
+        condition identically.
 
-        City context is retrieved for A and B (both include CITY CONTEXT). For B
-        we retrieve against a PREDICTION-ONLY view so the explanation's top_nodes
-        cannot leak into the prompt through the KB retrieval — B must be blind to
-        the explanation. C gets no city context at all."""
+        The ONLY thing that varies across A / C_RICH / D_CONTRA is the CITY CONTEXT
+        block (normal / fuller / contradictory); B swaps the explanation for a
+        prediction-only view; C blanks the context. We build the right context
+        here, then hand a single kb_block to build_prompt_condition.
+
+          A        : normal retrieval against the explanation.
+          B        : retrieve against a PREDICTION-ONLY view so the explanation's
+                     top_nodes cannot leak into the prompt via the KB — B must be
+                     blind to the explanation.
+          C        : no city context at all.
+          C_RICH   : fuller retrieval (rich_top_k, padded past the relevant chunks)
+                     rendered with a bigger character budget.
+          D_CONTRA : a contradictory context block naming a different real corridor
+                     as the bottleneck (build_contradictory_context).
+
+        Phase 16 (FLAGGED, default-preserving): `extra_instruction`, when given, is
+        appended after the TASK by build_prompt_condition — the Active Grounding
+        Loop uses it to attach a correction naming the missed top-k nodes. Default
+        None reproduces the exact Phase-4/5/15b prompt, so callers that don't pass
+        it are unaffected."""
+        context_used: List[str] = []
         if condition == "A":
             chunks = self.kb.retrieve(exp, top_k=self.top_k)
+            kb_block = render_kb_block(chunks, self.max_context_chars)
+            context_used = [c["title"] for c in chunks]
         elif condition == "B":
             stripped = {"prediction": exp["prediction"], "top_nodes": []}
             chunks = self.kb.retrieve(stripped, top_k=self.top_k)
+            kb_block = render_kb_block(chunks, self.max_context_chars)
+            context_used = [c["title"] for c in chunks]
         elif condition == "C":
-            chunks = []                      # no city context in condition C
+            kb_block = ""                    # no city context in condition C
+        elif condition == "C_RICH":          # Phase 15b — fuller context
+            chunks = self.kb.retrieve(exp, top_k=self.rich_top_k, pad_to_k=True)
+            kb_block = render_kb_block(chunks, self.rich_max_context_chars)
+            context_used = [c["title"] for c in chunks]
+        elif condition == "D_CONTRA":        # Phase 15b — contradictory context
+            kb_block, decoy_title = build_contradictory_context(exp, self.kb)
+            context_used = ["CONTRADICTORY:" + decoy_title]
         else:
-            raise ValueError("condition must be 'A', 'B', or 'C'")
+            raise ValueError(
+                "condition must be one of A/B/C/C_RICH/D_CONTRA, got {!r}"
+                .format(condition))
 
-        kb_block = render_kb_block(chunks, self.max_context_chars)
-        prompt = build_prompt_condition(exp, kb_block, condition)
+        prompt = build_prompt_condition(exp, kb_block, condition,
+                                        extra_instruction=extra_instruction)
         advisory, raws = self._generate_validated(prompt)
         return {
             "advisory": advisory,
             "condition": condition,
+            "context_used": context_used,
+            "model": self.model,
+            "raw_responses": raws,
+        }
+
+    def advise_counterfactual(self, exp: Dict[str, Any],
+                              cf: Dict[str, Any]) -> Dict[str, Any]:
+        """Phase 17: narrate a COUNTERFACTUAL. Given the Phase-3 explanation `exp`
+        (used only to retrieve relevant city context) and a counterfactual record
+        `cf` (models/explainer/counterfactual.py), ask the LLM to explain the
+        minimum intervention in plain language and propose concrete actions.
+
+        Same output shape as advise()/advise_condition() so validate_advisory() and
+        the Phase-5 faithfulness metric apply unchanged — the study then scores the
+        narrative's cited causes against the counterfactual's required-change nodes."""
+        chunks = self.kb.retrieve(exp, top_k=self.top_k)
+        kb_block = render_kb_block(chunks, self.max_context_chars)
+        prompt = build_prompt_counterfactual(cf, kb_block)
+        advisory, raws = self._generate_validated(prompt)
+        return {
+            "advisory": advisory,
+            "mode": "counterfactual",
             "context_used": [c["title"] for c in chunks],
             "model": self.model,
             "raw_responses": raws,

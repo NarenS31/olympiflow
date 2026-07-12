@@ -1,0 +1,64 @@
+# XTraffic — Phase 17 counterfactual-explanation configuration.
+# No magic numbers in code (CLAUDE.md): every knob the search + study need lives here.
+#
+# WHAT PHASE 17 DOES
+# ------------------
+# Phases 3-5 explain WHY congestion is predicted. Phase 17 answers the planner's
+# NEXT question — "what could I have done differently?" — by finding the MINIMUM
+# speed uplift on the explainer's critical (top-k) upstream nodes that FLIPS the
+# target's 30-min prediction from congested back to free flow, then having the LLM
+# narrate that counterfactual in plain language.
+#
+# THE SEARCH (gradient-free, documented — reviewers will ask exactly how "minimum"
+# is defined):
+#   1. FEASIBILITY SWEEP: raise every congested critical node by a uniform uplift
+#      u = step_mph, 2*step_mph, ... up to max_uplift_mph, re-running the frozen GNN
+#      after each step, until the target's predicted speed crosses flip_threshold_mph.
+#      The first u that flips is the coarse feasible perturbation; if none flips by
+#      max_uplift_mph, the counterfactual is INFEASIBLE (flip_achieved=False) — an
+#      honest, reportable outcome for a deeply-congested target.
+#   2. PER-NODE MINIMISATION: from that uniform level, greedily relax each node's
+#      uplift back toward 0 (least-important node first) as long as the target STAYS
+#      flipped. This yields the genuinely MINIMAL per-node change — "you only needed
+#      to ease THESE specific nodes by THESE amounts" — not a blanket uplift.
+#
+# MECHANISM REUSE: the perturbation is the SAME family as the Phase-8/10 intervention
+# simulator — a speed uplift on the last `apply_steps` input timesteps of a node set,
+# clipped at free_flow_mph (you cannot ease a road past free-flow). One notion of
+# "what an action does" shared across the whole project.
+
+seed: 42                       # reproducible scenario sampling (CLAUDE.md)
+dataset: "metr_la"
+city: "metr_la"                # which advisor knowledge base the narration uses
+checkpoint: "models/gnn/checkpoints/metr_la_best.pt"
+
+# --- The counterfactual search ----------------------------------------------
+search:
+  horizon_step: 6              # 1-based forecast step scored; 6 = 30 min at 5-min res
+  flip_threshold_mph: 35.0     # target is "congested" below this; a flip = pred crosses ABOVE it
+  free_flow_mph: 60.0          # uplift clip cap — an eased road can't exceed free-flow (matches sim_eval)
+  step_mph: 2.0                # uplift increment for the sweep + the greedy minimisation
+  max_uplift_mph: 20.0         # per-node uplift cap; beyond this the counterfactual is deemed infeasible.
+                               # NOTE (defensible reading of "20 mph total perturbation"): this caps the
+                               # uplift applied to EACH critical node; the reported total_perturbation_budget
+                               # is the SUM of the minimised per-node deltas across the required-change nodes.
+  apply_steps: 4               # how many of the last 12 input steps the uplift touches (matches sim_eval)
+  top_k: 8                     # number of critical (explainer top-k) nodes considered as levers
+
+# --- The 20-scenario evaluation study ---------------------------------------
+# Same stratified sampler + cached explanations as the Phase-5 faithfulness study,
+# then filtered to CONGESTED targets (predicted speed < flip_threshold_mph), because
+# a free-flowing prediction has no congestion to prevent ("no counterfactual needed").
+study:
+  n_scenarios: 20              # congested scenarios to evaluate
+  per_stratum: 7               # windows per (tod-band x congestion) cell to draw the pool from.
+                               # 7 == the Phase-5 faithfulness population (seed 42), so every
+                               # sampled explanation is ALREADY CACHED (explanations_cache/) and the
+                               # study runs with NO explainer cost; 50 of the 93 targets are congested,
+                               # ample for the 20 needed.
+  example_traces: 3            # how many full factual->counterfactual->narrative traces to dump
+  # LLM narration temperature is inherited from advisor.yaml (0.1) — faithful
+  # translation, not creative writing.
+
+# --- Output ------------------------------------------------------------------
+output_tex: "evaluation/paper/table_counterfactual.tex"   # \input-ready booktabs table

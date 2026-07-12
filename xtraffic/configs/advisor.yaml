@@ -20,10 +20,25 @@ ollama:
 retrieval:
   top_k: 4               # how many KB chunks to inject as CITY CONTEXT
   max_context_chars: 2000  # hard cap on injected KB text (keeps prompt small)
+  # Phase 15b — the C_RICH condition uses a deliberately FULLER context block to
+  # test whether MORE context (not just any context) moves faithfulness. It
+  # retrieves more chunks (padding past the relevant ones into the rest of the KB)
+  # and allows a bigger character budget. Only C_RICH reads these; A/B/C ignore them.
+  rich_top_k: 9              # ~all 11 LA chunks -> corridors + incident + transit + capacities
+  rich_max_context_chars: 4500
 
 # --- Robustness: malformed-JSON retry loop ---
 retry:
   max_retries: 2         # re-ask up to N times, appending the parse error
+
+# --- Phase 16: Active Grounding Loop ---
+# After the advisor answers under condition A, we AUTOMATICALLY score its
+# faithfulness (Phase-5 metric) and, if it falls short, hand the LLM a targeted
+# correction naming the explainer top-k nodes it failed to cite, then re-ask.
+# These two knobs are the only magic numbers the loop needs (CLAUDE.md rule).
+active_grounding:
+  f1_threshold: 0.7      # advisories scoring BELOW this trigger a correction re-prompt
+  max_rounds: 3          # max correction rounds AFTER the initial round-0 answer
 
 # --- City -> knowledge-base file (under models/advisor/kb/) ---
 cities:

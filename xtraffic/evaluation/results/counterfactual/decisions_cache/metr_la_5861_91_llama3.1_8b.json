@@ -1,0 +1,148 @@
+{
+  "sample_index": 5861,
+  "target_node": 91,
+  "tod_band": "midday",
+  "congestion": "low",
+  "timestamp": "test#5861 @ 11:40",
+  "predicted_speed": 24.37,
+  "predicted_speed_after": 35.31,
+  "flip_achieved": true,
+  "reason": "flip",
+  "n_critical": 8,
+  "n_levers": 6,
+  "n_nodes_changed": 1,
+  "n_upstream_changed": 0,
+  "changed_target": true,
+  "perturbation_budget": 18.0,
+  "implied_lead_minutes": 25.0,
+  "cf": {
+    "factual": {
+      "predicted_speed": 24.37,
+      "target_name": "Downtown LA (sensor 773023, 34.058, -118.243)",
+      "critical_nodes": [
+        {
+          "node_id": 6,
+          "node_name": "Downtown LA (sensor 773062, 34.054, -118.234)",
+          "current_speed": 65.37
+        },
+        {
+          "node_id": 93,
+          "node_name": "Downtown LA (sensor 773024, 34.058, -118.244)",
+          "current_speed": 66.63
+        },
+        {
+          "node_id": 38,
+          "node_name": "Downtown LA (sensor 718045, 34.067, -118.240)",
+          "current_speed": 57.2
+        },
+        {
+          "node_id": 174,
+          "node_name": "East LA (sensor 716939, 34.043, -118.217)",
+          "current_speed": 68.88
+        },
+        {
+          "node_id": 197,
+          "node_name": "San Fernando Valley (sensor 772167, 34.165, -118.480)",
+          "current_speed": 30.0
+        },
+        {
+          "node_id": 131,
+          "node_name": "San Fernando Valley (sensor 765099, 34.164, -118.472)",
+          "current_speed": 27.88
+        },
+        {
+          "node_id": 158,
+          "node_name": "San Fernando Valley (sensor 764794, 34.160, -118.468)",
+          "current_speed": 32.37
+        },
+        {
+          "node_id": 146,
+          "node_name": "San Fernando Valley (sensor 717502, 34.165, -118.475)",
+          "current_speed": 28.0
+        }
+      ]
+    },
+    "counterfactual": {
+      "required_changes": [
+        {
+          "node_id": 91,
+          "node_name": "Downtown LA (sensor 773023, 34.058, -118.243)",
+          "current_speed": 25.0,
+          "required_speed": 43.0,
+          "delta_mph": 18.0,
+          "is_target": true
+        }
+      ],
+      "predicted_speed_after": 35.31,
+      "total_perturbation_budget": 18.0,
+      "flip_achieved": true
+    },
+    "meta": {
+      "flip_threshold_mph": 35.0,
+      "free_flow_mph": 60.0,
+      "max_uplift_mph": 20.0,
+      "step_mph": 2.0,
+      "implied_lead_minutes": 25.0,
+      "reason": "flip",
+      "target_node": 91,
+      "n_critical": 8,
+      "n_levers": 6,
+      "dataset": "metr_la",
+      "sample_index": 5861,
+      "tod_band": "midday",
+      "congestion": "low",
+      "timestamp": "test#5861 @ 11:40"
+    }
+  },
+  "narrated": true,
+  "faithfulness_f1": 1.0,
+  "cause_precision": 1.0,
+  "cause_recall": 1.0,
+  "hallucination_rate": 0.0,
+  "narration": {
+    "advisory": {
+      "reasoning": "The minimum intervention to prevent congestion in Downtown LA is to raise the speed from 25.0 mph to 43.0 mph at a location upstream, which would have had to happen ~25.0 minutes before the target congestion.",
+      "cited_causes": [
+        {
+          "location": "Downtown LA",
+          "resolved_node_id": 91
+        }
+      ],
+      "recommendations": [
+        {
+          "action": "Implement ramp metering on I-10/I-110 downtown interchange",
+          "location": "I-10/I-110 downtown interchange",
+          "time_window_minutes": 20,
+          "expected_effect": "Increase speed by up to 18.0 mph, reducing congestion in Downtown LA",
+          "grounded_in": [
+            "raise from 25.0 mph to 43.0 mph at node_id 91"
+          ]
+        },
+        {
+          "action": "Optimize signal timing on Ventura Blvd and Sepulveda/Van Nuys Blvd",
+          "location": "Ventura Blvd and Sepulveda/Van Nuys Blvd",
+          "time_window_minutes": 15,
+          "expected_effect": "Increase speed by up to 18.0 mph, reducing congestion in Downtown LA",
+          "grounded_in": [
+            "raise from 25.0 mph to 43.0 mph at node_id 91"
+          ]
+        },
+        {
+          "action": "Implement dynamic lane management on I-405 Sepulveda Pass",
+          "location": "I-405 Sepulveda Pass",
+          "time_window_minutes": 30,
+          "expected_effect": "Increase speed by up to 18.0 mph, reducing congestion in Downtown LA",
+          "grounded_in": [
+            "raise from 25.0 mph to 43.0 mph at node_id 91"
+          ]
+        }
+      ]
+    },
+    "context_used": [
+      "Known recurrent bottlenecks (LA basin)",
+      "San Fernando Valley freeways (US-101, I-405, SR-118)",
+      "I-405 San Diego Freeway corridor",
+      "Glendale/Burbank freeways (SR-134, I-5, SR-2)"
+    ]
+  }
+}

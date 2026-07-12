@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in areas east and northeast of Downtown LA, specifically at sensor 767610 (34.186, -118.218), where the speed is currently 68.0 mph, and sensor 774011 (34.147, -118.201), where the speed is currently 69.0 mph. These slow speeds are contributing to congestion in the San Fernando Valley, specifically at sensor 772167 (34.165, -118.480), which has a predicted speed of 27.37 mph in 30 minutes.",
+  "cited_causes": [
+    {
+      "location": "NE of Downtown LA",
+      "resolved_node_id": 66
+    },
+    {
+      "location": "NE of Downtown LA",
+      "resolved_node_id": 45
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion in the San Fernando Valley",
+      "grounded_in": [
+        "The I-5/SR-134/SR-2 interchange is a known recurrent bottleneck"
+      ]
+    },
+    {
+      "action": "Reroute traffic before merge",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion in the San Fernando Valley",
+      "grounded_in": [
+        "The I-5/SR-134/SR-2 interchange is a known recurrent bottleneck"
+      ]
+    },
+    {
+      "action": "Use transit as diversion lever",
+      "location": "Wilshire and Hollywood areas",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion in the San Fernando Valley",
+      "grounded_in": [
+        "Transit is a viable diversion lever where a parallel rail line exists"
+      ]
+    }
+  ]
+}

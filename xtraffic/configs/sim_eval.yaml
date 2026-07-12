@@ -99,5 +99,15 @@ llm:
   decision_temperature: 0.2    # a touch above the advisor's 0.1 so the 3 seeds vary
   advisory_for_xtraffic: true  # XTRAFFIC condition also shows the LLM advisory text
 
+# --- RANDOM baseline reporting -----------------------------------------------
+# RANDOM picks uniformly over the K interventions, so its EXPECTED accuracy is 1/K
+# (= 0.20 for K=5). It needs no LLM, so — unlike RAW/XTRAFFIC, whose every draw costs
+# an 8B-model call and are therefore reported over just `decision_seeds` (3) — RANDOM
+# is reported as its EXPECTATION over many independent draws. With only 3 seeds the
+# realized RANDOM accuracy fluctuates well above 1/K (seeds 0-2 happened to cluster on
+# signal_retiming -> 0.32, a small-sample artifact, NOT a bug: the seeding is uniform
+# in expectation over 300 seeds). Averaging `random_report_seeds` draws recovers ~0.20.
+random_report_seeds: 200       # Monte-Carlo draws used to report the RANDOM baseline
+
 # --- Output ------------------------------------------------------------------
 output_tex: "evaluation/paper/table_sim_eval.tex"   # \input-ready booktabs table

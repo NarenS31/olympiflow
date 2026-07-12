@@ -1,0 +1,95 @@
+# XTraffic — Phase 14 sparse-sensor-regime configuration.
+# No magic numbers in code (CLAUDE.md): every knob the harness needs lives here.
+#
+# WHAT THIS EXPERIMENT IS
+# We take the trained METR-LA model and progressively DELETE sensors (mask their
+# input to the dataset mean), then watch how prediction accuracy AND explanation
+# faithfulness degrade as sensor coverage thins from 100% down to 10%.
+#
+# WHY IT MATTERS ("the rural claim without rural data")
+# METR-LA is a dense urban freeway network. Rural / small-city road networks are
+# SPARSELY instrumented. We have no rural dataset, but we can SIMULATE a rural
+# density by keeping only a random 10-25% of the sensors. If the pipeline degrades
+# GRACEFULLY (roughly linear) rather than off a CLIFF, that is evidence the system
+# would still be useful where sensors are scarce.
+
+seed: 42                       # reproducible everything (CLAUDE.md)
+dataset: "metr_la"             # only city with a real checkpoint today
+city: "metr_la"                # which advisor knowledge base the faithfulness study uses
+checkpoint: "models/gnn/checkpoints/metr_la_best.pt"
+
+# --- Sensor density sweep ----------------------------------------------------
+# Fraction of sensors KEPT (given real readings); the rest are masked. The masks
+# are NESTED (see mask_seed below): the 10%-kept set is a subset of the 25%-kept
+# set, which is a subset of the 50%-kept set, ... This nesting lets us evaluate a
+# FIXED "core" set of always-retained sensors at every density level, so the
+# degradation curve compares like with like (same sensors, thinning context)
+# rather than a different random subset per level.
+densities:       [1.00, 0.75, 0.50, 0.25, 0.10]   # 100 / 75 / 50 / 25 / 10 %
+smoke_densities: [1.00, 0.50, 0.10]               # quick 3-level sanity check
+mask_seed: 42                  # seeds the node permutation that defines the nested masks
+
+# --- What a "masked sensor" means (documented design decision) ---------------
+# A masked sensor's SPEED input channel is set to z-space 0, i.e. the dataset MEAN
+# (~54 mph for METR-LA). This is exactly the "remove this node" operation the
+# GNNExplainer / SHAP explainers already use (Phase 3 / Phase 12): a neutral,
+# no-information value. We deliberately do NOT use the dataset's own missing-data
+# sentinel (raw 0 mph, which is z ~= -2.79) because that reads to the model as a
+# TOTAL JAM (0 mph) and would propagate phantom congestion across the graph — the
+# opposite of "this sensor is simply absent". The time-of-day channel is a global
+# clock (identical across nodes), so it is left untouched.
+mask_value_zspace: 0.0
+
+# --- Prediction metrics ------------------------------------------------------
+# Horizons in 5-min steps: 3->15min, 6->30min, 12->60min. Metrics are masked MAE/
+# RMSE/MAPE in real mph (utils/metrics.py) — identical to evaluate.py so the 100%
+# row reproduces the Phase-2 test numbers.
+horizons_steps: [3, 6, 12]
+batch_size: 64                 # inference only; larger than train batch is fine on CPU
+
+# Which node set the HEADLINE prediction curve is measured on:
+#   "core" : the fixed set of sensors retained even at the LOWEST density (the
+#            "rural sensors" that survive all levels). Same nodes at every density
+#            -> isolates the effect of thinning the surrounding network. HEADLINE.
+#   "all"  : every valid node, including masked ones the model must impute from
+#            neighbours. The network-wide story; recorded alongside for context.
+#   "kept" : this density's observed sensors (grows with density). Recorded too.
+# All three are always computed and logged; this only selects the plotted/tabled one.
+headline_node_set: "core"
+
+# --- Faithfulness sub-study (Phase-5 methodology, needs Ollama) --------------
+# For a handful of scenarios per density we regenerate the explanation on the
+# MASKED input, then run advisor conditions A (with explanation) and B (prediction
+# only) and score faithfulness + hallucination exactly as Phase 5 did. The target
+# sensor of each scenario is ALWAYS kept (you cannot advise about a sensor that
+# does not exist), so a scenario's effective density is round(d*N)+1.
+faithfulness:
+  n_scenarios: 20              # per density level (assignment asks for 20)
+  conditions: ["A", "B"]       # A = full explanation, B = prediction-only (the hallucination contrast)
+  # Same stratification grid as Phase 5 / Phase 10 so scenarios are comparable.
+  stratify:
+    tod_bands:                 # (label, lo_fraction, hi_fraction) over the clock channel
+      - ["night",   0.00, 0.25]
+      - ["am_rush", 0.25, 0.42]
+      - ["midday",  0.42, 0.62]
+      - ["pm_rush", 0.62, 0.83]
+      - ["evening", 0.83, 1.00]
+    congestion_levels: ["low", "medium", "high"]   # by mean-speed tercile (high = slowest)
+  # Explainer settings. confidence_runs is lowered to 3 (Phase 5 used 5) purely to
+  # save CPU: faithfulness scoring reads the explanation's top_nodes (the single
+  # main explain pass), NOT explanation_confidence, so fewer reruns do not change
+  # the faithfulness numbers — only the reported confidence field.
+  explainer:
+    epochs: 200
+    confidence_runs: 3
+    top_k: 8
+
+# --- LLM (defers to configs/advisor.yaml; --model overrides both) ------------
+llm:
+  model: null                  # null => use advisor.yaml's model (llama3.1:8b)
+
+# --- Output ------------------------------------------------------------------
+output:
+  results_dir: "evaluation/results/sparse_regime"
+  tex: "evaluation/paper/table_sparse_regime.tex"          # \input-ready booktabs table
+  fig: "evaluation/paper/fig_sparse_regime.pdf"            # Figure 7 of the paper

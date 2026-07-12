@@ -1,0 +1,125 @@
+{
+  "curve": [
+    {
+      "round": 0,
+      "used_correction": false,
+      "faithfulness_f1": 0.2222222222222222,
+      "cause_precision": 1.0,
+      "cause_recall": 0.125,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 1,
+      "n_topk": 8,
+      "n_missed": 7,
+      "missed_regions": [
+        "Pasadena / East",
+        "Glendale / Burbank",
+        "Glendale / Burbank",
+        "Glendale / Burbank",
+        "Glendale / Burbank",
+        "Glendale / Burbank",
+        "NE of Downtown LA"
+      ],
+      "missed_node_ids": [
+        203,
+        171,
+        173,
+        107,
+        168,
+        105,
+        44
+      ],
+      "advisory_error": ""
+    },
+    {
+      "round": 1,
+      "used_correction": true,
+      "faithfulness_f1": 1.0,
+      "cause_precision": 1.0,
+      "cause_recall": 1.0,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 8,
+      "n_topk": 8,
+      "n_missed": 0,
+      "missed_regions": [],
+      "missed_node_ids": [],
+      "advisory_error": ""
+    }
+  ],
+  "n_rounds": 1,
+  "reached_threshold": true,
+  "stop_reason": "threshold_reached",
+  "f1_initial": 0.2222222222222222,
+  "f1_final": 1.0,
+  "f1_gain": 0.7777777777777778,
+  "final_advisory": {
+    "reasoning": "The predicted congestion at Downtown LA (sensor 771667) is caused by a chain of slower speeds upstream, starting from the San Fernando Valley (sensor 764120), where traffic is currently moving at 66.22 mph. This slow speed propagates through Pasadena / East (sensor 717595), Glendale / Burbank (sensors 717587, 717585, 767455, and 717583), and finally reaches NE of Downtown LA (sensor 774012) before arriving at the target location.",
+    "cited_causes": [
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 99
+      },
+      {
+        "location": "Pasadena / East",
+        "resolved_node_id": 203
+      },
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 171
+      },
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 173
+      },
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 107
+      },
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 168
+      },
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 105
+      },
+      {
+        "location": "NE of Downtown LA",
+        "resolved_node_id": 44
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering",
+        "location": "San Fernando Valley (sensor 764120)",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduce speed at the source of congestion, potentially alleviating downstream effects",
+        "grounded_in": [
+          "San Fernando Valley (sensor 764120)"
+        ]
+      },
+      {
+        "action": "Reroute traffic before merge",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 15,
+        "expected_effect": "Redirect slower traffic away from the congested area, potentially reducing congestion at Downtown LA",
+        "grounded_in": [
+          "City context: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Encourage transit use",
+        "location": "Wilshire and Hollywood (B/D Lines)",
+        "time_window_minutes": 15,
+        "expected_effect": "Divert some traffic away from the congested area by promoting public transportation",
+        "grounded_in": [
+          "Transit alternatives: Metro rail relief options"
+        ]
+      }
+    ]
+  },
+  "sample_index": 219,
+  "target_node": 16,
+  "tod_band": "evening",
+  "congestion": "low",
+  "model": "llama3.1:8b"
+}

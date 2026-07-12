@@ -387,12 +387,49 @@ def _ollama_choose(host: str, model: str, prompt: str, temperature: float,
         "and `{}` pulled?".format(host, last_err, model))
 
 
+# DESIGN NOTE (the Phase-10 XTRAFFIC-underperforms-RANDOM fix):
+# The first version of this system prompt just said "pick the best intervention".
+# With no guidance the LLM collapsed to a DEGENERATE policy: RAW always said
+# signal_retiming, and XTRAFFIC always said reroute (it just copied the advisory,
+# which always foregrounds a "reroute at I-5/SR-134" city-context fact). Because
+# reroute is usually a DELAY-INCREASING action in the simulator, XTRAFFIC scored
+# below RANDOM — not because the pipeline hurts, but because the agent never used
+# the explanation's SPATIAL structure.
+#
+# Fix: give the SAME decision guidance to BOTH conditions (so the ONLY difference
+# between RAW and XTRAFFIC stays the INFORMATION each sees, never the instructions).
+# The guidance is generic traffic-engineering knowledge — match the intervention's
+# SCOPE to WHERE the congestion originates — not a leak of the simulator's argmax.
+# RAW is told the same rule but only sees the target's own speed, so it cannot
+# locate an upstream source and falls back to a target-local action; XTRAFFIC has
+# the full sensor table and CAN locate the source. That asymmetry is exactly the
+# value of the explanation we are trying to measure.
 _DECISION_SYSTEM = (
     "You are a traffic-operations decision-maker. From the numbered list of "
     "candidate interventions, choose EXACTLY ONE that will most reduce predicted "
-    "congestion 30 minutes from now. Answer ONLY with JSON of the form "
+    "network congestion 30 minutes from now.\n"
+    "Each candidate relieves a DIFFERENT part of the network (read its "
+    "description): the target segment itself, its immediate upstream feeders, one "
+    "single upstream corridor, or the wider surrounding neighbourhood. To choose, "
+    "read the contributing sensors in the information you are given and note which "
+    "are actually SLOW (well below free-flow, about 60 mph) and how they are "
+    "spread out. The mere fact that congestion propagates from upstream does NOT "
+    "by itself mean reroute — most jams are fed by more than one place. Judge by "
+    "HOW MANY sensors are slow and WHERE they sit:\n"
+    "  - almost every contributing sensor is near free-flow and only the target is "
+    "slow -> the bottleneck is local -> signal_retiming\n"
+    "  - a few slow sensors sit immediately upstream, feeding the target "
+    "-> ramp_metering\n"
+    "  - several sensors are slow, spread across the wider surrounding area "
+    "-> transit_surge\n"
+    "  - reroute ONLY when a SINGLE upstream corridor is the sole slow source "
+    "while the rest of the network flows freely\n"
+    "  - the target is already near free-flow with no slow contributing sensors "
+    "-> no_action\n"
+    "Base the choice on how many sensors are slow and where they sit, not on the "
+    "propagation narrative alone. Answer ONLY with JSON of the form "
     '{"chosen_intervention": "<one intervention name from the list>", '
-    '"reasoning": "<one sentence>"}.'
+    '"reasoning": "<one sentence describing how many sensors were slow and where>"}.'
 )
 
 
@@ -417,11 +454,18 @@ def _xtraffic_prompt(exp: Dict[str, Any], advisory: Dict[str, Any], menu: str) -
         "  - {} at {} (expected: {})".format(
             r.get("action", ""), r.get("location", ""), r.get("expected_effect", ""))
         for r in recs) or "  (none)"
+    # The advisory lists 3-5 candidate actions of MIXED type (it is a grab-bag, not
+    # a ranked pick), and it habitually foregrounds a "reroute" city-context fact.
+    # Tell the agent to treat it as supporting context, NOT the answer, and to
+    # decide from the spatial pattern in the explanation — otherwise it just copies
+    # the first advisory line (the degenerate always-reroute behaviour we fixed).
     return (
         "{sys}\n\n"
-        "=== MATHEMATICAL EXPLANATION ===\n{exp}\n\n"
-        "=== ADVISORY REASONING ===\n{reason}\n"
-        "=== ADVISORY RECOMMENDATIONS ===\n{recs}\n\n"
+        "=== MATHEMATICAL EXPLANATION (use this to LOCATE the congestion source) ===\n{exp}\n\n"
+        "=== ADVISORY REASONING (supporting context) ===\n{reason}\n"
+        "=== ADVISORY RECOMMENDATIONS (candidate ideas, NOT the answer) ===\n{recs}\n\n"
+        "Decide from the spatial pattern in the explanation above (which sensors are "
+        "slow and where the source is); do not simply copy the first advisory line.\n\n"
         "=== CANDIDATE INTERVENTIONS ===\n{menu}\n"
     ).format(sys=_DECISION_SYSTEM, exp=render_explanation_text(exp),
              reason=(advisory.get("reasoning", "") if advisory else ""),
@@ -497,6 +541,25 @@ def get_advisory(advisor: Optional[Advisor], sc: Dict[str, Any],
     return adv
 
 
+def get_sim(sim: "Phase10Simulator", sc: Dict[str, Any],
+            top_edge: Optional[Dict[str, Any]], load_X) -> Dict[str, Any]:
+    """Cache the simulator's ground truth + per-intervention delay table for one
+    scenario. This is condition/seed-INDEPENDENT (pure model-in-the-loop), so it
+    caches like the explanation. We need the FULL delay_by_intervention (not just the
+    chosen action's) so the RANDOM baseline can be reported as its EXPECTATION over
+    many uniform draws without re-running the model per seed, and so a resumed run
+    still has every scenario's delay table for that estimate. `load_X` is a thunk so a
+    cache hit never pays to load the window."""
+    path = _cache_path("sim", sc)
+    if os.path.exists(path):
+        with open(path) as f:
+            return json.load(f)
+    out = sim.score(load_X(), sc["target_node"], top_edge)
+    with open(path, "w") as f:
+        json.dump(out, f, indent=2)
+    return out
+
+
 # ===========================================================================
 # 5. Metrics + aggregation.
 # ===========================================================================
@@ -528,11 +591,59 @@ def _per_seed_metrics(rows: List[Dict[str, Any]], condition: str, seed: int
             "consistency": _consistency(sub)}
 
 
-def aggregate(rows: List[Dict[str, Any]], seeds: List[int]) -> List[Dict[str, Any]]:
-    """For each condition, compute each metric per seed then report mean +/- std
-    ACROSS the 3 seeds (exactly what CLAUDE.md / the Phase-10 spec asks for)."""
+def random_expected_metrics(sim_records: List[Dict[str, Any]],
+                            interventions: List[Dict[str, Any]], n_seeds: int
+                            ) -> Dict[str, Any]:
+    """RANDOM baseline reported as its EXPECTATION over `n_seeds` uniform draws.
+
+    Each draw picks one intervention uniformly at random per scenario, then scores
+    accuracy (matches ground truth?) and delay reduction (that action's delay cut)
+    from the cached delay table. Reporting the mean over many draws recovers RANDOM's
+    true ~1/K accuracy floor, instead of the noisy 3-study-seed realization that
+    fluctuated to ~0.32 by clustering on one action. RAW/XTRAFFIC cannot be averaged
+    this cheaply — each of their draws is an 8B-model call — so they stay on the 3
+    study seeds; only the zero-cost RANDOM baseline gets the many-seed expectation."""
+    names = [iv["name"] for iv in interventions]
+    K = len(names)
+    accs: List[float] = []
+    dels: List[float] = []
+    cons: List[float] = []
+    for s in range(n_seeds):
+        rng = random.Random(20260712 + s)      # fixed offset -> reproducible draws
+        picks: List[Dict[str, Any]] = []
+        for rec in sim_records:
+            pick = names[rng.randrange(K)]
+            picks.append({
+                "scenario_type": rec["scenario_type"],
+                "chosen": pick,
+                "correct": int(pick == rec["ground_truth"]),
+                "delay_reduction": rec["delay_by_intervention"].get(pick, 0.0),
+            })
+        accs.append(float(np.mean([p["correct"] for p in picks])))
+        dels.append(float(np.mean([p["delay_reduction"] for p in picks])))
+        cons.append(_consistency(picks))
+    am, astd, _ = mean_std(accs)
+    dm, dstd, _ = mean_std(dels)
+    cm, cstd, _ = mean_std(cons)
+    return {"condition": "RANDOM", "n_seeds": n_seeds,
+            "accuracy_mean": am, "accuracy_std": astd,
+            "delay_reduction_mean": dm, "delay_reduction_std": dstd,
+            "consistency_mean": cm, "consistency_std": cstd,
+            "per_seed": []}
+
+
+def aggregate(rows: List[Dict[str, Any]], seeds: List[int],
+              sim_records: List[Dict[str, Any]],
+              interventions: List[Dict[str, Any]], random_seeds: int
+              ) -> List[Dict[str, Any]]:
+    """Per condition, compute each metric per seed then report mean +/- std across
+    seeds. RANDOM is the many-seed EXPECTATION (see random_expected_metrics); the LLM
+    conditions RAW/XTRAFFIC use the 3 study seeds (each draw is a model call)."""
     out: List[Dict[str, Any]] = []
     for cond in CONDITIONS:
+        if cond == "RANDOM":
+            out.append(random_expected_metrics(sim_records, interventions, random_seeds))
+            continue
         per_seed = [_per_seed_metrics(rows, cond, s) for s in seeds]
         agg: Dict[str, Any] = {"condition": cond, "n_seeds": len(seeds)}
         for metric in ("accuracy", "delay_reduction", "consistency"):
@@ -549,6 +660,13 @@ def aggregate(rows: List[Dict[str, Any]], seeds: List[int]) -> List[Dict[str, An
 # ===========================================================================
 def print_table(aggs: List[Dict[str, Any]]) -> None:
     print("\n=== SIM-EVAL DECISION QUALITY (mean +/- std over seeds) ===")
+    for a in aggs:                                          # RANDOM = many-seed expectation
+        if a["condition"] == "RANDOM":
+            print("(RANDOM reported as its expectation over {} uniform draws; "
+                  "RAW/XTRAFFIC over the {} study seeds.)".format(
+                      a["n_seeds"], next(x["n_seeds"] for x in aggs
+                                         if x["condition"] == "RAW")))
+            break
     hdr = "{:12s}{:>20s}{:>22s}{:>20s}".format(
         "condition", "accuracy", "delay_reduction", "consistency")
     print(hdr)
@@ -571,6 +689,9 @@ def write_latex(aggs: List[Dict[str, Any]], path: str, meta: Dict[str, Any]) -> 
             ds=meta["dataset"], n=meta["n_scenarios"], k=meta["n_seeds"], m=meta["model"]),
         "% Ground truth = lowest predicted 30-min network delay (model-in-the-loop).",
         "% delay reduction is in aggregate mph-deficit units (sum over valid nodes).",
+        "% Random reported as its expectation over {r} uniform draws (no LLM); "
+        "RAW/XTraffic over {k} study seeds.".format(
+            r=meta.get("random_report_seeds", "many"), k=meta["n_seeds"]),
         "\\begin{tabular}{lccc}",
         "\\toprule",
         "Decision agent & Accuracy & Delay reduction & Consistency \\\\",
@@ -643,7 +764,16 @@ def main() -> None:
     os.makedirs(OUT_DIR, exist_ok=True)
     jsonl_path = os.path.join(OUT_DIR, "decisions{}.jsonl".format("_mock" if args.mock_llm else ""))
     all_rows: List[Dict[str, Any]] = []
-    done = set()                                           # (dataset, scenario_id, seed, condition)
+    # Resume key is (dataset, SAMPLE_INDEX, seed, condition) — the STABLE window
+    # identity, NOT the positional scenario_id. scenario_id is assigned by sampling
+    # ORDER (s0000, s0001, ...) and that order depends on n_scenarios: smoke's
+    # "s0003" and the full run's "s0003" are DIFFERENT windows. Keying resume on
+    # scenario_id would therefore let a --smoke decision be silently reused for a
+    # different window in the full run (the exact cross-run contamination we hit).
+    # sample_index names the actual test window, so a smoke decision is reused ONLY
+    # for the identical window (smoke windows are a strict subset of the full 500:
+    # same seed + same shuffle order => cell[:1] is a prefix of cell[:34]).
+    done = set()                                           # (dataset, sample_index, seed, condition)
     if os.path.exists(jsonl_path):
         with open(jsonl_path) as f:
             for line in f:
@@ -651,10 +781,19 @@ def main() -> None:
                 if not line:
                     continue
                 r = json.loads(line)
+                if r["condition"] == "RANDOM":
+                    continue                               # RANDOM is now a many-seed
+                                                           # EXPECTATION, not a logged
+                                                           # per-decision row; ignore any
+                                                           # legacy RANDOM lines.
                 all_rows.append(r)
-                done.add((r["dataset"], r["scenario_id"], r["seed"], r["condition"]))
+                done.add((r["dataset"], r["sample_index"], r["seed"], r["condition"]))
         print("[resume] loaded {} completed decisions from {}".format(len(all_rows), jsonl_path))
     jsonl = open(jsonl_path, "a")
+
+    # Per-scenario ground truth + delay table for the RANDOM many-seed expectation.
+    # Filled for EVERY sampled scenario (via cached get_sim), including resumed ones.
+    sim_records: List[Dict[str, Any]] = []
 
     for dataset in datasets:
         ckpt = (cfg["checkpoint"] if dataset == cfg["dataset"]
@@ -691,17 +830,27 @@ def main() -> None:
                 print("  {:16s} {:4d}  {:5.1f}%".format(name, c, 100.0 * c / total))
             continue
 
+        # LLM conditions only: RANDOM is no longer a logged per-decision row, it is the
+        # many-seed expectation computed from sim_records after the loop.
+        llm_conditions = [c for c in CONDITIONS if c != "RANDOM"]
+
         for i, sc in enumerate(scenarios):
-            # Skip a scenario entirely if all its (seed x condition) decisions are done.
-            todo = [(seed, cond) for seed in seeds for cond in CONDITIONS
-                    if (dataset, sc["scenario_id"], seed, cond) not in done]
-            if not todo:
-                continue
-            X = load_window(dataset, sc["sample_index"])   # [1, T, N, C]
+            # The GT + delay table (get_sim) is needed for EVERY scenario (the RANDOM
+            # baseline is averaged over these), so compute/load it before the LLM skip.
             exp = get_explanation(builder, sc, cfg["simulation"]["horizon_step"])
             top_edge = exp["top_edges"][0] if exp.get("top_edges") else None
-            sim_out = sim.score(X, sc["target_node"], top_edge)
+            sim_out = get_sim(sim, sc, top_edge,
+                              lambda: load_window(dataset, sc["sample_index"]))
             gt = sim_out["ground_truth"]
+            sim_records.append({"scenario_type": sc["scenario_type"],
+                                "ground_truth": gt,
+                                "delay_by_intervention": sim_out["delay_by_intervention"]})
+
+            # Skip the LLM work if all (seed x LLM-condition) decisions are already done.
+            todo = [(seed, cond) for seed in seeds for cond in llm_conditions
+                    if (dataset, sc["sample_index"], seed, cond) not in done]
+            if not todo:
+                continue
             advisory = get_advisory(advisor, sc, exp, args.mock_llm)  # cached
 
             for seed, cond in todo:
@@ -733,16 +882,24 @@ def main() -> None:
         return                                             # distribution already printed
 
     # --- write outputs -----------------------------------------------------
+    # CSV holds the LLM per-decision rows (RAW/XTRAFFIC). RANDOM is an aggregate
+    # expectation (no per-decision rows), so it appears only in the summary + table.
     csv_path = os.path.join(OUT_DIR, "sim_eval_per_decision.csv")
-    with open(csv_path, "w", newline="") as f:
-        w = csv.DictWriter(f, fieldnames=list(all_rows[0].keys()))
-        w.writeheader()
-        w.writerows(all_rows)
+    if all_rows:
+        with open(csv_path, "w", newline="") as f:
+            w = csv.DictWriter(f, fieldnames=list(all_rows[0].keys()))
+            w.writeheader()
+            w.writerows(all_rows)
 
-    aggs = aggregate(all_rows, seeds)
-    n_scenarios = len(set((r["dataset"], r["scenario_id"]) for r in all_rows))
+    random_seeds = int(cfg.get("random_report_seeds", 200))
+    aggs = aggregate(all_rows, seeds, sim_records, cfg["interventions"], random_seeds)
+    # Count distinct WINDOWS (sample_index), not scenario_ids: a resumed run can mix
+    # smoke-positional and full-positional ids for the same window set (see the resume
+    # note above), so sample_index is the collision-free unit to count.
+    n_scenarios = len(set((r["dataset"], r["sample_index"]) for r in all_rows))
     meta = {"dataset": "+".join(datasets), "n_scenarios": n_scenarios,
-            "n_seeds": len(seeds), "model": ("mock" if args.mock_llm else model_name)}
+            "n_seeds": len(seeds), "random_report_seeds": random_seeds,
+            "model": ("mock" if args.mock_llm else model_name)}
     summary = {"meta": meta, "conditions": aggs}
     with open(os.path.join(OUT_DIR, "sim_eval_summary.json"), "w") as f:
         json.dump(summary, f, indent=2)

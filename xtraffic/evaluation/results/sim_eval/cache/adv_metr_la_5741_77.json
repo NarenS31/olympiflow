@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because there are multiple locations in the San Fernando Valley with zero speed, indicating a complete stop. This suggests that traffic has come to a standstill and is not moving. The top contributing sensors all indicate zero speed, which means that the congestion is likely due to a blockage or a merge that is causing vehicles to slow down or stop.",
+  "cited_causes": [
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 81
+    },
+    {
+      "location": "N of Downtown LA",
+      "resolved_node_id": 56
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "I-405 Sepulveda Pass",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduce congestion by regulating the flow of traffic upstream of the bottleneck",
+      "grounded_in": [
+        "city-context fact: I-405 Sepulveda Pass saturates in both peaks"
+      ]
+    },
+    {
+      "action": "Reroute traffic before the merge",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduce congestion by diverting traffic away from the bottleneck",
+      "grounded_in": [
+        "city-context fact: I-5/SR-134 interchange, PM peak"
+      ]
+    },
+    {
+      "action": "Signal-coordinated relief on parallel arterials",
+      "location": "Sepulveda Blvd and Ventura Blvd",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduce congestion by providing alternative routes for traffic to flow through",
+      "grounded_in": [
+        "city-context fact: Sepulveda Blvd is the parallel arterial"
+      ]
+    }
+  ]
+}

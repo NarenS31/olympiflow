@@ -1,0 +1,83 @@
+{
+  "curve": [
+    {
+      "round": 0,
+      "used_correction": false,
+      "faithfulness_f1": 0.7692307692307693,
+      "cause_precision": 1.0,
+      "cause_recall": 0.625,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 3,
+      "n_topk": 8,
+      "n_missed": 3,
+      "missed_regions": [
+        "NW of Downtown LA",
+        "NW of Downtown LA",
+        "NE of Downtown LA"
+      ],
+      "missed_node_ids": [
+        80,
+        147,
+        45
+      ],
+      "advisory_error": ""
+    }
+  ],
+  "n_rounds": 0,
+  "reached_threshold": true,
+  "stop_reason": "threshold_reached",
+  "f1_initial": 0.7692307692307693,
+  "f1_final": 0.7692307692307693,
+  "f1_gain": 0.0,
+  "final_advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley, specifically at sensor 765171 (node_id 77), which has a current speed of 12.62 mph and will decrease to 8.76 mph in 30 minutes. This slowdown is caused by the slower traffic upstream from sensors 767351 (node_id 89) and 716968 (node_id 112), both located in Glendale/Burbank, with speeds of 69.0 mph and 58.37 mph respectively.",
+    "cited_causes": [
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 77
+      },
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 89
+      },
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 112
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering",
+        "location": "Upstream from sensor 767351 (node_id 89)",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion in the San Fernando Valley",
+        "grounded_in": [
+          "The slower traffic upstream from sensors 767351 and 716968"
+        ]
+      },
+      {
+        "action": "Reroute traffic before merging",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion in the San Fernando Valley",
+        "grounded_in": [
+          "City-context fact: Recurrent bottlenecks at I-5/SR-134 interchange"
+        ]
+      },
+      {
+        "action": "Optimize signal timing",
+        "location": "I-405 Sepulveda Pass",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion in the San Fernando Valley",
+        "grounded_in": [
+          "City-context fact: Ramp metering is active pass-wide on I-405"
+        ]
+      }
+    ]
+  },
+  "sample_index": 2917,
+  "target_node": 77,
+  "tod_band": "am_rush",
+  "congestion": "medium",
+  "model": "llama3.1:8b"
+}

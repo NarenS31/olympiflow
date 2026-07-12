@@ -452,3 +452,131 @@ session. This becomes the paper's experiments section almost for free.
 - **Output:** `table_failure_modes.tex` + `failure_modes.json` (per-category example
   in region names only, hypothesised cause, concrete mitigation) + a Section-6
   console report. Complete — no owed run (only 7 LLM calls, already done).
+
+## Phase 16 — active grounding loop (does correction actually raise faithfulness?) (2026-07-12)
+- **What I built:** `models/advisor/active_grounding.py`. It closes the loop on the
+  Phase-5 faithfulness metric: run condition A, score it, and if F1 < 0.7 hand the
+  LLM a *targeted* correction that names the exact explainer top-k nodes it failed to
+  cite (with importance + current speed), then re-prompt — up to 3 rounds. Every
+  round's F1/precision/recall/hallucination is logged = a per-scenario convergence
+  curve. Config knobs (`f1_threshold`, `max_rounds`) live in a new
+  `active_grounding` block in `advisor.yaml` (no magic numbers).
+- **The one change to old code, flagged:** I added an optional `extra_instruction`
+  argument to `advisor.advise_condition` / `build_prompt_condition`. With it `None`
+  (every Phase 4/5/15b caller) the prompt is *byte-identical* to before — I checked
+  this explicitly (`build_prompt_condition(exp, kb, 'A') == build_prompt(exp, kb)`),
+  because the CLAUDE.md rule is "never silently change something we built earlier."
+  The correction is appended *after* the TASK so the model reads it as the newest
+  instruction.
+- **Why the correction targets recall, not precision:** Phase 13 already told me the
+  condition-A failures are almost all *under-citation* — the LLM names the single
+  strongest source and drops the rest, so recall collapses while precision stays 1.0
+  and hallucination stays 0. So "you didn't address these locations" is the correct
+  lever. And if a failure were precision-side instead (something cited that ISN'T in
+  the top-k), there'd be no missed node to name — I made the loop detect that
+  (missed set empty while F1 < threshold) and stop with reason `no_missed_nodes`
+  rather than pretend it can fix it.
+- **Smoke design:** I deliberately did NOT smoke on the first 5 stratified windows
+  (they're mostly already-faithful night/low-congestion cases → the loop would be a
+  boring no-op). Instead I added `--select low-f1`, which pulls the 5 *worst*
+  condition-A scenarios straight from the Phase-5 per-scenario CSV (they have cached
+  explanations, so zero explainer cost). That's the honest way to see whether
+  correction works — point it at real failures.
+- **Result (REAL llama3.1:8b, 5 worst failures):** mean F1 **0.438 → 0.912 in a
+  single correction round** (gain **+0.474**), **20% → 100%** reaching threshold,
+  mean **0.80** rounds used. The trace: idx 219 `0.222→1.000`, idx 4367 `0.400→0.933`,
+  idx 3296 `0.400→0.857`, idx 5668 `0.400→1.000`.
+- **The finding I care about most (and it's the honest one):** *precision stays
+  exactly 1.000 at every round and hallucination stays 0.000.* The correction raises
+  recall (0.30 → 0.85; cited causes jump from 1–2 up to 5–8) **without** tempting the
+  model to fabricate to comply — which is the obvious risk of telling an LLM "you
+  missed these, add them." It didn't invent; it went back to the explanation and
+  cited what was really there. So the loop is a clean *enforcement* mechanism.
+- **Bonus — the "no needless re-prompt" gate, on the real model:** idx 2917
+  regenerated at F1 0.769 (its temp-0.1 regeneration landed above threshold even
+  though its Phase-5-logged F1 was 0.40), so the loop exited with **zero**
+  corrections. Early-exit path confirmed live, not just in the mock.
+- **Honest caveat I wrote into the file and CLAUDE.md:** this optimises the advisory
+  *toward* the explainer's top-k. It proves we can ENFORCE consistency between the
+  math and the words in a closed loop; it is NOT independent evidence the explanation
+  itself is right. The paper must frame it as enforcement / internal-consistency.
+- **Most-missed region at round 0:** Glendale / Burbank (12 times across the 5
+  scenarios) — a concrete pointer to where under-citation concentrates.
+- **Output:** `table_active_grounding.tex` + `fig_active_grounding.pdf` (2-panel:
+  F1-vs-round spaghetti+mean with the threshold line, and cumulative % reaching
+  threshold) + `results/active_grounding/{per_round.csv, decisions.jsonl,
+  summary.json}`, all resumable via a per-model decision cache. **Owed:** the full
+  stratified ≥93-scenario run for the paper number (multi-hour, shares the one local
+  Ollama with the Phase 10/11/12 queue) — the committed table/fig are the n=5 smoke
+  and say so in the caption.
+
+## Phase 17 — counterfactual explanations ("what could I have done differently?") (2026-07-12)
+- **What I built:** `models/explainer/counterfactual.py` (the searcher + the record)
+  and `evaluation/counterfactual_study.py` (the 20-scenario study), driven by one new
+  `configs/counterfactual.yaml`. Instead of explaining WHY a target is congested, I find
+  the MINIMUM speed uplift on its critical nodes that flips the 30-min prediction back
+  above free flow (35 mph), then have the LLM narrate that counterfactual. I also added
+  a flagged, default-preserving `advise_counterfactual` to `advisor.py` — a
+  counterfactual-mode prompt that reuses the SAME advisory JSON contract, so
+  `validate_advisory` and the Phase-5 faithfulness metric both apply with zero changes
+  (`advise()`/`advise_condition()` stayed byte-identical).
+- **The search (gradient-free, two stages):** (1) a uniform uplift sweep in 2 mph steps
+  up to a 20 mph budget until the target crosses 35; (2) a greedy per-node minimisation
+  that relaxes each lever back toward 0 (least-important first) while keeping the flip,
+  so I report the genuinely minimal per-node change, not a blanket uplift. The
+  perturbation is the same "raise speed on the last few input steps, clip at free-flow"
+  mechanism as the Phase-8/10 simulator — one notion of "what an action does."
+- **The finding that reshaped the whole phase (this is the honest, important one):**
+  perturbing ONLY the explainer's upstream top-k barely moves the target. I measured it:
+  a target at 34.2 mph stays at **34.2** even if I raise all its upstream critical nodes
+  by +40 mph. But raising the **target itself** flips it (34.2 → 56.2). So this ST-GNN's
+  30-min forecast is dominated by the target's own recent speed — which is exactly the
+  Phase-3 *Fidelity−* result (the prediction isn't concentrated in the top-k) coming back
+  to bite. An upstream-only counterfactual is therefore almost never feasible and would
+  leave nothing to narrate.
+- **The design decision I made (and flagged):** I put the **target bottleneck itself**
+  into the candidate lever set alongside the congested top-k. That's the standard
+  actionable lever anyway (signal retiming / incident clearance = the Phase-8/10
+  target-scope action), and it makes the counterfactual feasible. I kept upstream nodes
+  in the set so propagation is used where it *does* carry leverage, and the study
+  *reports* how often upstream actually contributed — turns out **0/8**, so I'm honest
+  that leverage lives at the bottleneck under this model.
+- **Calibration (earned its keep, like Phase 10):** with target+top-k levers, 45% of
+  congested targets flip within 20 mph, and it tracks congestion depth cleanly — mild
+  targets (pred 25–35) flip 93% of the time at a median of just **8 mph**, medium (15–25)
+  31%, deep (0–15) 17%. Deeply-congested targets are honestly **infeasible** — you can't
+  prevent a 3.5 mph jam with a modest intervention.
+- **A real bug the smoke caught (cache staleness):** `build_or_load_explanation` caches
+  by filename only and never checks the checkpoint — 6/93 cached explanations predate the
+  epoch-34 `metr_la_best.pt` (same filename overwrote the old 3-epoch placeholder) and are
+  STALE (cached pred 34.13 vs live 37.27 for idx 4289). I made the study staleness-aware:
+  use the shared Phase-5 cache only when it's newer than the checkpoint, else rebuild into
+  my OWN cache (never touch Phase-5 artifacts), and filter congestion on the **live**
+  model prediction. All 49 congested-by-live targets have fresh caches (the 6 stale ones
+  are free-flow live → skipped), so zero rebuilds were needed.
+- **A prompt bug the smoke also caught:** my counterfactual TASK said "what specific
+  action" (singular), so llama3.1 sometimes returned 1 recommendation and failed the
+  advisory contract's 3–5 rule → empty advisory → F1 0 (idx 1770 did exactly this). Fixed
+  by asking for "3 to 5 concrete recommendations," matching the standard task; after that
+  all 8 flips pass.
+- **Result (n=20 congested METR-LA, real llama3.1:8b):** 21 free-flow targets skipped
+  ("no counterfactual needed"); **validity 40% (8/20)**; mean budget **10.0 ± 4.58 mph**;
+  **1** node changed; **all 8 target-only**; mean implied lead 11.9 min. Narrative
+  faithfulness to the counterfactual (Phase-5 metric vs the required-change nodes):
+  **F1 1.000 / precision 1.000 / recall 1.000 / hallucination 0.000** across all 8 — the
+  LLM narrates exactly the required node and invents nothing. Note "cite the target" is
+  *correct* here (the counterfactual says CHANGE the target) — the opposite of the
+  Phase-13 self-attribution error in the WHY context.
+- **One clean full chain (idx 3515):** Downtown LA predicted 32.29 mph → counterfactual
+  "+8 mph at the bottleneck" flips it to 35.4 (implied lead 20 min) → LLM: "raise the
+  speed from 32.87 to 40.87 mph at Downtown LA," with 3 concrete actions (dynamic lane
+  management on I-110, signal timing on Brand/San Fernando, ramp metering at I-5/SR-134).
+  Cited cause resolves to Downtown LA, F1 1.0.
+- **Output:** `table_counterfactual.tex` + `results/counterfactual/{per_scenario.csv,
+  summary.json, example_traces.txt/.json}` (3 full prediction→explanation→counterfactual→
+  narrative chains), resumable per-model cache. **Caveats for the paper:** the
+  counterfactual reads as "the minimum bottleneck intervention that prevents the jam," not
+  an upstream-cascade story (because of Fidelity−); validity is 40% at the 20 mph budget.
+  **Owed (feasible locally, not Colab):** a larger congested-only sweep (≥50 mild/medium
+  targets, stratified by tercile) to tighten the validity-vs-depth curve — the committed
+  table is n=20 and says so.

@@ -1,0 +1,42 @@
+{
+  "reasoning": "The predicted congestion is due to a traffic wave propagating from the Glendale/Burbank area, where speeds are currently around 66-67 mph. This congestion appears to be traveling along a path of 9 sensors with an estimated lag of 15 minutes between the source and the target location NW of Downtown LA.",
+  "cited_causes": [
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 178
+    },
+    {
+      "location": "NE of Downtown LA",
+      "resolved_node_id": 66
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "Glendale/Burbank area (SR-134, I-5)",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduce congestion wave amplitude by 20%",
+      "grounded_in": [
+        "cited_cause: Glendale / Burbank"
+      ]
+    },
+    {
+      "action": "Reroute traffic before the merge",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduce congestion wave speed by 10%",
+      "grounded_in": [
+        "city-context: recurrent bottleneck at I-5/SR-134 interchange"
+      ]
+    },
+    {
+      "action": "Use transit diversion lever",
+      "location": "Wilshire and Hollywood (B/D Lines)",
+      "time_window_minutes": 0,
+      "expected_effect": "Divert 10% of traffic to rail",
+      "grounded_in": [
+        "city-context: parallel rail line exists"
+      ]
+    }
+  ]
+}
