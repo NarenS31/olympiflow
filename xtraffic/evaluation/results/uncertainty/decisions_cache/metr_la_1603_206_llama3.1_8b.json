@@ -1,0 +1,286 @@
+{
+  "sample_index": 1603,
+  "target_node": 206,
+  "tod_band": "pm_rush",
+  "congestion": "high",
+  "timestamp": "test#1603 @ 16:50",
+  "explanation_stability": 0.4537,
+  "n_core": 4,
+  "n_peripheral": 11,
+  "n_noise": 6,
+  "A_f1": 0.6666666666666666,
+  "A_precision": 1.0,
+  "A_recall": 0.5,
+  "A_hallucination": 0.0,
+  "U_f1": 0.25,
+  "U_precision": 0.25,
+  "U_recall": 0.25,
+  "U_hallucination": 0.75,
+  "U_f1_vs_shown": 0.6956521739130436,
+  "U_hallucination_vs_shown": 0.0,
+  "A_core_hedge_rate": 0.0,
+  "A_peripheral_hedge_rate": 0.0,
+  "A_hedge_gap": 0.0,
+  "U_core_hedge_rate": 0.5,
+  "U_peripheral_hedge_rate": 0.5,
+  "U_hedge_gap": 0.0,
+  "_block": {
+    "k_runs": 10,
+    "core_threshold": 0.8,
+    "noise_threshold": 0.2,
+    "explanation_stability": 0.4537,
+    "core_causes": [
+      {
+        "node_id": 38,
+        "node_name": "Downtown LA (sensor 718045, 34.067, -118.240)",
+        "frequency": "10/10",
+        "confidence": 1.0,
+        "current_speed_mph": 15.38
+      },
+      {
+        "node_id": 128,
+        "node_name": "Hollywood (sensor 717473, 34.101, -118.316)",
+        "frequency": "8/10",
+        "confidence": 0.8,
+        "current_speed_mph": 57.75
+      },
+      {
+        "node_id": 157,
+        "node_name": "Hollywood (sensor 717465, 34.094, -118.309)",
+        "frequency": "8/10",
+        "confidence": 0.8,
+        "current_speed_mph": 65.63
+      },
+      {
+        "node_id": 32,
+        "node_name": "Hollywood (sensor 769388, 34.110, -118.334)",
+        "frequency": "8/10",
+        "confidence": 0.8,
+        "current_speed_mph": 62.63
+      }
+    ],
+    "peripheral_causes": [
+      {
+        "node_id": 97,
+        "node_name": "Hollywood (sensor 717480, 34.105, -118.325)",
+        "frequency": "7/10",
+        "confidence": 0.7,
+        "current_speed_mph": 67.12
+      },
+      {
+        "node_id": 20,
+        "node_name": "Hollywood (sensor 769403, 34.121, -118.339)",
+        "frequency": "7/10",
+        "confidence": 0.7,
+        "current_speed_mph": 69.0
+      },
+      {
+        "node_id": 132,
+        "node_name": "Glendale / Burbank (sensor 762329, 34.139, -118.229)",
+        "frequency": "5/10",
+        "confidence": 0.5,
+        "current_speed_mph": 68.75
+      },
+      {
+        "node_id": 75,
+        "node_name": "San Fernando Valley (sensor 717498, 34.156, -118.433)",
+        "frequency": "4/10",
+        "confidence": 0.4,
+        "current_speed_mph": 22.75
+      },
+      {
+        "node_id": 198,
+        "node_name": "Hollywood (sensor 769372, 34.103, -118.317)",
+        "frequency": "4/10",
+        "confidence": 0.4,
+        "current_speed_mph": 69.88
+      },
+      {
+        "node_id": 116,
+        "node_name": "Glendale / Burbank (sensor 717572, 34.154, -118.328)",
+        "frequency": "3/10",
+        "confidence": 0.3,
+        "current_speed_mph": 68.25
+      },
+      {
+        "node_id": 48,
+        "node_name": "NE of Downtown LA (sensor 760650, 34.075, -118.233)",
+        "frequency": "2/10",
+        "confidence": 0.2,
+        "current_speed_mph": 21.87
+      },
+      {
+        "node_id": 200,
+        "node_name": "Pasadena / East (sensor 769806, 34.196, -118.184)",
+        "frequency": "2/10",
+        "confidence": 0.2,
+        "current_speed_mph": 67.12
+      },
+      {
+        "node_id": 88,
+        "node_name": "San Fernando Valley (sensor 767350, 34.180, -118.470)",
+        "frequency": "2/10",
+        "confidence": 0.2,
+        "current_speed_mph": 67.38
+      },
+      {
+        "node_id": 15,
+        "node_name": "Downtown LA (sensor 716331, 34.070, -118.262)",
+        "frequency": "2/10",
+        "confidence": 0.2,
+        "current_speed_mph": 37.37
+      },
+      {
+        "node_id": 189,
+        "node_name": "Glendale / Burbank (sensor 769926, 34.214, -118.231)",
+        "frequency": "2/10",
+        "confidence": 0.2,
+        "current_speed_mph": 68.13
+      }
+    ],
+    "noise_count": 6,
+    "core_node_ids": [
+      38,
+      128,
+      157,
+      32
+    ],
+    "peripheral_node_ids": [
+      97,
+      20,
+      132,
+      75,
+      198,
+      116,
+      48,
+      200,
+      88,
+      15,
+      189
+    ]
+  },
+  "_A_advisory": {
+    "reasoning": "The predicted congestion in Hollywood is due to a wave of slowing traffic that originated from the NE of Downtown LA, where speeds are currently 21.87 mph. This slowdown has propagated along a path of 5 sensors, with an estimated lag of 30 minutes between the source and the target location in Hollywood.",
+    "cited_causes": [
+      {
+        "location": "NE of Downtown LA",
+        "resolved_node_id": 48
+      },
+      {
+        "location": "Downtown LA",
+        "resolved_node_id": 38
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering",
+        "location": "NE of Downtown LA (sensor 760650)",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduce congestion wave speed and impact on Hollywood",
+        "grounded_in": [
+          "cited_cause: NE of Downtown LA"
+        ]
+      },
+      {
+        "action": "Reroute traffic before the merge",
+        "location": "I-5/SR-134 interchange (city-context fact)",
+        "time_window_minutes": 15,
+        "expected_effect": "Divert some traffic away from the congested area and reduce congestion wave impact on Hollywood",
+        "grounded_in": [
+          "city-context fact: Recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Signal-coordinated surface relief",
+        "location": "Sunset Blvd and Santa Monica Blvd (US-101 Hollywood Freeway corridor)",
+        "time_window_minutes": 10,
+        "expected_effect": "Improve traffic flow on surface streets and reduce congestion wave impact on Hollywood",
+        "grounded_in": [
+          "city-context fact: Surface relief"
+        ]
+      }
+    ]
+  },
+  "_U_advisory": {
+    "reasoning": "The predicted congestion in Hollywood is due to the high demand and limited transit options in the area. The core causes of this congestion are the high traffic volumes at Downtown LA, which may be contributing to a ripple effect upstream, and the high speeds in various locations along the Hollywood Freeway (US-101), particularly around node_id 128, 157, and 32.",
+    "cited_causes": [
+      {
+        "location": "Downtown LA",
+        "resolved_node_id": 38
+      },
+      {
+        "location": "Hollywood",
+        "resolved_node_id": 128
+      },
+      {
+        "location": "Hollywood",
+        "resolved_node_id": 157
+      },
+      {
+        "location": "Hollywood",
+        "resolved_node_id": 32
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering on I-5/SR-134 interchange",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion at the Hollywood Freeway (US-101)",
+        "grounded_in": [
+          "Core cause: Downtown LA"
+        ]
+      },
+      {
+        "action": "Signal-coordinated timing on Sunset Blvd and Santa Monica Blvd",
+        "location": "Sunset Blvd and Santa Monica Blvd",
+        "time_window_minutes": 5,
+        "expected_effect": "Improved traffic flow in the Hollywood area",
+        "grounded_in": [
+          "City-context: Surface relief options"
+        ]
+      },
+      {
+        "action": "Reroute traffic before merging at I-5/SR-134 interchange",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion in the Hollywood area",
+        "grounded_in": [
+          "Core cause: Downtown LA"
+        ]
+      }
+    ]
+  },
+  "_A_hedge": {
+    "n_sentences": 3,
+    "core": {
+      "sentences": 2,
+      "hedged_sentences": 0,
+      "hedge_words": 0
+    },
+    "peripheral": {
+      "sentences": 2,
+      "hedged_sentences": 0,
+      "hedge_words": 0
+    },
+    "core_hedge_rate": 0.0,
+    "peripheral_hedge_rate": 0.0,
+    "hedge_rate_gap": 0.0
+  },
+  "_U_hedge": {
+    "n_sentences": 2,
+    "core": {
+      "sentences": 2,
+      "hedged_sentences": 1,
+      "hedge_words": 1
+    },
+    "peripheral": {
+      "sentences": 2,
+      "hedged_sentences": 1,
+      "hedge_words": 1
+    },
+    "core_hedge_rate": 0.5,
+    "peripheral_hedge_rate": 0.5,
+    "hedge_rate_gap": 0.0
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "reasoning": "The congestion is predicted because of the slower speeds in the Glendale/Burbank area, specifically at sensor locations 717578 (66.25 mph), 717582 (69.5 mph), and 773927 (68.75 mph). This slow traffic appears to be propagating along a path of two sensors with no lag between the source and target.",
+  "cited_causes": [
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 24
+    },
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 167
+    },
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 42
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Metering and rerouting upstream traffic",
+      "location": "Upstream of the Glendale/Burbank area",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in the target area",
+      "grounded_in": [
+        "City-context fact: recurrent bottlenecks are structural (geometry/merges), so upstream metering and reroute-before-the-merge are the levers"
+      ]
+    },
+    {
+      "action": "Signal coordination on surface relief roads",
+      "location": "Surface relief roads in Glendale/Burbank area (e.g. Brand Blvd, San Fernando Rd)",
+      "time_window_minutes": 15,
+      "expected_effect": "Improved traffic flow through the area",
+      "grounded_in": [
+        "City-context fact: Surface relief: Sunset Blvd and Santa Monica Blvd, both ATSAC signal-coordinated"
+      ]
+    },
+    {
+      "action": "Encouraging transit use in rail-poor areas",
+      "location": "Glendale/Burbank area",
+      "time_window_minutes": 5,
+      "expected_effect": "Reduced traffic volume on freeways",
+      "grounded_in": [
+        "City-context fact: Transit is a viable diversion lever only where a parallel rail line exists (Wilshire, Expo/I-10, Harbor/I-110, Pasadena A Line); the Valley and Glendale/Burbank are largely rail-poor"
+      ]
+    }
+  ]
+}

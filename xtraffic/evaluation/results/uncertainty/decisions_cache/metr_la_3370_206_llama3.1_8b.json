@@ -1,0 +1,234 @@
+{
+  "sample_index": 3370,
+  "target_node": 206,
+  "tod_band": "evening",
+  "congestion": "high",
+  "timestamp": "test#3370 @ 20:05",
+  "explanation_stability": 0.7496,
+  "n_core": 7,
+  "n_peripheral": 2,
+  "n_noise": 5,
+  "A_f1": 0.8571428571428571,
+  "A_precision": 1.0,
+  "A_recall": 0.75,
+  "A_hallucination": 0.0,
+  "U_f1": 0.9333333333333333,
+  "U_precision": 1.0,
+  "U_recall": 0.875,
+  "U_hallucination": 0.0,
+  "U_f1_vs_shown": 0.8,
+  "U_hallucination_vs_shown": 0.0,
+  "A_core_hedge_rate": 0.0,
+  "A_peripheral_hedge_rate": null,
+  "A_hedge_gap": null,
+  "U_core_hedge_rate": 0.5,
+  "U_peripheral_hedge_rate": 1.0,
+  "U_hedge_gap": 0.5,
+  "_block": {
+    "k_runs": 10,
+    "core_threshold": 0.8,
+    "noise_threshold": 0.2,
+    "explanation_stability": 0.7496,
+    "core_causes": [
+      {
+        "node_id": 128,
+        "node_name": "Hollywood (sensor 717473, 34.101, -118.316)",
+        "frequency": "10/10",
+        "confidence": 1.0,
+        "current_speed_mph": 60.5
+      },
+      {
+        "node_id": 157,
+        "node_name": "Hollywood (sensor 717465, 34.094, -118.309)",
+        "frequency": "10/10",
+        "confidence": 1.0,
+        "current_speed_mph": 62.25
+      },
+      {
+        "node_id": 78,
+        "node_name": "N of Downtown LA (sensor 718064, 34.113, -118.245)",
+        "frequency": "10/10",
+        "confidence": 1.0,
+        "current_speed_mph": 28.38
+      },
+      {
+        "node_id": 97,
+        "node_name": "Hollywood (sensor 717480, 34.105, -118.325)",
+        "frequency": "10/10",
+        "confidence": 1.0,
+        "current_speed_mph": 66.75
+      },
+      {
+        "node_id": 198,
+        "node_name": "Hollywood (sensor 769372, 34.103, -118.317)",
+        "frequency": "10/10",
+        "confidence": 1.0,
+        "current_speed_mph": 67.62
+      },
+      {
+        "node_id": 144,
+        "node_name": "Downtown LA (sensor 764853, 34.065, -118.251)",
+        "frequency": "9/10",
+        "confidence": 0.9,
+        "current_speed_mph": 19.25
+      },
+      {
+        "node_id": 103,
+        "node_name": "NW of Downtown LA (sensor 717488, 34.136, -118.360)",
+        "frequency": "8/10",
+        "confidence": 0.8,
+        "current_speed_mph": 21.25
+      }
+    ],
+    "peripheral_causes": [
+      {
+        "node_id": 68,
+        "node_name": "NW of Downtown LA (sensor 764766, 34.133, -118.353)",
+        "frequency": "6/10",
+        "confidence": 0.6,
+        "current_speed_mph": 22.63
+      },
+      {
+        "node_id": 12,
+        "node_name": "NW of Downtown LA (sensor 716339, 34.078, -118.288)",
+        "frequency": "2/10",
+        "confidence": 0.2,
+        "current_speed_mph": 14.63
+      }
+    ],
+    "noise_count": 5,
+    "core_node_ids": [
+      128,
+      157,
+      78,
+      97,
+      198,
+      144,
+      103
+    ],
+    "peripheral_node_ids": [
+      68,
+      12
+    ]
+  },
+  "_A_advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in Downtown LA (19.25 mph) and Hollywood (60.5, 62.25, 67.62, 66.75, 67.0 mph), which are contributing to the overall slowdown along US-101. The propagation of congestion appears to travel along a path of 2 sensors with an estimated lag of 25 minutes between the source and the target.",
+    "cited_causes": [
+      {
+        "location": "Downtown LA",
+        "resolved_node_id": 144
+      },
+      {
+        "location": "Hollywood (sensor 717473)",
+        "resolved_node_id": 128
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering",
+        "location": "US-101, north of Downtown LA",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduce congestion by limiting the number of vehicles entering the bottlenecked area",
+        "grounded_in": [
+          "City-context fact: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Reroute traffic before merging onto US-101",
+        "location": "Hollywood, near sensor 717473",
+        "time_window_minutes": 5,
+        "expected_effect": "Reduce congestion by diverting some traffic away from the bottlenecked area",
+        "grounded_in": [
+          "City-context fact: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Adjust signal timing at surface relief roads (Sunset Blvd and Santa Monica Blvd)",
+        "location": "Hollywood, near sensor 717473",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduce congestion by optimizing traffic flow through the area",
+        "grounded_in": [
+          "City-context fact: ATSAC signal-coordinated surface relief roads"
+        ]
+      }
+    ]
+  },
+  "_U_advisory": {
+    "reasoning": "The predicted congestion in Hollywood is due to the high demand from multiple locations, including Hollywood (sensor 717473), Hollywood (sensor 717465), N of Downtown LA (sensor 718064), and Downtown LA (sensor 764853). These locations are experiencing high speeds, indicating that they are contributing to the congestion. Additionally, there may be some uncertainty about the role of NW of Downtown LA (sensor 764766) in this congestion.",
+    "cited_causes": [
+      {
+        "location": "Hollywood",
+        "resolved_node_id": 128
+      },
+      {
+        "location": "N of Downtown LA",
+        "resolved_node_id": 78
+      },
+      {
+        "location": "Downtown LA",
+        "resolved_node_id": 144
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering on I-10/I-110 downtown interchange",
+        "location": "I-10/I-110 downtown interchange",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion in Hollywood by reducing demand from N of Downtown LA and Downtown LA",
+        "grounded_in": [
+          "Core cause: N of Downtown LA (sensor 718064)"
+        ]
+      },
+      {
+        "action": "Reroute traffic before the merge at US-101/I-110 four-level",
+        "location": "US-101/I-110 four-level",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion in Hollywood by reducing demand from Downtown LA",
+        "grounded_in": [
+          "Core cause: Downtown LA (sensor 764853)"
+        ]
+      },
+      {
+        "action": "Uncertain: Possibly implement ramp metering on Sepulveda Pass",
+        "location": "Sepulveda Pass",
+        "time_window_minutes": 15,
+        "expected_effect": "Uncertain effect on congestion in Hollywood, possibly reducing demand from NW of Downtown LA (sensor 764766)",
+        "grounded_in": [
+          "Peripheral cause: NW of Downtown LA (sensor 764766)"
+        ]
+      }
+    ]
+  },
+  "_A_hedge": {
+    "n_sentences": 8,
+    "core": {
+      "sentences": 2,
+      "hedged_sentences": 0,
+      "hedge_words": 0
+    },
+    "peripheral": {
+      "sentences": 0,
+      "hedged_sentences": 0,
+      "hedge_words": 0
+    },
+    "core_hedge_rate": 0.0,
+    "peripheral_hedge_rate": null,
+    "hedge_rate_gap": null
+  },
+  "_U_hedge": {
+    "n_sentences": 3,
+    "core": {
+      "sentences": 2,
+      "hedged_sentences": 1,
+      "hedge_words": 2
+    },
+    "peripheral": {
+      "sentences": 1,
+      "hedged_sentences": 1,
+      "hedge_words": 2
+    },
+    "core_hedge_rate": 0.5,
+    "peripheral_hedge_rate": 1.0,
+    "hedge_rate_gap": 0.5
+  }
+}

@@ -1,0 +1,61 @@
+==========================================================================
+SCENARIO idx=4289 (night/low)  target node 16
+==========================================================================
+explanation stability = 0.483 | core=4 peripheral=9 noise=7
+
+CORE (assert):
+  - Glendale / Burbank           10/10
+  - Glendale / Burbank           10/10
+  - San Fernando Valley          10/10
+  - Glendale / Burbank           8/10
+PERIPHERAL (hedge):
+  - N of Downtown LA             7/10
+  - Glendale / Burbank           7/10
+  - Downtown LA                  4/10
+  - Hollywood                    4/10
+  - NE of Downtown LA            3/10
+  - San Fernando Valley          3/10
+  - San Fernando Valley          3/10
+  - NE of Downtown LA            2/10
+  - Hollywood                    2/10
+
+[A (deterministic)] reasoning:
+  The congestion is predicted because of the slow speeds in the Glendale/Burbank area, specifically at sensor 773880 (34.154, -118.348), which has a speed of 65.63 mph and an importance of 0.602. This slow speed is contributing to the congestion that will reach Downtown LA in 30 minutes.
+  hedge rate  core=0.00 peripheral=0.00  gap=0.00
+
+[U (uncertainty-aware)] reasoning:
+  The predicted congestion in Downtown LA is due to the high volume of traffic from the Glendale/Burbank area, which is confirmed by all runs. Specifically, the sensors at node_ids 105 and 36 are currently congested (0.0 mph and 66.87 mph respectively), indicating that traffic is building up as it enters the downtown area. Additionally, the San Fernando Valley is also contributing to the congestion, with sensors at node_ids 149 and 67 showing high speeds (68.0 mph and 65.63 mph respectively). It's possible that there may be some impact from other areas such as North of Downtown LA or Hollywood, but these are less certain.
+  hedge rate  core=0.00 peripheral=0.33  gap=0.33
+
+faithfulness  A: F1=0.667 halluc=0.000   U: F1=0.857 halluc=0.000
+
+
+==========================================================================
+SCENARIO idx=5479 (night/medium)  target node 16
+==========================================================================
+explanation stability = 0.600 | core=5 peripheral=7 noise=5
+
+CORE (assert):
+  - Glendale / Burbank           10/10
+  - N of Downtown LA             10/10
+  - N of Downtown LA             10/10
+  - Glendale / Burbank           10/10
+  - Glendale / Burbank           9/10
+PERIPHERAL (hedge):
+  - Glendale / Burbank           7/10
+  - San Fernando Valley          7/10
+  - Pasadena / East              3/10
+  - Glendale / Burbank           3/10
+  - Hollywood                    2/10
+  - Downtown LA                  2/10
+  - San Fernando Valley          2/10
+
+[A (deterministic)] reasoning:
+  The congestion is predicted because of the slow speeds in the Glendale/Burbank area, specifically at sensor 717582 (node_id 167), which has a speed of 64.78 mph. This slow speed is also observed at nearby sensors 717595 (node_id 203) and 767585 (node_id 92), all with similar speeds. The congestion appears to be traveling along a path from these locations towards Downtown LA, where the target sensor 771667 (node_id 16) is located.
+  hedge rate  core=0.00 peripheral=0.50  gap=0.50
+
+[U (uncertainty-aware)] reasoning:
+  The predicted congestion in Downtown LA is due to the high traffic volume from Glendale/Burbank, which is confirmed by all runs. Specifically, sensors 767455, 718076, and 767585 at Glendale/Burbank are currently experiencing speeds of 66.22 mph, 65.11 mph, and 64.22 mph respectively. Additionally, the high traffic volume from North of Downtown LA, as indicated by sensors 767495, 767523, and N of Downtown LA (sensor 767495), is also a contributing factor.
+  hedge rate  core=0.00 peripheral=0.00  gap=0.00
+
+faithfulness  A: F1=0.857 halluc=0.000   U: F1=0.933 halluc=0.000

@@ -1,0 +1,46 @@
+{
+  "reasoning": "The predicted congestion in Downtown LA is due to the slow speeds observed at nearby sensors, particularly sensor 772513 (Downtown LA, 66.56 mph), sensor 773024 (Downtown LA, 63.89 mph), and sensor 716328 (Downtown LA, 65.11 mph). These locations are contributing to the congestion, which is propagating along a path of 2 sensors with no lag.",
+  "cited_causes": [
+    {
+      "location": "Downtown LA",
+      "resolved_node_id": 138
+    },
+    {
+      "location": "Downtown LA",
+      "resolved_node_id": 93
+    },
+    {
+      "location": "Downtown LA",
+      "resolved_node_id": 33
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Reroute traffic before the merge",
+      "location": "I-10/I-110 downtown interchange",
+      "time_window_minutes": 5,
+      "expected_effect": "Reduced congestion at the target location",
+      "grounded_in": [
+        "Upstream metering and reroute-before-the-merge are the levers, not signal timing at the interchange itself (City Context)"
+      ]
+    },
+    {
+      "action": "Optimize ramp metering on eastbound on-ramps along I-10",
+      "location": "I-10 Santa Monica Freeway corridor",
+      "time_window_minutes": 10,
+      "expected_effect": "Improved traffic flow into Downtown LA",
+      "grounded_in": [
+        "Caltrans ramp meters operate on most eastbound on-ramps during peak (City Context)"
+      ]
+    },
+    {
+      "action": "Signal-coordinated relief arterials",
+      "location": "Olympic Blvd and Pico Blvd",
+      "time_window_minutes": 15,
+      "expected_effect": "Diverted traffic away from congested areas",
+      "grounded_in": [
+        "Parallel relief arterials: Olympic Blvd and Pico Blvd (both signal-coordinated by LADOT ATSAC) (City Context)"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,246 @@
+{
+  "sample_index": 6058,
+  "target_node": 196,
+  "tod_band": "night",
+  "congestion": "medium",
+  "timestamp": "test#6058 @ 04:05",
+  "explanation_stability": 0.6443,
+  "n_core": 6,
+  "n_peripheral": 4,
+  "n_noise": 3,
+  "A_f1": 0.5454545454545454,
+  "A_precision": 1.0,
+  "A_recall": 0.375,
+  "A_hallucination": 0.0,
+  "U_f1": 0.7692307692307693,
+  "U_precision": 1.0,
+  "U_recall": 0.625,
+  "U_hallucination": 0.0,
+  "U_f1_vs_shown": 0.8235294117647058,
+  "U_hallucination_vs_shown": 0.0,
+  "A_core_hedge_rate": 0.0,
+  "A_peripheral_hedge_rate": 0.0,
+  "A_hedge_gap": 0.0,
+  "U_core_hedge_rate": 0.6666666666666666,
+  "U_peripheral_hedge_rate": 1.0,
+  "U_hedge_gap": 0.33333333333333337,
+  "_block": {
+    "k_runs": 10,
+    "core_threshold": 0.8,
+    "noise_threshold": 0.2,
+    "explanation_stability": 0.6443,
+    "core_causes": [
+      {
+        "node_id": 49,
+        "node_name": "N of Downtown LA (sensor 716956, 34.107, -118.255)",
+        "frequency": "10/10",
+        "confidence": 1.0,
+        "current_speed_mph": 61.75
+      },
+      {
+        "node_id": 138,
+        "node_name": "Downtown LA (sensor 772513, 34.069, -118.237)",
+        "frequency": "10/10",
+        "confidence": 1.0,
+        "current_speed_mph": 67.87
+      },
+      {
+        "node_id": 72,
+        "node_name": "San Fernando Valley (sensor 717492, 34.155, -118.379)",
+        "frequency": "9/10",
+        "confidence": 0.9,
+        "current_speed_mph": 64.63
+      },
+      {
+        "node_id": 90,
+        "node_name": "San Fernando Valley (sensor 716571, 34.200, -118.403)",
+        "frequency": "9/10",
+        "confidence": 0.9,
+        "current_speed_mph": 66.38
+      },
+      {
+        "node_id": 167,
+        "node_name": "Glendale / Burbank (sensor 717582, 34.156, -118.261)",
+        "frequency": "9/10",
+        "confidence": 0.9,
+        "current_speed_mph": 65.5
+      },
+      {
+        "node_id": 120,
+        "node_name": "NW of Downtown LA (sensor 718089, 34.128, -118.274)",
+        "frequency": "8/10",
+        "confidence": 0.8,
+        "current_speed_mph": 62.0
+      }
+    ],
+    "peripheral_causes": [
+      {
+        "node_id": 51,
+        "node_name": "Glendale / Burbank (sensor 761604, 34.154, -118.287)",
+        "frequency": "7/10",
+        "confidence": 0.7,
+        "current_speed_mph": 45.12
+      },
+      {
+        "node_id": 180,
+        "node_name": "San Fernando Valley (sensor 717510, 34.171, -118.520)",
+        "frequency": "6/10",
+        "confidence": 0.6,
+        "current_speed_mph": 57.13
+      },
+      {
+        "node_id": 44,
+        "node_name": "NE of Downtown LA (sensor 774012, 34.148, -118.201)",
+        "frequency": "5/10",
+        "confidence": 0.5,
+        "current_speed_mph": 65.12
+      },
+      {
+        "node_id": 197,
+        "node_name": "San Fernando Valley (sensor 772167, 34.165, -118.480)",
+        "frequency": "4/10",
+        "confidence": 0.4,
+        "current_speed_mph": 45.0
+      }
+    ],
+    "noise_count": 3,
+    "core_node_ids": [
+      49,
+      138,
+      72,
+      90,
+      167,
+      120
+    ],
+    "peripheral_node_ids": [
+      51,
+      180,
+      44,
+      197
+    ]
+  },
+  "_A_advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley, particularly at sensor 772167 (34.165, -118.480), with a speed of 45.0 mph, which is contributing to the overall slowdown. This congestion appears to be traveling along a path of 5 sensors, with an estimated lag of 20 minutes between the source and the target.",
+    "cited_causes": [
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 197
+      },
+      {
+        "location": "NE of Downtown LA (sensor 774012)",
+        "resolved_node_id": 44
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering on I-5/SR-134 interchange",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduce congestion by 15%",
+        "grounded_in": [
+          "city-context fact: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Reroute traffic before the merge on I-405 Sepulveda Pass",
+        "location": "I-405 Sepulveda Pass",
+        "time_window_minutes": 5,
+        "expected_effect": "Reduce congestion by 10%",
+        "grounded_in": [
+          "city-context fact: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Optimize signal timing at the I-5/SR-134 interchange",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduce congestion by 8%",
+        "grounded_in": [
+          "city-context fact: recurrent bottlenecks"
+        ]
+      }
+    ]
+  },
+  "_U_advisory": {
+    "reasoning": "The predicted congestion is due to several factors. The core causes are the high speeds in the San Fernando Valley, specifically at sensors 717492 and 716571, which may indicate that traffic is building up as it enters Downtown LA. Additionally, the high speeds in Downtown LA itself (sensors 772513 and 718089) suggest that congestion is already present in this area. The peripheral causes are uncertain, but possibly contributing to the congestion are the lower speeds in Glendale/Burbank (sensor 717582), which may indicate that traffic is being diverted or slowed down in this area.",
+    "cited_causes": [
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 72
+      },
+      {
+        "location": "Downtown LA",
+        "resolved_node_id": 138
+      },
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 90
+      },
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 167
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering on I-5/SR-134",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduce congestion by slowing down traffic entering Downtown LA",
+        "grounded_in": [
+          "San Fernando Valley (sensor 717492, node_id 72)"
+        ]
+      },
+      {
+        "action": "Adjust signal timing in Downtown LA to optimize traffic flow",
+        "location": "Downtown LA",
+        "time_window_minutes": 15,
+        "expected_effect": "Improve traffic speed and reduce congestion in the area",
+        "grounded_in": [
+          "Downtown LA (sensor 772513, node_id 138)"
+        ]
+      },
+      {
+        "action": "Reroute traffic through Brand Blvd or San Fernando Rd to alleviate congestion on I-5/SR-134",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduce congestion by diverting traffic away from the bottlenecked area",
+        "grounded_in": [
+          "San Fernando Valley (sensor 716571, node_id 90)"
+        ]
+      }
+    ]
+  },
+  "_A_hedge": {
+    "n_sentences": 5,
+    "core": {
+      "sentences": 1,
+      "hedged_sentences": 0,
+      "hedge_words": 0
+    },
+    "peripheral": {
+      "sentences": 1,
+      "hedged_sentences": 0,
+      "hedge_words": 0
+    },
+    "core_hedge_rate": 0.0,
+    "peripheral_hedge_rate": 0.0,
+    "hedge_rate_gap": 0.0
+  },
+  "_U_hedge": {
+    "n_sentences": 4,
+    "core": {
+      "sentences": 3,
+      "hedged_sentences": 2,
+      "hedge_words": 4
+    },
+    "peripheral": {
+      "sentences": 2,
+      "hedged_sentences": 2,
+      "hedge_words": 4
+    },
+    "core_hedge_rate": 0.6666666666666666,
+    "peripheral_hedge_rate": 1.0,
+    "hedge_rate_gap": 0.33333333333333337
+  }
+}

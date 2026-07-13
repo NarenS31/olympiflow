@@ -1,0 +1,400 @@
+{
+  "sample_index": 3506,
+  "target_node": 16,
+  "tod_band": "am_rush",
+  "congestion": "low",
+  "timestamp": "test#3506 @ 07:25",
+  "explanation_stability": 0.1553,
+  "n_core": 0,
+  "n_peripheral": 19,
+  "n_noise": 19,
+  "A_f1": 1.0,
+  "A_precision": 1.0,
+  "A_recall": 1.0,
+  "A_hallucination": 0.0,
+  "U_f1": 0.8484848484848484,
+  "U_precision": 0.7368421052631579,
+  "U_recall": 1.0,
+  "U_hallucination": 0.26315789473684215,
+  "U_f1_vs_shown": 1.0,
+  "U_hallucination_vs_shown": 0.0,
+  "A_core_hedge_rate": null,
+  "A_peripheral_hedge_rate": 0.0,
+  "A_hedge_gap": null,
+  "U_core_hedge_rate": null,
+  "U_peripheral_hedge_rate": 1.0,
+  "U_hedge_gap": null,
+  "_block": {
+    "k_runs": 10,
+    "core_threshold": 0.8,
+    "noise_threshold": 0.2,
+    "explanation_stability": 0.1553,
+    "core_causes": [],
+    "peripheral_causes": [
+      {
+        "node_id": 86,
+        "node_name": "San Fernando Valley (sensor 772596, 34.171, -118.505)",
+        "frequency": "7/10",
+        "confidence": 0.7,
+        "current_speed_mph": 65.89
+      },
+      {
+        "node_id": 69,
+        "node_name": "San Fernando Valley (sensor 717497, 34.157, -118.415)",
+        "frequency": "6/10",
+        "confidence": 0.6,
+        "current_speed_mph": 67.89
+      },
+      {
+        "node_id": 138,
+        "node_name": "Downtown LA (sensor 772513, 34.069, -118.237)",
+        "frequency": "5/10",
+        "confidence": 0.5,
+        "current_speed_mph": 67.56
+      },
+      {
+        "node_id": 134,
+        "node_name": "NE of Downtown LA (sensor 716951, 34.086, -118.232)",
+        "frequency": "5/10",
+        "confidence": 0.5,
+        "current_speed_mph": 66.67
+      },
+      {
+        "node_id": 186,
+        "node_name": "San Fernando Valley (sensor 717823, 34.203, -118.473)",
+        "frequency": "4/10",
+        "confidence": 0.4,
+        "current_speed_mph": 66.89
+      },
+      {
+        "node_id": 136,
+        "node_name": "Downtown LA (sensor 765182, 34.065, -118.251)",
+        "frequency": "4/10",
+        "confidence": 0.4,
+        "current_speed_mph": 68.56
+      },
+      {
+        "node_id": 130,
+        "node_name": "San Fernando Valley (sensor 764781, 34.160, -118.470)",
+        "frequency": "4/10",
+        "confidence": 0.4,
+        "current_speed_mph": 66.33
+      },
+      {
+        "node_id": 52,
+        "node_name": "San Fernando Valley (sensor 717495, 34.157, -118.413)",
+        "frequency": "4/10",
+        "confidence": 0.4,
+        "current_speed_mph": 69.33
+      },
+      {
+        "node_id": 96,
+        "node_name": "Hollywood (sensor 717481, 34.106, -118.328)",
+        "frequency": "2/10",
+        "confidence": 0.2,
+        "current_speed_mph": 70.0
+      },
+      {
+        "node_id": 127,
+        "node_name": "Hollywood (sensor 717472, 34.100, -118.316)",
+        "frequency": "2/10",
+        "confidence": 0.2,
+        "current_speed_mph": 69.11
+      },
+      {
+        "node_id": 117,
+        "node_name": "San Fernando Valley (sensor 717571, 34.153, -118.359)",
+        "frequency": "2/10",
+        "confidence": 0.2,
+        "current_speed_mph": 67.44
+      },
+      {
+        "node_id": 93,
+        "node_name": "Downtown LA (sensor 773024, 34.058, -118.244)",
+        "frequency": "2/10",
+        "confidence": 0.2,
+        "current_speed_mph": 67.22
+      },
+      {
+        "node_id": 80,
+        "node_name": "NW of Downtown LA (sensor 765164, 34.079, -118.289)",
+        "frequency": "2/10",
+        "confidence": 0.2,
+        "current_speed_mph": 63.89
+      },
+      {
+        "node_id": 1,
+        "node_name": "NE of Downtown LA (sensor 767541, 34.116, -118.238)",
+        "frequency": "2/10",
+        "confidence": 0.2,
+        "current_speed_mph": 65.56
+      },
+      {
+        "node_id": 184,
+        "node_name": "N of Downtown LA (sensor 767494, 34.104, -118.250)",
+        "frequency": "2/10",
+        "confidence": 0.2,
+        "current_speed_mph": 63.89
+      },
+      {
+        "node_id": 116,
+        "node_name": "Glendale / Burbank (sensor 717572, 34.154, -118.328)",
+        "frequency": "2/10",
+        "confidence": 0.2,
+        "current_speed_mph": 67.89
+      },
+      {
+        "node_id": 37,
+        "node_name": "Glendale / Burbank (sensor 718204, 34.155, -118.296)",
+        "frequency": "2/10",
+        "confidence": 0.2,
+        "current_speed_mph": 67.44
+      },
+      {
+        "node_id": 49,
+        "node_name": "N of Downtown LA (sensor 716956, 34.107, -118.255)",
+        "frequency": "2/10",
+        "confidence": 0.2,
+        "current_speed_mph": 65.0
+      },
+      {
+        "node_id": 34,
+        "node_name": "San Fernando Valley (sensor 717819, 34.188, -118.474)",
+        "frequency": "2/10",
+        "confidence": 0.2,
+        "current_speed_mph": 66.78
+      }
+    ],
+    "noise_count": 19,
+    "core_node_ids": [],
+    "peripheral_node_ids": [
+      86,
+      69,
+      138,
+      134,
+      186,
+      136,
+      130,
+      52,
+      96,
+      127,
+      117,
+      93,
+      80,
+      1,
+      184,
+      116,
+      37,
+      49,
+      34
+    ]
+  },
+  "_A_advisory": {
+    "reasoning": "Congestion at San Fernando Valley is a confirmed contributing cause. Congestion at San Fernando Valley is a confirmed contributing cause. Congestion at San Fernando Valley is a confirmed contributing cause. Congestion at Hollywood is a confirmed contributing cause. Congestion at NE of Downtown LA is a confirmed contributing cause. Congestion at Downtown LA is a confirmed contributing cause. Congestion at Hollywood is a confirmed contributing cause. Congestion at San Fernando Valley is a confirmed contributing cause.",
+    "cited_causes": [
+      {
+        "location": "San Fernando Valley (sensor 717497, 34.157, -118.415)",
+        "resolved_node_id": 69
+      },
+      {
+        "location": "San Fernando Valley (sensor 717823, 34.203, -118.473)",
+        "resolved_node_id": 186
+      },
+      {
+        "location": "San Fernando Valley (sensor 772596, 34.171, -118.505)",
+        "resolved_node_id": 86
+      },
+      {
+        "location": "Hollywood (sensor 717481, 34.106, -118.328)",
+        "resolved_node_id": 96
+      },
+      {
+        "location": "NE of Downtown LA (sensor 716951, 34.086, -118.232)",
+        "resolved_node_id": 134
+      },
+      {
+        "location": "Downtown LA (sensor 765182, 34.065, -118.251)",
+        "resolved_node_id": 136
+      },
+      {
+        "location": "Hollywood (sensor 717472, 34.100, -118.316)",
+        "resolved_node_id": 127
+      },
+      {
+        "location": "San Fernando Valley (sensor 717825, 34.222, -118.473)",
+        "resolved_node_id": 182
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "mock",
+        "location": "mock",
+        "time_window_minutes": 15,
+        "expected_effect": "mock",
+        "grounded_in": [
+          "mock"
+        ]
+      },
+      {
+        "action": "mock",
+        "location": "mock",
+        "time_window_minutes": 15,
+        "expected_effect": "mock",
+        "grounded_in": [
+          "mock"
+        ]
+      },
+      {
+        "action": "mock",
+        "location": "mock",
+        "time_window_minutes": 15,
+        "expected_effect": "mock",
+        "grounded_in": [
+          "mock"
+        ]
+      }
+    ]
+  },
+  "_U_advisory": {
+    "reasoning": "It may possibly also involve San Fernando Valley, though this is uncertain. It may possibly also involve San Fernando Valley, though this is uncertain. It may possibly also involve Downtown LA, though this is uncertain. It may possibly also involve NE of Downtown LA, though this is uncertain. It may possibly also involve San Fernando Valley, though this is uncertain. It may possibly also involve Downtown LA, though this is uncertain. It may possibly also involve San Fernando Valley, though this is uncertain. It may possibly also involve San Fernando Valley, though this is uncertain. It may possibly also involve Hollywood, though this is uncertain. It may possibly also involve Hollywood, though this is uncertain. It may possibly also involve San Fernando Valley, though this is uncertain. It may possibly also involve Downtown LA, though this is uncertain. It may possibly also involve NW of Downtown LA, though this is uncertain. It may possibly also involve NE of Downtown LA, though this is uncertain. It may possibly also involve N of Downtown LA, though this is uncertain. It may possibly also involve Glendale / Burbank, though this is uncertain. It may possibly also involve Glendale / Burbank, though this is uncertain. It may possibly also involve N of Downtown LA, though this is uncertain. It may possibly also involve San Fernando Valley, though this is uncertain.",
+    "cited_causes": [
+      {
+        "location": "San Fernando Valley (sensor 772596, 34.171, -118.505)",
+        "resolved_node_id": 86
+      },
+      {
+        "location": "San Fernando Valley (sensor 717497, 34.157, -118.415)",
+        "resolved_node_id": 69
+      },
+      {
+        "location": "Downtown LA (sensor 772513, 34.069, -118.237)",
+        "resolved_node_id": 138
+      },
+      {
+        "location": "NE of Downtown LA (sensor 716951, 34.086, -118.232)",
+        "resolved_node_id": 134
+      },
+      {
+        "location": "San Fernando Valley (sensor 717823, 34.203, -118.473)",
+        "resolved_node_id": 186
+      },
+      {
+        "location": "Downtown LA (sensor 765182, 34.065, -118.251)",
+        "resolved_node_id": 136
+      },
+      {
+        "location": "San Fernando Valley (sensor 764781, 34.160, -118.470)",
+        "resolved_node_id": 130
+      },
+      {
+        "location": "San Fernando Valley (sensor 717495, 34.157, -118.413)",
+        "resolved_node_id": 52
+      },
+      {
+        "location": "Hollywood (sensor 717481, 34.106, -118.328)",
+        "resolved_node_id": 96
+      },
+      {
+        "location": "Hollywood (sensor 717472, 34.100, -118.316)",
+        "resolved_node_id": 127
+      },
+      {
+        "location": "San Fernando Valley (sensor 717571, 34.153, -118.359)",
+        "resolved_node_id": 117
+      },
+      {
+        "location": "Downtown LA (sensor 773024, 34.058, -118.244)",
+        "resolved_node_id": 93
+      },
+      {
+        "location": "NW of Downtown LA (sensor 765164, 34.079, -118.289)",
+        "resolved_node_id": 80
+      },
+      {
+        "location": "NE of Downtown LA (sensor 767541, 34.116, -118.238)",
+        "resolved_node_id": 1
+      },
+      {
+        "location": "N of Downtown LA (sensor 767494, 34.104, -118.250)",
+        "resolved_node_id": 184
+      },
+      {
+        "location": "Glendale / Burbank (sensor 717572, 34.154, -118.328)",
+        "resolved_node_id": 116
+      },
+      {
+        "location": "Glendale / Burbank (sensor 718204, 34.155, -118.296)",
+        "resolved_node_id": 37
+      },
+      {
+        "location": "N of Downtown LA (sensor 716956, 34.107, -118.255)",
+        "resolved_node_id": 49
+      },
+      {
+        "location": "San Fernando Valley (sensor 717819, 34.188, -118.474)",
+        "resolved_node_id": 34
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "mock",
+        "location": "mock",
+        "time_window_minutes": 15,
+        "expected_effect": "mock",
+        "grounded_in": [
+          "mock"
+        ]
+      },
+      {
+        "action": "mock",
+        "location": "mock",
+        "time_window_minutes": 15,
+        "expected_effect": "mock",
+        "grounded_in": [
+          "mock"
+        ]
+      },
+      {
+        "action": "mock",
+        "location": "mock",
+        "time_window_minutes": 15,
+        "expected_effect": "mock",
+        "grounded_in": [
+          "mock"
+        ]
+      }
+    ]
+  },
+  "_A_hedge": {
+    "n_sentences": 8,
+    "core": {
+      "sentences": 0,
+      "hedged_sentences": 0,
+      "hedge_words": 0
+    },
+    "peripheral": {
+      "sentences": 8,
+      "hedged_sentences": 0,
+      "hedge_words": 0
+    },
+    "core_hedge_rate": null,
+    "peripheral_hedge_rate": 0.0,
+    "hedge_rate_gap": null
+  },
+  "_U_hedge": {
+    "n_sentences": 19,
+    "core": {
+      "sentences": 0,
+      "hedged_sentences": 0,
+      "hedge_words": 0
+    },
+    "peripheral": {
+      "sentences": 19,
+      "hedged_sentences": 19,
+      "hedge_words": 57
+    },
+    "core_hedge_rate": null,
+    "peripheral_hedge_rate": 1.0,
+    "hedge_rate_gap": null
+  }
+}

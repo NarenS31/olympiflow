@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in several locations, particularly Glendale/Burbank (0.0 mph), N of Downtown LA (0.0 mph), and multiple sensors in the San Fernando Valley (all 0.0 mph). This suggests that traffic is being funneled from these areas into the target location.",
+  "cited_causes": [
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 62
+    },
+    {
+      "location": "N of Downtown LA",
+      "resolved_node_id": 56
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering on I-5/SR-134/SR-2 interchange",
+      "location": "I-5/SR-134/SR-2 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in the target location by slowing down traffic entering from Glendale/Burbank and N of Downtown LA",
+      "grounded_in": [
+        "Glendale / Burbank (sensor 774067, node_id 62), N of Downtown LA (sensor 716955, node_id 56)"
+      ]
+    },
+    {
+      "action": "Reroute traffic before the merge on I-5/SR-134/SR-2 interchange",
+      "location": "I-5/SR-134/SR-2 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in the target location by diverting some traffic away from the bottleneck",
+      "grounded_in": [
+        "Glendale / Burbank (sensor 774067, node_id 62), N of Downtown LA (sensor 716955, node_id 56)"
+      ]
+    },
+    {
+      "action": "Coordinate signal timing on parallel relief arterials Olympic Blvd and Pico Blvd",
+      "location": "Olympic Blvd and Pico Blvd",
+      "time_window_minutes": 15,
+      "expected_effect": "Improved traffic flow in the target location by providing alternative routes for some traffic",
+      "grounded_in": [
+        "City-context fact: parallel relief arterials exist"
+      ]
+    }
+  ]
+}

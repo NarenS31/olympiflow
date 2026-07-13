@@ -1,0 +1,49 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in the Glendale/Burbank area, specifically at sensor locations 773880 (65.5 mph), 718076 (63.13 mph), and 760987 (64.12 mph). These slow speeds are causing a ripple effect downstream, with congestion propagating along a path of 7 sensors, starting from these locations.",
+  "cited_causes": [
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 67
+    },
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 105
+    },
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 36
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "Glendale/Burbank freeways (SR-134, I-5)",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in the Glendale/Burbank area",
+      "grounded_in": [
+        "cited_causes",
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Reroute traffic before merge",
+      "location": "I-5/SR-134/SR-2 interchange",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion at the I-5/SR-134/SR-2 interchange",
+      "grounded_in": [
+        "cited_causes",
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Use transit alternatives",
+      "location": "Wilshire and Hollywood (B/D Lines)",
+      "time_window_minutes": 5,
+      "expected_effect": "Divert traffic from the Glendale/Burbank area to transit",
+      "grounded_in": [
+        "transit alternatives",
+        "city-context fact: Metro rail relief options"
+      ]
+    }
+  ]
+}

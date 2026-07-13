@@ -1,0 +1,83 @@
+{
+  "n_scenarios": 20,
+  "stability": {
+    "mean": 0.427045,
+    "std": 0.15867747626868786,
+    "n": 20
+  },
+  "mean_core": 3.6,
+  "mean_peripheral": 11.0,
+  "mean_noise": 7.05,
+  "A": {
+    "f1": {
+      "mean": 0.703912753912754,
+      "std": 0.14127569150518982,
+      "n": 20
+    },
+    "precision": {
+      "mean": 1.0,
+      "std": 0.0,
+      "n": 20
+    },
+    "recall": {
+      "mean": 0.5625,
+      "std": 0.1789727632909544,
+      "n": 20
+    },
+    "hallucination": {
+      "mean": 0.0,
+      "std": 0.0,
+      "n": 20
+    }
+  },
+  "U": {
+    "f1": {
+      "mean": 0.7372855370436017,
+      "std": 0.20604747454280897,
+      "n": 20
+    },
+    "precision": {
+      "mean": 0.8958333333333333,
+      "std": 0.21870039120017845,
+      "n": 20
+    },
+    "recall": {
+      "mean": 0.6375,
+      "std": 0.19324531042175386,
+      "n": 20
+    },
+    "hallucination": {
+      "mean": 0.10416666666666667,
+      "std": 0.21870039120017848,
+      "n": 20
+    }
+  },
+  "U_vs_shown": {
+    "f1": {
+      "mean": 0.6953163842227322,
+      "std": 0.17727600071252853,
+      "n": 20
+    },
+    "hallucination": {
+      "mean": 0.06666666666666668,
+      "std": 0.16158932858054437,
+      "n": 20
+    }
+  },
+  "hedging": {
+    "A_mean_core_hedge_rate": 0.0,
+    "A_mean_peripheral_hedge_rate": 0.02631578947368421,
+    "A_mean_gap": 0.03125,
+    "A_n_gap_defined": 16,
+    "U_mean_core_hedge_rate": 0.2298245614035088,
+    "U_mean_peripheral_hedge_rate": 0.38749999999999996,
+    "U_mean_gap": 0.12543859649122807,
+    "U_n_gap_defined": 19,
+    "U_n_hedged_peripheral_more": 9
+  },
+  "k_runs": 10,
+  "dataset": "metr_la",
+  "model": "llama3.1:8b",
+  "core_threshold": 0.8,
+  "noise_threshold": 0.2
+}

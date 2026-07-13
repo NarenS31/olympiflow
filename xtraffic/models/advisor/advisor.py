@@ -417,6 +417,115 @@ def build_prompt_counterfactual(cf: Dict[str, Any], kb_block: str) -> str:
 
 
 # ----------------------------------------------------------------------------
+# Phase 18 — UNCERTAINTY-AWARE narration (default-preserving addition, FLAGGED).
+#
+# Phases 3-5 show the LLM a SINGLE explainer run's top-k. Phase 18 runs the
+# explainer K times (models/explainer/uncertain_explainer.py) and splits the nodes
+# into CORE (confident) vs PERIPHERAL (uncertain) causes. This block renders that
+# distribution and instructs the LLM to be epistemically honest — assert core
+# causes plainly, HEDGE peripheral ones, and never mention the dropped noise nodes.
+#
+# It reuses the SAME advisory output contract (reasoning / cited_causes /
+# recommendations) so validate_advisory() and the Phase-5 faithfulness metric apply
+# UNCHANGED. NOTHING here touches advise()/advise_condition()/their prompts, so
+# Phase 4/5/15b/16/17 are byte-identical (verified). The ONLY difference from
+# condition A is (a) the SYSTEM prompt gains an honesty clause and (b) the
+# explanation is rendered as core/peripheral tiers instead of a flat top-k table.
+# ----------------------------------------------------------------------------
+_SYSTEM_UNCERTAIN = (
+    _SYSTEM + " The explanation below separates CORE causes (high confidence — "
+    "confirmed in most explainer runs) from PERIPHERAL causes (uncertain — seen in "
+    "only some runs). Reflect this honestly: do NOT present uncertain (peripheral) "
+    "causes with the same confidence as core ones. Assert core causes plainly; when "
+    "you mention a peripheral cause, use explicit hedging language (e.g. 'may', "
+    "'possibly', 'uncertain') so a planner knows it is less certain."
+)
+
+
+def render_uncertain_explanation_text(exp: Dict[str, Any]) -> str:
+    """Render the Phase-3 prediction plus the Phase-18 core/peripheral tiers as
+    clean structured text. Noise-tier nodes are intentionally omitted — the LLM is
+    never shown them, so it cannot assert them."""
+    p = exp["prediction"]
+    u = exp["uncertainty"]
+    lines: List[str] = []
+    lines.append("TARGET PREDICTION:")
+    lines.append("  Location: {} (node_id {})".format(p["node_name"], p["node_id"]))
+    lines.append("  Current speed: {} mph".format(p["current_speed_mph"]))
+    lines.append("  Predicted speed in {} min: {} mph".format(
+        p["horizon_minutes"], p["predicted_speed_mph"]))
+    lines.append("")
+    lines.append("The explainer was run {} times. A cause's 'frequency' is how many "
+                 "of those runs identified it as important.".format(u["k_runs"]))
+    lines.append("")
+    lines.append("CORE CAUSES (HIGH CONFIDENCE — confirmed in most runs; state these "
+                 "plainly; ONLY these and the peripheral causes below are valid causes):")
+    if u.get("core_causes"):
+        for n in u["core_causes"]:
+            lines.append("  - {} (node_id {}): confirmed in {} runs, currently "
+                         "{} mph".format(n["node_name"], n["node_id"],
+                                         n["frequency"], n["current_speed_mph"]))
+    else:
+        lines.append("  (none reached the high-confidence threshold)")
+    lines.append("")
+    lines.append("PERIPHERAL CAUSES (UNCERTAIN — appeared in only some runs; HEDGE "
+                 "these, do not assert them with full confidence):")
+    if u.get("peripheral_causes"):
+        for n in u["peripheral_causes"]:
+            lines.append("  - {} (node_id {}): appeared in only {} runs, currently "
+                         "{} mph".format(n["node_name"], n["node_id"],
+                                         n["frequency"], n["current_speed_mph"]))
+    else:
+        lines.append("  (none)")
+    lines.append("")
+    lines.append("EXPLANATION STABILITY: {:.2f} (0-1; mean agreement of the top "
+                 "causes across the {} runs — higher = more trustworthy)."
+                 .format(float(u["explanation_stability"]), u["k_runs"]))
+    return "\n".join(lines)
+
+
+_TASK_UNCERTAIN = (
+    "TASK:\n"
+    "1) Explain in plain language why this congestion is predicted, referencing the "
+    "SPECIFIC locations in the explanation above. ASSERT the core (high-confidence) "
+    "causes plainly. If you mention a peripheral (uncertain) cause, HEDGE it with "
+    "explicit uncertainty language ('may', 'possibly', 'uncertain') and do not give "
+    "it the same weight as a core cause. Do NOT invent causes or mention any location "
+    "not listed above.\n"
+    "2) Provide 3 to 5 interventions implementable within 15 minutes given the stated "
+    "infrastructure constraints. Each needs a time window (minutes) and an expected "
+    "effect. Prioritise acting on the CORE causes; treat peripheral causes as "
+    "contingencies.\n\n"
+    "Return ONLY a JSON object with EXACTLY this shape (no prose outside JSON):\n"
+    "{\n"
+    '  "reasoning": "<plain-language explanation; assert core causes, hedge '
+    'peripheral ones>",\n'
+    '  "cited_causes": [\n'
+    '    {"location": "<a location name from the explanation>", '
+    '"resolved_node_id": <the node_id from the explanation, or null>}\n'
+    "  ],\n"
+    '  "recommendations": [\n'
+    '    {"action": "<what to do>", "location": "<where>", '
+    '"time_window_minutes": <int>, "expected_effect": "<result>", '
+    '"grounded_in": ["<which cited cause(s) or city-context fact this rests on>"]}\n'
+    "  ]\n"
+    "}"
+)
+
+
+def build_prompt_uncertain(exp: Dict[str, Any], kb_block: str) -> str:
+    """Assemble the uncertainty-aware prompt in the required order:
+    SYSTEM(+honesty clause) -> CITY CONTEXT -> UNCERTAINTY-AWARE EXPLANATION -> TASK."""
+    return (
+        "{system}\n\n"
+        "=== CITY CONTEXT (retrieved knowledge base) ===\n{kb}\n\n"
+        "=== MATHEMATICAL EXPLANATION (with per-cause confidence) ===\n{exp}\n\n"
+        "=== {task}"
+    ).format(system=_SYSTEM_UNCERTAIN, kb=kb_block or "(no city context retrieved)",
+             exp=render_uncertain_explanation_text(exp), task=_TASK_UNCERTAIN)
+
+
+# ----------------------------------------------------------------------------
 # Config loading.
 # ----------------------------------------------------------------------------
 def load_advisor_config() -> Dict[str, Any]:
@@ -620,6 +729,29 @@ class Advisor:
         return {
             "advisory": advisory,
             "mode": "counterfactual",
+            "context_used": [c["title"] for c in chunks],
+            "model": self.model,
+            "raw_responses": raws,
+        }
+
+    def advise_uncertain(self, exp: Dict[str, Any]) -> Dict[str, Any]:
+        """Phase 18: run the advisory with UNCERTAINTY framing. `exp` must carry an
+        `uncertainty` block (from uncertain_explainer.attach_uncertainty) with
+        core_causes / peripheral_causes. The LLM is told which causes are confident
+        (core) vs uncertain (peripheral) and instructed to hedge the latter.
+
+        Same output shape as advise()/advise_condition() so validate_advisory() and
+        the Phase-5 faithfulness metric apply unchanged. City context is retrieved
+        exactly as in condition A (against the same explanation), so the ONLY
+        difference from A is the honesty framing + the tiered rendering — which is
+        precisely the variable the Phase-18 study isolates."""
+        chunks = self.kb.retrieve(exp, top_k=self.top_k)
+        kb_block = render_kb_block(chunks, self.max_context_chars)
+        prompt = build_prompt_uncertain(exp, kb_block)
+        advisory, raws = self._generate_validated(prompt)
+        return {
+            "advisory": advisory,
+            "mode": "uncertain",
             "context_used": [c["title"] for c in chunks],
             "model": self.model,
             "raw_responses": raws,

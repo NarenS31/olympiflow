@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because there are multiple sensors reporting zero speed (0.0 mph), indicating a blockage, and the Glendale/Burbank sensor with node_id 109 is reporting 0.0 mph, which has a high importance of 0.567 in driving the prediction. This suggests that the congestion is originating from this location.",
+  "cited_causes": [
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 109
+    },
+    {
+      "location": "N of Downtown LA",
+      "resolved_node_id": null
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Reroute traffic before the merge",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion at the target location",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Meter traffic upstream of the merge",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion at the target location",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Signal-coordinated relief arterials",
+      "location": "Olympic Blvd and Pico Blvd",
+      "time_window_minutes": 5,
+      "expected_effect": "Reduced congestion at the target location",
+      "grounded_in": [
+        "city-context fact: parallel relief arterials"
+      ]
+    }
+  ]
+}

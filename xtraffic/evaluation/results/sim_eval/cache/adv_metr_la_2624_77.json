@@ -1,0 +1,47 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley, specifically at sensor 765171 (node_id 77), which is currently moving at 9.0 mph and will only increase to 9.29 mph in 30 minutes. This slow speed is caused by the slower traffic upstream, particularly from sensors 767351 (node_id 89) and 769431 (node_id 81), which are moving at 66.78 mph and 57.67 mph respectively.",
+  "cited_causes": [
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 77
+    },
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 89
+    },
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 81
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Reroute traffic before the merge",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion at sensor 765171 (node_id 77)",
+      "grounded_in": [
+        "Upstream metering and reroute-before-the-merge are the levers, not signal timing at the interchange itself.",
+        "Congestion builds westbound US-101 in the AM peak"
+      ]
+    },
+    {
+      "action": "Implement ramp metering",
+      "location": "Sepulveda Pass (I-405)",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion at sensor 765171 (node_id 77)",
+      "grounded_in": [
+        "Ramp metering is active pass-wide"
+      ]
+    },
+    {
+      "action": "Optimize signal timing",
+      "location": "US-101/I-110 four-level interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion at sensor 765171 (node_id 77)",
+      "grounded_in": [
+        "Signal timing can be optimized to reduce congestion"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,306 @@
+{
+  "sample_index": 3644,
+  "target_node": 155,
+  "tod_band": "pm_rush",
+  "congestion": "medium",
+  "timestamp": "test#3644 @ 18:55",
+  "explanation_stability": 0.3469,
+  "n_core": 3,
+  "n_peripheral": 15,
+  "n_noise": 5,
+  "A_f1": 1.0,
+  "A_precision": 1.0,
+  "A_recall": 1.0,
+  "A_hallucination": 0.0,
+  "U_f1": 0.8571428571428571,
+  "U_precision": 1.0,
+  "U_recall": 0.75,
+  "U_hallucination": 0.0,
+  "U_f1_vs_shown": 0.7586206896551725,
+  "U_hallucination_vs_shown": 0.0,
+  "A_core_hedge_rate": 0.0,
+  "A_peripheral_hedge_rate": 0.0,
+  "A_hedge_gap": 0.0,
+  "U_core_hedge_rate": 0.0,
+  "U_peripheral_hedge_rate": 0.5,
+  "U_hedge_gap": 0.5,
+  "_block": {
+    "k_runs": 10,
+    "core_threshold": 0.8,
+    "noise_threshold": 0.2,
+    "explanation_stability": 0.3469,
+    "core_causes": [
+      {
+        "node_id": 0,
+        "node_name": "Glendale / Burbank (sensor 773869, 34.155, -118.318)",
+        "frequency": "10/10",
+        "confidence": 1.0,
+        "current_speed_mph": 67.33
+      },
+      {
+        "node_id": 42,
+        "node_name": "Glendale / Burbank (sensor 773927, 34.153, -118.280)",
+        "frequency": "10/10",
+        "confidence": 1.0,
+        "current_speed_mph": 68.44
+      },
+      {
+        "node_id": 115,
+        "node_name": "Glendale / Burbank (sensor 717573, 34.154, -118.325)",
+        "frequency": "8/10",
+        "confidence": 0.8,
+        "current_speed_mph": 67.44
+      }
+    ],
+    "peripheral_causes": [
+      {
+        "node_id": 116,
+        "node_name": "Glendale / Burbank (sensor 717572, 34.154, -118.328)",
+        "frequency": "6/10",
+        "confidence": 0.6,
+        "current_speed_mph": 69.0
+      },
+      {
+        "node_id": 61,
+        "node_name": "San Fernando Valley (sensor 773939, 34.153, -118.372)",
+        "frequency": "6/10",
+        "confidence": 0.6,
+        "current_speed_mph": 68.89
+      },
+      {
+        "node_id": 45,
+        "node_name": "NE of Downtown LA (sensor 774011, 34.147, -118.201)",
+        "frequency": "4/10",
+        "confidence": 0.4,
+        "current_speed_mph": 68.89
+      },
+      {
+        "node_id": 111,
+        "node_name": "Glendale / Burbank (sensor 773916, 34.152, -118.285)",
+        "frequency": "4/10",
+        "confidence": 0.4,
+        "current_speed_mph": 67.78
+      },
+      {
+        "node_id": 173,
+        "node_name": "Glendale / Burbank (sensor 717585, 34.156, -118.242)",
+        "frequency": "4/10",
+        "confidence": 0.4,
+        "current_speed_mph": 69.11
+      },
+      {
+        "node_id": 66,
+        "node_name": "NE of Downtown LA (sensor 767610, 34.186, -118.218)",
+        "frequency": "3/10",
+        "confidence": 0.3,
+        "current_speed_mph": 67.11
+      },
+      {
+        "node_id": 148,
+        "node_name": "San Fernando Valley (sensor 717504, 34.165, -118.492)",
+        "frequency": "3/10",
+        "confidence": 0.3,
+        "current_speed_mph": 34.44
+      },
+      {
+        "node_id": 199,
+        "node_name": "Glendale / Burbank (sensor 774204, 34.154, -118.342)",
+        "frequency": "3/10",
+        "confidence": 0.3,
+        "current_speed_mph": 66.0
+      },
+      {
+        "node_id": 201,
+        "node_name": "Glendale / Burbank (sensor 717590, 34.149, -118.232)",
+        "frequency": "2/10",
+        "confidence": 0.2,
+        "current_speed_mph": 68.56
+      },
+      {
+        "node_id": 54,
+        "node_name": "Glendale / Burbank (sensor 773953, 34.155, -118.293)",
+        "frequency": "2/10",
+        "confidence": 0.2,
+        "current_speed_mph": 64.89
+      },
+      {
+        "node_id": 117,
+        "node_name": "San Fernando Valley (sensor 717571, 34.153, -118.359)",
+        "frequency": "2/10",
+        "confidence": 0.2,
+        "current_speed_mph": 67.78
+      },
+      {
+        "node_id": 186,
+        "node_name": "San Fernando Valley (sensor 717823, 34.203, -118.473)",
+        "frequency": "2/10",
+        "confidence": 0.2,
+        "current_speed_mph": 64.56
+      },
+      {
+        "node_id": 142,
+        "node_name": "Glendale / Burbank (sensor 773904, 34.156, -118.303)",
+        "frequency": "2/10",
+        "confidence": 0.2,
+        "current_speed_mph": 65.11
+      },
+      {
+        "node_id": 175,
+        "node_name": "NW of Downtown LA (sensor 768469, 34.136, -118.360)",
+        "frequency": "2/10",
+        "confidence": 0.2,
+        "current_speed_mph": 67.22
+      },
+      {
+        "node_id": 168,
+        "node_name": "Glendale / Burbank (sensor 717583, 34.156, -118.255)",
+        "frequency": "2/10",
+        "confidence": 0.2,
+        "current_speed_mph": 69.0
+      }
+    ],
+    "noise_count": 5,
+    "core_node_ids": [
+      0,
+      42,
+      115
+    ],
+    "peripheral_node_ids": [
+      116,
+      61,
+      45,
+      111,
+      173,
+      66,
+      148,
+      199,
+      201,
+      54,
+      117,
+      186,
+      142,
+      175,
+      168
+    ]
+  },
+  "_A_advisory": {
+    "reasoning": "The congestion is predicted because of the high speeds (68-69 mph) in Glendale/Burbank, which are driving the prediction. The propagation of congestion appears to travel along a path of 2 sensors with an estimated lag of 10 minutes between the source and the target.",
+    "cited_causes": [
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 201
+      },
+      {
+        "location": "NE of Downtown LA",
+        "resolved_node_id": 45
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering on I-5/SR-134/SR-2 interchange",
+        "location": "I-5/SR-134/SR-2 interchange",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion in Glendale/Burbank",
+        "grounded_in": [
+          "Glendale / Burbank (sensor 717590, 34.149, -118.232)"
+        ]
+      },
+      {
+        "action": "Reroute traffic before the merge at I-5/SR-134/SR-2 interchange",
+        "location": "I-5/SR-134/SR-2 interchange",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion in Glendale/Burbank",
+        "grounded_in": [
+          "Glendale / Burbank (sensor 717590, 34.149, -118.232)"
+        ]
+      },
+      {
+        "action": "Signal-coordinated relief on Sunset Blvd and Santa Monica Blvd",
+        "location": "Sunset Blvd and Santa Monica Blvd",
+        "time_window_minutes": 5,
+        "expected_effect": "Reduced congestion in Hollywood area",
+        "grounded_in": [
+          "City-context fact: Surface relief: Sunset Blvd and Santa Monica Blvd, both ATSAC signal-coordinated"
+        ]
+      }
+    ]
+  },
+  "_U_advisory": {
+    "reasoning": "The predicted congestion in Hollywood is due to high traffic volumes from Glendale/Burbank, which are confirmed by multiple sensors (node_ids 0, 42, and 115). This is a structural issue with merges on the I-5/SR-134/SR-2 interchange. Possibly, there may be some impact from San Fernando Valley traffic (sensor 773939), but this is uncertain as it only appeared in 6/10 runs.",
+    "cited_causes": [
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 0
+      },
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 42
+      },
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 115
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering on I-5/SR-134",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion at the merge",
+        "grounded_in": [
+          "CORE CAUSE: Glendale / Burbank (sensor 773869, node_id 0)"
+        ]
+      },
+      {
+        "action": "Reroute traffic before the merge on I-5/SR-134",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion at the merge",
+        "grounded_in": [
+          "CORE CAUSE: Glendale / Burbank (sensor 773869, node_id 0)"
+        ]
+      },
+      {
+        "action": "Signal-coordinated surface relief on Sunset Blvd and Santa Monica Blvd",
+        "location": "Hollywood",
+        "time_window_minutes": 5,
+        "expected_effect": "Divert some traffic away from the congested area",
+        "grounded_in": [
+          "CITY CONTEXT: Surface relief options in Hollywood"
+        ]
+      }
+    ]
+  },
+  "_A_hedge": {
+    "n_sentences": 2,
+    "core": {
+      "sentences": 1,
+      "hedged_sentences": 0,
+      "hedge_words": 0
+    },
+    "peripheral": {
+      "sentences": 1,
+      "hedged_sentences": 0,
+      "hedge_words": 0
+    },
+    "core_hedge_rate": 0.0,
+    "peripheral_hedge_rate": 0.0,
+    "hedge_rate_gap": 0.0
+  },
+  "_U_hedge": {
+    "n_sentences": 3,
+    "core": {
+      "sentences": 1,
+      "hedged_sentences": 0,
+      "hedge_words": 0
+    },
+    "peripheral": {
+      "sentences": 2,
+      "hedged_sentences": 1,
+      "hedge_words": 3
+    },
+    "core_hedge_rate": 0.0,
+    "peripheral_hedge_rate": 0.5,
+    "hedge_rate_gap": 0.5
+  }
+}

@@ -1,0 +1,273 @@
+{
+  "sample_index": 3296,
+  "target_node": 121,
+  "tod_band": "midday",
+  "congestion": "high",
+  "timestamp": "test#3296 @ 13:55",
+  "explanation_stability": 0.5136,
+  "n_core": 6,
+  "n_peripheral": 6,
+  "n_noise": 4,
+  "A_f1": 0.5454545454545454,
+  "A_precision": 1.0,
+  "A_recall": 0.375,
+  "A_hallucination": 0.0,
+  "U_f1": 0.7692307692307693,
+  "U_precision": 1.0,
+  "U_recall": 0.625,
+  "U_hallucination": 0.0,
+  "U_f1_vs_shown": 0.8,
+  "U_hallucination_vs_shown": 0.0,
+  "A_core_hedge_rate": 0.0,
+  "A_peripheral_hedge_rate": 0.0,
+  "A_hedge_gap": 0.0,
+  "U_core_hedge_rate": 0.75,
+  "U_peripheral_hedge_rate": 0.8,
+  "U_hedge_gap": 0.050000000000000044,
+  "_block": {
+    "k_runs": 10,
+    "core_threshold": 0.8,
+    "noise_threshold": 0.2,
+    "explanation_stability": 0.5136,
+    "core_causes": [
+      {
+        "node_id": 192,
+        "node_name": "NW of Downtown LA (sensor 717452, 34.075, -118.274)",
+        "frequency": "9/10",
+        "confidence": 0.9,
+        "current_speed_mph": 41.63
+      },
+      {
+        "node_id": 57,
+        "node_name": "Hollywood (sensor 764949, 34.129, -118.347)",
+        "frequency": "9/10",
+        "confidence": 0.9,
+        "current_speed_mph": 31.13
+      },
+      {
+        "node_id": 56,
+        "node_name": "N of Downtown LA (sensor 716955, 34.096, -118.244)",
+        "frequency": "8/10",
+        "confidence": 0.8,
+        "current_speed_mph": 16.14
+      },
+      {
+        "node_id": 33,
+        "node_name": "Downtown LA (sensor 716328, 34.067, -118.254)",
+        "frequency": "8/10",
+        "confidence": 0.8,
+        "current_speed_mph": 30.63
+      },
+      {
+        "node_id": 3,
+        "node_name": "Downtown LA (sensor 717447, 34.072, -118.268)",
+        "frequency": "8/10",
+        "confidence": 0.8,
+        "current_speed_mph": 43.88
+      },
+      {
+        "node_id": 124,
+        "node_name": "East LA (sensor 716942, 34.059, -118.215)",
+        "frequency": "8/10",
+        "confidence": 0.8,
+        "current_speed_mph": 23.63
+      }
+    ],
+    "peripheral_causes": [
+      {
+        "node_id": 54,
+        "node_name": "Glendale / Burbank (sensor 773953, 34.155, -118.293)",
+        "frequency": "7/10",
+        "confidence": 0.7,
+        "current_speed_mph": 30.63
+      },
+      {
+        "node_id": 93,
+        "node_name": "Downtown LA (sensor 773024, 34.058, -118.244)",
+        "frequency": "5/10",
+        "confidence": 0.5,
+        "current_speed_mph": 23.12
+      },
+      {
+        "node_id": 142,
+        "node_name": "Glendale / Burbank (sensor 773904, 34.156, -118.303)",
+        "frequency": "5/10",
+        "confidence": 0.5,
+        "current_speed_mph": 29.62
+      },
+      {
+        "node_id": 196,
+        "node_name": "NE of Downtown LA (sensor 771673, 34.078, -118.229)",
+        "frequency": "4/10",
+        "confidence": 0.4,
+        "current_speed_mph": 34.37
+      },
+      {
+        "node_id": 16,
+        "node_name": "Downtown LA (sensor 771667, 34.073, -118.234)",
+        "frequency": "3/10",
+        "confidence": 0.3,
+        "current_speed_mph": 30.5
+      },
+      {
+        "node_id": 197,
+        "node_name": "San Fernando Valley (sensor 772167, 34.165, -118.480)",
+        "frequency": "2/10",
+        "confidence": 0.2,
+        "current_speed_mph": 29.25
+      }
+    ],
+    "noise_count": 4,
+    "core_node_ids": [
+      192,
+      57,
+      56,
+      33,
+      3,
+      124
+    ],
+    "peripheral_node_ids": [
+      54,
+      93,
+      142,
+      196,
+      16,
+      197
+    ]
+  },
+  "_A_advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in several locations upstream, particularly North of Downtown LA (16.14 mph), East LA (23.63 mph), and Hollywood (31.13 mph). These slow speeds are propagating downstream along a path of 8 sensors with no lag between the source and target.",
+    "cited_causes": [
+      {
+        "location": "North of Downtown LA",
+        "resolved_node_id": 56
+      },
+      {
+        "location": "East LA",
+        "resolved_node_id": 124
+      },
+      {
+        "location": "Hollywood",
+        "resolved_node_id": 57
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Reroute traffic before the merge",
+        "location": "Glendale / Burbank (sensor 769847)",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion at the target location",
+        "grounded_in": [
+          "city-context fact: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Optimize signal timing on surface reliefs",
+        "location": "Brand Blvd, San Fernando Rd and Colorado Blvd",
+        "time_window_minutes": 15,
+        "expected_effect": "Improved traffic flow on surface roads",
+        "grounded_in": [
+          "city-context fact: surface relief options"
+        ]
+      },
+      {
+        "action": "Use Metro rail as a diversion lever",
+        "location": "Wilshire and Hollywood (B/D Lines)",
+        "time_window_minutes": 5,
+        "expected_effect": "Reduced traffic on freeways",
+        "grounded_in": [
+          "city-context fact: transit alternatives"
+        ]
+      }
+    ]
+  },
+  "_U_advisory": {
+    "reasoning": "The predicted congestion in Glendale/Burbank is due to several factors. The core causes are: traffic congestion NW of Downtown LA, which may be contributing to the overall delay; Hollywood is also experiencing heavy traffic, possibly affecting the flow into Glendale/Burbank; N and Downtown LA are congested, which could be causing a ripple effect; East LA is also experiencing slow speeds, adding to the overall delay. Additionally, there may be some uncertainty around the role of Glendale / Burbank itself in the congestion.",
+    "cited_causes": [
+      {
+        "location": "NW of Downtown LA",
+        "resolved_node_id": 192
+      },
+      {
+        "location": "Hollywood",
+        "resolved_node_id": 57
+      },
+      {
+        "location": "N of Downtown LA",
+        "resolved_node_id": 56
+      },
+      {
+        "location": "Downtown LA",
+        "resolved_node_id": 33
+      },
+      {
+        "location": "East LA",
+        "resolved_node_id": 124
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering on I-5/SR-134",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion in Glendale/Burbank",
+        "grounded_in": [
+          "NW of Downtown LA",
+          "Hollywood"
+        ]
+      },
+      {
+        "action": "Reroute traffic before the merge on I-5/SR-134",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion in Glendale/Burbank",
+        "grounded_in": [
+          "NW of Downtown LA",
+          "Hollywood"
+        ]
+      },
+      {
+        "action": "Coordinate ATSAC signals on Sunset Blvd and Santa Monica Blvd",
+        "location": "US-101 Hollywood Freeway corridor",
+        "time_window_minutes": 10,
+        "expected_effect": "Improved traffic flow into Glendale/Burbank",
+        "grounded_in": [
+          "N of Downtown LA",
+          "Downtown LA"
+        ]
+      }
+    ]
+  },
+  "_A_hedge": {
+    "n_sentences": 5,
+    "core": {
+      "sentences": 3,
+      "hedged_sentences": 0,
+      "hedge_words": 0
+    },
+    "peripheral": {
+      "sentences": 1,
+      "hedged_sentences": 0,
+      "hedge_words": 0
+    },
+    "core_hedge_rate": 0.0,
+    "peripheral_hedge_rate": 0.0,
+    "hedge_rate_gap": 0.0
+  },
+  "_U_hedge": {
+    "n_sentences": 6,
+    "core": {
+      "sentences": 4,
+      "hedged_sentences": 3,
+      "hedge_words": 3
+    },
+    "peripheral": {
+      "sentences": 5,
+      "hedged_sentences": 4,
+      "hedge_words": 5
+    },
+    "core_hedge_rate": 0.75,
+    "peripheral_hedge_rate": 0.8,
+    "hedge_rate_gap": 0.050000000000000044
+  }
+}

@@ -1,0 +1,290 @@
+{
+  "sample_index": 5257,
+  "target_node": 12,
+  "tod_band": "am_rush",
+  "congestion": "medium",
+  "timestamp": "test#5257 @ 09:20",
+  "explanation_stability": 0.3351,
+  "n_core": 3,
+  "n_peripheral": 13,
+  "n_noise": 7,
+  "A_f1": 0.8571428571428571,
+  "A_precision": 1.0,
+  "A_recall": 0.75,
+  "A_hallucination": 0.0,
+  "U_f1": 0.8571428571428571,
+  "U_precision": 1.0,
+  "U_recall": 0.75,
+  "U_hallucination": 0.0,
+  "U_f1_vs_shown": 0.6666666666666666,
+  "U_hallucination_vs_shown": 0.0,
+  "A_core_hedge_rate": 0.0,
+  "A_peripheral_hedge_rate": 0.0,
+  "A_hedge_gap": 0.0,
+  "U_core_hedge_rate": 0.0,
+  "U_peripheral_hedge_rate": 0.0,
+  "U_hedge_gap": 0.0,
+  "_block": {
+    "k_runs": 10,
+    "core_threshold": 0.8,
+    "noise_threshold": 0.2,
+    "explanation_stability": 0.3351,
+    "core_causes": [
+      {
+        "node_id": 178,
+        "node_name": "Glendale / Burbank (sensor 773975, 34.146, -118.223)",
+        "frequency": "10/10",
+        "confidence": 1.0,
+        "current_speed_mph": 66.0
+      },
+      {
+        "node_id": 66,
+        "node_name": "NE of Downtown LA (sensor 767610, 34.186, -118.218)",
+        "frequency": "9/10",
+        "confidence": 0.9,
+        "current_speed_mph": 66.0
+      },
+      {
+        "node_id": 105,
+        "node_name": "Glendale / Burbank (sensor 718076, 34.163, -118.225)",
+        "frequency": "8/10",
+        "confidence": 0.8,
+        "current_speed_mph": 66.25
+      }
+    ],
+    "peripheral_causes": [
+      {
+        "node_id": 107,
+        "node_name": "Glendale / Burbank (sensor 767455, 34.143, -118.227)",
+        "frequency": "6/10",
+        "confidence": 0.6,
+        "current_speed_mph": 67.25
+      },
+      {
+        "node_id": 118,
+        "node_name": "San Fernando Valley (sensor 717570, 34.153, -118.359)",
+        "frequency": "5/10",
+        "confidence": 0.5,
+        "current_speed_mph": 66.5
+      },
+      {
+        "node_id": 167,
+        "node_name": "Glendale / Burbank (sensor 717582, 34.156, -118.261)",
+        "frequency": "5/10",
+        "confidence": 0.5,
+        "current_speed_mph": 67.0
+      },
+      {
+        "node_id": 92,
+        "node_name": "Glendale / Burbank (sensor 767585, 34.166, -118.224)",
+        "frequency": "4/10",
+        "confidence": 0.4,
+        "current_speed_mph": 67.87
+      },
+      {
+        "node_id": 67,
+        "node_name": "Glendale / Burbank (sensor 773880, 34.154, -118.348)",
+        "frequency": "4/10",
+        "confidence": 0.4,
+        "current_speed_mph": 66.5
+      },
+      {
+        "node_id": 163,
+        "node_name": "Hollywood (sensor 717462, 34.090, -118.306)",
+        "frequency": "4/10",
+        "confidence": 0.4,
+        "current_speed_mph": 35.5
+      },
+      {
+        "node_id": 183,
+        "node_name": "N of Downtown LA (sensor 767495, 34.104, -118.250)",
+        "frequency": "3/10",
+        "confidence": 0.3,
+        "current_speed_mph": 68.25
+      },
+      {
+        "node_id": 99,
+        "node_name": "San Fernando Valley (sensor 764120, 34.202, -118.404)",
+        "frequency": "3/10",
+        "confidence": 0.3,
+        "current_speed_mph": 57.5
+      },
+      {
+        "node_id": 155,
+        "node_name": "Hollywood (sensor 717468, 34.097, -118.314)",
+        "frequency": "3/10",
+        "confidence": 0.3,
+        "current_speed_mph": 60.13
+      },
+      {
+        "node_id": 203,
+        "node_name": "Pasadena / East (sensor 717595, 34.142, -118.183)",
+        "frequency": "3/10",
+        "confidence": 0.3,
+        "current_speed_mph": 67.0
+      },
+      {
+        "node_id": 159,
+        "node_name": "Hollywood (sensor 717466, 34.094, -118.309)",
+        "frequency": "2/10",
+        "confidence": 0.2,
+        "current_speed_mph": 64.37
+      },
+      {
+        "node_id": 171,
+        "node_name": "Glendale / Burbank (sensor 717587, 34.154, -118.239)",
+        "frequency": "2/10",
+        "confidence": 0.2,
+        "current_speed_mph": 66.0
+      },
+      {
+        "node_id": 123,
+        "node_name": "N of Downtown LA (sensor 767523, 34.114, -118.242)",
+        "frequency": "2/10",
+        "confidence": 0.2,
+        "current_speed_mph": 59.37
+      }
+    ],
+    "noise_count": 7,
+    "core_node_ids": [
+      178,
+      66,
+      105
+    ],
+    "peripheral_node_ids": [
+      107,
+      118,
+      167,
+      92,
+      67,
+      163,
+      183,
+      99,
+      155,
+      203,
+      159,
+      171,
+      123
+    ]
+  },
+  "_A_advisory": {
+    "reasoning": "The congestion is predicted because of the high speeds (66-67 mph) in the Glendale/Burbank area, which indicates that traffic is flowing freely there. However, this is causing a ripple effect downstream, with slower speeds (18.63-18.68 mph) at the target location NW of Downtown LA. This suggests that congestion is propagating along a path of 9 sensors, with an estimated lag of 15 minutes between the source and the target.",
+    "cited_causes": [
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 178
+      },
+      {
+        "location": "NE of Downtown LA",
+        "resolved_node_id": 66
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering",
+        "location": "Glendale/Burbank area",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduce traffic flow into the congested area, alleviating downstream congestion",
+        "grounded_in": [
+          "high speeds in Glendale/Burbank area"
+        ]
+      },
+      {
+        "action": "Reroute traffic before the merge",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduce congestion at the interchange by diverting traffic away from the bottleneck",
+        "grounded_in": [
+          "structural (geometry/merges) bottleneck at I-5/SR-134 interchange"
+        ]
+      },
+      {
+        "action": "Encourage transit use",
+        "location": "Wilshire and Hollywood areas",
+        "time_window_minutes": 10,
+        "expected_effect": "Divert some traffic away from the congested area by encouraging people to take public transportation",
+        "grounded_in": [
+          "parallel rail line exists along Wilshire"
+        ]
+      }
+    ]
+  },
+  "_U_advisory": {
+    "reasoning": "The predicted congestion is due to the high traffic volume in the Glendale/Burbank area, which is confirmed by multiple sensors (node_id 178, node_id 105, and node_id 66). This area has a high demand for car travel, as Metro transit options are limited. The I-5/SR-134 interchange, a known recurrent bottleneck, may also be contributing to the congestion.",
+    "cited_causes": [
+      {
+        "location": "Glendale/Burbank",
+        "resolved_node_id": 178
+      },
+      {
+        "location": "NE of Downtown LA",
+        "resolved_node_id": 66
+      },
+      {
+        "location": "Glendale/Burbank",
+        "resolved_node_id": 105
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering on I-5 and SR-134",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion in the Glendale/Burbank area",
+        "grounded_in": [
+          "node_id 178, node_id 105, and node_id 66"
+        ]
+      },
+      {
+        "action": "Reroute traffic before merging onto I-5/SR-134",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion in the Glendale/Burbank area",
+        "grounded_in": [
+          "node_id 178, node_id 105, and node_id 66"
+        ]
+      },
+      {
+        "action": "Encourage carpooling or ride-sharing in the Glendale/Burbank area",
+        "location": "Glendale/Burbank",
+        "time_window_minutes": 5,
+        "expected_effect": "Reduced traffic volume in the Glendale/Burbank area",
+        "grounded_in": [
+          "node_id 178, node_id 105, and node_id 66"
+        ]
+      }
+    ]
+  },
+  "_A_hedge": {
+    "n_sentences": 5,
+    "core": {
+      "sentences": 1,
+      "hedged_sentences": 0,
+      "hedge_words": 0
+    },
+    "peripheral": {
+      "sentences": 1,
+      "hedged_sentences": 0,
+      "hedge_words": 0
+    },
+    "core_hedge_rate": 0.0,
+    "peripheral_hedge_rate": 0.0,
+    "hedge_rate_gap": 0.0
+  },
+  "_U_hedge": {
+    "n_sentences": 3,
+    "core": {
+      "sentences": 1,
+      "hedged_sentences": 0,
+      "hedge_words": 0
+    },
+    "peripheral": {
+      "sentences": 1,
+      "hedged_sentences": 0,
+      "hedge_words": 0
+    },
+    "core_hedge_rate": 0.0,
+    "peripheral_hedge_rate": 0.0,
+    "hedge_rate_gap": 0.0
+  }
+}

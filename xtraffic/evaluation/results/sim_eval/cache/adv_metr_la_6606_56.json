@@ -1,0 +1,47 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley, particularly at sensor 767366 (63.5 mph), sensor 717497 (62.5 mph), and sensor 767351 (65.12 mph). This congestion appears to be traveling along a path of 10 sensors with an estimated lag of 15 minutes between the source and the target.",
+  "cited_causes": [
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 59
+    },
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 69
+    },
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 89
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Reroute traffic before the merge",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion at the target location",
+      "grounded_in": [
+        "upstream metering and reroute-before-the-merge are the levers, not signal timing at the interchange itself",
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Encourage carpooling or use of public transit",
+      "location": "Glendale/Burbank freeways (SR-134, I-5)",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced demand on the roads and alleviated congestion",
+      "grounded_in": [
+        "city-context fact: Metro is limited here, so demand is car-dominant"
+      ]
+    },
+    {
+      "action": "Implement dynamic lane management or variable speed limits",
+      "location": "San Fernando Valley freeways (US-101, I-405)",
+      "time_window_minutes": 10,
+      "expected_effect": "Improved traffic flow and reduced congestion",
+      "grounded_in": [
+        "city-context fact: Ventura Blvd is the primary east-west surface arterial and Sepulveda/Van Nuys Blvd the primary north-south"
+      ]
+    }
+  ]
+}

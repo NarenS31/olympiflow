@@ -676,6 +676,65 @@ unchanged. advise()/advise_condition() are byte-identical (verified).
   and its caption says so; rerun via `python -m xtraffic.evaluation.counterfactual_study`
   (resumable, shares the one local Ollama with the Phase 10/11/12 queue).
 
+Phase 18 COMPLETE (built + full 20-scenario real run) — UNCERTAINTY-AWARE
+EXPLANATIONS. Promotes the Phase-3 SCALAR confidence (mean Jaccard over K reruns)
+to a PER-NODE distribution: run GNNExplainer K=10 times, tally each node's top-k
+appearance frequency, and label CORE (>=80% of runs -> assert), PERIPHERAL (20-80%
+-> hedge), NOISE (<20% -> omit); inject that split into the LLM with an honesty
+instruction and MEASURE whether it actually hedges. Files: models/explainer/
+uncertain_explainer.py (K-run tally, classify_tier, mean_pairwise_jaccard stability,
+uncertainty block, hedging_analysis, no-LLM demo), evaluation/uncertainty_study.py
+(the A-vs-U study + table + stability plot + traces), configs/uncertainty.yaml.
+FLAGGED default-preserving addition to advisor.py: advise_uncertain /
+build_prompt_uncertain / _SYSTEM_UNCERTAIN / _TASK_UNCERTAIN — an uncertainty-mode
+prompt (SYSTEM+honesty-clause -> CITY CONTEXT -> tiered EXPLANATION -> TASK) reusing
+the SAME advisory JSON contract, so validate_advisory + the Phase-5 faithfulness
+metric apply unchanged. git diff = 132 insertions / 0 deletions -> advise()/
+advise_condition()/Phase 4-17 are byte-identical (verified).
+- ADDITIVE SCHEMA: the uncertainty block attaches as an extra top-level
+  "uncertainty" key on the Phase-3 explanation; validate_explanation checks required
+  keys are PRESENT (doesn't forbid extras), so the Phase-4 contract is untouched.
+- REUSE: the K runs ARE the SAME explain_target(seed=k) solves Phase 3 already does
+  for the confidence scalar (cost model unchanged); base explanation, KB retrieval,
+  stratified sampler, and metric are all existing Phase-3/4/5 machinery. Staleness-
+  aware base-explanation loader (Phase-17 pattern): trusts the shared Phase-5 cache
+  only when newer than the checkpoint, else rebuilds into its own cache.
+- SCORING DECISION (flagged): BOTH conditions scored against the SAME deterministic
+  single-run (seed-0) top-k, so any F1/hallucination difference is attributable
+  purely to the uncertainty FRAMING, not a moved goalpost. A is therefore byte-
+  identical to Phase-5 condition A. Honest caveat: U omits noise-tier nodes it was
+  shown are unstable, so a seed-0 node it correctly drops counts against U's recall
+  (small; core dominates) -> U's faithfulness vs its OWN shown set is ALSO logged as
+  a secondary diagnostic. Both A and U retrieve identical city context (U's exp keeps
+  the original top_nodes), so the ONLY variable is the tiered rendering + honesty clause.
+- REAL RESULT (n=20 stratified METR-LA, llama3.1:8b, K=10): mean explanation
+  stability 0.427 (range 0.155-0.75 — it GENUINELY varies scenario to scenario,
+  which is the whole motivation), mean core/peripheral/noise = 3.6/11.0/7.0.
+  FAITHFULNESS A (deterministic) vs U (uncertainty): F1 0.704 -> 0.737 (+0.033,
+  essentially flat); precision 1.000 -> 0.896; recall 0.562 -> 0.637; HALLUCINATION
+  0.000 -> 0.104. HONEST FINDINGS: (Q1) uncertainty framing is ~F1-NEUTRAL — it
+  trades a little precision for higher recall (it mentions MORE of the top-k). (Q2)
+  it does NOT reduce hallucination below Phase-5's ~0.5% — it slightly INCREASES it,
+  because inviting the LLM to MENTION peripheral (uncertain) causes means it
+  sometimes cites a node outside the deterministic top-k; but this is CONCENTRATED
+  (only 4/20 U advisories hallucinated at all; 16/20 stayed at 0, high-variance mean).
+  (Q3 — the key question) YES the real LLM hedges: condition-U core/peripheral hedge
+  rates 0.23/0.39 (gap +0.13) vs condition-A ~0/0.03; U hedged peripheral MORE than
+  core in 9/19 scenarios where the gap is defined (mean gap +0.125). So the framing
+  makes the model measurably more epistemically honest (hedges uncertain causes ~1.7x
+  more than confident ones, in ~half of cases) at a small faithfulness cost — NOT
+  every scenario, and it sometimes just OMITS peripheral entirely instead of hedging
+  (e.g. idx 5479). The method also CORRECTLY collapses in free flow: 1/20 scenarios
+  had 0 core nodes (stability 0.16) -> "nothing is confidently a cause", the recurring
+  no-real-spatial-cause finding, now surfaced by the uncertainty tiers themselves.
+- Outputs: evaluation/paper/{table_uncertainty.tex (booktabs A-vs-U + hedging),
+  fig_uncertainty_stability.pdf (per-scenario stability histogram)} +
+  results/uncertainty/{uncertainty_per_scenario.csv, uncertainty_summary.json,
+  example_traces.txt (core-vs-peripheral treatment per condition), decisions_cache/}
+  (resumable, keyed by model). Verified: --mock-llm reproduces the whole harness with
+  no Ollama; single-scenario demo at `python -m xtraffic.models.explainer.uncertain_explainer`.
+  Committed table/fig are the REAL n=20 (caption says n=20).
+
 ---
 
 # XTraffic — Claude Code Build Playbook

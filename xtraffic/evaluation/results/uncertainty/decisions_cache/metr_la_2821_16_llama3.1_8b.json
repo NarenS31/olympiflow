@@ -1,0 +1,296 @@
+{
+  "sample_index": 2821,
+  "target_node": 16,
+  "tod_band": "evening",
+  "congestion": "low",
+  "timestamp": "test#2821 @ 22:20",
+  "explanation_stability": 0.3482,
+  "n_core": 3,
+  "n_peripheral": 13,
+  "n_noise": 5,
+  "A_f1": 0.8571428571428571,
+  "A_precision": 1.0,
+  "A_recall": 0.75,
+  "A_hallucination": 0.0,
+  "U_f1": 0.8571428571428571,
+  "U_precision": 1.0,
+  "U_recall": 0.75,
+  "U_hallucination": 0.0,
+  "U_f1_vs_shown": 0.7692307692307693,
+  "U_hallucination_vs_shown": 0.0,
+  "A_core_hedge_rate": 0.0,
+  "A_peripheral_hedge_rate": 0.0,
+  "A_hedge_gap": 0.0,
+  "U_core_hedge_rate": 0.5,
+  "U_peripheral_hedge_rate": 0.5,
+  "U_hedge_gap": 0.0,
+  "_block": {
+    "k_runs": 10,
+    "core_threshold": 0.8,
+    "noise_threshold": 0.2,
+    "explanation_stability": 0.3482,
+    "core_causes": [
+      {
+        "node_id": 203,
+        "node_name": "Pasadena / East (sensor 717595, 34.142, -118.183)",
+        "frequency": "9/10",
+        "confidence": 0.9,
+        "current_speed_mph": 68.13
+      },
+      {
+        "node_id": 173,
+        "node_name": "Glendale / Burbank (sensor 717585, 34.156, -118.242)",
+        "frequency": "9/10",
+        "confidence": 0.9,
+        "current_speed_mph": 67.38
+      },
+      {
+        "node_id": 186,
+        "node_name": "San Fernando Valley (sensor 717823, 34.203, -118.473)",
+        "frequency": "8/10",
+        "confidence": 0.8,
+        "current_speed_mph": 67.38
+      }
+    ],
+    "peripheral_causes": [
+      {
+        "node_id": 171,
+        "node_name": "Glendale / Burbank (sensor 717587, 34.154, -118.239)",
+        "frequency": "7/10",
+        "confidence": 0.7,
+        "current_speed_mph": 67.0
+      },
+      {
+        "node_id": 33,
+        "node_name": "Downtown LA (sensor 716328, 34.067, -118.254)",
+        "frequency": "6/10",
+        "confidence": 0.6,
+        "current_speed_mph": 64.0
+      },
+      {
+        "node_id": 168,
+        "node_name": "Glendale / Burbank (sensor 717583, 34.156, -118.255)",
+        "frequency": "5/10",
+        "confidence": 0.5,
+        "current_speed_mph": 68.13
+      },
+      {
+        "node_id": 66,
+        "node_name": "NE of Downtown LA (sensor 767610, 34.186, -118.218)",
+        "frequency": "4/10",
+        "confidence": 0.4,
+        "current_speed_mph": 67.38
+      },
+      {
+        "node_id": 99,
+        "node_name": "San Fernando Valley (sensor 764120, 34.202, -118.404)",
+        "frequency": "4/10",
+        "confidence": 0.4,
+        "current_speed_mph": 69.25
+      },
+      {
+        "node_id": 92,
+        "node_name": "Glendale / Burbank (sensor 767585, 34.166, -118.224)",
+        "frequency": "4/10",
+        "confidence": 0.4,
+        "current_speed_mph": 68.25
+      },
+      {
+        "node_id": 105,
+        "node_name": "Glendale / Burbank (sensor 718076, 34.163, -118.225)",
+        "frequency": "4/10",
+        "confidence": 0.4,
+        "current_speed_mph": 65.37
+      },
+      {
+        "node_id": 6,
+        "node_name": "Downtown LA (sensor 773062, 34.054, -118.234)",
+        "frequency": "3/10",
+        "confidence": 0.3,
+        "current_speed_mph": 60.75
+      },
+      {
+        "node_id": 138,
+        "node_name": "Downtown LA (sensor 772513, 34.069, -118.237)",
+        "frequency": "3/10",
+        "confidence": 0.3,
+        "current_speed_mph": 68.13
+      },
+      {
+        "node_id": 67,
+        "node_name": "Glendale / Burbank (sensor 773880, 34.154, -118.348)",
+        "frequency": "3/10",
+        "confidence": 0.3,
+        "current_speed_mph": 66.0
+      },
+      {
+        "node_id": 93,
+        "node_name": "Downtown LA (sensor 773024, 34.058, -118.244)",
+        "frequency": "2/10",
+        "confidence": 0.2,
+        "current_speed_mph": 64.75
+      },
+      {
+        "node_id": 34,
+        "node_name": "San Fernando Valley (sensor 717819, 34.188, -118.474)",
+        "frequency": "2/10",
+        "confidence": 0.2,
+        "current_speed_mph": 69.25
+      },
+      {
+        "node_id": 44,
+        "node_name": "NE of Downtown LA (sensor 774012, 34.148, -118.201)",
+        "frequency": "2/10",
+        "confidence": 0.2,
+        "current_speed_mph": 68.38
+      }
+    ],
+    "noise_count": 5,
+    "core_node_ids": [
+      203,
+      173,
+      186
+    ],
+    "peripheral_node_ids": [
+      171,
+      33,
+      168,
+      66,
+      99,
+      92,
+      105,
+      6,
+      138,
+      67,
+      93,
+      34,
+      44
+    ]
+  },
+  "_A_advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in Pasadena / East (68.13 mph), San Fernando Valley (67.38 mph), and Glendale / Burbank (67.38 mph, 66.0 mph). These locations are contributing to the congestion that will travel along a path of 2 sensors with an estimated lag of 0.0 minutes between the source and the target.",
+    "cited_causes": [
+      {
+        "location": "Pasadena / East",
+        "resolved_node_id": 203
+      },
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 186
+      },
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 173
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement metering upstream of the I-5/SR-134 interchange",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion at the target location (Downtown LA)",
+        "grounded_in": [
+          "city-context fact: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Reroute traffic before merging onto I-5/SR-134",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion at the target location (Downtown LA)",
+        "grounded_in": [
+          "city-context fact: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Encourage transit use by promoting Metro rail options in Glendale/Burbank",
+        "location": "Glendale / Burbank",
+        "time_window_minutes": 5,
+        "expected_effect": "Reduced demand on roads and congestion at the target location (Downtown LA)",
+        "grounded_in": [
+          "Transit alternatives: Metro rail relief options by area"
+        ]
+      }
+    ]
+  },
+  "_U_advisory": {
+    "reasoning": "The predicted congestion in Downtown LA is due to high traffic volumes from the Pasadena/East and Glendale/Burbank areas, which are confirmed by multiple runs. These areas have high speeds (68-69 mph) and are contributing to the congestion. Additionally, there may be some uncertainty around the role of the San Fernando Valley, possibly due to its own congestion (67-69 mph), but this is less clear.",
+    "cited_causes": [
+      {
+        "location": "Pasadena / East",
+        "resolved_node_id": 203
+      },
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 173
+      },
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 186
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering on I-5/SR-134 interchange",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion in Downtown LA by 2-3 mph",
+        "grounded_in": [
+          "Pasadena / East",
+          "Glendale / Burbank"
+        ]
+      },
+      {
+        "action": "Reroute traffic before the merge at I-5/SR-134 interchange",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion in Downtown LA by 3-4 mph",
+        "grounded_in": [
+          "Pasadena / East",
+          "Glendale / Burbank"
+        ]
+      },
+      {
+        "action": "Consider using ExpressLanes bus on I-110 as a diversion lever",
+        "location": "I-110",
+        "time_window_minutes": 30,
+        "expected_effect": "Uncertain, possibly reducing congestion in Downtown LA by 1-2 mph",
+        "grounded_in": [
+          "San Fernando Valley"
+        ]
+      }
+    ]
+  },
+  "_A_hedge": {
+    "n_sentences": 7,
+    "core": {
+      "sentences": 3,
+      "hedged_sentences": 0,
+      "hedge_words": 0
+    },
+    "peripheral": {
+      "sentences": 2,
+      "hedged_sentences": 0,
+      "hedge_words": 0
+    },
+    "core_hedge_rate": 0.0,
+    "peripheral_hedge_rate": 0.0,
+    "hedge_rate_gap": 0.0
+  },
+  "_U_hedge": {
+    "n_sentences": 3,
+    "core": {
+      "sentences": 2,
+      "hedged_sentences": 1,
+      "hedge_words": 3
+    },
+    "peripheral": {
+      "sentences": 2,
+      "hedged_sentences": 1,
+      "hedge_words": 3
+    },
+    "core_hedge_rate": 0.5,
+    "peripheral_hedge_rate": 0.5,
+    "hedge_rate_gap": 0.0
+  }
+}

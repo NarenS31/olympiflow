@@ -580,3 +580,67 @@ session. This becomes the paper's experiments section almost for free.
   **Owed (feasible locally, not Colab):** a larger congested-only sweep (≥50 mild/medium
   targets, stratified by tercile) to tighten the validity-vs-depth curve — the committed
   table is n=20 and says so.
+
+---
+
+## Phase 18 — uncertainty-aware explanations ("how much do I trust one run?") (2026-07-12)
+- **The idea:** Phase 3 gave one explainer run a *scalar* confidence (mean Jaccard over K
+  reruns). Phase 18 promotes that to a **per-node** distribution: run GNNExplainer K=10
+  times, count how often each node lands in the top-k, and label each **CORE** (≥80% of
+  runs → assert), **PERIPHERAL** (20–80% → hedge), or **NOISE** (<20% → omit). Inject the
+  split into the LLM with an honesty instruction and measure whether the model actually
+  hedges the uncertain causes.
+- **Built:** `models/explainer/uncertain_explainer.py` (K-run tally, `classify_tier`,
+  `mean_pairwise_jaccard` stability, the uncertainty block, `hedging_analysis`, a no-LLM
+  demo) + a **flagged, purely-additive** advisor mode (`advise_uncertain` /
+  `build_prompt_uncertain` / `_SYSTEM_UNCERTAIN`; `git diff` = 132 insertions, 0 deletions,
+  so condition A / Phase 4-17 stay byte-identical) + `evaluation/uncertainty_study.py`
+  (the A-vs-U study, table, stability plot, traces) + `configs/uncertainty.yaml`.
+- **Reuse (kept it small):** the K runs are the SAME `explain_target(seed=k)` solves Phase 3
+  already does for the confidence scalar — I just keep per-node frequencies instead of one
+  Jaccard. The base explanation, KB retrieval, faithfulness metric, and stratified sampler
+  are all the existing Phase-3/4/5 machinery. The uncertainty block attaches ADDITIVELY
+  (extra `"uncertainty"` key) so `validate_explanation` still passes — the Phase-4 contract
+  is untouched.
+- **Scoring decision (flagged):** both A and U are scored against the SAME deterministic
+  single-run (seed-0) top-k, so the F1/hallucination difference is attributable purely to
+  the uncertainty FRAMING, not a moved goalpost. Honest caveat: U omits noise-tier nodes,
+  so a seed-0 node it correctly drops counts against U's recall — small (core dominates),
+  and I also log U's faithfulness vs its own shown set as a secondary diagnostic.
+- **What surprised me:** on congested/unstable targets the explanation stability is genuinely
+  LOW — the demo's East LA (20 mph) target had stability **0.30** with only 3 reliable core
+  nodes and 10 noise nodes a single run would have hidden. And the free-flow smoke scenario
+  produced **0 core nodes** (stability 0.16): the method honestly says "nothing is confidently
+  a cause" exactly where the whole project keeps finding there is none.
+- **Smoke (real llama3.1:8b, n=3, heavily caveated):** mean stability 0.41 (core/peri/noise
+  3.0/11.7/10.3). Faithfulness **A F1 0.730 / halluc 0.000 → U F1 0.812 / halluc 0.111**:
+  the framing lifts recall (0.58→0.75) but invites a little hallucination (mentioning
+  peripheral nodes outside the deterministic top-k costs precision). **Q3 (the key question)
+  — the real model DOES hedge:** idx 4289 U-reasoning asserts core ("*the Glendale/Burbank
+  area, which is confirmed by all runs*") and hedges peripheral ("*It's possible that there
+  may be some impact from ... Hollywood, but these are less certain*") → hedge gap +0.33,
+  and U's F1 (0.857) beat A's (0.667). Honest nuance: idx 5479 the LLM just OMITTED peripheral
+  entirely (gap 0) rather than hedging — also acceptable. `--mock-llm` reproduces the harness
+  with no Ollama. **Smoke gate PASSED.**
+- **Full run (real llama3.1:8b, n=20 stratified METR-LA, K=10):** mean stability **0.427**
+  (range **0.155–0.75** — genuinely varies scenario to scenario, the whole point), mean
+  core/peripheral/noise **3.6/11.0/7.0**. **Faithfulness A→U:** F1 0.704→**0.737** (+0.03,
+  flat); precision 1.000→0.896; recall 0.562→**0.637**; hallucination 0.000→**0.104**.
+  **What I found, honestly:** (Q1) the framing is ~F1-neutral — it trades a little precision
+  for higher recall (it mentions MORE of the top-k). (Q2) it does NOT drive hallucination
+  below Phase-5's ~0.5% — it slightly RAISES it, because inviting the model to *mention*
+  uncertain causes means it sometimes cites a node outside the deterministic top-k; but this
+  is concentrated (**only 4/20** U advisories hallucinated at all — 16/20 stayed at 0, so the
+  mean is high-variance). (Q3, the key question) **YES the real model hedges:** condition-U
+  core/peripheral hedge rates **0.23 / 0.39** (gap **+0.13**) vs condition-A ~0/0.03, and U
+  hedged peripheral more than core in **9/19** scenarios (mean gap +0.125). So uncertainty
+  framing makes the model measurably more epistemically honest (~1.7× more hedging on
+  uncertain causes, in about half of cases) at a small faithfulness cost — not uniform, and
+  sometimes it just OMITS peripheral instead of hedging (idx 5479). The method also correctly
+  collapses in free flow: **1/20** had 0 core nodes (stability 0.16) = "nothing is confidently
+  a cause" — the project's recurring no-real-cause finding, now surfaced by the tiers.
+- **Honest caveat for the paper:** this is an internal-consistency / behavioural result — we
+  show the LLM *reflects* the explainer's per-run uncertainty, not that the tiers are the
+  "true" importances. And U's small hallucination bump is the price of higher recall; if a
+  deployment wants zero hallucination, gate on core-only. Committed `table_uncertainty.tex` +
+  `fig_uncertainty_stability.pdf` are the real n=20 (captions say n=20). **Gate PASSED.**

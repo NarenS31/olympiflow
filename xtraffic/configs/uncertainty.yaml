@@ -1,0 +1,51 @@
+# XTraffic — Phase 18 uncertainty-aware-explanation configuration.
+# No magic numbers in code (CLAUDE.md): every knob the K-run analysis + study
+# need lives here.
+#
+# WHAT PHASE 18 DOES
+# ------------------
+# Phase 3 gave a single GNNExplainer run a SCALAR confidence (mean Jaccard of the
+# top-k over K reruns). A reviewer will ask: "you show one top-k set — how much of
+# it survives if you change the random seed? Which nodes do you actually trust?"
+# Phase 18 promotes that scalar to a PER-NODE uncertainty distribution: run the
+# explainer K times, count how often each node lands in the top-k, and label each
+#   CORE       (>= core_threshold of runs)   -> confident cause, assert it
+#   PERIPHERAL (between the two thresholds)   -> uncertain, hedge it
+#   NOISE      (<  noise_threshold of runs)   -> do NOT assert, omit it
+# Then we inject that distribution into the LLM prompt with an explicit honesty
+# instruction and MEASURE whether the LLM actually hedges peripheral causes vs
+# core ones, and whether the framing changes faithfulness (F1 / hallucination)
+# versus the plain single-run pipeline (Phase-5 condition A).
+
+seed: 42                       # reproducible scenario sampling (CLAUDE.md)
+dataset: "metr_la"
+city: "metr_la"                # which advisor knowledge base the narration uses
+checkpoint: "models/gnn/checkpoints/metr_la_best.pt"
+
+# --- The K-run uncertainty analysis -----------------------------------------
+uncertainty:
+  k_runs: 10                   # explainer solves per prediction (different mask-init seeds 0..K-1)
+  horizon_step: 6              # 1-based forecast step scored; 6 = 30 min at 5-min res (matches Phase 5)
+  top_k: 8                     # size of each run's top-k node set (== the Phase-3/5 explainer top_k)
+  # Tier cutoffs on the per-node appearance FREQUENCY (fraction of K runs).
+  # Boundary rule (documented so there is no ambiguity at 0.8 / 0.2):
+  #   core       : freq/K >= core_threshold          (0.8 -> 8+/10 runs)
+  #   noise      : freq/K <  noise_threshold         (0.2 -> 0..1/10 runs)
+  #   peripheral : everything in between             (2..7/10 runs)
+  core_threshold: 0.8
+  noise_threshold: 0.2
+
+# --- The 20-scenario A-vs-U comparison study --------------------------------
+# Reuses the SAME Phase-5 stratified sampler (seed 42) so every sampled window's
+# single-run explanation is already cached (explanations_cache/); only the K-run
+# solves for the uncertainty overlay + the two LLM calls per scenario are new.
+study:
+  n_scenarios: 20              # scenarios evaluated under BOTH condition A and condition U
+  per_stratum: 7               # windows per (tod-band x congestion) cell to draw the pool from.
+                               # 7 == the Phase-5 population (seed 42) so explanations are cached.
+  example_traces: 2            # how many full core-vs-peripheral example traces to dump
+  # LLM temperature is inherited from advisor.yaml (0.1) — faithful translation,
+  # not creative writing.
+
+# --- Output ------------------------------------------------------------------
+output_tex: "evaluation/paper/table_uncertainty.tex"   # \input-ready booktabs table
