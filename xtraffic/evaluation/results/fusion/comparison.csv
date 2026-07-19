@@ -1,0 +1,4 @@
+horizon,traffic_mae,fusion_mae,delta_mae,traffic_rmse,fusion_rmse,traffic_mape,fusion_mape
+15min,2.809,2.807,-0.002,5.409,5.389,7.39,7.44
+30min,3.196,3.192,-0.004,6.404,6.353,8.91,8.85
+60min,3.609,3.616,0.007,7.389,7.37,10.36,10.28

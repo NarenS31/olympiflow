@@ -365,13 +365,68 @@ placeholder:
   quant_fidelity 0.764 is within noise. Clean paper story.
 - PHASE 9 artifacts regenerated from the real logs (7 figs + 5 tables). Fig6
   (cross-city) + Table 4 (ablation) correctly still PENDING (Colab-owed).
-STILL OWED (unchanged, all Colab): full fusion retrain + comparison table; Chicago
-Phase-1 pipeline + cross_city transfer table; Chicago faithfulness study; multi-seed
-ablation tables.
+STILL OWED (all Colab): Chicago Phase-1 pipeline + cross_city transfer table;
+Chicago faithfulness study; multi-seed ablation tables. (Fusion retrain: DONE
+2026-07-19, see the Phase 6 RESULT block below.)
 
-FINAL HEADLINE NUMBERS (locked in from the real epoch-34 ckpt, 2026-07-06):
-- Prediction: overall test MAE 3.166 (val MAE 2.90) -> BEATS published Graph
-  WaveNet 3.07 on METR-LA.
+PHASE 6 FUSION RESULT — LANDED 2026-07-19 (the owed Colab retrain + comparison).
+metr_la_fusion_best.pt = epoch 39, val MAE 2.8807, use_sidecars=true, all three
+sidecars (weather[0:3] events[3:4] transit[4:5]) loaded at eval time (evaluate.py's
+fusion-aware path confirmed in the run log, so the modalities were NOT zeroed).
+Command: python3 -m xtraffic.evaluation.fusion_comparison
+  horizon   traffic-only        fusion            delta MAE
+  15min     MAE 2.809 / RMSE 5.409 / MAPE 7.39%   MAE 2.807 / RMSE 5.389 / MAPE 7.44%   -0.002
+  30min     MAE 3.196 / RMSE 6.404 / MAPE 8.91%   MAE 3.192 / RMSE 6.353 / MAPE 8.85%   -0.004
+  60min     MAE 3.609 / RMSE 7.389 / MAPE 10.36%  MAE 3.616 / RMSE 7.370 / MAPE 10.28%  +0.007
+  overall   MAE 3.145 / RMSE 6.320 / MAPE 8.690%  MAE 3.145 / RMSE 6.285 / MAPE 8.688%
+LEARNED MODALITY GATES (sigmoid of fusion.gate_logits, read straight from the ckpt
+because train_metr_la_fusion.csv lives Colab-side and comparison.json therefore has
+final_modality_gates=null): traffic 0.598 | transit 0.502 | events 0.304 |
+weather 0.303. The model kept traffic highest and pushed weather/events DOWN toward
+0.30 — i.e. it learned to discount the exogenous feeds.
+HONEST VERDICT (report this, do not dress it up): heterogeneous fusion is a WASH on
+METR-LA. Every MAE delta (-0.002 / -0.004 / +0.007) is two-to-three orders of
+magnitude smaller than the metric itself and far inside seed noise; overall MAE is
+identical to 3 d.p. (3.145 vs 3.145). Fusion wins a hair on RMSE (6.285 vs 6.320)
+and at 15/30min, loses at 60min. There is NO defensible claim that fusion improves
+prediction here. This is a NEGATIVE RESULT and the playbook says report it — it does
+not sink Contribution #1, whose real content is the cross-city generalization + the
+architecture that ACCEPTS heterogeneous feeds and degrades gracefully when they are
+absent (the MOD-3 gate). PLAUSIBLE WHY (state as hypothesis, not fact): METR-LA is
+4 months of 2012 LA with little weather variance; the visibility channel is already
+known-dead (all-NaN from the archive, Phase 6 note); transit is STATIC in time so it
+adds node context but no dynamics; the curated events file is small (14/15 in range).
+The learned gates independently corroborate this — the model itself down-weighted
+weather and events. NEXT STEP if we want a positive fusion result: a city/date range
+with real weather variance, or drop the fusion claim to "architecturally supported,
+empirically neutral on METR-LA".
+Outputs: evaluation/results/fusion/comparison.{csv,json}. NOT yet reflected in
+evaluation/paper artifacts — make_paper_artifacts.py has no fusion table wired in
+(Table 4 ablation still PENDING); wire the fusion row when the ablation lands.
+
+HEADLINE CHECKPOINT UPDATED (2026-07-19): metr_la_best.pt is now the LONGER-TRAINED
+Colab model — EPOCH 54, val MAE 2.8747 (was epoch 34 / 2.9026). The epoch-34 ckpt
+is preserved locally as metr_la_best_epoch34_ARCHIVE.pt (gitignored) because every
+committed Phase 3/5/10/11/12/13/16/17/18 result was produced with it.
+- PREDICTION on the epoch-54 ckpt (evaluate.py, METR-LA test): 15min MAE 2.809/
+  RMSE 5.409 | 30min MAE 3.196/RMSE 6.404 | 60min MAE 3.609/RMSE 7.389 | overall
+  MAE 3.145, MAPE 8.69%. Slightly better than epoch-34 at every horizon
+  (overall 3.166 -> 3.145); still BEATS published Graph WaveNet 3.07 at 30min
+  (3.196 vs 3.07 is worse — see honesty note below).
+- HONESTY NOTE (do not overclaim): our 30-min MAE is 3.196, published Graph
+  WaveNet METR-LA 30-min MAE is ~3.07, so we do NOT beat it at the 30-min
+  horizon. The earlier "beats Graph WaveNet" line compared our OVERALL/VAL MAE
+  against their 30-min number — an apples-to-oranges comparison. Correct claim:
+  we are COMPETITIVE with Graph WaveNet (30min 3.196 vs 3.07) and crush the
+  HistAvg 5.15 / LinReg 5.03 baselines. FIX THIS IN THE PAPER + Table 1 caption.
+- FLAGGED: downstream numbers (Phase 3/5/10/etc.) were computed on epoch-34 and
+  are NOT invalidated — but they are now one checkpoint behind. Re-running them on
+  epoch-54 is OWED if we want every table to reference one checkpoint.
+
+FINAL HEADLINE NUMBERS (Phase 3/5 rows still from the epoch-34 ckpt, 2026-07-06;
+prediction row refreshed to epoch-54, 2026-07-19):
+- Prediction: overall test MAE 3.145 (val MAE 2.875, epoch 54); 30min MAE 3.196
+  -> COMPETITIVE with published Graph WaveNet 3.07 on METR-LA, not better.
 - Phase 3 explainability: Fidelity+ 1.393 vs random 0.843 (1.65x), Stability
   0.751, Sparsity 0.039.
 - Phase 5 faithfulness (n=93, llama3.1:8b): A F1 0.725/halluc 0.005 |

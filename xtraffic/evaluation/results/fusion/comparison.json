@@ -1,0 +1,46 @@
+{
+  "dataset": "metr_la",
+  "rows": [
+    {
+      "horizon": "15min",
+      "traffic_mae": 2.809,
+      "fusion_mae": 2.807,
+      "delta_mae": -0.002,
+      "traffic_rmse": 5.409,
+      "fusion_rmse": 5.389,
+      "traffic_mape": 7.39,
+      "fusion_mape": 7.44
+    },
+    {
+      "horizon": "30min",
+      "traffic_mae": 3.196,
+      "fusion_mae": 3.192,
+      "delta_mae": -0.004,
+      "traffic_rmse": 6.404,
+      "fusion_rmse": 6.353,
+      "traffic_mape": 8.91,
+      "fusion_mape": 8.85
+    },
+    {
+      "horizon": "60min",
+      "traffic_mae": 3.609,
+      "fusion_mae": 3.616,
+      "delta_mae": 0.007,
+      "traffic_rmse": 7.389,
+      "fusion_rmse": 7.37,
+      "traffic_mape": 10.36,
+      "fusion_mape": 10.28
+    }
+  ],
+  "final_modality_gates": null,
+  "traffic_overall": {
+    "mae": 3.145350217819214,
+    "rmse": 6.319662570953369,
+    "mape": 8.689675331115723
+  },
+  "fusion_overall": {
+    "mae": 3.1446521282196045,
+    "rmse": 6.285411357879639,
+    "mape": 8.687763214111328
+  }
+}

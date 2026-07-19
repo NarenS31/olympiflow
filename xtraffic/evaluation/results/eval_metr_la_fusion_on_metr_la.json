@@ -1,0 +1,30 @@
+{
+  "model": "XTrafficSTGNN",
+  "checkpoint": "metr_la_fusion_best.pt",
+  "trained_on": "metr_la",
+  "evaluated_on": "metr_la",
+  "run_name": "metr_la_fusion",
+  "use_sidecars": true,
+  "overall": {
+    "mae": 3.1446521282196045,
+    "rmse": 6.285411357879639,
+    "mape": 8.687763214111328
+  },
+  "per_horizon": {
+    "15min": {
+      "mae": 2.807056188583374,
+      "rmse": 5.388780117034912,
+      "mape": 7.439254283905029
+    },
+    "30min": {
+      "mae": 3.1920015811920166,
+      "rmse": 6.352771282196045,
+      "mape": 8.851465225219727
+    },
+    "60min": {
+      "mae": 3.616055488586426,
+      "rmse": 7.3697686195373535,
+      "mape": 10.275617599487305
+    }
+  }
+}

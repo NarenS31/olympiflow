@@ -1,0 +1,71 @@
+{
+  "city": "pems_bay",
+  "model": "llama3.1:8b",
+  "n_scenarios": 85,
+  "conditions": [
+    "A",
+    "B",
+    "C"
+  ],
+  "aggregate": {
+    "A": {
+      "condition": "A",
+      "n": 85,
+      "cause_precision_mean": 0.9941176470588236,
+      "cause_precision_std": 0.05391265523477459,
+      "cause_precision_n": 85,
+      "cause_recall_mean": 0.65,
+      "cause_recall_std": 0.21074098961968063,
+      "cause_recall_n": 85,
+      "faithfulness_f1_mean": 0.7642198324551257,
+      "faithfulness_f1_std": 0.16909146043179574,
+      "faithfulness_f1_n": 85,
+      "hallucination_rate_mean": 0.0058823529411764705,
+      "hallucination_rate_std": 0.0539126552347746,
+      "hallucination_rate_n": 85,
+      "quantitative_fidelity_mean": 0.8544217687074829,
+      "quantitative_fidelity_std": 0.24346250383878096,
+      "quantitative_fidelity_n": 84
+    },
+    "B": {
+      "condition": "B",
+      "n": 85,
+      "cause_precision_mean": 0.052941176470588235,
+      "cause_precision_std": 0.18823529411764706,
+      "cause_precision_n": 85,
+      "cause_recall_mean": 0.025,
+      "cause_recall_std": 0.09354143466934849,
+      "cause_recall_n": 85,
+      "faithfulness_f1_mean": 0.03210084033613445,
+      "faithfulness_f1_std": 0.11589242421411133,
+      "faithfulness_f1_n": 85,
+      "hallucination_rate_mean": 0.9470588235294117,
+      "hallucination_rate_std": 0.18823529411764706,
+      "hallucination_rate_n": 85,
+      "quantitative_fidelity_mean": 0.5247967479674795,
+      "quantitative_fidelity_std": 0.20706105665198418,
+      "quantitative_fidelity_n": 82
+    },
+    "C": {
+      "condition": "C",
+      "n": 85,
+      "cause_precision_mean": 0.9941176470588236,
+      "cause_precision_std": 0.05391265523477459,
+      "cause_precision_n": 85,
+      "cause_recall_mean": 0.6161764705882353,
+      "cause_recall_std": 0.20543017571288202,
+      "cause_recall_n": 85,
+      "faithfulness_f1_mean": 0.7388373717785474,
+      "faithfulness_f1_std": 0.16955211929944836,
+      "faithfulness_f1_n": 85,
+      "hallucination_rate_mean": 0.0058823529411764705,
+      "hallucination_rate_std": 0.0539126552347746,
+      "hallucination_rate_n": 85,
+      "quantitative_fidelity_mean": 0.8214285714285713,
+      "quantitative_fidelity_std": 0.26148613076983507,
+      "quantitative_fidelity_n": 83
+    }
+  },
+  "seed": 42,
+  "zero_shot": true
+}

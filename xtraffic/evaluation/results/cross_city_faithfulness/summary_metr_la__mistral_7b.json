@@ -1,0 +1,51 @@
+{
+  "city": "metr_la",
+  "model": "mistral:7b",
+  "n_scenarios": 93,
+  "conditions": [
+    "A",
+    "B"
+  ],
+  "aggregate": {
+    "A": {
+      "condition": "A",
+      "n": 93,
+      "cause_precision_mean": 1.0,
+      "cause_precision_std": 0.0,
+      "cause_precision_n": 93,
+      "cause_recall_mean": 0.7137096774193549,
+      "cause_recall_std": 0.16858504000295862,
+      "cause_recall_n": 93,
+      "faithfulness_f1_mean": 0.8212196405744789,
+      "faithfulness_f1_std": 0.11991162506416138,
+      "faithfulness_f1_n": 93,
+      "hallucination_rate_mean": 0.0,
+      "hallucination_rate_std": 0.0,
+      "hallucination_rate_n": 93,
+      "quantitative_fidelity_mean": 0.6642455294354028,
+      "quantitative_fidelity_std": 0.33275198543916257,
+      "quantitative_fidelity_n": 79
+    },
+    "B": {
+      "condition": "B",
+      "n": 93,
+      "cause_precision_mean": 0.1899641577060932,
+      "cause_precision_std": 0.3621845620934095,
+      "cause_precision_n": 93,
+      "cause_recall_mean": 0.06317204301075269,
+      "cause_recall_std": 0.1304248330183678,
+      "cause_recall_n": 93,
+      "faithfulness_f1_mean": 0.08691003985121631,
+      "faithfulness_f1_std": 0.17249783393919177,
+      "faithfulness_f1_n": 93,
+      "hallucination_rate_mean": 0.8100358422939068,
+      "hallucination_rate_std": 0.3621845620934095,
+      "hallucination_rate_n": 93,
+      "quantitative_fidelity_mean": 0.20538302277432716,
+      "quantitative_fidelity_std": 0.18820228810460443,
+      "quantitative_fidelity_n": 92
+    }
+  },
+  "seed": 42,
+  "zero_shot": false
+}

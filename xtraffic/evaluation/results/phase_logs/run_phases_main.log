@@ -1,0 +1,24 @@
+============================================================
+XTraffic sequential run
+started:  2026-07-19 11:02:32
+repo:     /Users/narensara/Desktop/OlympiFlow
+logs:     /Users/narensara/Desktop/OlympiFlow/xtraffic/evaluation/results/phase_logs
+============================================================
+
+------------------------------------------------------------
+PHASE 11 — cross_city_faithfulness
+start:   2026-07-19 11:02:32
+log:     /Users/narensara/Desktop/OlympiFlow/xtraffic/evaluation/results/phase_logs/phase11_cross_city.log
+------------------------------------------------------------
+PHASE 11 finished: 2026-07-19 18:40:11
+PHASE 11 exit code: 1
+PHASE 11 elapsed: 7h 37m 39s
+WARNING: Phase 11 exited non-zero. Continuing to Phase 12 anyway —
+         Phase 12 is independent of Phase 11's results, and Phase 11
+         resumes from its cache on a later relaunch.
+
+------------------------------------------------------------
+PHASE 12 — shap_comparison
+start:   2026-07-19 18:40:11
+log:     /Users/narensara/Desktop/OlympiFlow/xtraffic/evaluation/results/phase_logs/phase12_shap.log
+------------------------------------------------------------

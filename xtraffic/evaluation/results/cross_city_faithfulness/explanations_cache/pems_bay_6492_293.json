@@ -1,0 +1,123 @@
+{
+  "meta": {
+    "city": "pems_bay",
+    "timestamp": "test#6492 @ 06:50",
+    "model_checkpoint": "pems_bay_zero_shot.pt"
+  },
+  "prediction": {
+    "node_id": 293,
+    "node_name": "NW of Downtown San Jose (sensor 407336, 37.363, -122.063)",
+    "predicted_speed_mph": 61.74,
+    "horizon_minutes": 30,
+    "current_speed_mph": 56.2
+  },
+  "top_nodes": [
+    {
+      "node_id": 59,
+      "node_name": "SE of Downtown San Jose (sensor 400418, 37.292, -121.872)",
+      "importance": 0.1594,
+      "current_speed_mph": 67.8
+    },
+    {
+      "node_id": 89,
+      "node_name": "E of Downtown San Jose (sensor 400665, 37.341, -121.849)",
+      "importance": 0.1515,
+      "current_speed_mph": 69.9
+    },
+    {
+      "node_id": 69,
+      "node_name": "SW of Downtown San Jose (sensor 400485, 37.254, -121.949)",
+      "importance": 0.1509,
+      "current_speed_mph": 65.9
+    },
+    {
+      "node_id": 324,
+      "node_name": "SW of Downtown San Jose (sensor 414694, 37.315, -121.913)",
+      "importance": 0.1491,
+      "current_speed_mph": 63.7
+    },
+    {
+      "node_id": 271,
+      "node_name": "NE of Downtown San Jose (sensor 407179, 37.369, -121.847)",
+      "importance": 0.1484,
+      "current_speed_mph": 66.6
+    },
+    {
+      "node_id": 254,
+      "node_name": "NW of Downtown San Jose (sensor 404759, 37.365, -121.902)",
+      "importance": 0.1481,
+      "current_speed_mph": 68.1
+    },
+    {
+      "node_id": 45,
+      "node_name": "NW of Downtown San Jose (sensor 400274, 37.410, -121.996)",
+      "importance": 0.1478,
+      "current_speed_mph": 57.7
+    },
+    {
+      "node_id": 122,
+      "node_name": "NW of Downtown San Jose (sensor 400904, 37.395, -122.011)",
+      "importance": 0.1476,
+      "current_speed_mph": 68.9
+    }
+  ],
+  "top_edges": [
+    {
+      "from_id": 293,
+      "to_id": 293,
+      "importance": 0.5493
+    },
+    {
+      "from_id": 294,
+      "to_id": 293,
+      "importance": 0.525
+    },
+    {
+      "from_id": 194,
+      "to_id": 293,
+      "importance": 0.5203
+    },
+    {
+      "from_id": 292,
+      "to_id": 293,
+      "importance": 0.5173
+    },
+    {
+      "from_id": 298,
+      "to_id": 293,
+      "importance": 0.5094
+    },
+    {
+      "from_id": 295,
+      "to_id": 293,
+      "importance": 0.5054
+    },
+    {
+      "from_id": 289,
+      "to_id": 293,
+      "importance": 0.5001
+    },
+    {
+      "from_id": 296,
+      "to_id": 293,
+      "importance": 0.4873
+    }
+  ],
+  "propagation_path": [
+    59,
+    37,
+    316,
+    254,
+    190,
+    43,
+    184,
+    5,
+    52,
+    238,
+    143,
+    239,
+    293
+  ],
+  "propagation_lag_minutes": 50.0,
+  "explanation_confidence": 0.0133
+}
