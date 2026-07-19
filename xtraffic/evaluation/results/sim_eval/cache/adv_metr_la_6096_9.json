@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in Downtown LA, particularly at sensor 718045 (node_id 38), where the speed is only 17.88 mph. This slow speed is affecting the surrounding areas, including the San Fernando Valley, where sensors 717816 and 767366 are reporting speeds of 8.44 mph and 64.44 mph respectively.",
+  "cited_causes": [
+    {
+      "location": "Downtown LA",
+      "resolved_node_id": 38
+    },
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 59
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement ramp metering on I-405",
+      "location": "I-405 Sepulveda Pass",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion and increased speed",
+      "grounded_in": [
+        "city-context fact: recurrent bottleneck at I-405 Sepulveda Pass"
+      ]
+    },
+    {
+      "action": "Optimize signal timing on surface streets in Downtown LA",
+      "location": "Downtown LA",
+      "time_window_minutes": 10,
+      "expected_effect": "Improved traffic flow and reduced congestion",
+      "grounded_in": [
+        "cited cause: slow speed at sensor 718045 (node_id 38)"
+      ]
+    },
+    {
+      "action": "Implement dynamic lane management on I-405",
+      "location": "I-405 Sepulveda Pass",
+      "time_window_minutes": 20,
+      "expected_effect": "Increased capacity and reduced congestion",
+      "grounded_in": [
+        "city-context fact: recurrent bottleneck at I-405 Sepulveda Pass"
+      ]
+    }
+  ]
+}

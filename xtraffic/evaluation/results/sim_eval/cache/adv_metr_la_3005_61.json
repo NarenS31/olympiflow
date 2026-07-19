@@ -1,0 +1,42 @@
+{
+  "reasoning": "The predicted congestion is due to a wave of slowing traffic that originated in Downtown LA, where the speed was 30.67 mph at sensor 716331 (node_id 15). This slowdown has propagated through the San Fernando Valley, with speeds decreasing from 62.56 mph to 14.78 mph over a distance of approximately 8 sensors.",
+  "cited_causes": [
+    {
+      "location": "Downtown LA",
+      "resolved_node_id": 15
+    },
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": null
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering on I-5/SR-134 interchange",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduce congestion by slowing traffic before it reaches the merge point",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Reroute traffic through Brand Blvd, San Fernando Rd, or Colorado Blvd",
+      "location": "San Fernando Valley",
+      "time_window_minutes": 15,
+      "expected_effect": "Divert some traffic away from the congested freeways and onto surface streets",
+      "grounded_in": [
+        "city-context fact: surface reliefs"
+      ]
+    },
+    {
+      "action": "Use ExpressLanes bus on I-110 to divert traffic",
+      "location": "Downtown LA",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduce congestion by diverting some traffic onto the bus",
+      "grounded_in": [
+        "transit alternatives: ExpressLanes bus"
+      ]
+    }
+  ]
+}

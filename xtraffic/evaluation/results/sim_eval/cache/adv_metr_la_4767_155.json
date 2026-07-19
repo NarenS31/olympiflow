@@ -1,0 +1,46 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley, specifically at sensors 765273 (65.75 mph), 772168 (38.75 mph), and 772167 (25.5 mph). This congestion appears to be traveling along a path of 8 sensors with an estimated lag of 25 minutes between the source and the target.",
+  "cited_causes": [
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 14
+    },
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 204
+    },
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 197
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Reroute traffic before the merge at I-5/SR-134/SR-2 interchange",
+      "location": "I-5/SR-134/SR-2 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in Hollywood",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Coordinate ATSAC signals on Sunset Blvd and Santa Monica Blvd to optimize traffic flow",
+      "location": "US-101 Hollywood Freeway corridor",
+      "time_window_minutes": 5,
+      "expected_effect": "Improved traffic speed in Hollywood",
+      "grounded_in": [
+        "city-context fact: surface relief: Sunset Blvd and Santa Monica Blvd, both ATSAC signal-coordinated"
+      ]
+    },
+    {
+      "action": "Encourage carpooling or use of public transit on Wilshire Line (B/D Lines) to reduce demand on I-5/SR-134",
+      "location": "Wilshire Line (B/D Lines)",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion in Hollywood",
+      "grounded_in": [
+        "city-context fact: Metro rail relief options by area"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley, specifically at sensor 764120 (34.202, -118.404), which has a speed of 66.22 mph and an importance of 0.904. This slow speed is contributing to the congestion that will reach Downtown LA in 30 minutes.",
+  "cited_causes": [
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 99
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "San Fernando Valley (sensor 764120)",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion in the San Fernando Valley and subsequently Downtown LA",
+      "grounded_in": [
+        "cited cause: slow speed at sensor 764120"
+      ]
+    },
+    {
+      "action": "Reroute traffic before merge",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion at the I-5/SR-134/SR-2 interchange and subsequently Downtown LA",
+      "grounded_in": [
+        "city-context fact: recurrent bottleneck at I-5/SR-134 interchange"
+      ]
+    },
+    {
+      "action": "Encourage carpooling or use of public transit",
+      "location": "Glendale/Burbank area",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced number of vehicles on the road, thereby reducing congestion in Downtown LA",
+      "grounded_in": [
+        "city-context fact: demand is car-dominant and limited public transit options"
+      ]
+    }
+  ]
+}

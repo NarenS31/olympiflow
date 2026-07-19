@@ -1,0 +1,83 @@
+{
+  "curve": [
+    {
+      "round": 0,
+      "used_correction": false,
+      "faithfulness_f1": 0.9333333333333333,
+      "cause_precision": 1.0,
+      "cause_recall": 0.875,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 4,
+      "n_topk": 8,
+      "n_missed": 1,
+      "missed_regions": [
+        "San Fernando Valley"
+      ],
+      "missed_node_ids": [
+        190
+      ],
+      "advisory_error": ""
+    }
+  ],
+  "n_rounds": 0,
+  "reached_threshold": true,
+  "stop_reason": "threshold_reached",
+  "f1_initial": 0.9333333333333333,
+  "f1_final": 0.9333333333333333,
+  "f1_gain": 0.0,
+  "final_advisory": {
+    "reasoning": "The congestion is predicted because of the high speeds in the areas north and northeast of Downtown LA, which are currently traveling at 63.75 mph, 66.63 mph, 67.12 mph, and 68.5 mph respectively. These high speeds indicate that traffic is flowing freely in these areas, but it will take some time for this congestion to propagate southwards through the network.",
+    "cited_causes": [
+      {
+        "location": "NE of Downtown LA",
+        "resolved_node_id": 65
+      },
+      {
+        "location": "N of Downtown LA",
+        "resolved_node_id": 78
+      },
+      {
+        "location": "NE of Downtown LA",
+        "resolved_node_id": 79
+      },
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 85
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering",
+        "location": "I-10/I-110 downtown interchange",
+        "time_window_minutes": 5,
+        "expected_effect": "Reduce congestion by limiting the amount of traffic entering the bottlenecked area",
+        "grounded_in": [
+          "city-context fact: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Reroute traffic before merge",
+        "location": "I-405 Sepulveda Pass",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduce congestion by diverting traffic away from the bottlenecked area",
+        "grounded_in": [
+          "city-context fact: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Optimize signal timing at nearby intersections",
+        "location": "Brand Blvd, San Fernando Rd and Colorado Blvd",
+        "time_window_minutes": 15,
+        "expected_effect": "Improve traffic flow by optimizing the movement of traffic through these surface reliefs",
+        "grounded_in": [
+          "city-context fact: limited Metro presence"
+        ]
+      }
+    ]
+  },
+  "sample_index": 1225,
+  "target_node": 9,
+  "tod_band": "am_rush",
+  "congestion": "high",
+  "model": "llama3.1:8b"
+}

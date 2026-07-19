@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in the Glendale/Burbank area, specifically at sensor 718076 (node_id 105), which has a speed of 68.88 mph. This slow speed is also reflected in nearby sensors such as 717582 and 773880, all located within the Glendale/Burbank freeways. The congestion appears to be propagating along this path with an estimated lag of 15 minutes.",
+  "cited_causes": [
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 105
+    },
+    {
+      "location": "N of Downtown LA",
+      "resolved_node_id": 123
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Reroute traffic before the merge",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion at the target location",
+      "grounded_in": [
+        "Upstream metering and reroute-before-the-merge are the levers, not signal timing at the interchange itself."
+      ]
+    },
+    {
+      "action": "Implement ramp metering in the Sepulveda Pass area",
+      "location": "Sepulveda Pass",
+      "time_window_minutes": 5,
+      "expected_effect": "Reduced congestion in the Sepulveda Pass area",
+      "grounded_in": [
+        "Ramp metering is active pass-wide."
+      ]
+    },
+    {
+      "action": "Optimize signal timing at nearby intersections",
+      "location": "Brand Blvd, San Fernando Rd and Colorado Blvd",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion in the surrounding area",
+      "grounded_in": [
+        "City context: surface reliefs"
+      ]
+    }
+  ]
+}

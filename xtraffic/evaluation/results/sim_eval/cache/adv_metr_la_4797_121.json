@@ -1,0 +1,38 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in the Glendale/Burbank area, specifically at sensor 769926 (65.12 mph), which is driving the prediction with an importance of 0.167. This slow speed is likely due to the merge congestion at the I-5/SR-134/SR-2 interchange.",
+  "cited_causes": [
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 189
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "I-5/SR-134/SR-2 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion at the merge point",
+      "grounded_in": [
+        "merge congestion at the I-5/SR-134/SR-2 interchange"
+      ]
+    },
+    {
+      "action": "Reroute traffic before the merge",
+      "location": "Glendale/Burbank area",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion in the Glendale/Burbank area",
+      "grounded_in": [
+        "merge congestion at the I-5/SR-134/SR-2 interchange"
+      ]
+    },
+    {
+      "action": "Signal-coordinated surface relief",
+      "location": "Sunset Blvd and Santa Monica Blvd",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced traffic on surface streets",
+      "grounded_in": [
+        "ATSAC signal-coordinated surface relief"
+      ]
+    }
+  ]
+}

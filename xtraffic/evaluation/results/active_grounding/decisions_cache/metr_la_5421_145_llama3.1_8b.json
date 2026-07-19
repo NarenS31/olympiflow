@@ -1,0 +1,79 @@
+{
+  "curve": [
+    {
+      "round": 0,
+      "used_correction": false,
+      "faithfulness_f1": 0.7692307692307693,
+      "cause_precision": 1.0,
+      "cause_recall": 0.625,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 2,
+      "n_topk": 8,
+      "n_missed": 3,
+      "missed_regions": [
+        "East LA",
+        "Downtown LA",
+        "NE of Downtown LA"
+      ],
+      "missed_node_ids": [
+        165,
+        93,
+        66
+      ],
+      "advisory_error": ""
+    }
+  ],
+  "n_rounds": 0,
+  "reached_threshold": true,
+  "stop_reason": "threshold_reached",
+  "f1_initial": 0.7692307692307693,
+  "f1_final": 0.7692307692307693,
+  "f1_gain": 0.0,
+  "final_advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley, specifically at sensor 767366 (34.212, -118.473), which is currently traveling at 65.63 mph, and sensor 773880 (34.154, -118.348) in Glendale/Burbank, which is currently traveling at 65.12 mph. These slow speeds are contributing to the congestion at the target location.",
+    "cited_causes": [
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 59
+      },
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 67
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Reroute traffic before the merge",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion at the target location",
+        "grounded_in": [
+          "city-context fact: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Implement upstream metering",
+        "location": "SR-134 and I-5 freeways",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion at the target location",
+        "grounded_in": [
+          "city-context fact: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Encourage carpooling or use of public transit",
+        "location": "Glendale/Burbank area",
+        "time_window_minutes": 5,
+        "expected_effect": "Reduced demand on the freeways and reduced congestion at the target location",
+        "grounded_in": [
+          "city-context fact: Metro is limited here, so demand is car-dominant"
+        ]
+      }
+    ]
+  },
+  "sample_index": 5421,
+  "target_node": 145,
+  "tod_band": "evening",
+  "congestion": "medium",
+  "model": "llama3.1:8b"
+}

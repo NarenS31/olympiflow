@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the high speeds in nearby areas, particularly in Glendale/Burbank (66.0 mph and 69.13 mph), which are causing a ripple effect along the path of two sensors, with Hollywood (61.5 mph) being one of the contributing factors.",
+  "cited_causes": [
+    {
+      "location": "Hollywood",
+      "resolved_node_id": 128
+    },
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 107
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Push a special timing plan to the corridor",
+      "location": "Olympic Blvd and Pico Blvd (signal-coordinated by LADOT ATSAC)",
+      "time_window_minutes": 10,
+      "expected_effect": "Extend green-band by 10-20% for up to ~30 min",
+      "grounded_in": [
+        "LADOT's ATSAC/ATCS system adaptively controls signalized intersections"
+      ]
+    },
+    {
+      "action": "Activate Caltrans ramp meters on eastbound on-ramps during peak",
+      "location": "I-10 (Santa Monica Fwy) downtown and the La Cienega/Robertson stretch",
+      "time_window_minutes": 5,
+      "expected_effect": "Reduce congestion by regulating traffic flow onto I-10",
+      "grounded_in": [
+        "Caltrans ramp meters operate on most eastbound on-ramps during peak"
+      ]
+    },
+    {
+      "action": "Coordinate with Metro to divert traffic through parallel rail lines",
+      "location": "Wilshire, Expo/I-10, Harbor/I-110, Pasadena A Line",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduce congestion by diverting traffic onto transit alternatives",
+      "grounded_in": [
+        "Transit is a viable diversion lever only where a parallel rail line exists"
+      ]
+    }
+  ]
+}

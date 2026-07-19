@@ -1,0 +1,46 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley, particularly at sensor 717816 (node_id 9), which has a current speed of 12.12 mph and is expected to increase to 27.27 mph in 30 minutes. This is influenced by several upstream locations: the San Fernando Valley (sensor 767350, node_id 88) with a speed of 65.17 mph, Glendale / Burbank (sensor 774067, node_id 62) with a speed of 64.37 mph, and others.",
+  "cited_causes": [
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 9
+    },
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 88
+    },
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 62
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "I-5/SR-134 interchange (upstream of sensor 717816)",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion by limiting the number of vehicles entering the bottleneck area",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks are structural and require upstream metering"
+      ]
+    },
+    {
+      "action": "Reroute traffic before merge",
+      "location": "I-5/SR-134 interchange (upstream of sensor 717816)",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion by diverting some traffic away from the bottleneck area",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks are structural and require reroute-before-the-merge"
+      ]
+    },
+    {
+      "action": "Optimize signal timing at nearby intersections",
+      "location": "Brand Blvd, San Fernando Rd, Colorado Blvd (surface reliefs)",
+      "time_window_minutes": 5,
+      "expected_effect": "Improved traffic flow by reducing congestion on surface streets",
+      "grounded_in": [
+        "city-context fact: Metro is limited in this area, so demand is car-dominant"
+      ]
+    }
+  ]
+}

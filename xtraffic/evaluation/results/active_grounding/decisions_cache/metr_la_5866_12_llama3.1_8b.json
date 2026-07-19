@@ -1,0 +1,87 @@
+{
+  "curve": [
+    {
+      "round": 0,
+      "used_correction": false,
+      "faithfulness_f1": 0.7692307692307693,
+      "cause_precision": 1.0,
+      "cause_recall": 0.625,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 4,
+      "n_topk": 8,
+      "n_missed": 3,
+      "missed_regions": [
+        "NE of Downtown LA",
+        "NE of Downtown LA",
+        "San Fernando Valley"
+      ],
+      "missed_node_ids": [
+        45,
+        66,
+        89
+      ],
+      "advisory_error": ""
+    }
+  ],
+  "n_rounds": 0,
+  "reached_threshold": true,
+  "stop_reason": "threshold_reached",
+  "f1_initial": 0.7692307692307693,
+  "f1_final": 0.7692307692307693,
+  "f1_gain": 0.0,
+  "final_advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in Downtown LA (17.5 mph), which is affecting traffic traveling through the area, including from the Glendale/Burbank region (67.75 mph) and Hollywood (64.37 mph). The slow speed in Downtown LA is also being influenced by the faster-moving traffic coming from Pasadena/East (69.88 mph).",
+    "cited_causes": [
+      {
+        "location": "Downtown LA",
+        "resolved_node_id": 3
+      },
+      {
+        "location": "Glendale/Burbank",
+        "resolved_node_id": 201
+      },
+      {
+        "location": "Hollywood",
+        "resolved_node_id": null
+      },
+      {
+        "location": "Pasadena/East",
+        "resolved_node_id": 203
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering",
+        "location": "Downtown LA (I-5/SR-134 interchange)",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion in Downtown LA",
+        "grounded_in": [
+          "The I-5/SR-134 interchange is a known recurrent bottleneck"
+        ]
+      },
+      {
+        "action": "Reroute traffic before the merge",
+        "location": "Glendale/Burbank (SR-134)",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion in Glendale/Burbank region",
+        "grounded_in": [
+          "The Glendale/Burbank region is experiencing slow speeds"
+        ]
+      },
+      {
+        "action": "Signal-coordinated surface relief",
+        "location": "Hollywood (Sunset Blvd and Santa Monica Blvd)",
+        "time_window_minutes": 5,
+        "expected_effect": "Improved traffic flow in Hollywood",
+        "grounded_in": [
+          "The surface relief of Sunset Blvd and Santa Monica Blvd are ATSAC signal-coordinated"
+        ]
+      }
+    ]
+  },
+  "sample_index": 5866,
+  "target_node": 12,
+  "tod_band": "midday",
+  "congestion": "low",
+  "model": "llama3.1:8b"
+}

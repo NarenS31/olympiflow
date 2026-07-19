@@ -1,0 +1,46 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in the Hollywood area, specifically at sensor locations 764949 (33.38 mph), 769418 (36.75 mph), and 717462/466 (69.0-66.87 mph). These slow speeds are contributing to a propagation of congestion along a path of 4 sensors with an estimated lag of 25 minutes between the source and the target.",
+  "cited_causes": [
+    {
+      "location": "Hollywood",
+      "resolved_node_id": 57
+    },
+    {
+      "location": "Hollywood",
+      "resolved_node_id": 39
+    },
+    {
+      "location": "Hollywood",
+      "resolved_node_id": 163
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "I-10/I-110 downtown interchange",
+      "time_window_minutes": 5,
+      "expected_effect": "Reduced congestion in the Hollywood area",
+      "grounded_in": [
+        "cited_cause: Hollywood (sensor 764949, node_id 57)"
+      ]
+    },
+    {
+      "action": "Reroute traffic before merge",
+      "location": "I-405 Sepulveda Pass",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in the Hollywood area",
+      "grounded_in": [
+        "cited_cause: Hollywood (sensor 769418, node_id 39)"
+      ]
+    },
+    {
+      "action": "Signal timing adjustments at surface relief intersections",
+      "location": "Sunset Blvd and Santa Monica Blvd",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion in the Hollywood area",
+      "grounded_in": [
+        "city-context: Surface relief: Sunset Blvd and Santa Monica Blvd, both ATSAC signal-coordinated"
+      ]
+    }
+  ]
+}

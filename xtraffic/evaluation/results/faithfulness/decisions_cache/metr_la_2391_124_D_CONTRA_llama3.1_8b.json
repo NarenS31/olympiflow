@@ -1,0 +1,23 @@
+{
+  "sample_index": 2391,
+  "target_node": 124,
+  "tod_band": "midday",
+  "congestion": "medium",
+  "condition": "D_CONTRA",
+  "advisory_error": "",
+  "cited_locations": [
+    "NW of Downtown LA",
+    "Downtown LA",
+    "San Fernando Valley"
+  ],
+  "context_used": [
+    "CONTRADICTORY:I-10 Santa Monica Freeway corridor"
+  ],
+  "cause_precision": 1.0,
+  "cause_recall": 0.625,
+  "faithfulness_f1": 0.7692307692307693,
+  "hallucination_rate": 0.0,
+  "quantitative_fidelity": 1.0,
+  "n_cited_causes": 3,
+  "n_topk": 8
+}

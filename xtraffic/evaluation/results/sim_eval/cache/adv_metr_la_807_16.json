@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley, specifically at sensors 717825 (66.83 mph) and 764120 (66.17 mph), which are contributing to a propagation of congestion along a path of 2 sensors with an estimated lag of 45 minutes between the source and the target location in Downtown LA.",
+  "cited_causes": [
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 182
+    },
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 99
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "San Fernando Valley (near sensors 717825 and 764120)",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in the San Fernando Valley",
+      "grounded_in": [
+        "cited_cause: San Fernando Valley"
+      ]
+    },
+    {
+      "action": "Reroute traffic before merge",
+      "location": "I-5/SR-134 interchange (near sensor 767455)",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion at the I-5/SR-134/SR-2 interchange",
+      "grounded_in": [
+        "city-context: recurrent bottleneck"
+      ]
+    },
+    {
+      "action": "Increase transit capacity on parallel rail lines",
+      "location": "Wilshire and Hollywood (near sensor 760650)",
+      "time_window_minutes": 10,
+      "expected_effect": "Divert traffic from roads to rail, reducing congestion in Downtown LA",
+      "grounded_in": [
+        "city-context: transit alternatives"
+      ]
+    }
+  ]
+}

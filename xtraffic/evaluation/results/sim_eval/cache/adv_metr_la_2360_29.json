@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the high speeds in the Glendale/Burbank area (sensor 718076, 67.5 mph), which indicates that traffic is flowing freely there and will likely propagate to other areas. The propagation path involves a series of sensors with an estimated lag of 5 minutes between the source and the target.",
+  "cited_causes": [
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 105
+    },
+    {
+      "location": "NE of Downtown LA",
+      "resolved_node_id": 29
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering on I-5/SR-134",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion at the target location",
+      "grounded_in": [
+        "Glendale / Burbank (sensor 718076, 67.5 mph)"
+      ]
+    },
+    {
+      "action": "Reroute traffic before merging onto I-405 Sepulveda Pass",
+      "location": "I-405 Sepulveda Pass",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion at the target location",
+      "grounded_in": [
+        "City-context fact: recurrent bottleneck"
+      ]
+    },
+    {
+      "action": "Signal-coordinated surface relief on Sunset Blvd and Santa Monica Blvd",
+      "location": "US-101 Hollywood Freeway corridor",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion at the target location",
+      "grounded_in": [
+        "City-context fact: surface relief"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "sample_index": 4987,
+  "target_node": 144,
+  "tod_band": "midday",
+  "congestion": "medium",
+  "condition": "D_CONTRA",
+  "advisory_error": "",
+  "cited_locations": [
+    "Hollywood",
+    "Glendale / Burbank",
+    "San Fernando Valley"
+  ],
+  "context_used": [
+    "CONTRADICTORY:I-10 Santa Monica Freeway corridor"
+  ],
+  "cause_precision": 1.0,
+  "cause_recall": 0.75,
+  "faithfulness_f1": 0.8571428571428571,
+  "hallucination_rate": 0.0,
+  "quantitative_fidelity": 0.8,
+  "n_cited_causes": 3,
+  "n_topk": 8
+}

@@ -1,0 +1,46 @@
+{
+  "reasoning": "The congestion is predicted because of the high speeds in the Glendale/Burbank area (sensor 717587, 67.0 mph), which indicates that traffic is flowing freely there. However, as we move towards Downtown LA, the speeds decrease significantly at multiple sensors (e.g., sensor 767351, 67.33 mph; sensor 774011, 67.44 mph). This suggests that congestion is building up and propagating downstream from these locations.",
+  "cited_causes": [
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 171
+    },
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 89
+    },
+    {
+      "location": "NE of Downtown LA",
+      "resolved_node_id": 45
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "Glendale/Burbank area (sensor 717587)",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduce congestion by limiting the amount of traffic entering the downstream areas",
+      "grounded_in": [
+        "cited_cause: Glendale / Burbank"
+      ]
+    },
+    {
+      "action": "Reroute traffic before merge",
+      "location": "I-5/SR-134 interchange (node_id 12)",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduce congestion by diverting traffic away from the bottlenecked area",
+      "grounded_in": [
+        "city-context: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Optimize signal timing at nearby intersections",
+      "location": "NE of Downtown LA (sensor 774011)",
+      "time_window_minutes": 5,
+      "expected_effect": "Improve traffic flow by synchronizing signals to reduce congestion",
+      "grounded_in": [
+        "cited_cause: NE of Downtown LA"
+      ]
+    }
+  ]
+}

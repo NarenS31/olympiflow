@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in the Glendale/Burbank area, specifically at sensor 718090 (34.148, -118.280), which has a speed of 58.37 mph, and sensor 759772 (34.171, -118.305), which has a speed of 60.0 mph. These slow speeds are contributing to the congestion in the San Fernando Valley, where the target location is located.",
+  "cited_causes": [
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 125
+    },
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 194
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Reroute traffic before the merge",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in the San Fernando Valley",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Implement upstream metering",
+      "location": "SR-134 (Ventura Fwy)",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion in the Glendale/Burbank area",
+      "grounded_in": [
+        "cited cause: sensor 718090"
+      ]
+    },
+    {
+      "action": "Encourage carpooling or use of public transportation",
+      "location": "Glendale/Burbank freeways (SR-134, I-5)",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced demand on the roads in the Glendale/Burbank area",
+      "grounded_in": [
+        "city-context fact: transit alternatives"
+      ]
+    }
+  ]
+}

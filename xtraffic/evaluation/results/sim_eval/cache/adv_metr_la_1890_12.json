@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in the Glendale/Burbank area, specifically at sensor locations 717590 and 717580, where the current speed is around 68-69 mph. This slow traffic appears to be propagating towards the target location NW of Downtown LA with a lag of approximately 35 minutes.",
+  "cited_causes": [
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 201
+    },
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 169
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Reroute traffic before the merge",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion at target location",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Optimize ramp metering on eastbound on-ramps along I-10",
+      "location": "I-10 (Santa Monica Fwy)",
+      "time_window_minutes": 5,
+      "expected_effect": "Improved traffic flow towards target location",
+      "grounded_in": [
+        "city-context fact: Caltrans ramp meters operate on most eastbound on-ramps during peak"
+      ]
+    },
+    {
+      "action": "Signal-coordinated relief arterials",
+      "location": "Olympic Blvd and Pico Blvd",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion at target location by providing alternative routes",
+      "grounded_in": [
+        "city-context fact: Parallel relief arterials"
+      ]
+    }
+  ]
+}

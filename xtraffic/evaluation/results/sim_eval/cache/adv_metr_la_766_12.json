@@ -1,0 +1,46 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in several locations upstream of the target location. Specifically, the NE of Downtown LA (sensor 773012) has a speed of 48.25 mph, which is significantly lower than the current speed at the target location (63.63 mph). Additionally, the Downtown LA area (sensors 764853 and 771667) have speeds ranging from 30.12 to 53.75 mph, indicating congestion in this area.",
+  "cited_causes": [
+    {
+      "location": "NE of Downtown LA",
+      "resolved_node_id": 29
+    },
+    {
+      "location": "Downtown LA",
+      "resolved_node_id": 144
+    },
+    {
+      "location": "Downtown LA",
+      "resolved_node_id": 16
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement ramp metering upstream of the target location",
+      "location": "NE of Downtown LA (sensor 773012)",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion and increased speed at the target location",
+      "grounded_in": [
+        "cited cause: NE of Downtown LA (sensor 773012)"
+      ]
+    },
+    {
+      "action": "Optimize signal timing in the Downtown LA area to reduce congestion",
+      "location": "Downtown LA (sensors 764853 and 771667)",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion and increased speed at the target location",
+      "grounded_in": [
+        "cited cause: Downtown LA (sensor 764853)"
+      ]
+    },
+    {
+      "action": "Implement dynamic lane management to increase capacity upstream of the target location",
+      "location": "San Fernando Valley (sensor 773939)",
+      "time_window_minutes": 20,
+      "expected_effect": "Reduced congestion and increased speed at the target location",
+      "grounded_in": [
+        "cited cause: San Fernando Valley (sensor 773939)"
+      ]
+    }
+  ]
+}

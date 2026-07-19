@@ -1,0 +1,54 @@
+{
+  "reasoning": "The predicted congestion in Hollywood is due to the slow speeds upstream, particularly at sensor 769403 (node_id 20), which is currently traveling at 68.75 mph. This slow speed is also reflected in nearby sensors NW of Downtown LA (sensor 717488 and 764766) and NE of Downtown LA (sensor 767573 and 774011). The congestion appears to be propagating along a path of 2 sensors, with an estimated lag of 0.0 minutes between the source and the target.",
+  "cited_causes": [
+    {
+      "location": "Hollywood",
+      "resolved_node_id": 20
+    },
+    {
+      "location": "NW of Downtown LA",
+      "resolved_node_id": 103
+    },
+    {
+      "location": "NW of Downtown LA",
+      "resolved_node_id": 68
+    },
+    {
+      "location": "NE of Downtown LA",
+      "resolved_node_id": 28
+    },
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": null
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "NW of Downtown LA (sensor 717488)",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduce congestion by limiting the number of vehicles entering the bottlenecked area",
+      "grounded_in": [
+        "cited_cause: NW of Downtown LA (sensor 717488, node_id 103)"
+      ]
+    },
+    {
+      "action": "Reroute traffic before merge",
+      "location": "I-10/I-110 downtown interchange",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduce congestion by diverting traffic away from the bottlenecked area",
+      "grounded_in": [
+        "city-context: Recurrent bottlenecks (LA basin)"
+      ]
+    },
+    {
+      "action": "Activate ramp metering",
+      "location": "Sepulveda Pass (I-405)",
+      "time_window_minutes": 5,
+      "expected_effect": "Reduce congestion by regulating the flow of traffic onto the freeway",
+      "grounded_in": [
+        "city-context: I-405 San Diego Freeway corridor"
+      ]
+    }
+  ]
+}

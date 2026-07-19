@@ -1,0 +1,42 @@
+{
+  "reasoning": "The predicted congestion in the San Fernando Valley is caused by a wave of slower traffic traveling from Glendale/Burbank, where speeds are currently around 42-68 mph. This congestion appears to be propagating along a path of 10 sensors with an estimated lag of 10 minutes between the source and the target.",
+  "cited_causes": [
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 105
+    },
+    {
+      "location": "NE of Downtown LA",
+      "resolved_node_id": 44
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering on I-5/SR-134",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in the San Fernando Valley",
+      "grounded_in": [
+        "Glendale / Burbank (sensor 718076, 34.163, -118.225)"
+      ]
+    },
+    {
+      "action": "Reroute traffic before merging onto I-405 at Sepulveda Pass",
+      "location": "Sepulveda Pass",
+      "time_window_minutes": 5,
+      "expected_effect": "Reduced congestion in the San Fernando Valley",
+      "grounded_in": [
+        "NE of Downtown LA (sensor 774012, 34.148, -118.201)"
+      ]
+    },
+    {
+      "action": "Optimize signal timing on parallel arterials such as Sepulveda Blvd and Ventura Blvd",
+      "location": "San Fernando Valley",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion in the San Fernando Valley",
+      "grounded_in": [
+        "City-context fact: Metro is limited here, so demand is car-dominant"
+      ]
+    }
+  ]
+}

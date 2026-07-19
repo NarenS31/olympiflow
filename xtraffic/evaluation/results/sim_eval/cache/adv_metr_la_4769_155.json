@@ -1,0 +1,54 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in several locations. The NE of Downtown LA (24.62 mph), San Fernando Valley (35.38 and 28.5 mph), N of Downtown LA (0.0 mph), NW of Downtown LA (16.75 mph), and Downtown LA (14.75 mph) are all contributing to the congestion. This is consistent with the city context, which states that recurrent bottlenecks occur at structural locations such as interchanges.",
+  "cited_causes": [
+    {
+      "location": "NE of Downtown LA",
+      "resolved_node_id": 134
+    },
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 181
+    },
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 81
+    },
+    {
+      "location": "N of Downtown LA",
+      "resolved_node_id": null
+    },
+    {
+      "location": "NW of Downtown LA",
+      "resolved_node_id": 26
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "NE of Downtown LA",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in the NE of Downtown LA",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks occur at structural locations such as interchanges"
+      ]
+    },
+    {
+      "action": "Reroute traffic before merging",
+      "location": "I-10/I-110 downtown interchange",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion in the I-10/I-110 downtown interchange",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks occur at structural locations such as interchanges"
+      ]
+    },
+    {
+      "action": "Optimize signal timing on parallel arterials",
+      "location": "Sunset Blvd and Santa Monica Blvd",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in the Hollywood area",
+      "grounded_in": [
+        "city-context fact: surface relief: Sunset Blvd and Santa Monica Blvd, both ATSAC signal-coordinated"
+      ]
+    }
+  ]
+}

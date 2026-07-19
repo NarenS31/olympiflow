@@ -1,0 +1,46 @@
+{
+  "reasoning": "The congestion is predicted because of the slower speeds in the San Fernando Valley (68.25 mph), Hollywood (69.13 mph), and Glendale/Burbank (68.0 mph, 68.13 mph) areas, which are contributing to the delay at the target location NW of Downtown LA.",
+  "cited_causes": [
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 122
+    },
+    {
+      "location": "Hollywood",
+      "resolved_node_id": 20
+    },
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 167
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Reroute traffic from the San Fernando Valley to use surface relief roads",
+      "location": "San Fernando Valley",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion at the target location",
+      "grounded_in": [
+        "City-context fact: Surface relief roads exist in the area"
+      ]
+    },
+    {
+      "action": "Optimize signal timing on Sunset Blvd and Santa Monica Blvd to improve traffic flow through Hollywood",
+      "location": "Hollywood",
+      "time_window_minutes": 5,
+      "expected_effect": "Improved traffic speed in Hollywood",
+      "grounded_in": [
+        "City-context fact: ATSAC signal-coordinated surface relief roads exist in the area"
+      ]
+    },
+    {
+      "action": "Implement upstream metering on I-405 to reduce congestion at the Sepulveda Pass",
+      "location": "Sepulveda Pass",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion at the target location",
+      "grounded_in": [
+        "City-context fact: Recurrent bottleneck at the Sepulveda Pass"
+      ]
+    }
+  ]
+}

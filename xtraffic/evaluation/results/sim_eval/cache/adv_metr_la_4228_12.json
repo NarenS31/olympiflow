@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in the Glendale/Burbank area, specifically at sensor 773954 (node_id 58), which has a speed of 63.22 mph and an importance of 0.848. This slow speed is contributing to the congestion at the target location NW of Downtown LA.",
+  "cited_causes": [
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 58
+    },
+    {
+      "location": "NE of Downtown LA",
+      "resolved_node_id": 35
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Reroute traffic before the merge",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion at target location",
+      "grounded_in": [
+        "Upstream metering and reroute-before-the-merge are the levers, not signal timing at the interchange itself (city-context fact)"
+      ]
+    },
+    {
+      "action": "Signal coordination on surface relief roads",
+      "location": "Sunset Blvd and Santa Monica Blvd",
+      "time_window_minutes": 5,
+      "expected_effect": "Improved traffic flow through Hollywood",
+      "grounded_in": [
+        "ATSAC signal-coordinated (city-context fact)"
+      ]
+    },
+    {
+      "action": "Encourage transit use where possible",
+      "location": "Wilshire and Expo/I-10 rail lines",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced demand on Glendale/Burbank freeways",
+      "grounded_in": [
+        "Transit is a viable diversion lever only where a parallel rail line exists (city-context fact)"
+      ]
+    }
+  ]
+}

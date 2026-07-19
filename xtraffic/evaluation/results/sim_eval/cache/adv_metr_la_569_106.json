@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in Hollywood (62.63 mph), which is affecting traffic in Glendale/Burbank, where the current speed is 64.25 mph and is expected to increase slightly to 67.12 mph in 30 minutes.",
+  "cited_causes": [
+    {
+      "location": "Hollywood",
+      "resolved_node_id": 19
+    },
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 106
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "I-5/SR-134 interchange (PM peak)",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in Glendale/Burbank",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Coordinate ATSAC signals on Sunset Blvd and Santa Monica Blvd",
+      "location": "US-101 Hollywood Freeway corridor",
+      "time_window_minutes": 5,
+      "expected_effect": "Improved traffic flow through Hollywood",
+      "grounded_in": [
+        "city-context fact: surface relief"
+      ]
+    },
+    {
+      "action": "Reroute traffic before the merge at I-5/SR-134/SR-2 interchange",
+      "location": "Glendale/Burbank freeways (SR-134, I-5, SR-2)",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion in Glendale/Burbank",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    }
+  ]
+}

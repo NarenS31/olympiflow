@@ -1,0 +1,46 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in multiple locations north and northeast of Downtown LA, with speeds ranging from 61.25 to 69.25 mph. This suggests that traffic is building up as it approaches the Hollywood area.",
+  "cited_causes": [
+    {
+      "location": "N of Downtown LA",
+      "resolved_node_id": 78
+    },
+    {
+      "location": "NE of Downtown LA",
+      "resolved_node_id": 64
+    },
+    {
+      "location": "NE of Downtown LA",
+      "resolved_node_id": 44
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Reroute traffic before the merge",
+      "location": "Hollywood (sensor 769388)",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion at the target location",
+      "grounded_in": [
+        "structural bottleneck at I-110/I-405 interchange"
+      ]
+    },
+    {
+      "action": "Signal coordination on surface relief roads",
+      "location": "Sunset Blvd and Santa Monica Blvd",
+      "time_window_minutes": 15,
+      "expected_effect": "Improved traffic flow on surface roads",
+      "grounded_in": [
+        "ATSAC signal-coordinated surface relief"
+      ]
+    },
+    {
+      "action": "Metering upstream of the bottleneck",
+      "location": "N of Downtown LA (sensor 718064)",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion at the target location",
+      "grounded_in": [
+        "upstream metering and reroute-before-the-merge"
+      ]
+    }
+  ]
+}

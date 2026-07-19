@@ -1,0 +1,50 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in the Glendale/Burbank area, specifically at sensors 767455 (34.143, -118.227), 718076 (34.163, -118.225), 767454 (34.144, -118.227), and 762329 (34.139, -118.229). These locations have speeds ranging from 65.37 to 69.13 mph, which is slower than the target location's current speed of 61.4 mph.",
+  "cited_causes": [
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 107
+    },
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 105
+    },
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 108
+    },
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 132
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduce congestion by limiting the number of vehicles entering the merge",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Reroute traffic before the merge",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduce congestion by diverting traffic away from the merge",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Optimize signal timing at nearby intersections",
+      "location": "San Fernando Valley",
+      "time_window_minutes": 10,
+      "expected_effect": "Improve traffic flow by synchronizing signals to reduce congestion",
+      "grounded_in": [
+        "city-context fact: San Fernando Valley freeways"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in the surrounding areas, particularly in NE of Downtown LA (32.37 mph), which is driving the prediction with an importance of 0.803. This suggests that the congestion is propagating from this location to the target location in Downtown LA.",
+  "cited_causes": [
+    {
+      "location": "NE of Downtown LA",
+      "resolved_node_id": 196
+    },
+    {
+      "location": "Downtown LA",
+      "resolved_node_id": 91
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "I-10/I-110 interchange downtown",
+      "time_window_minutes": 5,
+      "expected_effect": "Reduced congestion at the target location",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Reroute traffic before merge",
+      "location": "I-5/SR-134 interchange, PM peak",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion at the target location",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Signal timing adjustments on parallel relief arterials",
+      "location": "Olympic Blvd and Pico Blvd",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion at the target location",
+      "grounded_in": [
+        "city-context fact: parallel relief arterials"
+      ]
+    }
+  ]
+}

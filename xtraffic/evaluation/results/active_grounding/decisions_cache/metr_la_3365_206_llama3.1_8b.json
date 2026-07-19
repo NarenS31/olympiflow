@@ -1,0 +1,79 @@
+{
+  "curve": [
+    {
+      "round": 0,
+      "used_correction": false,
+      "faithfulness_f1": 0.7692307692307693,
+      "cause_precision": 1.0,
+      "cause_recall": 0.625,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 2,
+      "n_topk": 8,
+      "n_missed": 3,
+      "missed_regions": [
+        "NW of Downtown LA",
+        "NW of Downtown LA",
+        "NW of Downtown LA"
+      ],
+      "missed_node_ids": [
+        68,
+        103,
+        102
+      ],
+      "advisory_error": ""
+    }
+  ],
+  "n_rounds": 0,
+  "reached_threshold": true,
+  "stop_reason": "threshold_reached",
+  "f1_initial": 0.7692307692307693,
+  "f1_final": 0.7692307692307693,
+  "f1_gain": 0.0,
+  "final_advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds detected by sensors in the Hollywood area. Specifically, sensor 769405 at 34.126, -118.345 (node_id 22) is reporting a speed of 12.89 mph, and sensor 769403 at 34.121, -118.339 (node_id 20) is reporting a speed of 11.89 mph. These slow speeds are contributing to the congestion, which appears to be traveling along a path of 2 sensors with an estimated lag of 50 minutes between the source and the target.",
+    "cited_causes": [
+      {
+        "location": "Hollywood",
+        "resolved_node_id": 22
+      },
+      {
+        "location": "Hollywood",
+        "resolved_node_id": 20
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Extend green-band timing for coordinated corridors",
+        "location": "Sunset Blvd and Santa Monica Blvd",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion in the Hollywood area by allowing more vehicles to pass through the area during the green phase.",
+        "grounded_in": [
+          "ATSAC signal-coordinated"
+        ]
+      },
+      {
+        "action": "Open HOV/ExpressLanes to general purpose traffic",
+        "location": "I-110 (Harbor Fwy)",
+        "time_window_minutes": 15,
+        "expected_effect": "Redirecting some traffic away from the congested area by allowing more vehicles to use the HOV/ExpressLanes.",
+        "grounded_in": [
+          "HOV/ExpressLanes between Adams Blvd and the 105"
+        ]
+      },
+      {
+        "action": "Adjust signal timing for side streets",
+        "location": "Figueroa St and Vermont Ave",
+        "time_window_minutes": 15,
+        "expected_effect": "Reducing congestion on side streets by adjusting signal timing to allow more vehicles to pass through.",
+        "grounded_in": [
+          "ATSAC signal-coordinated"
+        ]
+      }
+    ]
+  },
+  "sample_index": 3365,
+  "target_node": 206,
+  "tod_band": "pm_rush",
+  "congestion": "high",
+  "model": "llama3.1:8b"
+}

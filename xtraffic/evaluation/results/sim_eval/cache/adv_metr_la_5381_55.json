@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in the NE of Downtown LA (64.33 mph and 64.4/63.0 mph at two nearby sensors), which propagates to the Glendale/Burbank area with a lag of 40 minutes, causing the speed there to increase only slightly from 61.75 mph to 62.75 mph.",
+  "cited_causes": [
+    {
+      "location": "NE of Downtown LA",
+      "resolved_node_id": 152
+    },
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": null
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduce congestion by slowing down traffic before it reaches the bottleneck",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Coordinate signals on surface relief routes",
+      "location": "Sunset Blvd and Santa Monica Blvd",
+      "time_window_minutes": 5,
+      "expected_effect": "Redirect some traffic to surface roads, reducing congestion on freeways",
+      "grounded_in": [
+        "city-context fact: surface reliefs"
+      ]
+    },
+    {
+      "action": "Reroute traffic before the merge",
+      "location": "I-405 Sepulveda Pass",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduce congestion by diverting some traffic away from the bottleneck",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    }
+  ]
+}

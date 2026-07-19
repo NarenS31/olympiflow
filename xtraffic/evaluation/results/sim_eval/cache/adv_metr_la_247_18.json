@@ -1,0 +1,46 @@
+{
+  "reasoning": "The congestion is predicted because there are multiple locations with zero speed (0.0 mph), indicating a complete stop, which propagates to the target location NE of Downtown LA. The top contributing sensors show that Glendale/Burbank and East LA have stopped traffic, causing congestion to travel along a path.",
+  "cited_causes": [
+    {
+      "location": "NE of Downtown LA",
+      "resolved_node_id": 18
+    },
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 126
+    },
+    {
+      "location": "East LA",
+      "resolved_node_id": 174
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Reroute traffic before the merge",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion at the target location",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Meter traffic upstream of the merge",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion at the target location",
+      "grounded_in": [
+        "city-context fact: Caltrans ramp meters operate on most eastbound on-ramps during peak"
+      ]
+    },
+    {
+      "action": "Coordinate signal timing with parallel relief arterials",
+      "location": "Olympic Blvd and Pico Blvd",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion at the target location",
+      "grounded_in": [
+        "city-context fact: Parallel relief arterials are Olympic Blvd and Pico Blvd"
+      ]
+    }
+  ]
+}

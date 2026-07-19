@@ -1,0 +1,42 @@
+{
+  "reasoning": "The predicted congestion in Downtown LA is due to the high speeds of traffic approaching from the north and east. Specifically, traffic from NE of Downtown LA (67.25 mph) and Glendale/Burbank (67.0-68.5 mph) is contributing to the congestion.",
+  "cited_causes": [
+    {
+      "location": "NE of Downtown LA",
+      "resolved_node_id": 45
+    },
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 105
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Reroute traffic before the merge",
+      "location": "I-10/I-110 downtown interchange",
+      "time_window_minutes": 5,
+      "expected_effect": "Reduced congestion in Downtown LA",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Implement upstream metering",
+      "location": "I-405 Sepulveda Pass",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in Downtown LA",
+      "grounded_in": [
+        "city-context fact: ramp metering is active pass-wide"
+      ]
+    },
+    {
+      "action": "Optimize signal timing at surface reliefs",
+      "location": "Brand Blvd, San Fernando Rd and Colorado Blvd",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion in Downtown LA",
+      "grounded_in": [
+        "city-context fact: Metro is limited here"
+      ]
+    }
+  ]
+}

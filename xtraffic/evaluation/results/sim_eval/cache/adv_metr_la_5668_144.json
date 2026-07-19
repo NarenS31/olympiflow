@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley, specifically at sensors 767351 and 717823, which are currently traveling at 68.22 mph and 67.33 mph respectively. This slow speed is propagating downstream along a path of 10 sensors with an estimated lag of 5 minutes between the source and the target.",
+  "cited_causes": [
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 89
+    },
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 186
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "I-10/I-110 downtown interchange",
+      "time_window_minutes": 5,
+      "expected_effect": "Reduce congestion by limiting the number of vehicles entering the bottlenecked area",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Reroute traffic before merge",
+      "location": "I-405 Sepulveda Pass",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduce congestion by diverting traffic away from the bottlenecked area",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Signal-coordinated surface relief",
+      "location": "Sunset Blvd and Santa Monica Blvd",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduce congestion by providing an alternative route for traffic",
+      "grounded_in": [
+        "city-context fact: US-101 Hollywood Freeway corridor"
+      ]
+    }
+  ]
+}

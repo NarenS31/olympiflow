@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds reported by sensors in the Hollywood area (0.0 mph at sensor 717461 and 717462), which are driving the prediction with an importance of 32.6% and 21.9%, respectively. The slow speeds are likely due to the bottleneck at the US-101/I-110 four-level, as mentioned in the city context.",
+  "cited_causes": [
+    {
+      "location": "Hollywood",
+      "resolved_node_id": 160
+    },
+    {
+      "location": "Hollywood",
+      "resolved_node_id": 163
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Reroute traffic before merging",
+      "location": "NW of Downtown LA (sensor 716339)",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion at the target location",
+      "grounded_in": [
+        "The bottleneck at the US-101/I-110 four-level"
+      ]
+    },
+    {
+      "action": "Optimize signal timing along surface reliefs",
+      "location": "Sunset Blvd and Santa Monica Blvd",
+      "time_window_minutes": 5,
+      "expected_effect": "Improved traffic flow on surface roads",
+      "grounded_in": [
+        "ATSAC signal-coordinated"
+      ]
+    },
+    {
+      "action": "Encourage transit use where possible",
+      "location": "Wilshire, Expo/I-10, Harbor/I-110, Pasadena A Line",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced demand on congested roads",
+      "grounded_in": [
+        "Transit is a viable diversion lever only where a parallel rail line exists"
+      ]
+    }
+  ]
+}

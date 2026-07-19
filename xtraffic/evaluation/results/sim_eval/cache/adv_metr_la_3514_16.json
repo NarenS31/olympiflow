@@ -1,0 +1,38 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in the Glendale/Burbank area, specifically at sensor 773880 (node_id 67), which has a speed of 69.0 mph and an importance of 0.851. This location is driving the prediction, with a propagation path of 7 sensors and an estimated lag of 30 minutes between the source and the target.",
+  "cited_causes": [
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 67
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion in the Glendale/Burbank area",
+      "grounded_in": [
+        "Glendale / Burbank (sensor 773880, node_id 67)"
+      ]
+    },
+    {
+      "action": "Reroute traffic before the merge",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion in the Glendale/Burbank area",
+      "grounded_in": [
+        "Glendale / Burbank (sensor 773880, node_id 67)"
+      ]
+    },
+    {
+      "action": "Use transit as a diversion lever",
+      "location": "Wilshire and Hollywood areas",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion in the Glendale/Burbank area by diverting traffic to rail lines",
+      "grounded_in": [
+        "Transit alternatives (Metro rail/bus)"
+      ]
+    }
+  ]
+}

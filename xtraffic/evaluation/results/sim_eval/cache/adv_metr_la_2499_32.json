@@ -1,0 +1,46 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley (65.5 mph), NE of Downtown LA (64.25 mph), and NW of Downtown LA (62.25 mph). These locations are contributing to a propagation of congestion along a path of 9 sensors, with an estimated lag of 0 minutes between the source and the target.",
+  "cited_causes": [
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 186
+    },
+    {
+      "location": "NE of Downtown LA",
+      "resolved_node_id": 27
+    },
+    {
+      "location": "NW of Downtown LA",
+      "resolved_node_id": 147
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Reroute traffic before the merge at I-5/SR-134/SR-2 interchange",
+      "location": "Glendale/Burbank",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in the area",
+      "grounded_in": [
+        "Key merge congestion at the I-5/SR-134/SR-2 interchange"
+      ]
+    },
+    {
+      "action": "Use Metro rail relief options along Wilshire and Expo/I-10",
+      "location": "Downtown LA",
+      "time_window_minutes": 15,
+      "expected_effect": "Diverted traffic from roads to rail, reducing congestion",
+      "grounded_in": [
+        "Transit is a viable diversion lever only where a parallel rail line exists"
+      ]
+    },
+    {
+      "action": "Implement upstream metering on I-405 Sepulveda Pass",
+      "location": "Sepulveda Pass",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion by controlling the flow of traffic upstream",
+      "grounded_in": [
+        "Recurrent bottlenecks a planner should assume unless told otherwise"
+      ]
+    }
+  ]
+}

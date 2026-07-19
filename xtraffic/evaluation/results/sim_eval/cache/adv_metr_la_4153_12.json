@@ -1,0 +1,46 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in Downtown LA, specifically at sensor 717446 (9.88 mph), sensor 716331 (9.0 mph), and sensor 716328 (18.5 mph). This congestion appears to be traveling along a path of 3 sensors with an estimated lag of 0.0 minutes between the source and the target.",
+  "cited_causes": [
+    {
+      "location": "Downtown LA",
+      "resolved_node_id": 4
+    },
+    {
+      "location": "Downtown LA",
+      "resolved_node_id": 15
+    },
+    {
+      "location": "NW of Downtown LA",
+      "resolved_node_id": null
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "I-10/I-110 downtown interchange",
+      "time_window_minutes": 5,
+      "expected_effect": "Reduced congestion in the target area",
+      "grounded_in": [
+        "structural (geometry/merges) bottleneck at I-10/I-110 downtown interchange"
+      ]
+    },
+    {
+      "action": "Reroute traffic before merge",
+      "location": "I-405 Sepulveda Pass",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in the target area",
+      "grounded_in": [
+        "structural (geometry/merges) bottleneck at I-405 Sepulveda Pass"
+      ]
+    },
+    {
+      "action": "Optimize signal timing",
+      "location": "US-101/I-110 four-level",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion in the target area",
+      "grounded_in": [
+        "structural (geometry/merges) bottleneck at US-101/I-110 four-level"
+      ]
+    }
+  ]
+}

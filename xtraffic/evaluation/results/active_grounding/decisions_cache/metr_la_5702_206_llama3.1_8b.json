@@ -1,0 +1,83 @@
+{
+  "curve": [
+    {
+      "round": 0,
+      "used_correction": false,
+      "faithfulness_f1": 0.7692307692307693,
+      "cause_precision": 1.0,
+      "cause_recall": 0.625,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 3,
+      "n_topk": 8,
+      "n_missed": 3,
+      "missed_regions": [
+        "Hollywood",
+        "NW of Downtown LA",
+        "Hollywood"
+      ],
+      "missed_node_ids": [
+        128,
+        193,
+        198
+      ],
+      "advisory_error": ""
+    }
+  ],
+  "n_rounds": 0,
+  "reached_threshold": true,
+  "stop_reason": "threshold_reached",
+  "f1_initial": 0.7692307692307693,
+  "f1_final": 0.7692307692307693,
+  "f1_gain": 0.0,
+  "final_advisory": {
+    "reasoning": "The predicted congestion in Hollywood is caused by the slow speeds of traffic coming from Pasadena/East (67.0 mph), Downtown LA (38.44 and 42.22 mph), and the San Fernando Valley (62.0 mph). These slower speeds are propagating along a path of two sensors, with an estimated lag of 0 minutes between the source and the target.",
+    "cited_causes": [
+      {
+        "location": "Pasadena / East",
+        "resolved_node_id": 203
+      },
+      {
+        "location": "Downtown LA",
+        "resolved_node_id": 15
+      },
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 14
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering",
+        "location": "Pasadena / East (SR-134)",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion in Hollywood by slowing down traffic before it reaches the bottleneck",
+        "grounded_in": [
+          "City-context fact: Recurrent bottlenecks are structural, so upstream metering is a lever"
+        ]
+      },
+      {
+        "action": "Reroute traffic before merge",
+        "location": "I-5/SR-134/SR-2 interchange (Glendale/Burbank)",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion in Hollywood by diverting traffic away from the bottleneck",
+        "grounded_in": [
+          "City-context fact: Recurrent bottlenecks are structural, so reroute-before-the-merge is a lever"
+        ]
+      },
+      {
+        "action": "Signal-coordinated relief on surface roads",
+        "location": "Sunset Blvd and Santa Monica Blvd (Hollywood)",
+        "time_window_minutes": 5,
+        "expected_effect": "Reduced congestion in Hollywood by providing an alternative route for traffic",
+        "grounded_in": [
+          "City-context fact: Surface relief: Sunset Blvd and Santa Monica Blvd, both ATSAC signal-coordinated"
+        ]
+      }
+    ]
+  },
+  "sample_index": 5702,
+  "target_node": 206,
+  "tod_band": "evening",
+  "congestion": "medium",
+  "model": "llama3.1:8b"
+}

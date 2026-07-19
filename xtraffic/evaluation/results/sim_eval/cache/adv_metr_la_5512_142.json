@@ -1,0 +1,46 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in Downtown LA (33.5 mph), which propagates to Glendale/Burbank with a lag of 50 minutes, affecting traffic at sensor 773904. This congestion is also influenced by slower-than-expected speeds in East LA (62.63 and 64.12 mph) and NE of Downtown LA (37.62 mph).",
+  "cited_causes": [
+    {
+      "location": "Downtown LA",
+      "resolved_node_id": 16
+    },
+    {
+      "location": "East LA",
+      "resolved_node_id": 165
+    },
+    {
+      "location": "NE of Downtown LA",
+      "resolved_node_id": 196
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Reroute traffic before the merge",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion at sensor 773904",
+      "grounded_in": [
+        "structural (geometry/merges) bottleneck"
+      ]
+    },
+    {
+      "action": "Optimize signal timing on surface reliefs",
+      "location": "Brand Blvd, San Fernando Rd and Colorado Blvd",
+      "time_window_minutes": 5,
+      "expected_effect": "Improved traffic flow through Glendale/Burbank",
+      "grounded_in": [
+        "surface relief: Brand Blvd, San Fernando Rd and Colorado Blvd"
+      ]
+    },
+    {
+      "action": "Increase transit capacity on parallel rail lines",
+      "location": "Wilshire and Expo/I-10",
+      "time_window_minutes": 15,
+      "expected_effect": "Divert traffic from roads to rail in Downtown LA and Pasadena",
+      "grounded_in": [
+        "transit alternatives: Metro rail relief options"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley, specifically at sensor 765171 (node_id 77), which is currently traveling at 62.38 mph. This slow speed is also reflected in nearby sensors, such as 772168 (node_id 204) and 772140 (node_id 41). Additionally, there are slower speeds further away, like NW of Downtown LA (sensor 717458, node_id 187), which is currently traveling at 57.63 mph.",
+  "cited_causes": [
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 77
+    },
+    {
+      "location": "NW of Downtown LA",
+      "resolved_node_id": 187
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in the San Fernando Valley",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Reroute traffic before merge",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion in the San Fernando Valley",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Adjust signal timing at surface relief roads",
+      "location": "Sunset Blvd and Santa Monica Blvd",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in the San Fernando Valley",
+      "grounded_in": [
+        "city-context fact: ATSAC signal-coordinated"
+      ]
+    }
+  ]
+}

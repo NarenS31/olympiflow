@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the high speeds in the San Fernando Valley (65.67-67.67 mph), particularly at sensors 767351 and 764120, which are driving the prediction. This suggests that traffic is building up in the valley and propagating downstream towards Downtown LA.",
+  "cited_causes": [
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 89
+    },
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 115
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "San Fernando Valley (sensors 767351 and 764120)",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduce traffic speed in the valley, alleviating congestion downstream",
+      "grounded_in": [
+        "high speeds in San Fernando Valley"
+      ]
+    },
+    {
+      "action": "Reroute traffic before merge",
+      "location": "I-5/SR-134 interchange (node_id 12)",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduce congestion at the interchange, improving flow towards Downtown LA",
+      "grounded_in": [
+        "known recurrent bottleneck in I-5/SR-134 interchange"
+      ]
+    },
+    {
+      "action": "Optimize signal timing on surface arterials",
+      "location": "Brand Blvd, San Fernando Rd and Colorado Blvd",
+      "time_window_minutes": 10,
+      "expected_effect": "Improve traffic flow on surface arterials, reducing congestion downstream",
+      "grounded_in": [
+        "city context: car-dominant demand"
+      ]
+    }
+  ]
+}

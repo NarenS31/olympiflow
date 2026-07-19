@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in Downtown LA (19.25 mph), which is causing a ripple effect and slowing down traffic along US-101, particularly at the Hollywood location where the speed is currently 8.75 mph.",
+  "cited_causes": [
+    {
+      "location": "Downtown LA",
+      "resolved_node_id": 144
+    },
+    {
+      "location": "Hollywood",
+      "resolved_node_id": 206
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "US-101, north of Downtown LA",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion and increased speed on US-101",
+      "grounded_in": [
+        "Downtown LA (sensor 764853, node_id 144)"
+      ]
+    },
+    {
+      "action": "Reroute traffic before the merge",
+      "location": "US-101/I-110 four-level interchange",
+      "time_window_minutes": 5,
+      "expected_effect": "Reduced congestion and increased speed on US-101",
+      "grounded_in": [
+        "City-context fact: recurrent bottleneck at US-101/I-110 four-level"
+      ]
+    },
+    {
+      "action": "Optimize signal timing along Sunset Blvd and Santa Monica Blvd",
+      "location": "Surface relief, Hollywood area",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion and increased speed on surface streets",
+      "grounded_in": [
+        "City-context fact: ATSAC signal-coordinated"
+      ]
+    }
+  ]
+}

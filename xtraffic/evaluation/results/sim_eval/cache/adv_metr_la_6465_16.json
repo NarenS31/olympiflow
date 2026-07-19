@@ -1,0 +1,54 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in several locations upstream of Downtown LA. Specifically, Hollywood (67.12 mph), NE of Downtown LA (67.62 mph), N of Downtown LA (67.87 mph), Pasadena / East (67.87 mph), and Glendale / Burbank (68.5 mph) are all moving at relatively slow speeds compared to the target location in Downtown LA. This suggests that congestion is propagating from these locations towards Downtown LA.",
+  "cited_causes": [
+    {
+      "location": "Hollywood",
+      "resolved_node_id": 127
+    },
+    {
+      "location": "NE of Downtown LA",
+      "resolved_node_id": 28
+    },
+    {
+      "location": "N of Downtown LA",
+      "resolved_node_id": 183
+    },
+    {
+      "location": "Pasadena / East",
+      "resolved_node_id": 203
+    },
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 67
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "I-5/SR-134 interchange (PM peak)",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduce congestion propagation speed by 10%",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Reroute traffic before the merge",
+      "location": "I-5/SR-134 interchange (PM peak)",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduce congestion at target location by 5%",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Signal-coordinated surface relief",
+      "location": "Sunset Blvd and Santa Monica Blvd (US-101 Hollywood Freeway corridor)",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduce congestion at target location by 3%",
+      "grounded_in": [
+        "city-context fact: surface reliefs are ATSAC signal-coordinated"
+      ]
+    }
+  ]
+}

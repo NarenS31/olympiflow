@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the high speeds in the Glendale/Burbank area, specifically at sensor 717481 (67.67 mph), which is driving the prediction with an importance of 0.843. This suggests that traffic is flowing freely in this area and is likely to continue flowing well, but there may be a bottleneck further downstream.",
+  "cited_causes": [
+    {
+      "location": "Hollywood",
+      "resolved_node_id": 96
+    },
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 178
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement dynamic lane management on I-5/SR-134 interchange",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion and improved traffic flow",
+      "grounded_in": [
+        "High speeds in Glendale/Burbank area (sensor 717481)"
+      ]
+    },
+    {
+      "action": "Adjust signal timing on surface relief roads (Brand Blvd, San Fernando Rd, Colorado Blvd)",
+      "location": "Surface relief roads (Brand Blvd, San Fernando Rd, Colorado Blvd)",
+      "time_window_minutes": 5,
+      "expected_effect": "Improved traffic flow and reduced congestion",
+      "grounded_in": [
+        "City-context fact: Metro is limited here, so demand is car-dominant"
+      ]
+    },
+    {
+      "action": "Reroute traffic before the merge at I-5/SR-134 interchange",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion and improved traffic flow",
+      "grounded_in": [
+        "City-context fact: Recurrent bottlenecks are structural (geometry/merges), so upstream metering and reroute-before-the-merge are the levers"
+      ]
+    }
+  ]
+}

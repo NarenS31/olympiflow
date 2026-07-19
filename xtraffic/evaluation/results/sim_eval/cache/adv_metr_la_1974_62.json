@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because there are multiple locations with slow speeds, particularly in the Glendale/Burbank area. The sensor at node_id 167 (Glendale / Burbank, 67.25 mph) and another at node_id 105 (Glendale / Burbank, 0.0 mph) indicate that traffic is slowing down as it approaches the target location. Additionally, sensors in the San Fernando Valley (node_ids 70 and 71) also show slow speeds, suggesting that congestion is building up from this direction.",
+  "cited_causes": [
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 167
+    },
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 70
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduce congestion by limiting the number of vehicles entering the merge",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Reroute traffic before the merge",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduce congestion by diverting traffic away from the merge",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Adjust ramp metering",
+      "location": "Sepulveda Pass (I-405)",
+      "time_window_minutes": 5,
+      "expected_effect": "Reduce congestion by regulating the flow of traffic onto I-405",
+      "grounded_in": [
+        "city-context fact: I-405 San Diego Freeway corridor"
+      ]
+    }
+  ]
+}

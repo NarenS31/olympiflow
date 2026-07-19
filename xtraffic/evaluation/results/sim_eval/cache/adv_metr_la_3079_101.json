@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because there are multiple sensors reporting zero speed, indicating a traffic jam. The top contributing sensors are located in Glendale/Burbank and NW of Downtown LA, suggesting that the congestion is spreading from these areas to the target location NE of Downtown LA.",
+  "cited_causes": [
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 95
+    },
+    {
+      "location": "NW of Downtown LA",
+      "resolved_node_id": 147
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Reroute traffic before the merge",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion at the target location",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Encourage transit use",
+      "location": "Wilshire and Hollywood area",
+      "time_window_minutes": 15,
+      "expected_effect": "Divert some traffic away from the congested areas",
+      "grounded_in": [
+        "city-context fact: Metro rail relief options"
+      ]
+    },
+    {
+      "action": "Implement upstream metering",
+      "location": "SR-134 and I-5 freeways",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduce congestion by controlling the flow of traffic",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    }
+  ]
+}

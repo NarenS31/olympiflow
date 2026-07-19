@@ -1,0 +1,42 @@
+{
+  "reasoning": "The predicted congestion in Hollywood is due to a propagation of congestion from upstream locations. The top contributing sensors indicate that the source of the congestion is located near Downtown LA, specifically at sensor 716956 (N of Downtown LA) and sensor 717458 (NW of Downtown LA), where speeds are significantly lower than other locations. This congestion then propagates along a path of 5 sensors with an estimated lag of 5 minutes between the source and the target location in Hollywood.",
+  "cited_causes": [
+    {
+      "location": "N of Downtown LA",
+      "resolved_node_id": 49
+    },
+    {
+      "location": "NW of Downtown LA",
+      "resolved_node_id": 187
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "Downtown LA (near sensor 716956)",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in Hollywood by limiting the amount of traffic entering the area",
+      "grounded_in": [
+        "City-context fact: recurrent bottlenecks are structural and can be mitigated with upstream metering"
+      ]
+    },
+    {
+      "action": "Reroute traffic before merge",
+      "location": "I-5/SR-134/SR-2 interchange (near sensor 767620)",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion in Hollywood by diverting traffic away from the bottleneck at the Cahuenga Pass grade",
+      "grounded_in": [
+        "City-context fact: recurrent bottlenecks are structural and can be mitigated with reroute-before-the-merge"
+      ]
+    },
+    {
+      "action": "Signal-coordinated surface relief",
+      "location": "Sunset Blvd and Santa Monica Blvd (near sensor 717466)",
+      "time_window_minutes": 5,
+      "expected_effect": "Reduced congestion in Hollywood by providing an alternative route for traffic",
+      "grounded_in": [
+        "City-context fact: surface reliefs are ATSAC signal-coordinated"
+      ]
+    }
+  ]
+}

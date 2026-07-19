@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds at several locations upstream, particularly at Glendale / Burbank (sensor 773880), where the speed is currently 0.0 mph, and also at San Fernando Valley (sensor 717570) with a speed of 60.0 mph. These slow speeds are contributing to congestion that appears to travel along a path of 3 sensors, with an estimated lag of 45.0 minutes between the source and the target.",
+  "cited_causes": [
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 67
+    },
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 118
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "Upstream of Glendale / Burbank (sensor 773880)",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion at the target location",
+      "grounded_in": [
+        "The slow speed at Glendale / Burbank (sensor 773880)"
+      ]
+    },
+    {
+      "action": "Reroute traffic before the merge",
+      "location": "Near San Fernando Valley (sensor 717570)",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion at the target location",
+      "grounded_in": [
+        "The slow speed at San Fernando Valley (sensor 717570)"
+      ]
+    },
+    {
+      "action": "Use transit as a diversion lever",
+      "location": "Wilshire and Hollywood areas with parallel rail lines",
+      "time_window_minutes": 30,
+      "expected_effect": "Reduced congestion on the freeways",
+      "grounded_in": [
+        "Transit is a viable diversion lever where a parallel rail line exists"
+      ]
+    }
+  ]
+}

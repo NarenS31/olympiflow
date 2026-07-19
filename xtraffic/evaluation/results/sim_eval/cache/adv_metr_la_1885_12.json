@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in the areas surrounding Downtown LA, particularly at sensor 717458 (NW of Downtown LA), which has a speed of 13.33 mph, and sensor 764853 (Downtown LA) with a speed of 19.0 mph. This suggests that traffic is slowing down as it approaches Downtown LA from multiple directions.",
+  "cited_causes": [
+    {
+      "location": "NW of Downtown LA",
+      "resolved_node_id": 187
+    },
+    {
+      "location": "Downtown LA",
+      "resolved_node_id": 144
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "I-10/I-110 downtown interchange",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion in the area",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Reroute traffic before merging",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in the area",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Signal-coordinated surface relief",
+      "location": "Sunset Blvd and Santa Monica Blvd",
+      "time_window_minutes": 5,
+      "expected_effect": "Reduced congestion in the area",
+      "grounded_in": [
+        "city-context fact: surface reliefs"
+      ]
+    }
+  ]
+}

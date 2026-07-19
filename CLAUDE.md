@@ -420,8 +420,18 @@ File: evaluation/sim_eval.py driven by configs/sim_eval.yaml. One command.
   conditions, llama3.1:8b, CPU) is fully RESUMABLE (rerun skips completed decisions).
   --smoke / --limit for quick checks; --budget/--cap for calibration sweeps; --model
   overrides the Ollama model; --mock-llm exercises the harness with no Ollama.
-- STATUS: harness built + smoke-verified + GT calibrated; full 500-run KICKED OFF
-  (llama3.1:8b). OWED: the final table_sim_eval.tex numbers on completion.
+- STATUS: COMPLETE (full run landed 2026-07-17, llama3.1:8b). The stratified
+  sampler requests 500 but only windows passing the slowest-valid-sensor validity
+  rule survive -> n=444 valid scenarios (NOT 89% of 500 — 444 IS the full set),
+  each x 3 seeds x {RAW, XTRAFFIC} = 2664 LLM decisions, all logged + complete.
+  REAL RESULT (n=444, 3 seeds): accuracy RANDOM 0.200+/-0.019 < RAW 0.233+/-0.001
+  < XTRAFFIC 0.266+/-0.012; delay_reduction RANDOM 13.27 < RAW 15.72 < XTRAFFIC
+  19.73 (the cleaner separator — 4-5-way decision so chance ~= 0.20); consistency
+  RANDOM 0.294 / RAW 0.998 / XTRAFFIC 0.619 (RAW most monotone in its picks).
+  CONTRIB #3 SUPPORTED AT SCALE: the full pipeline improves the simulated planner's
+  decisions over prediction-only and random. table_sim_eval.tex + summary.json +
+  per_decision.csv finalized. PAPER CAPTION NOTE: report n=444 (not 500); RANDOM is
+  its expectation over 200 uniform draws, RAW/XTRAFFIC over the 3 study seeds.
 
 Phase 11 IN PROGRESS — CROSS-CITY x CROSS-MODEL faithfulness (robustness of
 Contribution #2: prove the hallucination result is not a METR-LA quirk or a
@@ -601,11 +611,24 @@ models/advisor/active_grounding.py, one config block (active_grounding: f1_thres
 - Outputs: evaluation/paper/{table_active_grounding.tex, fig_active_grounding.pdf}
   (2-panel convergence figure) + results/active_grounding/{per_round.csv,
   decisions.jsonl, summary.json, decisions_cache/} (resumable, keyed by model).
-  OWED: the full stratified >=93-scenario run (python -m
-  xtraffic.models.advisor.active_grounding, the default --select stratified;
-  multi-hour, shares the one local Ollama with the Phase 10/11/12 queue, resumable)
-  for the paper table numbers — the committed table/fig are the n=5 smoke (captions
-  say n=5).
+  FULL RUN COMPLETE (2026-07-17, n=93 stratified, llama3.1:8b, default --select
+  stratified). CONVERGENCE (threshold 0.70): round0 F1 0.732 / recall 0.605 /
+  halluc 0.005 / 64.5% reached -> round1 F1 0.864 / recall 0.774 / halluc 0.000 /
+  96.8% -> round2 0.870 / 0.782 / 0.000 / 98.9% -> round3 0.874 / 0.788 / 0.000 /
+  100.0%. mean F1 gain +0.141; mean 0.40 correction rounds used; 100% reached
+  threshold; stop reasons {threshold_reached: 93}. FINDINGS AT SCALE (confirm the
+  n=5 smoke): (1) the loop WORKS — F1 0.732->0.874, 64.5%->100% grounded, driven by
+  RECALL (0.605->0.788), the under-citation lever from Phase 13. (2) NO fabrication
+  induced — hallucination 0.005->0.000 as recall climbs (precision-preserving, the
+  honest recall-side caveat holds at scale). (3) CHEAP + no needless re-prompting —
+  mean 0.40 rounds because 64.5% are already >=0.7 at round0 and exit with zero
+  corrections. most-missed regions at round0: NE of Downtown LA (64), Glendale/
+  Burbank (56), San Fernando Valley (48). Committed table/fig now the REAL n=93
+  (update captions from n=5 -> n=93). Outputs regenerated:
+  active_grounding_{per_round.csv, decisions.jsonl, summary.json},
+  table_active_grounding.tex, fig_active_grounding.pdf. CAVEAT UNCHANGED: this
+  ENFORCES grounding toward the explainer top-k (internal-consistency), not
+  independent proof the explanation is correct.
 
 Phase 17 COMPLETE (built + full 20-scenario real run) — COUNTERFACTUAL EXPLANATIONS.
 Turns the WHY-explanation into the planner's next question ("what could I have done
@@ -1386,6 +1409,29 @@ gaps statistically meaningful?) without any new model or LLM — pure evaluation
 bootstrap CIs on the existing cached decisions (resumable, no full recompute);
 the A/B/C table gains CI columns; `D_CONTRA` produces a sane hallucination number;
 resolver still ≥90%.
+
+**STATUS: COMPLETE (2026-07-17).** All three parts done. (1) Bootstrap 95% CIs on
+A/B/C landed earlier at n=93 (table_faithfulness_ci.tex): A-B gap on every metric
+excludes 0 (F1 +0.635*, halluc -0.823*), A-C spans 0 (F1 -0.003) => grounding gap
+is statistically real, city context is not. (2)+(3) NEW conditions run at full
+n=93 (llama3.1:8b, --conditions A,C_RICH,D_CONTRA --out-tag 15b, so committed
+A/B/C artifacts untouched; 16 cached decisions reused). REAL RESULT:
+  A       (n=93): precision 0.978 / recall 0.609 / F1 0.733 / halluc 0.022
+  C_RICH  (n=93): precision 0.989 / recall 0.581 / F1 0.710 / halluc 0.011
+  D_CONTRA(n=93): precision 1.000 / recall 0.630 / F1 0.754 / halluc 0.000
+- C_RICH vs A: F1 gap 95% CI [-0.012, +0.058] SPANS 0; halluc gap CI [-0.011,
+  +0.032] SPANS 0 -> a FULLER context block does NOT move faithfulness. Strengthens
+  the Phase-5 'city context is ORTHOGONAL to faithfulness' claim with a CI, not just
+  a point estimate.
+- D_CONTRA (contradictory context = names a DIFFERENT real corridor as the
+  bottleneck): hallucination stayed 0.000, faithful (halluc==0) on 93/93 scenarios;
+  A-D_CONTRA halluc gap CI [+0.005, +0.043] EXCLUDES 0 in the direction A > D_CONTRA
+  (i.e. false context did not raise hallucination — if anything D_CONTRA was even
+  more disciplined). KEY FINDING: GROUNDING IS ROBUST TO ADVERSARIAL CONTEXT — the
+  LLM trusts the mathematical explanation over a contradictory city-context block
+  and never gets pulled to the decoy corridor. This is a positive robustness result,
+  NOT a limitation. Outputs: faithfulness_{per_scenario,summary}_15b.{csv,json} +
+  faithfulness_distributions_15b.pdf.
 
 ---
 

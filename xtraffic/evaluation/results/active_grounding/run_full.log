@@ -1,0 +1,119 @@
+/Users/narensara/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+[phase16] 93 scenarios | select=stratified | threshold=0.70 | max_rounds=3 | model=llama3.1:8b
+  [1/93] idx=4289 night/low  F1: 0.769  [OK] threshold_reached
+  [2/93] idx=5464 night/low  F1: 0.667 -> 1.000  [OK] threshold_reached
+  [3/93] idx=6643 night/low  F1: 0.769  [OK] threshold_reached
+  [4/93] idx=1740 night/low  F1: 0.769  [OK] threshold_reached
+  [5/93] idx=5460 night/low  F1: 0.933  [OK] threshold_reached
+  [6/93] idx=6592 night/low  F1: 0.857  [OK] threshold_reached
+  [7/93] idx=3145 night/low  F1: 0.545 -> 0.933  [OK] threshold_reached
+  [8/93] idx=5479 night/medium  F1: 0.857  [OK] threshold_reached
+  [9/93] idx=6058 night/medium  F1: 0.545 -> 0.769  [OK] threshold_reached
+  [10/93] idx=6335 night/medium  F1: 0.545 -> 0.769  [OK] threshold_reached
+  [11/93] idx=6615 night/medium  F1: 0.857  [OK] threshold_reached
+  [12/93] idx=6316 night/medium  F1: 0.545 -> 0.933  [OK] threshold_reached
+  [13/93] idx=1154 night/medium  F1: 0.769  [OK] threshold_reached
+  [14/93] idx=3163 night/medium  F1: 0.933  [OK] threshold_reached
+  [15/93] idx=3506 am_rush/low  F1: 0.667 -> 1.000  [OK] threshold_reached
+  [16/93] idx=3532 am_rush/low  F1: 0.857  [OK] threshold_reached
+  [17/93] idx=1770 am_rush/low  F1: 0.769  [OK] threshold_reached
+  [18/93] idx=5516 am_rush/low  F1: 0.400 -> 0.933  [OK] threshold_reached
+  [19/93] idx=5536 am_rush/low  F1: 0.857  [OK] threshold_reached
+  [20/93] idx=3515 am_rush/low  F1: 0.769  [OK] threshold_reached
+  [21/93] idx=5532 am_rush/low  F1: 0.769  [OK] threshold_reached
+  [22/93] idx=4397 am_rush/medium  F1: 1.000  [OK] threshold_reached
+  [23/93] idx=5257 am_rush/medium  F1: 0.857  [OK] threshold_reached
+  [24/93] idx=2917 am_rush/medium  F1: 0.769  [OK] threshold_reached
+  [25/93] idx=5246 am_rush/medium  F1: 0.545 -> 1.000  [OK] threshold_reached
+  [26/93] idx=1194 am_rush/medium  F1: 0.400 -> 1.000  [OK] threshold_reached
+  [27/93] idx=3212 am_rush/medium  F1: 0.769  [OK] threshold_reached
+  [28/93] idx=6660 am_rush/medium  F1: 0.857  [OK] threshold_reached
+  [29/93] idx=6092 am_rush/high  F1: 0.545 -> 1.000  [OK] threshold_reached
+  [30/93] idx=2649 am_rush/high  F1: 0.857  [OK] threshold_reached
+  [31/93] idx=4367 am_rush/high  F1: 0.400 -> 0.933  [OK] threshold_reached
+  [32/93] idx=361 am_rush/high  F1: 0.769  [OK] threshold_reached
+  [33/93] idx=1225 am_rush/high  F1: 0.933  [OK] threshold_reached
+  [34/93] idx=2660 am_rush/high  F1: 0.857  [OK] threshold_reached
+  [35/93] idx=6119 am_rush/high  F1: 0.769  [OK] threshold_reached
+  [36/93] idx=5866 midday/low  F1: 0.769  [OK] threshold_reached
+  [37/93] idx=5849 midday/low  F1: 0.769  [OK] threshold_reached
+  [38/93] idx=3831 midday/low  F1: 0.857  [OK] threshold_reached
+  [39/93] idx=1813 midday/low  F1: 0.667 -> 1.000  [OK] threshold_reached
+  [40/93] idx=5861 midday/low  F1: 0.933  [OK] threshold_reached
+  [41/93] idx=1836 midday/low  F1: 0.545 -> 0.769  [OK] threshold_reached
+  [42/93] idx=5855 midday/low  F1: 0.667 -> 0.933  [OK] threshold_reached
+  [43/93] idx=3544 midday/medium  F1: 0.667 -> 0.933  [OK] threshold_reached
+  [44/93] idx=4987 midday/medium  F1: 0.857  [OK] threshold_reached
+  [45/93] idx=6133 midday/medium  F1: 0.857  [OK] threshold_reached
+  [46/93] idx=6150 midday/medium  F1: 0.769  [OK] threshold_reached
+  [47/93] idx=1242 midday/medium  F1: 0.545 -> 1.000  [OK] threshold_reached
+  [48/93] idx=2391 midday/medium  F1: 0.545 -> 0.857  [OK] threshold_reached
+  [49/93] idx=6134 midday/medium  F1: 0.857  [OK] threshold_reached
+  [50/93] idx=3296 midday/high  F1: 0.400 -> 0.857  [OK] threshold_reached
+  [51/93] idx=5574 midday/high  F1: 0.933  [OK] threshold_reached
+  [52/93] idx=982 midday/high  F1: 0.769  [OK] threshold_reached
+  [53/93] idx=5587 midday/high  F1: 0.857  [OK] threshold_reached
+  [54/93] idx=2724 midday/high  F1: 0.545 -> 1.000  [OK] threshold_reached
+  [55/93] idx=6735 midday/high  F1: 0.769  [OK] threshold_reached
+  [56/93] idx=3270 midday/high  F1: 0.769  [OK] threshold_reached
+  [57/93] idx=1879 pm_rush/low  F1: 0.857  [OK] threshold_reached
+  [58/93] idx=1919 pm_rush/low  F1: 0.769  [OK] threshold_reached
+  [59/93] idx=5668 pm_rush/low  F1: 0.400 -> 1.000  [OK] threshold_reached
+  [60/93] idx=1926 pm_rush/low  F1: 0.556 -> 0.545 -> 1.000  [OK] threshold_reached
+  [61/93] idx=2210 pm_rush/low  F1: 0.667 -> 0.667 -> 0.667 -> 1.000  [OK] threshold_reached
+  [62/93] idx=5923 pm_rush/low  F1: 0.545 -> 1.000  [OK] threshold_reached
+  [63/93] idx=1918 pm_rush/low  F1: 0.933  [OK] threshold_reached
+  [64/93] idx=3644 pm_rush/medium  F1: 1.000  [OK] threshold_reached
+  [65/93] idx=1874 pm_rush/medium  F1: 0.857  [OK] threshold_reached
+  [66/93] idx=4222 pm_rush/medium  F1: 0.857  [OK] threshold_reached
+  [67/93] idx=4797 pm_rush/medium  F1: 1.000  [OK] threshold_reached
+  [68/93] idx=1344 pm_rush/medium  F1: 0.545 -> 0.857  [OK] threshold_reached
+  [69/93] idx=765 pm_rush/medium  F1: 0.545 -> 1.000  [OK] threshold_reached
+  [70/93] idx=4223 pm_rush/medium  F1: 0.545 -> 0.933  [OK] threshold_reached
+  [71/93] idx=1603 pm_rush/high  F1: 0.667 -> 1.000  [OK] threshold_reached
+  [72/93] idx=3365 pm_rush/high  F1: 0.769  [OK] threshold_reached
+  [73/93] idx=3894 pm_rush/high  F1: 0.667 -> 1.000  [OK] threshold_reached
+  [74/93] idx=5049 pm_rush/high  F1: 0.400 -> 1.000  [OK] threshold_reached
+  [75/93] idx=6795 pm_rush/high  F1: 0.769  [OK] threshold_reached
+  [76/93] idx=4767 pm_rush/high  F1: 0.857  [OK] threshold_reached
+  [77/93] idx=3626 pm_rush/high  F1: 0.769  [OK] threshold_reached
+  [78/93] idx=2821 evening/low  F1: 0.857  [OK] threshold_reached
+  [79/93] idx=6828 evening/low  F1: 0.933  [OK] threshold_reached
+  [80/93] idx=6581 evening/low  F1: 0.933  [OK] threshold_reached
+  [81/93] idx=219 evening/low  F1: 0.222 -> 1.000  [OK] threshold_reached
+  [82/93] idx=236 evening/low  F1: 0.667 -> 1.000  [OK] threshold_reached
+  [83/93] idx=2530 evening/low  F1: 0.545 -> 1.000  [OK] threshold_reached
+  [84/93] idx=6292 evening/low  F1: 0.769  [OK] threshold_reached
+  [85/93] idx=5424 evening/medium  F1: 0.667 -> 0.667 -> 0.769  [OK] threshold_reached
+  [86/93] idx=5702 evening/medium  F1: 0.769  [OK] threshold_reached
+  [87/93] idx=5421 evening/medium  F1: 0.769  [OK] threshold_reached
+  [88/93] idx=5716 evening/medium  F1: 0.769  [OK] threshold_reached
+  [89/93] idx=5385 evening/medium  F1: 0.769  [OK] threshold_reached
+  [90/93] idx=5423 evening/medium  F1: 0.769  [OK] threshold_reached
+  [91/93] idx=5420 evening/medium  F1: 0.933  [OK] threshold_reached
+  [92/93] idx=3370 evening/high  F1: 0.857  [OK] threshold_reached
+  [93/93] idx=3369 evening/high  F1: 0.769  [OK] threshold_reached
+  (reused 5 cached scenario traces)
+
+========================================================================
+ACTIVE GROUNDING — CONVERGENCE (n=93, threshold 0.70)
+========================================================================
+ round     mean F1 mean recall   mean halluc   reached thr %
+     0       0.732       0.605         0.005            64.5
+     1       0.864       0.774         0.000            96.8
+     2       0.870       0.782         0.000            98.9
+     3       0.874       0.788         0.000           100.0
+------------------------------------------------------------------------
+mean F1 gain (round0 -> final): +0.141
+mean correction rounds used:    0.40
+reached threshold overall:      100.0%
+stop reasons: {'threshold_reached': 93}
+most-missed regions at round 0: NE of Downtown LA (64), Glendale / Burbank (56), San Fernando Valley (48), Hollywood (27), N of Downtown LA (27), Downtown LA (24)
+
+[phase16] wrote:
+  /Users/narensara/Desktop/OlympiFlow/xtraffic/evaluation/results/active_grounding/active_grounding_per_round.csv
+  /Users/narensara/Desktop/OlympiFlow/xtraffic/evaluation/results/active_grounding/active_grounding_decisions.jsonl
+  /Users/narensara/Desktop/OlympiFlow/xtraffic/evaluation/results/active_grounding/active_grounding_summary.json
+  /Users/narensara/Desktop/OlympiFlow/xtraffic/evaluation/paper/table_active_grounding.tex
+  /Users/narensara/Desktop/OlympiFlow/xtraffic/evaluation/paper/fig_active_grounding.pdf

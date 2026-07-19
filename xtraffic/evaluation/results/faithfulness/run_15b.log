@@ -1,0 +1,121 @@
+/Users/narensara/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+Sampled 93 scenarios across 5 tod-bands x 3 congestion levels.
+  [1/93] test#4289 @ 00:40 night cong=low  A/C_RICH/D_CONTRA done
+  [2/93] test#5464 @ 02:35 night cong=low  A/C_RICH/D_CONTRA done
+  [3/93] test#6643 @ 04:50 night cong=low  A/C_RICH/D_CONTRA done
+  [4/93] test#1740 @ 04:15 night cong=low  A/C_RICH/D_CONTRA done
+  [5/93] test#5460 @ 02:15 night cong=low  A/C_RICH/D_CONTRA done
+  [6/93] test#6592 @ 00:35 night cong=low  A/C_RICH/D_CONTRA done
+  [7/93] test#3145 @ 01:20 night cong=low  A/C_RICH/D_CONTRA done
+  [8/93] test#5479 @ 03:50 night cong=medium  A/C_RICH/D_CONTRA done
+  [9/93] test#6058 @ 04:05 night cong=medium  A/C_RICH/D_CONTRA done
+  [10/93] test#6335 @ 03:10 night cong=medium  A/C_RICH/D_CONTRA done
+  [11/93] test#6615 @ 02:30 night cong=medium  A/C_RICH/D_CONTRA done
+  [12/93] test#6316 @ 01:35 night cong=medium  A/C_RICH/D_CONTRA done
+  [13/93] test#1154 @ 03:25 night cong=medium  A/C_RICH/D_CONTRA done
+  [14/93] test#3163 @ 02:50 night cong=medium  A/C_RICH/D_CONTRA done
+  [15/93] test#3506 @ 07:25 am_rush cong=low  A/C_RICH/D_CONTRA done
+  [16/93] test#3532 @ 09:35 am_rush cong=low  A/C_RICH/D_CONTRA done
+  [17/93] test#1770 @ 06:45 am_rush cong=low  A/C_RICH/D_CONTRA done
+  [18/93] test#5516 @ 06:55 am_rush cong=low  A/C_RICH/D_CONTRA done
+  [19/93] test#5536 @ 08:35 am_rush cong=low  A/C_RICH/D_CONTRA done
+  [20/93] test#3515 @ 08:10 am_rush cong=low  A/C_RICH/D_CONTRA done
+  [21/93] test#5532 @ 08:15 am_rush cong=low  A/C_RICH/D_CONTRA done
+  [22/93] test#4397 @ 09:40 am_rush cong=medium  A/C_RICH/D_CONTRA done
+  [23/93] test#5257 @ 09:20 am_rush cong=medium  A/C_RICH/D_CONTRA done
+  [24/93] test#2917 @ 06:20 am_rush cong=medium  A/C_RICH/D_CONTRA done
+  [25/93] test#5246 @ 08:25 am_rush cong=medium  A/C_RICH/D_CONTRA done
+  [26/93] test#1194 @ 06:45 am_rush cong=medium  A/C_RICH/D_CONTRA done
+  [27/93] test#3212 @ 06:55 am_rush cong=medium  A/C_RICH/D_CONTRA done
+  [28/93] test#6660 @ 06:15 am_rush cong=medium  A/C_RICH/D_CONTRA done
+  [29/93] test#6092 @ 06:55 am_rush cong=high  A/C_RICH/D_CONTRA done
+  [30/93] test#2649 @ 08:00 am_rush cong=high  A/C_RICH/D_CONTRA done
+  [31/93] test#4367 @ 07:10 am_rush cong=high  A/C_RICH/D_CONTRA done
+  [32/93] test#361 @ 09:20 am_rush cong=high  A/C_RICH/D_CONTRA done
+  [33/93] test#1225 @ 09:20 am_rush cong=high  A/C_RICH/D_CONTRA done
+  [34/93] test#2660 @ 08:55 am_rush cong=high  A/C_RICH/D_CONTRA done
+  [35/93] test#6119 @ 09:10 am_rush cong=high  A/C_RICH/D_CONTRA done
+  [36/93] test#5866 @ 12:05 midday cong=low  A/C_RICH/D_CONTRA done
+  [37/93] test#5849 @ 10:40 midday cong=low  A/C_RICH/D_CONTRA done
+  [38/93] test#3831 @ 10:30 midday cong=low  A/C_RICH/D_CONTRA done
+  [39/93] test#1813 @ 10:20 midday cong=low  A/C_RICH/D_CONTRA done
+  [40/93] test#5861 @ 11:40 midday cong=low  A/C_RICH/D_CONTRA done
+  [41/93] test#1836 @ 12:15 midday cong=low  A/C_RICH/D_CONTRA done
+  [42/93] test#5855 @ 11:10 midday cong=low  A/C_RICH/D_CONTRA done
+  [43/93] test#3544 @ 10:35 midday cong=medium  A/C_RICH/D_CONTRA done
+  [44/93] test#4987 @ 10:50 midday cong=medium  A/C_RICH/D_CONTRA done
+  [45/93] test#6133 @ 10:20 midday cong=medium  A/C_RICH/D_CONTRA done
+  [46/93] test#6150 @ 11:45 midday cong=medium  A/C_RICH/D_CONTRA done
+  [47/93] test#1242 @ 10:45 midday cong=medium  A/C_RICH/D_CONTRA done
+  [48/93] test#2391 @ 10:30 midday cong=medium  A/C_RICH/D_CONTRA done
+  [49/93] test#6134 @ 10:25 midday cong=medium  A/C_RICH/D_CONTRA done
+  [50/93] test#3296 @ 13:55 midday cong=high  A/C_RICH/D_CONTRA done
+  [51/93] test#5574 @ 11:45 midday cong=high  A/C_RICH/D_CONTRA done
+  [52/93] test#982 @ 13:05 midday cong=high  A/C_RICH/D_CONTRA done
+  [53/93] test#5587 @ 12:50 midday cong=high  A/C_RICH/D_CONTRA done
+  [54/93] test#2724 @ 14:15 midday cong=high  A/C_RICH/D_CONTRA done
+  [55/93] test#6735 @ 12:30 midday cong=high  A/C_RICH/D_CONTRA done
+  [56/93] test#3270 @ 11:45 midday cong=high  A/C_RICH/D_CONTRA done
+  [57/93] test#1879 @ 15:50 pm_rush cong=low  A/C_RICH/D_CONTRA done
+  [58/93] test#1919 @ 19:10 pm_rush cong=low  A/C_RICH/D_CONTRA done
+  [59/93] test#5668 @ 19:35 pm_rush cong=low  A/C_RICH/D_CONTRA done
+  [60/93] test#1926 @ 19:45 pm_rush cong=low  A/C_RICH/D_CONTRA done
+  [61/93] test#2210 @ 19:25 pm_rush cong=low  A/C_RICH/D_CONTRA done
+  [62/93] test#5923 @ 16:50 pm_rush cong=low  A/C_RICH/D_CONTRA done
+  [63/93] test#1918 @ 19:05 pm_rush cong=low  A/C_RICH/D_CONTRA done
+  [64/93] test#3644 @ 18:55 pm_rush cong=medium  A/C_RICH/D_CONTRA done
+  [65/93] test#1874 @ 15:25 pm_rush cong=medium  A/C_RICH/D_CONTRA done
+  [66/93] test#4222 @ 19:05 pm_rush cong=medium  A/C_RICH/D_CONTRA done
+  [67/93] test#4797 @ 19:00 pm_rush cong=medium  A/C_RICH/D_CONTRA done
+  [68/93] test#1344 @ 19:15 pm_rush cong=medium  A/C_RICH/D_CONTRA done
+  [69/93] test#765 @ 19:00 pm_rush cong=medium  A/C_RICH/D_CONTRA done
+  [70/93] test#4223 @ 19:10 pm_rush cong=medium  A/C_RICH/D_CONTRA done
+  [71/93] test#1603 @ 16:50 pm_rush cong=high  A/C_RICH/D_CONTRA done
+  [72/93] test#3365 @ 19:40 pm_rush cong=high  A/C_RICH/D_CONTRA done
+  [73/93] test#3894 @ 15:45 pm_rush cong=high  A/C_RICH/D_CONTRA done
+  [74/93] test#5049 @ 16:00 pm_rush cong=high  A/C_RICH/D_CONTRA done
+  [75/93] test#6795 @ 17:30 pm_rush cong=high  A/C_RICH/D_CONTRA done
+  [76/93] test#4767 @ 16:30 pm_rush cong=high  A/C_RICH/D_CONTRA done
+  [77/93] test#3626 @ 17:25 pm_rush cong=high  A/C_RICH/D_CONTRA done
+  [78/93] test#2821 @ 22:20 evening cong=low  A/C_RICH/D_CONTRA done
+  [79/93] test#6828 @ 20:15 evening cong=low  A/C_RICH/D_CONTRA done
+  [80/93] test#6581 @ 23:40 evening cong=low  A/C_RICH/D_CONTRA done
+  [81/93] test#219 @ 21:30 evening cong=low  A/C_RICH/D_CONTRA done
+  [82/93] test#236 @ 22:55 evening cong=low  A/C_RICH/D_CONTRA done
+  [83/93] test#2530 @ 22:05 evening cong=low  A/C_RICH/D_CONTRA done
+  [84/93] test#6292 @ 23:35 evening cong=low  A/C_RICH/D_CONTRA done
+  [85/93] test#5424 @ 23:15 evening cong=medium  A/C_RICH/D_CONTRA done
+  [86/93] test#5702 @ 22:25 evening cong=medium  A/C_RICH/D_CONTRA done
+  [87/93] test#5421 @ 23:00 evening cong=medium  A/C_RICH/D_CONTRA done
+  [88/93] test#5716 @ 23:35 evening cong=medium  A/C_RICH/D_CONTRA done
+  [89/93] test#5385 @ 20:00 evening cong=medium  A/C_RICH/D_CONTRA done
+  [90/93] test#5423 @ 23:10 evening cong=medium  A/C_RICH/D_CONTRA done
+  [91/93] test#5420 @ 22:55 evening cong=medium  A/C_RICH/D_CONTRA done
+  [92/93] test#3370 @ 20:05 evening cong=high  A/C_RICH/D_CONTRA done
+  [93/93] test#3369 @ 20:00 evening cong=high  A/C_RICH/D_CONTRA done
+  (reused 16 cached decisions)
+
+=== FAITHFULNESS BY CONDITION (mean +/- std) ===
+metric                            A (n=93)         C_RICH (n=93)       D_CONTRA (n=93)
+--------------------------------------------------------------------------------------
+cause_precision            0.978 +/- 0.101       0.989 +/- 0.073       1.000 +/- 0.000
+cause_recall               0.609 +/- 0.189       0.581 +/- 0.200       0.630 +/- 0.202
+faithfulness_f1            0.733 +/- 0.169       0.710 +/- 0.169       0.754 +/- 0.160
+hallucination_rate         0.022 +/- 0.101       0.011 +/- 0.073       0.000 +/- 0.000
+quantitative_fidelity       0.650 +/- 0.254       0.751 +/- 0.249       0.785 +/- 0.219
+
+C_RICH (fuller context) vs A:
+  F1:            A 0.733  vs  C_RICH 0.710  [95% CI -0.012, +0.058; spans 0]
+  hallucination: A 0.022  vs  C_RICH 0.011  [95% CI -0.011, +0.032; spans 0]
+  -> spans 0 => a fuller context block does NOT move faithfulness (strengthens the 'context is orthogonal' claim).
+
+D_CONTRA (contradictory context) — grounding stress test:
+  hallucination: A 0.022  vs  D_CONTRA 0.000  [95% CI +0.005, +0.043; excludes 0]
+  stayed faithful (halluc==0): 93/93 scenarios
+  -> if hallucination stays ~0, the LLM trusted the math over the false context (grounding robust); if it spikes, that's a real limitation to report.
+
+Wrote:
+  /Users/narensara/Desktop/OlympiFlow/xtraffic/evaluation/results/faithfulness/faithfulness_per_scenario_15b.csv
+  /Users/narensara/Desktop/OlympiFlow/xtraffic/evaluation/results/faithfulness/faithfulness_summary_15b.json
+  /Users/narensara/Desktop/OlympiFlow/xtraffic/evaluation/results/faithfulness/faithfulness_distributions_15b.pdf

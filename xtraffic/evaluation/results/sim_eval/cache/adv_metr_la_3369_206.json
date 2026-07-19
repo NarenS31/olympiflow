@@ -1,0 +1,42 @@
+{
+  "reasoning": "The predicted congestion in Hollywood is due to a combination of factors. The current speed at the target location (Hollywood, sensor 769373) is already low at 8.87 mph, and it's expected to decrease further to 5.76 mph in 30 minutes. This slowdown is caused by congestion traveling along a path of 3 sensors with an estimated lag of 5.0 minutes between the source and the target. The top contributing sensor is NW of Downtown LA (sensor 717488), which has a speed of 16.12 mph, indicating that traffic is slowing down as it approaches Hollywood.",
+  "cited_causes": [
+    {
+      "location": "NW of Downtown LA",
+      "resolved_node_id": 103
+    },
+    {
+      "location": "Hollywood",
+      "resolved_node_id": null
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Reroute traffic before the merge",
+      "location": "I-10/I-110 downtown interchange",
+      "time_window_minutes": 5,
+      "expected_effect": "Reduced congestion in Hollywood",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Signal coordination on surface reliefs",
+      "location": "Sunset Blvd and Santa Monica Blvd",
+      "time_window_minutes": 10,
+      "expected_effect": "Improved traffic flow through Hollywood",
+      "grounded_in": [
+        "city-context fact: ATSAC signal-coordinated"
+      ]
+    },
+    {
+      "action": "Encourage use of transit alternatives",
+      "location": "Wilshire and Expo/I-10 rail lines",
+      "time_window_minutes": 15,
+      "expected_effect": "Divert traffic away from Hollywood",
+      "grounded_in": [
+        "city-context fact: Metro rail relief options"
+      ]
+    }
+  ]
+}

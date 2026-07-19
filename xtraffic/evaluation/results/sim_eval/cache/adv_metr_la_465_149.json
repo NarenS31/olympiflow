@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley, particularly at sensor 763995 (node_id 149), which is currently moving at 9.88 mph and is expected to increase to 20.05 mph in 30 minutes. This slowdown is caused by congestion traveling from Downtown LA, where sensors NE of Downtown LA (sensor 760650, node_id 48) and NE of Downtown LA (sensor 774012, node_id 44) are moving at relatively high speeds of 58.25 mph and 69.13 mph respectively.",
+  "cited_causes": [
+    {
+      "location": "NE of Downtown LA",
+      "resolved_node_id": 48
+    },
+    {
+      "location": "NE of Downtown LA",
+      "resolved_node_id": 44
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in the San Fernando Valley",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Reroute traffic before merge",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion in the San Fernando Valley",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Adjust ramp metering",
+      "location": "Sepulveda Pass",
+      "time_window_minutes": 5,
+      "expected_effect": "Reduced congestion in the San Fernando Valley",
+      "grounded_in": [
+        "city-context fact: I-405 Sepulveda Pass, both peaks"
+      ]
+    }
+  ]
+}

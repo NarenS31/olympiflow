@@ -1,0 +1,83 @@
+{
+  "curve": [
+    {
+      "round": 0,
+      "used_correction": false,
+      "faithfulness_f1": 0.7692307692307693,
+      "cause_precision": 1.0,
+      "cause_recall": 0.625,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 3,
+      "n_topk": 8,
+      "n_missed": 3,
+      "missed_regions": [
+        "NE of Downtown LA",
+        "Glendale / Burbank",
+        "NW of Downtown LA"
+      ],
+      "missed_node_ids": [
+        45,
+        116,
+        195
+      ],
+      "advisory_error": ""
+    }
+  ],
+  "n_rounds": 0,
+  "reached_threshold": true,
+  "stop_reason": "threshold_reached",
+  "f1_initial": 0.7692307692307693,
+  "f1_final": 0.7692307692307693,
+  "f1_gain": 0.0,
+  "final_advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley, specifically at sensor 760024 (17.25 mph), sensor 769430 (17.0 mph), and sensor 764781 (15.12 mph). This slow traffic is then propagated along a path of 7 sensors with an estimated lag of 35 minutes between the source and the target location in Hollywood.",
+    "cited_causes": [
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 43
+      },
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 82
+      },
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 130
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Reroute traffic before the merge",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion at the target location in Hollywood",
+        "grounded_in": [
+          "city-context fact: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Increase signal timing at surface relief roads",
+        "location": "Sunset Blvd and Santa Monica Blvd",
+        "time_window_minutes": 15,
+        "expected_effect": "Improved traffic flow through Hollywood",
+        "grounded_in": [
+          "city-context fact: ATSAC signal-coordinated"
+        ]
+      },
+      {
+        "action": "Encourage carpooling or use of public transit",
+        "location": "Glendale/Burbank area",
+        "time_window_minutes": 5,
+        "expected_effect": "Reduced demand on roads and alleviated congestion",
+        "grounded_in": [
+          "city-context fact: Metro is limited here, so demand is car-dominant"
+        ]
+      }
+    ]
+  },
+  "sample_index": 3626,
+  "target_node": 206,
+  "tod_band": "pm_rush",
+  "congestion": "high",
+  "model": "llama3.1:8b"
+}

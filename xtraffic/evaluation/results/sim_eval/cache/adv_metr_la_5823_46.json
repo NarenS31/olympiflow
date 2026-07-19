@@ -1,0 +1,46 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in Downtown LA (32.14 mph), which propagates to the NE of Downtown LA (46.29 mph). This congestion then affects the Glendale/Burbank area, where traffic on SR-134 and I-5 is already congested due to merge issues at the interchange.",
+  "cited_causes": [
+    {
+      "location": "Downtown LA",
+      "resolved_node_id": 16
+    },
+    {
+      "location": "NE of Downtown LA",
+      "resolved_node_id": 29
+    },
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 202
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering on I-5 and SR-134",
+      "location": "I-5/SR-134 interchange, Glendale/Burbank area",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion at the merge points",
+      "grounded_in": [
+        "merge issues at the I-5/SR-134/SR-2 interchange"
+      ]
+    },
+    {
+      "action": "Optimize signal timing on parallel arterials (Sepulveda Blvd, Brand Blvd)",
+      "location": "Glendale/Burbank area",
+      "time_window_minutes": 15,
+      "expected_effect": "Improved traffic flow on surface streets",
+      "grounded_in": [
+        "city-context fact: Metro is limited here, so demand is car-dominant"
+      ]
+    },
+    {
+      "action": "Reroute traffic before the merge on I-5 and SR-134",
+      "location": "I-5/SR-134 interchange, Glendale/Burbank area",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion at the merge points",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks are structural (geometry/merges)"
+      ]
+    }
+  ]
+}

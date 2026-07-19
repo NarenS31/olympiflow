@@ -1,0 +1,79 @@
+{
+  "curve": [
+    {
+      "round": 0,
+      "used_correction": false,
+      "faithfulness_f1": 0.7692307692307693,
+      "cause_precision": 1.0,
+      "cause_recall": 0.625,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 2,
+      "n_topk": 8,
+      "n_missed": 3,
+      "missed_regions": [
+        "N of Downtown LA",
+        "NE of Downtown LA",
+        "N of Downtown LA"
+      ],
+      "missed_node_ids": [
+        78,
+        79,
+        49
+      ],
+      "advisory_error": ""
+    }
+  ],
+  "n_rounds": 0,
+  "reached_threshold": true,
+  "stop_reason": "threshold_reached",
+  "f1_initial": 0.7692307692307693,
+  "f1_final": 0.7692307692307693,
+  "f1_gain": 0.0,
+  "final_advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in several locations. The Hollywood area (sensor 769372, node_id 198) has a speed of 68.38 mph, which is slower than expected. Additionally, the San Fernando Valley (sensor 765171, node_id 77) and other nearby sensors are also reporting slow speeds, indicating that congestion is building up in this area.",
+    "cited_causes": [
+      {
+        "location": "Hollywood",
+        "resolved_node_id": 198
+      },
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 77
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Activate ramp metering",
+        "location": "Sepulveda Pass (I-405)",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduce congestion by limiting the number of vehicles entering the Sepulveda Pass",
+        "grounded_in": [
+          "city-context fact: Ramp metering is active pass-wide"
+        ]
+      },
+      {
+        "action": "Optimize signal timing at surface relief roads",
+        "location": "Sunset Blvd and Santa Monica Blvd (ATSAC signal-coordinated)",
+        "time_window_minutes": 15,
+        "expected_effect": "Improve traffic flow by synchronizing signals with the predicted congestion pattern",
+        "grounded_in": [
+          "city-context fact: Surface relief: Sunset Blvd and Santa Monica Blvd, both ATSAC signal-coordinated"
+        ]
+      },
+      {
+        "action": "Implement dynamic lane management",
+        "location": "US-101 (Hollywood Fwy)",
+        "time_window_minutes": 20,
+        "expected_effect": "Increase capacity by dynamically allocating lanes to reduce congestion",
+        "grounded_in": [
+          "city-context fact: Bottleneck at the US-101/I-110 four-level and at the Cahuenga Pass grade"
+        ]
+      }
+    ]
+  },
+  "sample_index": 5716,
+  "target_node": 155,
+  "tod_band": "evening",
+  "congestion": "medium",
+  "model": "llama3.1:8b"
+}

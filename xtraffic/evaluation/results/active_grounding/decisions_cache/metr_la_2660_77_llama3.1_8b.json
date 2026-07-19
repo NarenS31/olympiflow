@@ -1,0 +1,77 @@
+{
+  "curve": [
+    {
+      "round": 0,
+      "used_correction": false,
+      "faithfulness_f1": 0.8571428571428571,
+      "cause_precision": 1.0,
+      "cause_recall": 0.75,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 2,
+      "n_topk": 8,
+      "n_missed": 2,
+      "missed_regions": [
+        "N of Downtown LA",
+        "N of Downtown LA"
+      ],
+      "missed_node_ids": [
+        78,
+        183
+      ],
+      "advisory_error": ""
+    }
+  ],
+  "n_rounds": 0,
+  "reached_threshold": true,
+  "stop_reason": "threshold_reached",
+  "f1_initial": 0.8571428571428571,
+  "f1_final": 0.8571428571428571,
+  "f1_gain": 0.0,
+  "final_advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley, specifically at sensor 717608 (node_id 122), which has a speed of 67.22 mph. This slow speed is contributing to the congestion at the target location, and it appears that congestion is traveling along a path of 5 sensors with an estimated lag of 5 minutes between the source and the target.",
+    "cited_causes": [
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 122
+      },
+      {
+        "location": "NE of Downtown LA",
+        "resolved_node_id": 79
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Activate ramp metering on I-405",
+        "location": "I-405 San Diego Freeway corridor",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion in the San Fernando Valley",
+        "grounded_in": [
+          "cited cause: San Fernando Valley (sensor 717608, node_id 122)"
+        ]
+      },
+      {
+        "action": "Optimize signal timing on Sepulveda Blvd",
+        "location": "Sepulveda Blvd",
+        "time_window_minutes": 5,
+        "expected_effect": "Improved traffic flow in the San Fernando Valley",
+        "grounded_in": [
+          "city-context fact: Sepulveda Blvd is the parallel arterial"
+        ]
+      },
+      {
+        "action": "Implement dynamic lane management on I-405",
+        "location": "I-405 San Diego Freeway corridor",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion in the Sepulveda Pass",
+        "grounded_in": [
+          "city-context fact: I-405 (San Diego Fwy) is one of the most congested segments in the US"
+        ]
+      }
+    ]
+  },
+  "sample_index": 2660,
+  "target_node": 77,
+  "tod_band": "am_rush",
+  "congestion": "high",
+  "model": "llama3.1:8b"
+}

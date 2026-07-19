@@ -1,0 +1,23 @@
+{
+  "sample_index": 1836,
+  "target_node": 91,
+  "tod_band": "midday",
+  "congestion": "low",
+  "condition": "D_CONTRA",
+  "advisory_error": "",
+  "cited_locations": [
+    "San Fernando Valley",
+    "San Fernando Valley",
+    "San Fernando Valley"
+  ],
+  "context_used": [
+    "CONTRADICTORY:Glendale/Burbank freeways (SR-134, I-5, SR-2)"
+  ],
+  "cause_precision": 1.0,
+  "cause_recall": 0.375,
+  "faithfulness_f1": 0.5454545454545454,
+  "hallucination_rate": 0.0,
+  "quantitative_fidelity": 0.8,
+  "n_cited_causes": 3,
+  "n_topk": 8
+}

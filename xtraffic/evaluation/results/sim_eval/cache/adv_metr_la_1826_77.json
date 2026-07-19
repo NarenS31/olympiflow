@@ -1,0 +1,42 @@
+{
+  "reasoning": "The predicted congestion is due to a traffic wave propagating from Downtown LA, where the speed is currently 62.75 mph at sensor 716331 (node_id 15), and slowing down as it moves northwards, with speeds of 63.13 mph at NW of Downtown LA (sensor 717453, node_id 193) and 42.75 mph at N of Downtown LA (sensor 716955, node_id 56). This congestion wave is traveling along a path of 10 sensors, with an estimated lag of 15 minutes between the source and the target.",
+  "cited_causes": [
+    {
+      "location": "Downtown LA",
+      "resolved_node_id": 15
+    },
+    {
+      "location": "NW of Downtown LA",
+      "resolved_node_id": 193
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Activate ramp meters on eastbound on-ramps along I-10",
+      "location": "I-10 (Santa Monica Fwy)",
+      "time_window_minutes": 5,
+      "expected_effect": "Reduce congestion by limiting the number of vehicles entering the freeway",
+      "grounded_in": [
+        "Caltrans ramp meters operate on most eastbound on-ramps during peak"
+      ]
+    },
+    {
+      "action": "Signal-coordinated traffic management along parallel arterials (Olympic Blvd and Pico Blvd)",
+      "location": "Olympic Blvd and Pico Blvd",
+      "time_window_minutes": 10,
+      "expected_effect": "Redirect some traffic to these arterials, reducing congestion on I-10",
+      "grounded_in": [
+        "Parallel relief arterials: Olympic Blvd and Pico Blvd (both signal-coordinated by LADOT ATSAC)"
+      ]
+    },
+    {
+      "action": "Encourage transit use along the Wilshire rail line",
+      "location": "Wilshire rail line",
+      "time_window_minutes": 15,
+      "expected_effect": "Divert some traffic to public transportation, reducing congestion on I-10",
+      "grounded_in": [
+        "Transit is a viable diversion lever only where a parallel rail line exists (Wilshire, Expo/I-10, Harbor/I-110, Pasadena A Line)"
+      ]
+    }
+  ]
+}

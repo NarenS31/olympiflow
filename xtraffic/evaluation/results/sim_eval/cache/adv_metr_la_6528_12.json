@@ -1,0 +1,42 @@
+{
+  "reasoning": "The predicted congestion is due to the slow speeds in the Glendale/Burbank freeways, specifically at sensor 767455 (34.143, -118.227), where the speed is currently 69.88 mph. This slow speed is contributing to the congestion at the target location NW of Downtown LA (sensor 716339, 34.078, -118.288).",
+  "cited_causes": [
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 107
+    },
+    {
+      "location": "NW of Downtown LA",
+      "resolved_node_id": null
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering on I-5/SR-134/SR-2 interchange",
+      "location": "I-5/SR-134/SR-2 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in the Glendale/Burbank freeways",
+      "grounded_in": [
+        "Glendale / Burbank (sensor 767455, 34.143, -118.227)"
+      ]
+    },
+    {
+      "action": "Reroute traffic before merge on I-5/SR-134/SR-2 interchange",
+      "location": "I-5/SR-134/SR-2 interchange",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion in the Glendale/Burbank freeways",
+      "grounded_in": [
+        "Glendale / Burbank (sensor 767455, 34.143, -118.227)"
+      ]
+    },
+    {
+      "action": "Adjust ramp metering on I-405 Sepulveda Pass",
+      "location": "I-405 Sepulveda Pass",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in the San Fernando Valley freeways",
+      "grounded_in": [
+        "San Fernando Valley (sensor 737529, 34.203, -118.474)"
+      ]
+    }
+  ]
+}

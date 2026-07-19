@@ -1,0 +1,42 @@
+{
+  "reasoning": "The predicted congestion in Downtown LA is due to the propagation of congestion from upstream locations. The top contributing sensors indicate that traffic is slowing down as it approaches Downtown LA, with speeds decreasing by up to 30 mph (e.g., sensor 718045 at 64.75 mph). This congestion appears to be traveling along a path of 2 sensors, with an estimated lag of 45 minutes between the source and the target.",
+  "cited_causes": [
+    {
+      "location": "Downtown LA",
+      "resolved_node_id": 38
+    },
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 108
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "I-10/I-110 downtown interchange",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduce congestion by slowing down traffic before it reaches Downtown LA",
+      "grounded_in": [
+        "city-context fact: recurrent bottleneck at I-10/I-110 downtown interchange"
+      ]
+    },
+    {
+      "action": "Reroute traffic before the merge",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduce congestion by diverting traffic away from the bottlenecked area",
+      "grounded_in": [
+        "city-context fact: recurrent bottleneck at I-5/SR-134 interchange"
+      ]
+    },
+    {
+      "action": "Signal-coordinated surface relief",
+      "location": "Sunset Blvd and Santa Monica Blvd",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduce congestion by providing an alternative route for traffic to flow through",
+      "grounded_in": [
+        "city-context fact: surface relief at Sunset Blvd and Santa Monica Blvd"
+      ]
+    }
+  ]
+}

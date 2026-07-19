@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in Downtown LA (33.5 mph at sensor 771667, node_id 16), which propagates to the target location NE of Downtown LA with a lag of 0 minutes. The San Fernando Valley also contributes to the congestion, particularly around sensors 769430 and 769431, both with current speed 0.0 mph.",
+  "cited_causes": [
+    {
+      "location": "Downtown LA",
+      "resolved_node_id": 16
+    },
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": null
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "I-10/I-110 downtown interchange",
+      "time_window_minutes": 5,
+      "expected_effect": "Reduce congestion by limiting the number of vehicles entering the bottlenecked area",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Reroute traffic before merging",
+      "location": "I-405 Sepulveda Pass",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduce congestion by diverting traffic away from the bottlenecked area",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Adjust signal timing on parallel arterials",
+      "location": "Sepulveda Blvd and Van Nuys Blvd",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduce congestion by optimizing traffic flow on parallel roads",
+      "grounded_in": [
+        "city-context fact: San Fernando Valley freeways"
+      ]
+    }
+  ]
+}

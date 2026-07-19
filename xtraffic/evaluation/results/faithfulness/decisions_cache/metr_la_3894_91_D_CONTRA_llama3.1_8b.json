@@ -1,0 +1,23 @@
+{
+  "sample_index": 3894,
+  "target_node": 91,
+  "tod_band": "pm_rush",
+  "congestion": "high",
+  "condition": "D_CONTRA",
+  "advisory_error": "",
+  "cited_locations": [
+    "Downtown LA",
+    "Downtown LA",
+    "Downtown LA"
+  ],
+  "context_used": [
+    "CONTRADICTORY:I-10 Santa Monica Freeway corridor"
+  ],
+  "cause_precision": 1.0,
+  "cause_recall": 0.5,
+  "faithfulness_f1": 0.6666666666666666,
+  "hallucination_rate": 0.0,
+  "quantitative_fidelity": 0.25,
+  "n_cited_causes": 3,
+  "n_topk": 8
+}

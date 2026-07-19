@@ -1,0 +1,43 @@
+{
+  "candidates": [
+    {
+      "intervention": "no_action",
+      "network_delay": 964.391,
+      "target_speed_mph": 17.25,
+      "delay_reduction": 0.0
+    },
+    {
+      "intervention": "signal_retiming",
+      "network_delay": 931.429,
+      "target_speed_mph": 39.49,
+      "delay_reduction": 32.962
+    },
+    {
+      "intervention": "ramp_metering",
+      "network_delay": 964.391,
+      "target_speed_mph": 17.25,
+      "delay_reduction": 0.0
+    },
+    {
+      "intervention": "reroute",
+      "network_delay": 975.703,
+      "target_speed_mph": 17.3,
+      "delay_reduction": -11.312
+    },
+    {
+      "intervention": "transit_surge",
+      "network_delay": 932.832,
+      "target_speed_mph": 17.45,
+      "delay_reduction": 31.559
+    }
+  ],
+  "ground_truth": "signal_retiming",
+  "delay_by_intervention": {
+    "no_action": 0.0,
+    "signal_retiming": 32.962,
+    "ramp_metering": 0.0,
+    "reroute": -11.312,
+    "transit_surge": 31.559
+  },
+  "no_action_is_best": false
+}

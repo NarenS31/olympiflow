@@ -1,4 +1,4 @@
-% Table -- simulation-based decision quality, metr_la (n=24 scenarios, 3 seeds, model=llama3.1:8b).
+% Table -- simulation-based decision quality, metr_la (n=444 scenarios, 3 seeds, model=llama3.1:8b).
 % Ground truth = lowest predicted 30-min network delay (model-in-the-loop).
 % delay reduction is in aggregate mph-deficit units (sum over valid nodes).
 % Random reported as its expectation over 200 uniform draws (no LLM); RAW/XTraffic over 3 study seeds.
@@ -6,8 +6,8 @@
 \toprule
 Decision agent & Accuracy & Delay reduction & Consistency \\
 \midrule
-Random & 0.200 $\pm$ 0.084 & 13.41 $\pm$ 2.65 & 0.603 $\pm$ 0.059 \\
-RAW (pred only) & 0.292 $\pm$ 0.000 & 18.49 $\pm$ 0.00 & 1.000 $\pm$ 0.000 \\
-XTraffic (full) & 0.319 $\pm$ 0.020 & 20.94 $\pm$ 0.87 & 0.819 $\pm$ 0.039 \\
+Random & 0.200 $\pm$ 0.019 & 13.27 $\pm$ 0.67 & 0.294 $\pm$ 0.012 \\
+RAW (pred only) & 0.233 $\pm$ 0.001 & 15.72 $\pm$ 0.02 & 0.998 $\pm$ 0.002 \\
+XTraffic (full) & 0.266 $\pm$ 0.012 & 19.73 $\pm$ 0.22 & 0.619 $\pm$ 0.045 \\
 \bottomrule
 \end{tabular}

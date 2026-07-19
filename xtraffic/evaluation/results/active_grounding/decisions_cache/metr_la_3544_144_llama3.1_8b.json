@@ -1,0 +1,120 @@
+{
+  "curve": [
+    {
+      "round": 0,
+      "used_correction": false,
+      "faithfulness_f1": 0.6666666666666666,
+      "cause_precision": 1.0,
+      "cause_recall": 0.5,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 2,
+      "n_topk": 8,
+      "n_missed": 4,
+      "missed_regions": [
+        "Glendale / Burbank",
+        "Glendale / Burbank",
+        "Hollywood",
+        "NE of Downtown LA"
+      ],
+      "missed_node_ids": [
+        145,
+        105,
+        127,
+        45
+      ],
+      "advisory_error": ""
+    },
+    {
+      "round": 1,
+      "used_correction": true,
+      "faithfulness_f1": 0.9333333333333333,
+      "cause_precision": 1.0,
+      "cause_recall": 0.875,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 5,
+      "n_topk": 8,
+      "n_missed": 1,
+      "missed_regions": [
+        "N of Downtown LA"
+      ],
+      "missed_node_ids": [
+        56
+      ],
+      "advisory_error": ""
+    }
+  ],
+  "n_rounds": 1,
+  "reached_threshold": true,
+  "stop_reason": "threshold_reached",
+  "f1_initial": 0.6666666666666666,
+  "f1_final": 0.9333333333333333,
+  "f1_gain": 0.2666666666666667,
+  "final_advisory": {
+    "reasoning": "The predicted congestion in Downtown LA is caused by a combination of factors from various locations. The San Fernando Valley (sensors 717498 and 772178) are contributing to the congestion, with speeds of 20.5 mph and 24.5 mph respectively. Additionally, Glendale/Burbank (sensors 761003 and 718076) have high speeds of 69.37 mph and 68.62 mph, indicating a potential bottleneck at the I-5/SR-134/SR-2 interchange. The Hollywood area (sensor 717472) also has a speed of 68.5 mph, which may be contributing to the congestion. Finally, the NE of Downtown LA (sensor 774011) has a speed of 68.13 mph, indicating that the congestion is propagating through this area.",
+    "cited_causes": [
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 75
+      },
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 145
+      },
+      {
+        "location": "Hollywood",
+        "resolved_node_id": 127
+      },
+      {
+        "location": "NE of Downtown LA",
+        "resolved_node_id": 45
+      },
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 172
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering at the I-5/SR-134/SR-2 interchange",
+        "location": "Glendale/Burbank",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion at the interchange",
+        "grounded_in": [
+          "Glendale / Burbank (sensor 761003, 34.155, -118.308)"
+        ]
+      },
+      {
+        "action": "Reroute traffic before merging onto I-5 from SR-134 and SR-2",
+        "location": "I-5/SR-134/SR-2 interchange",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion at the interchange",
+        "grounded_in": [
+          "Glendale / Burbank (sensor 718076, 34.163, -118.225)"
+        ]
+      },
+      {
+        "action": "Coordinate signals on Sunset Blvd and Santa Monica Blvd to improve surface relief",
+        "location": "Hollywood",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion in the Hollywood area",
+        "grounded_in": [
+          "Hollywood (sensor 717472, 34.100, -118.316)"
+        ]
+      },
+      {
+        "action": "Implement dynamic lane management on I-110 to reduce congestion",
+        "location": "Downtown LA",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion in Downtown LA",
+        "grounded_in": [
+          "NE of Downtown LA (sensor 774011, 34.147, -118.201)"
+        ]
+      }
+    ]
+  },
+  "sample_index": 3544,
+  "target_node": 144,
+  "tod_band": "midday",
+  "congestion": "medium",
+  "model": "llama3.1:8b"
+}

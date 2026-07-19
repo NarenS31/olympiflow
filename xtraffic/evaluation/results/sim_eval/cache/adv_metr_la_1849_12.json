@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because there are multiple sensors in the area reporting a speed of 0.0 mph, indicating that traffic has come to a standstill. The top contributing sensors are located NW of Downtown LA and Hollywood, suggesting that the congestion is centered around these areas.",
+  "cited_causes": [
+    {
+      "location": "NW of Downtown LA",
+      "resolved_node_id": 12
+    },
+    {
+      "location": "Hollywood",
+      "resolved_node_id": 96
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Extend green-band by 10-20% for up to ~30 min on coordinated corridors",
+      "location": "Olympic, Pico, Wilshire, Sunset, Figueroa, Vermont",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion in downstream areas",
+      "grounded_in": [
+        "city-context fact: LADOT's ATSAC/ATCS system can push a special timing plan to a corridor within minutes"
+      ]
+    },
+    {
+      "action": "Reroute traffic before the merge at I-5/SR-134/SR-2 interchange",
+      "location": "I-5/SR-134/SR-2 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in this area",
+      "grounded_in": [
+        "city-context fact: upstream metering and reroute-before-the-merge are the levers, not signal timing at the interchange itself"
+      ]
+    },
+    {
+      "action": "Use transit alternatives (e.g. Metro rail relief options) to divert traffic",
+      "location": "Wilshire, Expo/I-10, Harbor/I-110, Pasadena A Line",
+      "time_window_minutes": 5,
+      "expected_effect": "Reduced congestion in these areas",
+      "grounded_in": [
+        "city-context fact: Transit is a viable diversion lever only where a parallel rail line exists"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "reasoning": "The congestion is predicted because of the high speeds in areas to the north and east of Downtown LA, specifically at sensor locations NE of Downtown LA (node_id 45 and 28), Glendale / Burbank (node_id 13), San Fernando Valley (node_ids 89, 122, 182, and 186), and Hollywood (node_id 20). These areas are moving at speeds between 60.5 mph to 69.25 mph, which is significantly higher than the current speed of 3.83 mph in Downtown LA.",
+  "cited_causes": [
+    {
+      "location": "NE of Downtown LA",
+      "resolved_node_id": 45
+    },
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 13
+    },
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": null
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "I-10/I-110 downtown interchange",
+      "time_window_minutes": 5,
+      "expected_effect": "Reduce congestion in Downtown LA by limiting the flow of traffic from areas with high speeds",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Reroute traffic before merge",
+      "location": "I-405 Sepulveda Pass",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduce congestion in Downtown LA by diverting traffic from areas with high speeds",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Signal-coordinated surface relief",
+      "location": "Sunset Blvd and Santa Monica Blvd",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduce congestion in Downtown LA by providing an alternative route for traffic",
+      "grounded_in": [
+        "city-context fact: US-101 Hollywood Freeway corridor"
+      ]
+    }
+  ]
+}

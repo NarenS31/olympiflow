@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley and Glendale/Burbank areas, which are affecting traffic flow. Specifically, sensor 717821 (San Fernando Valley) is reporting a speed of 62.25 mph, while sensor 769926 (Glendale / Burbank) is reporting a speed of 62.43 mph. These slow speeds are causing congestion to travel along a path of 3 sensors, with an estimated lag of 45 minutes between the source and the target.",
+  "cited_causes": [
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 185
+    },
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 189
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement metering upstream of the I-5/SR-134 interchange",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion at the target location",
+      "grounded_in": [
+        "City-context fact: Recurrent bottlenecks are structural and require upstream metering"
+      ]
+    },
+    {
+      "action": "Reroute traffic before merging onto I-5/SR-134",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion at the target location",
+      "grounded_in": [
+        "City-context fact: Recurrent bottlenecks are structural and require rerouting before merging"
+      ]
+    },
+    {
+      "action": "Coordinate signals on surface relief roads (e.g. Brand Blvd, San Fernando Rd)",
+      "location": "Surface relief roads",
+      "time_window_minutes": 10,
+      "expected_effect": "Improved traffic flow on surface relief roads",
+      "grounded_in": [
+        "City-context fact: Surface relief roads are ATSAC signal-coordinated"
+      ]
+    }
+  ]
+}

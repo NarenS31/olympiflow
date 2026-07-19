@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the high speeds in Hollywood (68.5-69.0 mph), which indicates that traffic is flowing freely there, but it's being slowed down by a source further upstream. The propagation path suggests that congestion travels along a path of 3 sensors with an estimated lag of 10 minutes between the source and the target.",
+  "cited_causes": [
+    {
+      "location": "Hollywood",
+      "resolved_node_id": 162
+    },
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 0
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Reroute traffic before the merge",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion at the target location",
+      "grounded_in": [
+        "The Glendale / Burbank area is a key merge congestion point (city-context)"
+      ]
+    },
+    {
+      "action": "Implement upstream metering",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion at the target location",
+      "grounded_in": [
+        "Upstream metering is a lever for structural bottlenecks (city-context)"
+      ]
+    },
+    {
+      "action": "Signal-coordinated surface relief",
+      "location": "Sunset Blvd and Santa Monica Blvd",
+      "time_window_minutes": 5,
+      "expected_effect": "Reduced congestion at the target location",
+      "grounded_in": [
+        "Surface relief: Sunset Blvd and Santa Monica Blvd, both ATSAC signal-coordinated (city-context)"
+      ]
+    }
+  ]
+}

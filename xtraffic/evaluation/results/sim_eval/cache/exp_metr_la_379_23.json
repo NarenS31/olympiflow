@@ -1,0 +1,115 @@
+{
+  "meta": {
+    "city": "metr_la",
+    "timestamp": "test#379 @ 10:50",
+    "model_checkpoint": "metr_la_best.pt"
+  },
+  "prediction": {
+    "node_id": 23,
+    "node_name": "East LA (sensor 716941, 34.058, -118.214)",
+    "predicted_speed_mph": 56.87,
+    "horizon_minutes": 30,
+    "current_speed_mph": 0.0
+  },
+  "top_nodes": [
+    {
+      "node_id": 127,
+      "node_name": "Hollywood (sensor 717472, 34.100, -118.316)",
+      "importance": 0.8138,
+      "current_speed_mph": 14.56
+    },
+    {
+      "node_id": 56,
+      "node_name": "N of Downtown LA (sensor 716955, 34.096, -118.244)",
+      "importance": 0.7848,
+      "current_speed_mph": 33.62
+    },
+    {
+      "node_id": 174,
+      "node_name": "East LA (sensor 716939, 34.043, -118.217)",
+      "importance": 0.7634,
+      "current_speed_mph": 0.0
+    },
+    {
+      "node_id": 170,
+      "node_name": "NE of Downtown LA (sensor 716949, 34.084, -118.230)",
+      "importance": 0.6909,
+      "current_speed_mph": 52.78
+    },
+    {
+      "node_id": 29,
+      "node_name": "NE of Downtown LA (sensor 773012, 34.084, -118.221)",
+      "importance": 0.6874,
+      "current_speed_mph": 41.33
+    },
+    {
+      "node_id": 4,
+      "node_name": "Downtown LA (sensor 717446, 34.071, -118.266)",
+      "importance": 0.6772,
+      "current_speed_mph": 33.22
+    },
+    {
+      "node_id": 193,
+      "node_name": "NW of Downtown LA (sensor 717453, 34.077, -118.281)",
+      "importance": 0.6761,
+      "current_speed_mph": 35.78
+    },
+    {
+      "node_id": 91,
+      "node_name": "Downtown LA (sensor 773023, 34.058, -118.243)",
+      "importance": 0.6751,
+      "current_speed_mph": 27.44
+    }
+  ],
+  "top_edges": [
+    {
+      "from_id": 170,
+      "to_id": 165,
+      "importance": 0.8199
+    },
+    {
+      "from_id": 174,
+      "to_id": 124,
+      "importance": 0.7712
+    },
+    {
+      "from_id": 23,
+      "to_id": 174,
+      "importance": 0.7703
+    },
+    {
+      "from_id": 23,
+      "to_id": 165,
+      "importance": 0.7607
+    },
+    {
+      "from_id": 64,
+      "to_id": 29,
+      "importance": 0.7432
+    },
+    {
+      "from_id": 165,
+      "to_id": 174,
+      "importance": 0.7371
+    },
+    {
+      "from_id": 23,
+      "to_id": 124,
+      "importance": 0.733
+    },
+    {
+      "from_id": 174,
+      "to_id": 174,
+      "importance": 0.6957
+    }
+  ],
+  "propagation_path": [
+    127,
+    12,
+    4,
+    16,
+    23
+  ],
+  "propagation_lag_minutes": 50.0,
+  "explanation_confidence": 0.6356
+}

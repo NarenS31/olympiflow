@@ -1,0 +1,38 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in the Glendale/Burbank area, specifically at sensor 773880 (61.75 mph), which is driving the prediction with an importance of 0.819. This slow speed is contributing to a propagation of congestion along a path of 7 sensors, with an estimated lag of 10 minutes between the source and the target.",
+  "cited_causes": [
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 67
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering on I-5/SR-134 interchange",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in the Glendale/Burbank area and subsequent propagation of congestion along the path.",
+      "grounded_in": [
+        "Glendale / Burbank (sensor 773880, 34.154, -118.348)"
+      ]
+    },
+    {
+      "action": "Reroute traffic before merge on I-5/SR-134 interchange",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in the Glendale/Burbank area and subsequent propagation of congestion along the path.",
+      "grounded_in": [
+        "Glendale / Burbank (sensor 773880, 34.154, -118.348)"
+      ]
+    },
+    {
+      "action": "Adjust signal timing on parallel arterials (Sepulveda Blvd)",
+      "location": "Sepulveda Blvd",
+      "time_window_minutes": 5,
+      "expected_effect": "Reduced congestion in the Glendale/Burbank area and subsequent propagation of congestion along the path.",
+      "grounded_in": [
+        "City-context fact: Sepulveda Pass saturates in both peaks"
+      ]
+    }
+  ]
+}

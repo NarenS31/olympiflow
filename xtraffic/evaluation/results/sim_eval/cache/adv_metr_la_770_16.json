@@ -1,0 +1,46 @@
+{
+  "reasoning": "The congestion is predicted because of the high speeds (68-70 mph) in the Glendale/Burbank area, which is causing a ripple effect and slowing down traffic as it propagates towards Downtown LA. The estimated lag between the source and the target is 10 minutes.",
+  "cited_causes": [
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 105
+    },
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 107
+    },
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 67
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Reroute traffic before the merge at I-5/SR-134 interchange",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion and improved speed",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Optimize signal timing on parallel relief arterials (Olympic Blvd and Pico Blvd)",
+      "location": "Downtown LA",
+      "time_window_minutes": 5,
+      "expected_effect": "Improved traffic flow and reduced congestion",
+      "grounded_in": [
+        "city-context fact: parallel relief arterials"
+      ]
+    },
+    {
+      "action": "Implement upstream metering on I-10 eastbound on-ramps during peak hours",
+      "location": "I-10/I-110 interchange downtown",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion and improved speed",
+      "grounded_in": [
+        "city-context fact: Caltrans ramp meters operate on most eastbound on-ramps during peak"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds at several locations upstream, particularly NW of Downtown LA (0.0 mph), NE of Downtown LA (0.0 mph), and East LA (62.78 mph). These slow speeds are driving the prediction of a speed of 63.64 mph in 30 minutes at the target location NE of Downtown LA.",
+  "cited_causes": [
+    {
+      "location": "NW of Downtown LA",
+      "resolved_node_id": 25
+    },
+    {
+      "location": "NE of Downtown LA",
+      "resolved_node_id": null
+    },
+    {
+      "location": "East LA",
+      "resolved_node_id": 124
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "NW of Downtown LA",
+      "time_window_minutes": 5,
+      "expected_effect": "Reduced congestion at the target location",
+      "grounded_in": [
+        "The slow speeds at NW of Downtown LA are driving the prediction"
+      ]
+    },
+    {
+      "action": "Reroute traffic before merge",
+      "location": "I-10/I-110 downtown interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion at the target location",
+      "grounded_in": [
+        "City-context fact: Recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Encourage transit use",
+      "location": "Wilshire and Hollywood",
+      "time_window_minutes": 15,
+      "expected_effect": "Divert traffic away from the target location",
+      "grounded_in": [
+        "City-context fact: Transit alternatives by area"
+      ]
+    }
+  ]
+}

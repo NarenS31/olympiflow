@@ -1,0 +1,50 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley (68.0 mph at sensor 764120, node_id 99), Glendale/Burbank (66.75 mph and 68.62 mph at sensors 773880 and 718076, respectively), East LA (62.38 mph at sensor 716942), and Pasadena/East (67.0 mph at sensor 717595). These slow speeds are contributing to the congestion in Downtown LA.",
+  "cited_causes": [
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 99
+    },
+    {
+      "location": "Glendale/Burbank",
+      "resolved_node_id": 67
+    },
+    {
+      "location": "East LA",
+      "resolved_node_id": 124
+    },
+    {
+      "location": "Pasadena/East",
+      "resolved_node_id": 203
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "San Fernando Valley (sensor 764120, node_id 99)",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduce congestion by slowing down traffic before it reaches Downtown LA",
+      "grounded_in": [
+        "cited_cause: San Fernando Valley"
+      ]
+    },
+    {
+      "action": "Reroute traffic through parallel roads",
+      "location": "Glendale/Burbank (sensor 773880, node_id 67)",
+      "time_window_minutes": 15,
+      "expected_effect": "Divert some traffic away from the congested area and reduce congestion in Downtown LA",
+      "grounded_in": [
+        "cited_cause: Glendale/Burbank"
+      ]
+    },
+    {
+      "action": "Increase transit capacity on parallel rail lines",
+      "location": "Pasadena/East (sensor 717595, node_id 203)",
+      "time_window_minutes": 5,
+      "expected_effect": "Encourage more people to use public transportation and reduce congestion in Downtown LA",
+      "grounded_in": [
+        "city-context: Transit alternatives"
+      ]
+    }
+  ]
+}

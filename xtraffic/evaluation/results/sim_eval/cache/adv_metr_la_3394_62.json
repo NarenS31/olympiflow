@@ -1,0 +1,46 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in Koreatown/Mid-City (29.22 mph), Downtown LA (31.78 mph and 55.67 mph), and Hollywood (17.44 mph, 43.44 mph, and 54.22 mph). These locations are contributing to the congestion at Glendale/Burbank.",
+  "cited_causes": [
+    {
+      "location": "Koreatown / Mid-City",
+      "resolved_node_id": 191
+    },
+    {
+      "location": "Downtown LA",
+      "resolved_node_id": 4
+    },
+    {
+      "location": "Hollywood",
+      "resolved_node_id": 127
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Extend green-band timing on parallel relief arterials",
+      "location": "Olympic Blvd and Pico Blvd",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion at Glendale/Burbank by diverting traffic to parallel arterials",
+      "grounded_in": [
+        "city-context fact: transit is a viable diversion lever only where a parallel rail line exists"
+      ]
+    },
+    {
+      "action": "Reroute traffic before the merge at I-5/SR-134 interchange",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion at Glendale/Burbank by reducing upstream traffic",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks are structural (geometry/merges)"
+      ]
+    },
+    {
+      "action": "Push a special timing plan to the corridor through LADOT ATSAC",
+      "location": "Wilshire and Hollywood corridors",
+      "time_window_minutes": 5,
+      "expected_effect": "Reduced congestion at Glendale/Burbank by optimizing signal timing in the area",
+      "grounded_in": [
+        "signal-timing control constraint: coordinated corridors can have green-band extended by 10-20% for up to ~30 min"
+      ]
+    }
+  ]
+}

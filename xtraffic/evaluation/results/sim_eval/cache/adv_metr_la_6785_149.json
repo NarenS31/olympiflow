@@ -1,0 +1,50 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds and decreasing speeds over time in several locations. The East LA area (sensor 716941, node_id 23) has a speed of 46.5 mph, which is slowing down to 58.88 mph in NE of Downtown LA (sensor 767541, node_id 1). This slowdown is also observed in the Glendale/Burbank area (sensors 774067 and 761604), where speeds are decreasing from 54.0 mph to 46.62 mph. Additionally, there's a significant slow-down in the San Fernando Valley (sensor 772596, node_id 86) with a speed of 52.5 mph.",
+  "cited_causes": [
+    {
+      "location": "East LA",
+      "resolved_node_id": 23
+    },
+    {
+      "location": "NE of Downtown LA",
+      "resolved_node_id": 1
+    },
+    {
+      "location": "Glendale/Burbank",
+      "resolved_node_id": null
+    },
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 86
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "East LA (sensor 716941)",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduce congestion by slowing down traffic before it reaches the bottleneck",
+      "grounded_in": [
+        "cited_cause: East LA"
+      ]
+    },
+    {
+      "action": "Reroute traffic before merge",
+      "location": "I-5/SR-134 interchange (PM peak)",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduce congestion by diverting traffic away from the bottleneck",
+      "grounded_in": [
+        "city-context: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Increase transit capacity",
+      "location": "Wilshire and Hollywood (B/D Lines)",
+      "time_window_minutes": 5,
+      "expected_effect": "Reduce congestion by diverting traffic to rail lines",
+      "grounded_in": [
+        "city-context: transit alternatives"
+      ]
+    }
+  ]
+}

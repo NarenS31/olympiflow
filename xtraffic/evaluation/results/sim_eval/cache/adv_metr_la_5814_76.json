@@ -1,0 +1,42 @@
+{
+  "reasoning": "The predicted congestion is due to the slow speed of traffic in Downtown LA (64.6 mph), which is affecting the San Fernando Valley, particularly at sensor 717499 (node_id 76). The propagation of congestion appears to travel along a path of 10 sensors with no lag between the source and target.",
+  "cited_causes": [
+    {
+      "location": "Downtown LA",
+      "resolved_node_id": 38
+    },
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": null
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "I-405 Sepulveda Pass",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in the San Fernando Valley",
+      "grounded_in": [
+        "The structural geometry/merges of I-405 Sepulveda Pass are a known recurrent bottleneck (city-context fact)"
+      ]
+    },
+    {
+      "action": "Reroute traffic before merge",
+      "location": "I-405 Sepulveda Pass",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion in the San Fernando Valley",
+      "grounded_in": [
+        "The structural geometry/merges of I-405 Sepulveda Pass are a known recurrent bottleneck (city-context fact)"
+      ]
+    },
+    {
+      "action": "Signal timing adjustments at nearby intersections",
+      "location": "Sepulveda Blvd and Van Nuys Blvd",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in the San Fernando Valley",
+      "grounded_in": [
+        "The parallel arterial Sepulveda Blvd is a known relief route (city-context fact)"
+      ]
+    }
+  ]
+}

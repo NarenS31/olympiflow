@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in the areas around Downtown LA and Glendale/Burbank. Specifically, sensors NE of Downtown LA (node_id 44 and 153) are reporting speeds of 68.0 mph and 65.25 mph respectively, which is slower than the target location's current speed of 60.14 mph. Additionally, sensors in Glendale/Burbank (node_id 105, 121, 178, 13, and 107) are also reporting slow speeds ranging from 61.25 mph to 67.62 mph.",
+  "cited_causes": [
+    {
+      "location": "NE of Downtown LA",
+      "resolved_node_id": 44
+    },
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": null
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduce congestion by limiting the number of vehicles entering the merge",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Reroute traffic before the merge",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduce congestion by diverting traffic away from the merge",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Activate ramp metering in Sepulveda Pass",
+      "location": "Sepulveda Pass",
+      "time_window_minutes": 5,
+      "expected_effect": "Reduce congestion by regulating the flow of traffic onto I-405",
+      "grounded_in": [
+        "city-context fact: I-405 San Diego Freeway corridor"
+      ]
+    }
+  ]
+}

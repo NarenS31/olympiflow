@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the high speeds observed at nearby locations, particularly Hollywood (sensor 769403), where traffic is moving at 69.33 mph, and other sensors in the area are also reporting relatively fast speeds. This suggests that there is a bottleneck or restriction on traffic flow somewhere upstream from these locations.",
+  "cited_causes": [
+    {
+      "location": "Hollywood",
+      "resolved_node_id": 20
+    },
+    {
+      "location": "NW of Downtown LA",
+      "resolved_node_id": 187
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Push a special timing plan to the Hollywood corridor",
+      "location": "Hollywood",
+      "time_window_minutes": 5,
+      "expected_effect": "Increased green-band time for up to 30 minutes, potentially reducing congestion",
+      "grounded_in": [
+        "ATSAC/ATCS system adaptively controls ~4,900 signalized intersections"
+      ]
+    },
+    {
+      "action": "Extend coordinated corridors (e.g. Sunset Blvd) by 10-20% for up to 30 min",
+      "location": "Sunset Blvd",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion on adjacent streets and arterials",
+      "grounded_in": [
+        "coordinated corridors can have green-band extended by 10-20%"
+      ]
+    },
+    {
+      "action": "Activate Caltrans ramp meters on eastbound on-ramps during peak hours",
+      "location": "I-10/I-110 interchange downtown",
+      "time_window_minutes": 5,
+      "expected_effect": "Reduced congestion at the I-10/I-110 interchange and La Cienega/Robertson stretch",
+      "grounded_in": [
+        "Caltrans ramp meters operate on most eastbound on-ramps during peak"
+      ]
+    }
+  ]
+}

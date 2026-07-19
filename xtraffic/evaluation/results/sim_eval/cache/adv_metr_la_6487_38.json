@@ -1,0 +1,38 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in the Hollywood area, specifically at sensor 769402 (node_id 19), which has a speed of 30.75 mph and an importance of 0.864. This slow speed is contributing to the congestion that will reach Downtown LA in 45 minutes.",
+  "cited_causes": [
+    {
+      "location": "Hollywood",
+      "resolved_node_id": 19
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement ramp metering on I-405",
+      "location": "Sepulveda Pass",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion in the Sepulveda Pass area",
+      "grounded_in": [
+        "City-context fact: Ramp metering is active pass-wide on I-405"
+      ]
+    },
+    {
+      "action": "Optimize signal timing at surface relief roads",
+      "location": "Sunset Blvd and Santa Monica Blvd",
+      "time_window_minutes": 15,
+      "expected_effect": "Improved traffic flow through Hollywood area",
+      "grounded_in": [
+        "City-context fact: Surface relief roads are ATSAC signal-coordinated"
+      ]
+    },
+    {
+      "action": "Reroute traffic before the merge at US-101/I-110 four-level",
+      "location": "US-101/I-110 four-level",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion in Downtown LA area",
+      "grounded_in": [
+        "City-context fact: Bottleneck at the US-101/I-110 four-level"
+      ]
+    }
+  ]
+}

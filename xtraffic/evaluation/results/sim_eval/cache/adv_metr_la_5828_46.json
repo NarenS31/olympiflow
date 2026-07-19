@@ -1,0 +1,42 @@
+{
+  "reasoning": "The predicted congestion is due to the slow speeds in the Glendale/Burbank area, specifically at sensor 773974 (56.0 mph), which is affecting traffic traveling through the San Fernando Valley and ultimately reaching the target location near Downtown LA.",
+  "cited_causes": [
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 179
+    },
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 77
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering on SR-134",
+      "location": "SR-134, Glendale/Burbank area",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in the San Fernando Valley and improved traffic flow to Downtown LA",
+      "grounded_in": [
+        "Glendale / Burbank (sensor 773974, 34.146, -118.223)"
+      ]
+    },
+    {
+      "action": "Reroute traffic before merging onto I-5/SR-134/SR-2 interchange",
+      "location": "I-5/SR-134/SR-2 interchange",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion at the interchange and improved traffic flow through the San Fernando Valley",
+      "grounded_in": [
+        "Key merge congestion at the I-5/SR-134/SR-2 interchange"
+      ]
+    },
+    {
+      "action": "Activate ramp metering on Sepulveda Blvd",
+      "location": "Sepulveda Blvd, Westside area",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion on I-405 and improved traffic flow through the Sepulveda Pass",
+      "grounded_in": [
+        "Ramp metering is active pass-wide"
+      ]
+    }
+  ]
+}

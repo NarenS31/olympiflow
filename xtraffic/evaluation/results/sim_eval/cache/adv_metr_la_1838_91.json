@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in several locations. The NE of Downtown LA (sensor 771673, node_id 196) and N of Downtown LA (sensor 716956, node_id 49) are both traveling at 32.0 mph, which is slower than the East LA (sensor 716939, node_id 174) and Glendale / Burbank (sensor 769926, node_id 189), which are moving at 67.0 mph and 65.0 mph respectively. This slow speed in NE of Downtown LA is driving the prediction.",
+  "cited_causes": [
+    {
+      "location": "NE of Downtown LA",
+      "resolved_node_id": 196
+    },
+    {
+      "location": "N of Downtown LA",
+      "resolved_node_id": 49
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering on I-5/SR-134 interchange",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduce congestion by slowing down traffic before it reaches the merge point",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Reroute traffic on Brand Blvd, San Fernando Rd and Colorado Blvd",
+      "location": "Brand Blvd, San Fernando Rd and Colorado Blvd",
+      "time_window_minutes": 15,
+      "expected_effect": "Divert some traffic away from the congested area",
+      "grounded_in": [
+        "city-context fact: surface reliefs"
+      ]
+    },
+    {
+      "action": "Coordinate signal timing on parallel relief arterials Olympic Blvd and Pico Blvd",
+      "location": "Olympic Blvd and Pico Blvd",
+      "time_window_minutes": 10,
+      "expected_effect": "Improve traffic flow on these arterials",
+      "grounded_in": [
+        "city-context fact: parallel relief arterials"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in areas north of Downtown LA, particularly at sensor 767495 (node_id 183), where traffic is moving at 68.11 mph, and nearby sensors are also experiencing slower speeds. This congestion appears to be propagating along a path of 7 sensors with an estimated lag of 5 minutes between the source and the target.",
+  "cited_causes": [
+    {
+      "location": "N of Downtown LA",
+      "resolved_node_id": 183
+    },
+    {
+      "location": "Downtown LA",
+      "resolved_node_id": null
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering on I-10 eastbound on-ramps",
+      "location": "I-10 (Santa Monica Fwy)",
+      "time_window_minutes": 5,
+      "expected_effect": "Reduced congestion in the area north of Downtown LA",
+      "grounded_in": [
+        "city-context fact: Caltrans ramp meters operate on most eastbound on-ramps during peak"
+      ]
+    },
+    {
+      "action": "Reroute traffic before merging onto I-5/SR-134 interchange",
+      "location": "I-5 (Golden State Fwy) and SR-134 (Ventura Fwy)",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion at the I-5/SR-134/SR-2 interchange",
+      "grounded_in": [
+        "city-context fact: Key merge congestion at the I-5/SR-134/SR-2 interchange"
+      ]
+    },
+    {
+      "action": "Signal-coordinated relief on Olympic Blvd and Pico Blvd",
+      "location": "Olympic Blvd and Pico Blvd",
+      "time_window_minutes": 15,
+      "expected_effect": "Provided parallel relief arterials for I-10 traffic",
+      "grounded_in": [
+        "city-context fact: Parallel relief arterials: Olympic Blvd and Pico Blvd (both signal-coordinated by LADOT ATSAC)"
+      ]
+    }
+  ]
+}

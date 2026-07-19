@@ -1,0 +1,75 @@
+{
+  "curve": [
+    {
+      "round": 0,
+      "used_correction": false,
+      "faithfulness_f1": 0.9333333333333333,
+      "cause_precision": 1.0,
+      "cause_recall": 0.875,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 2,
+      "n_topk": 8,
+      "n_missed": 1,
+      "missed_regions": [
+        "East LA"
+      ],
+      "missed_node_ids": [
+        174
+      ],
+      "advisory_error": ""
+    }
+  ],
+  "n_rounds": 0,
+  "reached_threshold": true,
+  "stop_reason": "threshold_reached",
+  "f1_initial": 0.9333333333333333,
+  "f1_final": 0.9333333333333333,
+  "f1_gain": 0.0,
+  "final_advisory": {
+    "reasoning": "The predicted congestion in Downtown LA is due to the propagation of congestion from upstream locations. Specifically, the high speeds (65-68 mph) at nearby sensors in Downtown LA (node_id 6 and node_id 93) indicate that traffic is currently flowing freely there. However, the lower speeds (30-32 mph) at sensors in the San Fernando Valley (node_id 197, node_id 131, node_id 158, and node_id 146) suggest that congestion is building up upstream. This congestion appears to be traveling along a path of 2 sensors, with an estimated lag of 25 minutes between the source and the target.",
+    "cited_causes": [
+      {
+        "location": "Downtown LA",
+        "resolved_node_id": 6
+      },
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": null
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering",
+        "location": "I-10/I-110 downtown interchange",
+        "time_window_minutes": 5,
+        "expected_effect": "Reduce congestion by limiting the number of vehicles entering the bottlenecked area",
+        "grounded_in": [
+          "city-context fact: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Reroute traffic before merge",
+        "location": "I-405 Sepulveda Pass",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduce congestion by diverting traffic away from the bottlenecked area",
+        "grounded_in": [
+          "city-context fact: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Optimize signal timing at nearby intersections",
+        "location": "Downtown LA",
+        "time_window_minutes": 15,
+        "expected_effect": "Improve traffic flow by synchronizing signals to reduce congestion",
+        "grounded_in": [
+          "cited cause: Downtown LA (node_id 6)"
+        ]
+      }
+    ]
+  },
+  "sample_index": 5861,
+  "target_node": 91,
+  "tod_band": "midday",
+  "congestion": "low",
+  "model": "llama3.1:8b"
+}

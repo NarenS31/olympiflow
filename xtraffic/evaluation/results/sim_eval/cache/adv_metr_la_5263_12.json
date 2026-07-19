@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of high speeds in areas to the west and north of Downtown LA, particularly at Hollywood (sensor 769388) with a speed of 66.0 mph, and NE of Downtown LA (sensor 774011) with a speed of 68.38 mph. This suggests that traffic is flowing freely in these areas but will eventually reach the target location NW of Downtown LA.",
+  "cited_causes": [
+    {
+      "location": "Hollywood",
+      "resolved_node_id": 32
+    },
+    {
+      "location": "NE of Downtown LA",
+      "resolved_node_id": 45
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Reroute traffic before the merge",
+      "location": "NW of Downtown LA (sensor 716339)",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion at the target location",
+      "grounded_in": [
+        "structural bottleneck at I-10/I-110 downtown interchange"
+      ]
+    },
+    {
+      "action": "Signal-coordinated surface relief on Sunset Blvd and Santa Monica Blvd",
+      "location": "Hollywood (sensor 769388)",
+      "time_window_minutes": 5,
+      "expected_effect": "Redirected traffic away from the target location",
+      "grounded_in": [
+        "surface relief: Sunset Blvd and Santa Monica Blvd, both ATSAC signal-coordinated"
+      ]
+    },
+    {
+      "action": "Upstream metering on I-405 Sepulveda Pass",
+      "location": "NE of Downtown LA (sensor 774011)",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced traffic flow into the target location",
+      "grounded_in": [
+        "structural bottleneck at I-405 Sepulveda Pass"
+      ]
+    }
+  ]
+}

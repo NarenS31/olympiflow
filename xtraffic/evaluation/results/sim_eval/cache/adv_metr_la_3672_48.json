@@ -1,0 +1,46 @@
+{
+  "reasoning": "The congestion is predicted because there are multiple sensors in the San Fernando Valley reporting zero speed, indicating a blockage. This blockage is affecting traffic traveling through the area and causing congestion to propagate downstream.",
+  "cited_causes": [
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 130
+    },
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 43
+    },
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 82
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Activate ramp metering on I-405",
+      "location": "Sepulveda Pass",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in the Sepulveda Pass area",
+      "grounded_in": [
+        "City-context fact: Ramp metering is active pass-wide"
+      ]
+    },
+    {
+      "action": "Implement dynamic lane management on US-101",
+      "location": "Cahuenga Pass grade",
+      "time_window_minutes": 15,
+      "expected_effect": "Improved traffic flow through the Cahuenga Pass grade",
+      "grounded_in": [
+        "City-context fact: Bottleneck at the Cahuenga Pass grade"
+      ]
+    },
+    {
+      "action": "Coordinate signal timing on Sunset Blvd and Santa Monica Blvd",
+      "location": "Hollywood",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in the Hollywood area",
+      "grounded_in": [
+        "City-context fact: Surface relief: Sunset Blvd and Santa Monica Blvd, both ATSAC signal-coordinated"
+      ]
+    }
+  ]
+}

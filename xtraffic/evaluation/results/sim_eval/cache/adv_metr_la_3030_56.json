@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in Downtown LA (15.33 mph), which is causing a ripple effect and slowing down traffic north of Downtown LA, with a propagation path of 5 sensors and an estimated lag of 25 minutes.",
+  "cited_causes": [
+    {
+      "location": "Downtown LA",
+      "resolved_node_id": 38
+    },
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 105
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "North of Downtown LA (sensor 716955)",
+      "time_window_minutes": 10,
+      "expected_effect": "Increase speed by up to 7 mph",
+      "grounded_in": [
+        "The slow speeds in Downtown LA are causing a ripple effect"
+      ]
+    },
+    {
+      "action": "Reroute traffic before the merge",
+      "location": "I-5/SR-134 interchange (city-context fact)",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduce congestion by up to 20%",
+      "grounded_in": [
+        "The I-5/SR-134/SR-2 interchange is a known bottleneck"
+      ]
+    },
+    {
+      "action": "Optimize signal timing",
+      "location": "Downtown LA (sensor 718045)",
+      "time_window_minutes": 10,
+      "expected_effect": "Increase speed by up to 3 mph",
+      "grounded_in": [
+        "The slow speeds in Downtown LA are causing a ripple effect"
+      ]
+    }
+  ]
+}

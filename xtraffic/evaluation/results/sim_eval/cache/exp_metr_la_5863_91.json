@@ -1,0 +1,120 @@
+{
+  "meta": {
+    "city": "metr_la",
+    "timestamp": "test#5863 @ 11:50",
+    "model_checkpoint": "metr_la_best.pt"
+  },
+  "prediction": {
+    "node_id": 91,
+    "node_name": "Downtown LA (sensor 773023, 34.058, -118.243)",
+    "predicted_speed_mph": 22.68,
+    "horizon_minutes": 30,
+    "current_speed_mph": 21.87
+  },
+  "top_nodes": [
+    {
+      "node_id": 197,
+      "node_name": "San Fernando Valley (sensor 772167, 34.165, -118.480)",
+      "importance": 0.7784,
+      "current_speed_mph": 34.37
+    },
+    {
+      "node_id": 174,
+      "node_name": "East LA (sensor 716939, 34.043, -118.217)",
+      "importance": 0.7777,
+      "current_speed_mph": 37.25
+    },
+    {
+      "node_id": 126,
+      "node_name": "Glendale / Burbank (sensor 769867, 34.218, -118.239)",
+      "importance": 0.7572,
+      "current_speed_mph": 63.87
+    },
+    {
+      "node_id": 145,
+      "node_name": "Glendale / Burbank (sensor 761003, 34.155, -118.308)",
+      "importance": 0.7545,
+      "current_speed_mph": 69.88
+    },
+    {
+      "node_id": 18,
+      "node_name": "NE of Downtown LA (sensor 769953, 34.207, -118.200)",
+      "importance": 0.7517,
+      "current_speed_mph": 63.25
+    },
+    {
+      "node_id": 93,
+      "node_name": "Downtown LA (sensor 773024, 34.058, -118.244)",
+      "importance": 0.7474,
+      "current_speed_mph": 65.12
+    },
+    {
+      "node_id": 35,
+      "node_name": "NE of Downtown LA (sensor 769941, 34.207, -118.202)",
+      "importance": 0.7394,
+      "current_speed_mph": 67.38
+    },
+    {
+      "node_id": 193,
+      "node_name": "NW of Downtown LA (sensor 717453, 34.077, -118.281)",
+      "importance": 0.7365,
+      "current_speed_mph": 28.87
+    }
+  ],
+  "top_edges": [
+    {
+      "from_id": 93,
+      "to_id": 174,
+      "importance": 0.843
+    },
+    {
+      "from_id": 193,
+      "to_id": 191,
+      "importance": 0.8303
+    },
+    {
+      "from_id": 6,
+      "to_id": 174,
+      "importance": 0.8271
+    },
+    {
+      "from_id": 165,
+      "to_id": 174,
+      "importance": 0.8261
+    },
+    {
+      "from_id": 15,
+      "to_id": 93,
+      "importance": 0.8257
+    },
+    {
+      "from_id": 23,
+      "to_id": 174,
+      "importance": 0.8211
+    },
+    {
+      "from_id": 93,
+      "to_id": 6,
+      "importance": 0.8179
+    },
+    {
+      "from_id": 193,
+      "to_id": 193,
+      "importance": 0.8156
+    }
+  ],
+  "propagation_path": [
+    197,
+    76,
+    52,
+    73,
+    70,
+    22,
+    96,
+    160,
+    4,
+    91
+  ],
+  "propagation_lag_minutes": 15.0,
+  "explanation_confidence": 0.6065
+}

@@ -1,0 +1,77 @@
+{
+  "curve": [
+    {
+      "round": 0,
+      "used_correction": false,
+      "faithfulness_f1": 0.8571428571428571,
+      "cause_precision": 1.0,
+      "cause_recall": 0.75,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 2,
+      "n_topk": 8,
+      "n_missed": 2,
+      "missed_regions": [
+        "Pasadena / East",
+        "Glendale / Burbank"
+      ],
+      "missed_node_ids": [
+        203,
+        67
+      ],
+      "advisory_error": ""
+    }
+  ],
+  "n_rounds": 0,
+  "reached_threshold": true,
+  "stop_reason": "threshold_reached",
+  "f1_initial": 0.8571428571428571,
+  "f1_final": 0.8571428571428571,
+  "f1_gain": 0.0,
+  "final_advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley, particularly at sensor 765171 (34.168, -118.469), which is currently traveling at 49.67 mph. This slow speed is affecting traffic downstream, including the target location, and is causing a propagation of congestion along a path of 9 sensors.",
+    "cited_causes": [
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 77
+      },
+      {
+        "location": "NE of Downtown LA",
+        "resolved_node_id": 44
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Reroute traffic before the merge",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion at target location",
+        "grounded_in": [
+          "city-context fact: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Implement upstream metering",
+        "location": "NE of Downtown LA (sensor 774012)",
+        "time_window_minutes": 5,
+        "expected_effect": "Reduced congestion in the San Fernando Valley",
+        "grounded_in": [
+          "cited cause: NE of Downtown LA"
+        ]
+      },
+      {
+        "action": "Encourage transit use where possible",
+        "location": "Wilshire and Hollywood areas",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced number of cars on the road",
+        "grounded_in": [
+          "city-context fact: Metro rail relief options"
+        ]
+      }
+    ]
+  },
+  "sample_index": 3831,
+  "target_node": 131,
+  "tod_band": "midday",
+  "congestion": "low",
+  "model": "llama3.1:8b"
+}

@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in areas north and east of Downtown LA, particularly at sensor 774011 (NE of Downtown LA) with a speed of 69.0 mph, which is significantly lower than the target location's current speed of 18.22 mph. This suggests that congestion is propagating from these areas towards the target location.",
+  "cited_causes": [
+    {
+      "location": "NE of Downtown LA",
+      "resolved_node_id": 45
+    },
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 126
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion at the target location",
+      "grounded_in": [
+        "cited_cause: Glendale / Burbank (sensor 769867, node_id 126)"
+      ]
+    },
+    {
+      "action": "Reroute traffic before merge",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion at the target location",
+      "grounded_in": [
+        "city-context: recurrent bottleneck at I-5/SR-134 interchange"
+      ]
+    },
+    {
+      "action": "Optimize signal timing on surface streets",
+      "location": "Brand Blvd, San Fernando Rd and Colorado Blvd",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion on surface streets",
+      "grounded_in": [
+        "city-context: car-dominant demand in Glendale/Burbank area"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "curve": [
+    {
+      "round": 0,
+      "used_correction": false,
+      "faithfulness_f1": 0.8571428571428571,
+      "cause_precision": 1.0,
+      "cause_recall": 0.75,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 2,
+      "n_topk": 8,
+      "n_missed": 2,
+      "missed_regions": [
+        "NE of Downtown LA",
+        "Pasadena / East"
+      ],
+      "missed_node_ids": [
+        45,
+        203
+      ],
+      "advisory_error": ""
+    }
+  ],
+  "n_rounds": 0,
+  "reached_threshold": true,
+  "stop_reason": "threshold_reached",
+  "f1_initial": 0.8571428571428571,
+  "f1_final": 0.8571428571428571,
+  "f1_gain": 0.0,
+  "final_advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in the Glendale/Burbank area, specifically at sensor 718076 (node_id 105), which is currently moving at 66.75 mph. This slow speed is affecting traffic downstream, including the target location NE of Downtown LA (sensor 773012, node_id 29). The congestion appears to be traveling along a path of 8 sensors with an estimated lag of 20 minutes between the source and the target.",
+    "cited_causes": [
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 105
+      },
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": null
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering",
+        "location": "Glendale/Burbank (sensor 718076, node_id 105)",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion in the Glendale/Burbank area",
+        "grounded_in": [
+          "cited_cause: Glendale / Burbank (node_id 105)"
+        ]
+      },
+      {
+        "action": "Reroute traffic before merge",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion at the I-5/SR-134/SR-2 interchange",
+        "grounded_in": [
+          "city-context: Recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Encourage transit use",
+        "location": "Wilshire and Hollywood (B/D Lines)",
+        "time_window_minutes": 10,
+        "expected_effect": "Divert traffic from roads to rail",
+        "grounded_in": [
+          "city-context: Transit alternatives"
+        ]
+      }
+    ]
+  },
+  "sample_index": 2649,
+  "target_node": 29,
+  "tod_band": "am_rush",
+  "congestion": "high",
+  "model": "llama3.1:8b"
+}

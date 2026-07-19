@@ -1,0 +1,46 @@
+{
+  "reasoning": "The congestion is predicted because of the high speeds at several locations upstream, particularly in Hollywood (63.13 mph), North of Downtown LA (68.13 mph), and Glendale/Burbank (68.5-69.0 mph). These high speeds indicate that traffic is flowing freely in these areas, but it will take some time for this congestion to propagate downstream.",
+  "cited_causes": [
+    {
+      "location": "Hollywood",
+      "resolved_node_id": 96
+    },
+    {
+      "location": "North of Downtown LA",
+      "resolved_node_id": 183
+    },
+    {
+      "location": "Glendale/Burbank",
+      "resolved_node_id": null
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Reroute traffic before the merge at I-5/SR-134 interchange",
+      "location": "I-5/SR-134 interchange (PM peak)",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion at target location",
+      "grounded_in": [
+        "Recurrent bottlenecks in LA basin"
+      ]
+    },
+    {
+      "action": "Use ExpressLanes bus on I-110 to divert traffic",
+      "location": "I-110 (Downtown to Long Beach and Pasadena)",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion at target location",
+      "grounded_in": [
+        "Transit alternatives in LA basin"
+      ]
+    },
+    {
+      "action": "Signal-coordinated relief on Sunset Blvd and Santa Monica Blvd",
+      "location": "US-101 Hollywood Freeway corridor (Sunset Blvd and Santa Monica Blvd)",
+      "time_window_minutes": 5,
+      "expected_effect": "Reduced congestion at target location",
+      "grounded_in": [
+        "Surface relief in US-101 Hollywood Freeway corridor"
+      ]
+    }
+  ]
+}

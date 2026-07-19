@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in Downtown LA, specifically at sensor 773023 (node_id 91), which is currently moving at 9.11 mph. This slow speed is contributing to a propagation of congestion along a path of 4 sensors, with an estimated lag of 15 minutes between the source and the target.",
+  "cited_causes": [
+    {
+      "location": "Downtown LA",
+      "resolved_node_id": 91
+    },
+    {
+      "location": "NE of Downtown LA",
+      "resolved_node_id": null
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Reroute traffic before the merge",
+      "location": "I-10/I-110 downtown interchange",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion at sensor 717468 (node_id 155)",
+      "grounded_in": [
+        "structural bottleneck in city context"
+      ]
+    },
+    {
+      "action": "Signal timing adjustments",
+      "location": "US-101/I-110 four-level",
+      "time_window_minutes": 10,
+      "expected_effect": "Improved speed at sensor 773023 (node_id 91)",
+      "grounded_in": [
+        "city context fact: signal timing is a lever for this interchange"
+      ]
+    },
+    {
+      "action": "Encourage transit use",
+      "location": "Wilshire and Hollywood areas",
+      "time_window_minutes": 5,
+      "expected_effect": "Reduced traffic on sensor 717468 (node_id 155)",
+      "grounded_in": [
+        "transit alternatives in city context"
+      ]
+    }
+  ]
+}

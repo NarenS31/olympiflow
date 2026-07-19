@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley and Glendale/Burbank areas, which are causing a ripple effect downstream. The San Fernando Valley area (sensor 765273) has a speed of 63.25 mph, while Glendale/Burbank (sensor 761003) has a speed of 69.5 mph. These slow speeds are propagating along the path of sensors with an estimated lag of 20 minutes between the source and the target.",
+  "cited_causes": [
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 14
+    },
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 145
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in the San Fernando Valley area",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Reroute traffic before merge",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in the San Fernando Valley area",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Signal timing adjustments at surface reliefs",
+      "location": "Sunset Blvd and Santa Monica Blvd",
+      "time_window_minutes": 15,
+      "expected_effect": "Improved traffic flow in the Hollywood area",
+      "grounded_in": [
+        "city-context fact: ATSAC signal-coordinated"
+      ]
+    }
+  ]
+}

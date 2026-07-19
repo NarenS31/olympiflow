@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in areas surrounding Downtown LA, particularly at Hollywood (9.5 mph), East LA (8.0 mph), and NW of Downtown LA (11.87 mph). These locations are driving the prediction, with Hollywood being the most significant contributor.",
+  "cited_causes": [
+    {
+      "location": "Hollywood",
+      "resolved_node_id": 160
+    },
+    {
+      "location": "East LA",
+      "resolved_node_id": 23
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Push a special timing plan to the Wilshire corridor",
+      "location": "Wilshire",
+      "time_window_minutes": 10,
+      "expected_effect": "Extend green-band by 10-20% for up to ~30 min, reducing congestion in surrounding areas",
+      "grounded_in": [
+        "city-context fact: coordinated corridors can have green-band extended"
+      ]
+    },
+    {
+      "action": "Activate Caltrans ramp meters on eastbound on-ramps along I-10",
+      "location": "I-10",
+      "time_window_minutes": 5,
+      "expected_effect": "Reduce congestion by managing traffic flow onto the freeway",
+      "grounded_in": [
+        "city-context fact: Caltrans ramp meters operate on most eastbound on-ramps during peak"
+      ]
+    },
+    {
+      "action": "Coordinate signal timing along Olympic Blvd and Pico Blvd to provide relief arterials",
+      "location": "Olympic/Pico Blvds",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduce congestion by providing alternative routes for traffic",
+      "grounded_in": [
+        "city-context fact: Parallel relief arterials exist along I-10"
+      ]
+    }
+  ]
+}

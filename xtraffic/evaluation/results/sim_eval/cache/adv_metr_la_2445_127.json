@@ -1,0 +1,38 @@
+{
+  "reasoning": "The predicted congestion in Hollywood is due to the slow speeds reported by sensors in the area. Specifically, sensor 769372 (node_id 198) at 34.103, -118.317 reports a speed of 29.13 mph, which is significantly lower than the other sensors in the area. This suggests that there is a localized congestion issue in this part of Hollywood.",
+  "cited_causes": [
+    {
+      "location": "Hollywood",
+      "resolved_node_id": 198
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Activate ramp metering",
+      "location": "Sepulveda Pass (I-405)",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in the Sepulveda Pass area, which may help alleviate some of the congestion in Hollywood.",
+      "grounded_in": [
+        "Ramp metering is active pass-wide (city-context fact)"
+      ]
+    },
+    {
+      "action": "Coordinate signal timing",
+      "location": "Sunset Blvd and Santa Monica Blvd",
+      "time_window_minutes": 15,
+      "expected_effect": "Improved traffic flow through the area, which may help reduce congestion in Hollywood.",
+      "grounded_in": [
+        "Surface relief: Sunset Blvd and Santa Monica Blvd, both ATSAC signal-coordinated (city-context fact)"
+      ]
+    },
+    {
+      "action": "Reroute traffic",
+      "location": "Wilshire and Hollywood",
+      "time_window_minutes": 10,
+      "expected_effect": "Redirect some of the traffic away from the congested area in Hollywood, potentially reducing congestion.",
+      "grounded_in": [
+        "B/D (Red/Purple) Lines under Wilshire and through Hollywood; transit is a viable diversion lever only where a parallel rail line exists (city-context fact)"
+      ]
+    }
+  ]
+}

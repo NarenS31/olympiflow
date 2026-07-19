@@ -1,0 +1,77 @@
+{
+  "curve": [
+    {
+      "round": 0,
+      "used_correction": false,
+      "faithfulness_f1": 0.8571428571428571,
+      "cause_precision": 1.0,
+      "cause_recall": 0.75,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 2,
+      "n_topk": 8,
+      "n_missed": 2,
+      "missed_regions": [
+        "NE of Downtown LA",
+        "N of Downtown LA"
+      ],
+      "missed_node_ids": [
+        28,
+        183
+      ],
+      "advisory_error": ""
+    }
+  ],
+  "n_rounds": 0,
+  "reached_threshold": true,
+  "stop_reason": "threshold_reached",
+  "f1_initial": 0.8571428571428571,
+  "f1_final": 0.8571428571428571,
+  "f1_gain": 0.0,
+  "final_advisory": {
+    "reasoning": "The congestion is predicted because of the high speeds in the Glendale/Burbank area, specifically at sensors 717582 (66.25 mph), 767621 (67.75 mph), and 762329 (67.0 mph). This suggests that traffic is flowing freely from this region towards Downtown LA. However, as congestion appears to travel along a path of 4 sensors with an estimated lag of 10 minutes between the source and the target, it's likely that the high speeds in Glendale/Burbank are causing a ripple effect downstream.",
+    "cited_causes": [
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 167
+      },
+      {
+        "location": "NW of Downtown LA",
+        "resolved_node_id": 139
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Reroute traffic from Glendale/Burbank before it merges with Downtown LA traffic",
+        "location": "Glendale / Burbank area (sensors 717582, 767621, and 762329)",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion at the target location",
+        "grounded_in": [
+          "High speeds in Glendale/Burbank causing a ripple effect downstream"
+        ]
+      },
+      {
+        "action": "Coordinate signal timing on parallel relief arterials (Olympic Blvd and Pico Blvd)",
+        "location": "Downtown LA area",
+        "time_window_minutes": 15,
+        "expected_effect": "Improved traffic flow through Downtown LA",
+        "grounded_in": [
+          "City-context fact: Parallel relief arterials exist"
+        ]
+      },
+      {
+        "action": "Implement ramp metering on eastbound on-ramps along I-10 (Caltrans meters)",
+        "location": "I-10 corridor",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion at the target location",
+        "grounded_in": [
+          "City-context fact: Caltrans ramp meters operate on most eastbound on-ramps during peak"
+        ]
+      }
+    ]
+  },
+  "sample_index": 6133,
+  "target_node": 56,
+  "tod_band": "midday",
+  "congestion": "medium",
+  "model": "llama3.1:8b"
+}

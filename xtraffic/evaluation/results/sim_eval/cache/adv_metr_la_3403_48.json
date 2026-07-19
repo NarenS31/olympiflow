@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in Downtown LA, particularly at sensor 718045 (node_id 38), which is currently moving at 29.75 mph, and sensor 771667 (node_id 16) with a speed of 25.22 mph. This congestion appears to be traveling along a path of 3 sensors, with an estimated lag of 5 minutes between the source and the target.",
+  "cited_causes": [
+    {
+      "location": "Downtown LA",
+      "resolved_node_id": 38
+    },
+    {
+      "location": "Downtown LA",
+      "resolved_node_id": 16
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Extend green-band by 10-20% for up to ~30 min on coordinated corridors (e.g. Sunset, Figueroa)",
+      "location": "US-101/I-110 four-level",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion in Downtown LA",
+      "grounded_in": [
+        "city-context fact: LADOT's ATSAC/ATCS system can push a special timing plan to a corridor within minutes from the Transportation Management Center"
+      ]
+    },
+    {
+      "action": "Activate Caltrans ramp meters on eastbound on-ramps during peak hours",
+      "location": "I-10/I-110 interchange downtown",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion at I-10/I-110 interchange downtown",
+      "grounded_in": [
+        "city-context fact: Caltrans ramp meters operate on most eastbound on-ramps during peak"
+      ]
+    },
+    {
+      "action": "Coordinate signal timing with parallel relief arterials (e.g. Olympic Blvd, Pico Blvd)",
+      "location": "La Cienega/Robertson stretch",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion at La Cienega/Robertson stretch",
+      "grounded_in": [
+        "city-context fact: Parallel relief arterials (e.g. Olympic Blvd, Pico Blvd) are signal-coordinated by LADOT ATSAC"
+      ]
+    }
+  ]
+}

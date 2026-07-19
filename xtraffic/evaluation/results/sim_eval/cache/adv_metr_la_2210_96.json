@@ -1,0 +1,42 @@
+{
+  "reasoning": "The predicted congestion in Hollywood is due to the propagation of congestion from upstream locations. The top contributing sensors indicate that traffic is slowing down as it moves eastward through the San Fernando Valley, with speeds decreasing from 68.13 mph at sensor 769388 to 60.0 mph at sensor 768066. This slowdown is then propagated downstream to Hollywood, where the predicted speed in 30 minutes is only slightly higher than the current speed.",
+  "cited_causes": [
+    {
+      "location": "Hollywood",
+      "resolved_node_id": 32
+    },
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 52
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement metering at sensor 768066",
+      "location": "San Fernando Valley",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduce congestion propagation to Hollywood",
+      "grounded_in": [
+        "The slowdown in the San Fernando Valley is a key contributor to the predicted congestion in Hollywood."
+      ]
+    },
+    {
+      "action": "Reroute traffic before merging onto I-5/SR-134/SR-2 interchange",
+      "location": "Glendale/Burbank",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduce merge congestion and alleviate pressure on downstream roads",
+      "grounded_in": [
+        "City-context fact: Key merge congestion at the I-5/SR-134/SR-2 interchange"
+      ]
+    },
+    {
+      "action": "Signal-coordinated relief on Sunset Blvd and Santa Monica Blvd",
+      "location": "Hollywood",
+      "time_window_minutes": 10,
+      "expected_effect": "Provide surface relief for congested roads in Hollywood",
+      "grounded_in": [
+        "City-context fact: Surface relief: Sunset Blvd and Santa Monica Blvd, both ATSAC signal-coordinated"
+      ]
+    }
+  ]
+}

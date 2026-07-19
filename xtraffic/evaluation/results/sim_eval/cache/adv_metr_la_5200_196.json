@@ -1,0 +1,46 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in several locations upstream, particularly NE of Downtown LA (sensor 767610), Glendale/Burbank (sensors 718072 and 718076), San Fernando Valley (sensor 764120), Pasadena/East (sensor 717595), and Glendale/Burbank (sensors 760987 and 773880). These locations are experiencing speeds between 65.0 mph and 68.33 mph, which is slower than the target location's current speed of 36.56 mph.",
+  "cited_causes": [
+    {
+      "location": "NE of Downtown LA",
+      "resolved_node_id": 66
+    },
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 106
+    },
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": null
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "NE of Downtown LA (sensor 767610)",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduce congestion by slowing down traffic before it reaches the target location",
+      "grounded_in": [
+        "cited cause: NE of Downtown LA (sensor 767610)"
+      ]
+    },
+    {
+      "action": "Reroute traffic through alternative routes",
+      "location": "Glendale/Burbank (sensors 718072 and 718076)",
+      "time_window_minutes": 15,
+      "expected_effect": "Divert some traffic away from the congested areas, reducing congestion at the target location",
+      "grounded_in": [
+        "cited causes: Glendale / Burbank (sensors 718072 and 718076)"
+      ]
+    },
+    {
+      "action": "Use transit alternatives to divert demand",
+      "location": "Pasadena/East (sensor 717595)",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduce car traffic by encouraging people to use public transportation, reducing congestion at the target location",
+      "grounded_in": [
+        "city-context fact: Transit is a viable diversion lever only where a parallel rail line exists"
+      ]
+    }
+  ]
+}

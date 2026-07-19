@@ -1,0 +1,25 @@
+{
+  "sample_index": 3365,
+  "target_node": 206,
+  "tod_band": "pm_rush",
+  "congestion": "high",
+  "condition": "A",
+  "advisory_error": "",
+  "cited_locations": [
+    "Hollywood",
+    "Hollywood"
+  ],
+  "context_used": [
+    "US-101 Hollywood Freeway corridor",
+    "Signal-timing control (LADOT ATSAC) constraints",
+    "Transit alternatives (Metro rail/bus)",
+    "I-110 Harbor Freeway corridor"
+  ],
+  "cause_precision": 1.0,
+  "cause_recall": 0.625,
+  "faithfulness_f1": 0.7692307692307693,
+  "hallucination_rate": 0.0,
+  "quantitative_fidelity": 0.4,
+  "n_cited_causes": 2,
+  "n_topk": 8
+}

@@ -1,0 +1,46 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley, specifically at sensor 767351 (node_id 89), which is currently traveling at 67.12 mph, and sensors 769431 (node_id 81) and 767366 (node_id 59), which are traveling at 40.63 mph and 61.38 mph respectively. This slow speed in the San Fernando Valley appears to be causing congestion that propagates along a path of 2 sensors, with an estimated lag of 25.0 minutes between the source and the target.",
+  "cited_causes": [
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 89
+    },
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 81
+    },
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 59
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "Glendale/Burbank (sensor 774067, node_id 62)",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduce congestion by slowing down traffic before it reaches the merge point",
+      "grounded_in": [
+        "The Glendale / Burbank sensor is currently traveling at a high speed of 64.37 mph (cited cause), indicating that there is still capacity in this area to slow down traffic without causing further congestion."
+      ]
+    },
+    {
+      "action": "Reroute traffic before the merge",
+      "location": "San Fernando Valley (sensor 767351, node_id 89)",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduce congestion by diverting traffic away from the merge point",
+      "grounded_in": [
+        "The San Fernando Valley sensor is currently traveling at a slow speed of 67.12 mph (cited cause), indicating that there is already congestion in this area."
+      ]
+    },
+    {
+      "action": "Coordinate signals on surface relief roads",
+      "location": "Hollywood (sensor 769373, node_id 206)",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduce congestion by optimizing traffic flow on parallel roads",
+      "grounded_in": [
+        "The Hollywood sensor is currently traveling at a moderate speed of 62.25 mph (city-context fact), indicating that there is still capacity in this area to optimize traffic flow."
+      ]
+    }
+  ]
+}

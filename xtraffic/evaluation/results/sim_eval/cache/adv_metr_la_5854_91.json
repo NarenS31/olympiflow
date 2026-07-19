@@ -1,0 +1,38 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley, specifically at sensor 717513 (34.173, -118.537), which has a speed of 36.62 mph and an importance of 0.792. This slow speed is contributing to the congestion at Downtown LA (sensor 773023, 34.058, -118.243).",
+  "cited_causes": [
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 181
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering on I-5/SR-134 interchange",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion at Downtown LA",
+      "grounded_in": [
+        "cited cause: San Fernando Valley (sensor 717513, node_id 181)"
+      ]
+    },
+    {
+      "action": "Reroute traffic before the merge on I-5/SR-134 interchange",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion at Downtown LA",
+      "grounded_in": [
+        "city-context fact: recurrent bottleneck at I-5/SR-134 interchange"
+      ]
+    },
+    {
+      "action": "Increase transit capacity on Wilshire and Expo/I-10 lines",
+      "location": "Wilshire and Expo/I-10 lines",
+      "time_window_minutes": 15,
+      "expected_effect": "Divert traffic from roads to rail, reducing congestion at Downtown LA",
+      "grounded_in": [
+        "city-context fact: transit alternatives by area"
+      ]
+    }
+  ]
+}

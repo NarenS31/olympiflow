@@ -1,0 +1,42 @@
+{
+  "reasoning": "The predicted congestion in the San Fernando Valley is due to a wave of slowing traffic that originated from locations northwest, north, and northeast of Downtown LA. The speeds at these locations are significantly lower than the target location, indicating that the congestion is propagating downstream.",
+  "cited_causes": [
+    {
+      "location": "NW of Downtown LA",
+      "resolved_node_id": 120
+    },
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": null
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "NW of Downtown LA (sensor 718089)",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduce congestion by limiting the amount of traffic entering the area",
+      "grounded_in": [
+        "cited_cause: NW of Downtown LA"
+      ]
+    },
+    {
+      "action": "Reroute traffic before merge",
+      "location": "I-5/SR-134 interchange (structural bottleneck)",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduce congestion by diverting traffic away from the merge point",
+      "grounded_in": [
+        "city-context: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Optimize signal timing at nearby intersections",
+      "location": "Surface arterials (Brand Blvd, San Fernando Rd, Colorado Blvd)",
+      "time_window_minutes": 10,
+      "expected_effect": "Improve traffic flow by synchronizing signals to reduce congestion",
+      "grounded_in": [
+        "city-context: Glendale/Burbank freeways"
+      ]
+    }
+  ]
+}

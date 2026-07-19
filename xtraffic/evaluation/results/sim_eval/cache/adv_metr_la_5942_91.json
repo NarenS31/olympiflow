@@ -1,0 +1,46 @@
+{
+  "reasoning": "The congestion is predicted because of the high speeds in the Glendale/Burbank area, specifically at sensors 718076 (68.38 mph), 773880 (69.5 mph), and 767455 (69.13 mph). This suggests that traffic is flowing freely in this region, but it will eventually reach the Downtown LA area, where the speed is currently lower (24.13 mph) and predicted to increase slightly.",
+  "cited_causes": [
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 105
+    },
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 67
+    },
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 107
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion at the target location",
+      "grounded_in": [
+        "The Glendale/Burbank area has high speeds, indicating that traffic is flowing freely and will eventually reach the Downtown LA area."
+      ]
+    },
+    {
+      "action": "Reroute traffic before the merge",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion at the target location",
+      "grounded_in": [
+        "The Glendale/Burbank area has high speeds, indicating that traffic is flowing freely and will eventually reach the Downtown LA area."
+      ]
+    },
+    {
+      "action": "Use transit as a diversion lever",
+      "location": "Wilshire and Hollywood areas",
+      "time_window_minutes": 5,
+      "expected_effect": "Reduced congestion at the target location",
+      "grounded_in": [
+        "Transit is a viable diversion lever where a parallel rail line exists, such as Wilshire and Expo/I-10."
+      ]
+    }
+  ]
+}

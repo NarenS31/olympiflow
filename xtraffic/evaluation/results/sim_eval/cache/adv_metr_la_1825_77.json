@@ -1,0 +1,46 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in the Pasadena/East area (69.5 mph), Glendale/Burbank area (69.88 mph), and N of Downtown LA (68.62 mph) which are all upstream from the San Fernando Valley location. The propagation suggests that congestion travels along a path of 2 sensors, with an estimated lag of 20 minutes between the source and the target.",
+  "cited_causes": [
+    {
+      "location": "Pasadena / East",
+      "resolved_node_id": 203
+    },
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 67
+    },
+    {
+      "location": "N of Downtown LA",
+      "resolved_node_id": 183
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "Pasadena/East area (SR-134)",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in the San Fernando Valley location",
+      "grounded_in": [
+        "congestion appears to travel along a path of 2 sensors"
+      ]
+    },
+    {
+      "action": "Reroute traffic before merge",
+      "location": "Glendale/Burbank area (I-5/SR-134/SR-2 interchange)",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion in the San Fernando Valley location",
+      "grounded_in": [
+        "structural (geometry/merges)"
+      ]
+    },
+    {
+      "action": "Use transit as a diversion lever",
+      "location": "Wilshire and Hollywood areas (B/D Lines)",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in the San Fernando Valley location",
+      "grounded_in": [
+        "Transit is a viable diversion lever only where a parallel rail line exists"
+      ]
+    }
+  ]
+}

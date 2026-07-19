@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley, specifically at sensor 767366 (34.212, -118.473), which has a speed of 61.12 mph and an importance of 0.853. This slow speed is contributing to the congestion at the target location, Glendale / Burbank (sensor 761003, 34.155, -118.308). Additionally, other sensors in the San Fernando Valley are also experiencing slow speeds, which is propagating the congestion along a path of 8 sensors with an estimated lag of 5 minutes.",
+  "cited_causes": [
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 59
+    },
+    {
+      "location": "Hollywood",
+      "resolved_node_id": null
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Reroute traffic before the merge",
+      "location": "Glendale / Burbank (I-5/SR-134/SR-2 interchange)",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion at the target location",
+      "grounded_in": [
+        "City-context fact: upstream metering and reroute-before-the-merge are the levers for structural bottlenecks"
+      ]
+    },
+    {
+      "action": "Signal coordination on surface relief roads",
+      "location": "Hollywood (Sunset Blvd and Santa Monica Blvd)",
+      "time_window_minutes": 5,
+      "expected_effect": "Reduced congestion in Hollywood",
+      "grounded_in": [
+        "City-context fact: Sunset Blvd and Santa Monica Blvd are ATSAC signal-coordinated"
+      ]
+    },
+    {
+      "action": "Encourage carpooling or use of public transit",
+      "location": "Glendale / Burbank (SR-134, I-5)",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced demand on the roads",
+      "grounded_in": [
+        "City-context fact: Metro is limited in this area"
+      ]
+    }
+  ]
+}

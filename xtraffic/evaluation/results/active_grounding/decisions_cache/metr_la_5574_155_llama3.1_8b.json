@@ -1,0 +1,75 @@
+{
+  "curve": [
+    {
+      "round": 0,
+      "used_correction": false,
+      "faithfulness_f1": 0.9333333333333333,
+      "cause_precision": 1.0,
+      "cause_recall": 0.875,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 2,
+      "n_topk": 8,
+      "n_missed": 1,
+      "missed_regions": [
+        "N of Downtown LA"
+      ],
+      "missed_node_ids": [
+        183
+      ],
+      "advisory_error": ""
+    }
+  ],
+  "n_rounds": 0,
+  "reached_threshold": true,
+  "stop_reason": "threshold_reached",
+  "f1_initial": 0.9333333333333333,
+  "f1_final": 0.9333333333333333,
+  "f1_gain": 0.0,
+  "final_advisory": {
+    "reasoning": "The predicted congestion in Hollywood is due to the slow speeds in the San Fernando Valley, specifically at sensor 772178 (34.169, -118.499), which has a speed of 23.87 mph and an importance of 0.815. This slow speed is contributing to the congestion that will travel along a path of 9 sensors with no lag between the source and target.",
+    "cited_causes": [
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 172
+      },
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 105
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Reroute traffic before the merge at I-5/SR-134/SR-2 interchange",
+        "location": "I-5/SR-134/SR-2 interchange",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion in Hollywood by diverting traffic away from the bottleneck",
+        "grounded_in": [
+          "city-context fact: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Implement upstream metering on I-5 and SR-134",
+        "location": "I-5/SR-134",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion in Hollywood by regulating traffic flow upstream of the bottleneck",
+        "grounded_in": [
+          "city-context fact: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Coordinate signals on surface relief roads (Sunset Blvd and Santa Monica Blvd)",
+        "location": "Hollywood",
+        "time_window_minutes": 5,
+        "expected_effect": "Improved traffic flow in Hollywood by synchronizing signal timing on adjacent roads",
+        "grounded_in": [
+          "city-context fact: ATSAC signal-coordinated surface relief"
+        ]
+      }
+    ]
+  },
+  "sample_index": 5574,
+  "target_node": 155,
+  "tod_band": "midday",
+  "congestion": "high",
+  "model": "llama3.1:8b"
+}

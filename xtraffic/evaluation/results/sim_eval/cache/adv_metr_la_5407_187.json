@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in the Glendale/Burbank area, specifically at sensor 773880 (70.0 mph), which is affecting traffic traveling through the I-5/SR-134/SR-2 interchange and causing a ripple effect downstream to the target location NW of Downtown LA.",
+  "cited_causes": [
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 67
+    },
+    {
+      "location": "NW of Downtown LA",
+      "resolved_node_id": 187
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Reroute traffic before the merge at I-5/SR-134/SR-2 interchange",
+      "location": "I-5/SR-134/SR-2 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in the Glendale/Burbank area and downstream to the target location",
+      "grounded_in": [
+        "Glendale / Burbank (sensor 773880, 34.154, -118.348)"
+      ]
+    },
+    {
+      "action": "Coordinate signal timing on parallel relief arterials Olympic Blvd and Pico Blvd",
+      "location": "Olympic Blvd and Pico Blvd",
+      "time_window_minutes": 15,
+      "expected_effect": "Improved traffic flow through the I-10 corridor",
+      "grounded_in": [
+        "I-10 Santa Monica Freeway corridor"
+      ]
+    },
+    {
+      "action": "Meter traffic on eastbound on-ramps along I-10 during peak hours",
+      "location": "Eastbound on-ramps along I-10",
+      "time_window_minutes": 5,
+      "expected_effect": "Reduced congestion at the I-10/I-110 interchange downtown and the La Cienega/Robertson stretch",
+      "grounded_in": [
+        "I-10 Santa Monica Freeway corridor"
+      ]
+    }
+  ]
+}

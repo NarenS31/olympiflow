@@ -1,0 +1,77 @@
+{
+  "curve": [
+    {
+      "round": 0,
+      "used_correction": false,
+      "faithfulness_f1": 0.8571428571428571,
+      "cause_precision": 1.0,
+      "cause_recall": 0.75,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 2,
+      "n_topk": 8,
+      "n_missed": 2,
+      "missed_regions": [
+        "NE of Downtown LA",
+        "Hollywood"
+      ],
+      "missed_node_ids": [
+        2,
+        96
+      ],
+      "advisory_error": ""
+    }
+  ],
+  "n_rounds": 0,
+  "reached_threshold": true,
+  "stop_reason": "threshold_reached",
+  "f1_initial": 0.8571428571428571,
+  "f1_final": 0.8571428571428571,
+  "f1_gain": 0.0,
+  "final_advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in the Glendale/Burbank area, specifically at sensor 774067 (node_id 62), which has a speed of 59.0 mph and an importance of 0.724. This slow speed is contributing to the congestion that will travel along a path of 8 sensors with an estimated lag of 5.0 minutes between the source and the target.",
+    "cited_causes": [
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 62
+      },
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 40
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Reroute traffic before the merge",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion at the target location",
+        "grounded_in": [
+          "Upstream metering and reroute-before-the-merge are the levers, not signal timing at the interchange itself (City Context)"
+        ]
+      },
+      {
+        "action": "Signal coordination on surface relief roads",
+        "location": "Sunset Blvd and Santa Monica Blvd",
+        "time_window_minutes": 5,
+        "expected_effect": "Improved traffic flow through Hollywood",
+        "grounded_in": [
+          "Surface relief: Sunset Blvd and Santa Monica Blvd, both ATSAC signal-coordinated (City Context)"
+        ]
+      },
+      {
+        "action": "Encourage transit use in the Glendale/Burbank area",
+        "location": "Glendale / Burbank",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced demand on roads and alleviated congestion",
+        "grounded_in": [
+          "Transit is a viable diversion lever only where a parallel rail line exists (Wilshire, Expo/I-10, Harbor/I-110, Pasadena A Line); the Valley and Glendale/Burbank are largely rail-poor (City Context)"
+        ]
+      }
+    ]
+  },
+  "sample_index": 4222,
+  "target_node": 12,
+  "tod_band": "pm_rush",
+  "congestion": "medium",
+  "model": "llama3.1:8b"
+}

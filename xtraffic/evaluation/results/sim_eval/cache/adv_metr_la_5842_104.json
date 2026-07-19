@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in Downtown LA (34.058, -118.243), with a speed of 34.33 mph, and its neighboring areas, such as NE of Downtown LA (34.075, -118.233) with a speed of 57.33 mph, which are contributing to the congestion that will travel along a path of 4 sensors with an estimated lag of 55 minutes.",
+  "cited_causes": [
+    {
+      "location": "Downtown LA",
+      "resolved_node_id": 91
+    },
+    {
+      "location": "NE of Downtown LA",
+      "resolved_node_id": 48
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Activate ramp metering on I-405 Sepulveda Pass",
+      "location": "I-405 Sepulveda Pass",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion and increased speed",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Implement dynamic lane management on I-405 Sepulveda Pass",
+      "location": "I-405 Sepulveda Pass",
+      "time_window_minutes": 15,
+      "expected_effect": "Increased capacity and reduced congestion",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Optimize signal timing on surface streets in the San Fernando Valley, such as Ventura Blvd",
+      "location": "Ventura Blvd",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion and increased speed",
+      "grounded_in": [
+        "city-context fact: San Fernando Valley freeways"
+      ]
+    }
+  ]
+}

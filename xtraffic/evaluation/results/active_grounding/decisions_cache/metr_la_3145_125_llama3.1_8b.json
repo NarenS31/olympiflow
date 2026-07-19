@@ -1,0 +1,126 @@
+{
+  "curve": [
+    {
+      "round": 0,
+      "used_correction": false,
+      "faithfulness_f1": 0.5454545454545454,
+      "cause_precision": 1.0,
+      "cause_recall": 0.375,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 2,
+      "n_topk": 8,
+      "n_missed": 5,
+      "missed_regions": [
+        "San Fernando Valley",
+        "San Fernando Valley",
+        "NE of Downtown LA",
+        "San Fernando Valley",
+        "NW of Downtown LA"
+      ],
+      "missed_node_ids": [
+        10,
+        59,
+        29,
+        118,
+        187
+      ],
+      "advisory_error": ""
+    },
+    {
+      "round": 1,
+      "used_correction": true,
+      "faithfulness_f1": 0.9333333333333333,
+      "cause_precision": 1.0,
+      "cause_recall": 0.875,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 5,
+      "n_topk": 8,
+      "n_missed": 1,
+      "missed_regions": [
+        "NW of Downtown LA"
+      ],
+      "missed_node_ids": [
+        187
+      ],
+      "advisory_error": ""
+    }
+  ],
+  "n_rounds": 1,
+  "reached_threshold": true,
+  "stop_reason": "threshold_reached",
+  "f1_initial": 0.5454545454545454,
+  "f1_final": 0.9333333333333333,
+  "f1_gain": 0.38787878787878793,
+  "final_advisory": {
+    "reasoning": "The predicted congestion at Glendale/Burbank is caused by a combination of factors. The top contributing sensor is located at Glendale/Burbank (sensor 773954, node_id 58), which is currently moving at 42.0 mph. However, other sensors in the area are also contributing to the congestion. In particular, the San Fernando Valley (sensors 765604 and 767366) are experiencing slower speeds of 51.0 mph and 55.4 mph respectively, indicating that traffic is building up in this region. Additionally, NE of Downtown LA (sensor 773012) and NW of Downtown LA (sensors 717458 and 717570) are also contributing to the congestion with speeds of 47.4 mph, 64.8 mph, and 64.9 mph respectively.",
+    "cited_causes": [
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 58
+      },
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 10
+      },
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 59
+      },
+      {
+        "location": "NE of Downtown LA",
+        "resolved_node_id": 29
+      },
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 118
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering on SR-134",
+        "location": "Glendale/Burbank",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion at Glendale/Burbank",
+        "grounded_in": [
+          "cited_causes",
+          "San Fernando Valley (sensor 765604, node_id 10)"
+        ]
+      },
+      {
+        "action": "Reroute traffic before the merge on I-5/SR-134/SR-2 interchange",
+        "location": "Glendale/Burbank",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion at Glendale/Burbank",
+        "grounded_in": [
+          "cited_causes",
+          "San Fernando Valley (sensor 767366, node_id 59)"
+        ]
+      },
+      {
+        "action": "Optimize signal timing on Brand Blvd and San Fernando Rd to reduce traffic entering the I-5/SR-134/SR-2 interchange",
+        "location": "Glendale/Burbank",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion at Glendale/Burbank",
+        "grounded_in": [
+          "cited_causes",
+          "NE of Downtown LA (sensor 773012, node_id 29)"
+        ]
+      },
+      {
+        "action": "Implement ramp metering on I-405 Sepulveda Pass to reduce traffic entering the interchange",
+        "location": "Glendale/Burbank",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion at Glendale/Burbank",
+        "grounded_in": [
+          "cited_causes",
+          "NW of Downtown LA (sensor 717458, node_id 187)"
+        ]
+      }
+    ]
+  },
+  "sample_index": 3145,
+  "target_node": 125,
+  "tod_band": "night",
+  "congestion": "low",
+  "model": "llama3.1:8b"
+}

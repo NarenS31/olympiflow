@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the high speeds in areas north and northwest of Downtown LA, which are driving down the predicted speed at the target location. Specifically, sensors NW of Downtown LA (node_id 119) and N of Downtown LA (node_id 184) are reporting speeds above 64 mph, while the target location itself is only moving at 10.63 mph.",
+  "cited_causes": [
+    {
+      "location": "NW of Downtown LA",
+      "resolved_node_id": 119
+    },
+    {
+      "location": "N of Downtown LA",
+      "resolved_node_id": 184
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Metering at the I-5/SR-134 interchange",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in the area",
+      "grounded_in": [
+        "Recurrent bottlenecks (LA basin)"
+      ]
+    },
+    {
+      "action": "Signal coordination on Sunset Blvd and Santa Monica Blvd",
+      "location": "Sunset Blvd and Santa Monica Blvd",
+      "time_window_minutes": 5,
+      "expected_effect": "Improved traffic flow through the area",
+      "grounded_in": [
+        "US-101 Hollywood Freeway corridor"
+      ]
+    },
+    {
+      "action": "Rerouting traffic to parallel rail lines (e.g. Wilshire)",
+      "location": "Wilshire",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion on surface streets",
+      "grounded_in": [
+        "Transit alternatives (Metro rail/bus)"
+      ]
+    }
+  ]
+}

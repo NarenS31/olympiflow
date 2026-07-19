@@ -1,0 +1,79 @@
+{
+  "curve": [
+    {
+      "round": 0,
+      "used_correction": false,
+      "faithfulness_f1": 0.7692307692307693,
+      "cause_precision": 1.0,
+      "cause_recall": 0.625,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 2,
+      "n_topk": 8,
+      "n_missed": 3,
+      "missed_regions": [
+        "Glendale / Burbank",
+        "NE of Downtown LA",
+        "NE of Downtown LA"
+      ],
+      "missed_node_ids": [
+        62,
+        79,
+        35
+      ],
+      "advisory_error": ""
+    }
+  ],
+  "n_rounds": 0,
+  "reached_threshold": true,
+  "stop_reason": "threshold_reached",
+  "f1_initial": 0.7692307692307693,
+  "f1_final": 0.7692307692307693,
+  "f1_gain": 0.0,
+  "final_advisory": {
+    "reasoning": "The predicted congestion in Hollywood is due to a combination of factors. The current speed at the target location (Hollywood, sensor 769373) is already low at 8.87 mph, and it's expected to decrease further to 5.76 mph in 30 minutes. Looking at the top contributing sensors, we see that the congestion appears to be traveling along a path of 3 sensors with an estimated lag of 5.0 minutes between the source and the target. The NW of Downtown LA (sensor 717488) is currently moving at 16.12 mph, which is slower than expected, indicating potential congestion upstream. Additionally, the Hollywood area itself has multiple sensors reporting high speeds (60-66 mph), suggesting that traffic is being funneled into this area from other directions.",
+    "cited_causes": [
+      {
+        "location": "NW of Downtown LA",
+        "resolved_node_id": 103
+      },
+      {
+        "location": "Hollywood",
+        "resolved_node_id": null
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering on I-10/I-110 downtown interchange",
+        "location": "I-10/I-110 downtown interchange",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion in the Hollywood area by preventing traffic from building up downstream",
+        "grounded_in": [
+          "NW of Downtown LA (sensor 717488, node_id 103)"
+        ]
+      },
+      {
+        "action": "Reroute traffic before merging onto I-405 at Sepulveda Pass",
+        "location": "I-405 Sepulveda Pass",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion in the Hollywood area by preventing traffic from building up downstream",
+        "grounded_in": [
+          "NW of Downtown LA (sensor 717488, node_id 103)"
+        ]
+      },
+      {
+        "action": "Signal-coordinated relief on Sunset Blvd and Santa Monica Blvd",
+        "location": "Sunset Blvd and Santa Monica Blvd",
+        "time_window_minutes": 5,
+        "expected_effect": "Provided an alternative route for traffic to bypass the congested area in Hollywood",
+        "grounded_in": [
+          "City context: Surface relief options on US-101 Hollywood Freeway corridor"
+        ]
+      }
+    ]
+  },
+  "sample_index": 3369,
+  "target_node": 206,
+  "tod_band": "evening",
+  "congestion": "high",
+  "model": "llama3.1:8b"
+}

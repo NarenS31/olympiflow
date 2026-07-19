@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in Downtown LA, particularly at sensor 773023 (node_id 91), where the speed is currently 32.75 mph, and sensor 764853 (node_id 144), where the speed is currently 31.5 mph. This slow traffic is causing a ripple effect, slowing down traffic in the San Fernando Valley, including at sensor 765265 (node_id 151) with a current speed of 63.37 mph.",
+  "cited_causes": [
+    {
+      "location": "Downtown LA",
+      "resolved_node_id": 91
+    },
+    {
+      "location": "Downtown LA",
+      "resolved_node_id": 144
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Activate ramp metering on I-405 in the Sepulveda Pass",
+      "location": "Sepulveda Pass",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion and increased speed",
+      "grounded_in": [
+        "city-context fact: Ramp metering is active pass-wide"
+      ]
+    },
+    {
+      "action": "Implement dynamic lane management on I-405 in the Sepulveda Pass",
+      "location": "Sepulveda Pass",
+      "time_window_minutes": 15,
+      "expected_effect": "Increased capacity and reduced congestion",
+      "grounded_in": [
+        "city-context fact: Congestion builds westbound US-101 in the AM peak and southbound I-405 approaching the pass"
+      ]
+    },
+    {
+      "action": "Adjust signal timing on Sepulveda Blvd to optimize traffic flow",
+      "location": "Sepulveda Blvd",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion and increased speed",
+      "grounded_in": [
+        "city-context fact: Sepulveda Blvd is the parallel arterial"
+      ]
+    }
+  ]
+}

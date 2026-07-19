@@ -1,0 +1,79 @@
+{
+  "curve": [
+    {
+      "round": 0,
+      "used_correction": false,
+      "faithfulness_f1": 0.7692307692307693,
+      "cause_precision": 1.0,
+      "cause_recall": 0.625,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 2,
+      "n_topk": 8,
+      "n_missed": 3,
+      "missed_regions": [
+        "N of Downtown LA",
+        "Downtown LA",
+        "Pasadena / East"
+      ],
+      "missed_node_ids": [
+        183,
+        33,
+        200
+      ],
+      "advisory_error": ""
+    }
+  ],
+  "n_rounds": 0,
+  "reached_threshold": true,
+  "stop_reason": "threshold_reached",
+  "f1_initial": 0.7692307692307693,
+  "f1_final": 0.7692307692307693,
+  "f1_gain": 0.0,
+  "final_advisory": {
+    "reasoning": "The congestion is predicted because of a path of congestion that appears to travel along three sensors, with an estimated lag of 45.0 minutes between the source and the target. The top contributing sensor is Glendale / Burbank (sensor 773880), which is currently at 0.0 mph, indicating a complete stop.",
+    "cited_causes": [
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 67
+      },
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": null
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Metering at the source of congestion",
+        "location": "Glendale / Burbank (sensor 773880)",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced speed at the source, potentially alleviating downstream congestion",
+        "grounded_in": [
+          "congestion appears to travel along a path of 3 sensors"
+        ]
+      },
+      {
+        "action": "Rerouting traffic before the merge",
+        "location": "Glendale / Burbank (surface reliefs: Brand Blvd, San Fernando Rd and Colorado Blvd)",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion at the I-5/SR-134/SR-2 interchange",
+        "grounded_in": [
+          "Key merge congestion at the I-5/SR-134/SR-2 interchange"
+        ]
+      },
+      {
+        "action": "Encouraging transit use where possible",
+        "location": "Wilshire, Expo/I-10, Harbor/I-110, Pasadena A Line",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced number of cars on the road, potentially alleviating congestion",
+        "grounded_in": [
+          "Transit is a viable diversion lever only where a parallel rail line exists"
+        ]
+      }
+    ]
+  },
+  "sample_index": 5423,
+  "target_node": 142,
+  "tod_band": "evening",
+  "congestion": "medium",
+  "model": "llama3.1:8b"
+}

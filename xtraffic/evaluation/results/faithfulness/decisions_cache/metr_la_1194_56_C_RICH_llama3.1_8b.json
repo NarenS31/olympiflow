@@ -1,0 +1,30 @@
+{
+  "sample_index": 1194,
+  "target_node": 56,
+  "tod_band": "am_rush",
+  "congestion": "medium",
+  "condition": "C_RICH",
+  "advisory_error": "",
+  "cited_locations": [
+    "San Fernando Valley",
+    "San Fernando Valley"
+  ],
+  "context_used": [
+    "Known recurrent bottlenecks (LA basin)",
+    "Glendale/Burbank freeways (SR-134, I-5, SR-2)",
+    "I-405 San Diego Freeway corridor",
+    "San Fernando Valley freeways (US-101, I-405, SR-118)",
+    "Transit alternatives (Metro rail/bus)",
+    "US-101 Hollywood Freeway corridor",
+    "I-10 Santa Monica Freeway corridor",
+    "I-110 Harbor Freeway corridor",
+    "Signal-timing control (LADOT ATSAC) constraints"
+  ],
+  "cause_precision": 1.0,
+  "cause_recall": 0.25,
+  "faithfulness_f1": 0.4,
+  "hallucination_rate": 0.0,
+  "quantitative_fidelity": 1.0,
+  "n_cited_causes": 2,
+  "n_topk": 8
+}

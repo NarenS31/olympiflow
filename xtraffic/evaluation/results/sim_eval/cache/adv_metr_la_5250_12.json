@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in the areas north and northeast of Downtown LA, with speeds as low as 37.86 mph at sensor 716953 (node_id 133) and 38.22 mph at sensor 718371 (node_id 101). This congestion appears to be propagating along a path of 5 sensors, with an estimated lag of 30 minutes between the source and the target.",
+  "cited_causes": [
+    {
+      "location": "NE of Downtown LA",
+      "resolved_node_id": 101
+    },
+    {
+      "location": "N of Downtown LA",
+      "resolved_node_id": 133
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "I-10/I-110 downtown interchange",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion in the area north and northeast of Downtown LA",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Reroute traffic before merging",
+      "location": "I-10/I-110 downtown interchange",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion in the area north and northeast of Downtown LA",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Optimize signal timing at surface relief roads",
+      "location": "Sunset Blvd and Santa Monica Blvd",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion in the area north and northeast of Downtown LA",
+      "grounded_in": [
+        "city-context fact: ATSAC signal-coordinated"
+      ]
+    }
+  ]
+}

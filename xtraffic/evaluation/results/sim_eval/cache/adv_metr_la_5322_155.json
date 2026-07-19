@@ -1,0 +1,42 @@
+{
+  "reasoning": "The predicted congestion in Hollywood is due to the slow speeds upstream, particularly in the San Fernando Valley (43.62 mph and 42.13 mph), which are propagating downstream with a lag of approximately 30 minutes.",
+  "cited_causes": [
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 87
+    },
+    {
+      "location": "NW of Downtown LA",
+      "resolved_node_id": 26
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Reroute traffic before the merge",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion in Hollywood",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Implement upstream metering",
+      "location": "San Fernando Valley",
+      "time_window_minutes": 10,
+      "expected_effect": "Slower speeds in the San Fernando Valley will reduce congestion downstream",
+      "grounded_in": [
+        "cited cause: slow speeds in San Fernando Valley"
+      ]
+    },
+    {
+      "action": "Signal-coordinated surface relief",
+      "location": "Sunset Blvd and Santa Monica Blvd",
+      "time_window_minutes": 5,
+      "expected_effect": "Redirect some traffic to surface streets, reducing congestion on US-101",
+      "grounded_in": [
+        "city-context fact: ATSAC signal-coordinated surface relief"
+      ]
+    }
+  ]
+}

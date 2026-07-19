@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley, particularly at sensor 769431 (34.158, -118.457), which has a speed of 38.56 mph. This slow speed is also reflected in other nearby sensors such as 772168 (34.165, -118.480) and 717513 (34.173, -118.537). The congestion appears to be traveling along a path of 10 sensors with an estimated lag of 15 minutes between the source and the target.",
+  "cited_causes": [
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 81
+    },
+    {
+      "location": "NE of Downtown LA",
+      "resolved_node_id": 2
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement ramp metering on I-405",
+      "location": "I-405 Sepulveda Pass",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion in the San Fernando Valley",
+      "grounded_in": [
+        "city-context fact: recurrent bottleneck at I-405 Sepulveda Pass"
+      ]
+    },
+    {
+      "action": "Optimize signal timing on Sepulveda Blvd",
+      "location": "Sepulveda Blvd",
+      "time_window_minutes": 10,
+      "expected_effect": "Improved traffic flow in the San Fernando Valley",
+      "grounded_in": [
+        "city-context fact: parallel arterial to I-405"
+      ]
+    },
+    {
+      "action": "Implement dynamic lane management on US-101",
+      "location": "US-101 Hollywood Freeway corridor",
+      "time_window_minutes": 20,
+      "expected_effect": "Reduced congestion in the San Fernando Valley",
+      "grounded_in": [
+        "city-context fact: bottleneck at Cahuenga Pass grade"
+      ]
+    }
+  ]
+}

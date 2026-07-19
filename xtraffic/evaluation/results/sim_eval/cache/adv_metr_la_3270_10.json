@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley, specifically at sensor 717497 (34.157, -118.415), which has a speed of 29.75 mph and an importance of 0.815. This slow speed is also reflected in nearby sensors, such as sensor 769358 (34.157, -118.422) with a speed of 18.75 mph and an importance of 0.777.",
+  "cited_causes": [
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 69
+    },
+    {
+      "location": "Downtown LA",
+      "resolved_node_id": 16
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "I-405 Sepulveda Pass",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in the San Fernando Valley",
+      "grounded_in": [
+        "slow speeds in the San Fernando Valley"
+      ]
+    },
+    {
+      "action": "Reroute traffic before merging onto I-405",
+      "location": "I-405 Sepulveda Pass",
+      "time_window_minutes": 5,
+      "expected_effect": "Reduced congestion at the interchange",
+      "grounded_in": [
+        "structural bottleneck at the I-405 Sepulveda Pass"
+      ]
+    },
+    {
+      "action": "Signal-coordinated traffic management on parallel arterials",
+      "location": "Sepulveda Blvd and Ventura Blvd",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion in the San Fernando Valley",
+      "grounded_in": [
+        "city-context fact: Sepulveda Blvd is the parallel arterial"
+      ]
+    }
+  ]
+}

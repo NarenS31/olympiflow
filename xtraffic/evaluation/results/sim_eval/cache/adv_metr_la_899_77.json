@@ -1,0 +1,46 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley, specifically at sensor 765171 (node_id 77), which has a current speed of 10.63 mph and will decrease to 9.58 mph in 30 minutes. This slowdown is caused by the slower traffic upstream, particularly from sensors 767351 (node_id 89) and 769431 (node_id 81), which are currently moving at 63.63 mph and 56.75 mph respectively.",
+  "cited_causes": [
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 77
+    },
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 89
+    },
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 81
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Reroute traffic before the merge",
+      "location": "Upstream of sensor 765171 (node_id 77)",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion at the target location",
+      "grounded_in": [
+        "structural bottleneck at I-5/SR-134 interchange"
+      ]
+    },
+    {
+      "action": "Optimize signal timing along surface reliefs",
+      "location": "Brand Blvd, San Fernando Rd and Colorado Blvd",
+      "time_window_minutes": 15,
+      "expected_effect": "Improved traffic flow through the area",
+      "grounded_in": [
+        "ATSAC signal-coordinated on Sunset Blvd and Santa Monica Blvd"
+      ]
+    },
+    {
+      "action": "Encourage carpooling or use of public transit",
+      "location": "Glendale/Burbank freeways (SR-134, I-5, SR-2)",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced demand on the freeway system",
+      "grounded_in": [
+        "car-dominant demand in Glendale/Burbank area"
+      ]
+    }
+  ]
+}

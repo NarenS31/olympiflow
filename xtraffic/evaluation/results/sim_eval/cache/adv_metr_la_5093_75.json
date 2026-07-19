@@ -1,0 +1,38 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley, specifically at sensor 717497 (node_id 69), which has a speed of 42.29 mph and an importance of 0.723. This slow speed is contributing to the congestion at the target location, which is also in the San Fernando Valley.",
+  "cited_causes": [
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 69
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "Sensor 717497 (node_id 69)",
+      "time_window_minutes": 5,
+      "expected_effect": "Reduce congestion at the target location by slowing down traffic upstream",
+      "grounded_in": [
+        "cited cause: San Fernando Valley (sensor 717497, node_id 69)"
+      ]
+    },
+    {
+      "action": "Reroute traffic before the merge",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduce congestion at the target location by diverting traffic away from the merge point",
+      "grounded_in": [
+        "city-context fact: Recurrent bottlenecks a planner should assume unless told otherwise"
+      ]
+    },
+    {
+      "action": "Use transit as a diversion lever",
+      "location": "Wilshire and Hollywood areas",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduce congestion at the target location by diverting traffic to parallel rail lines",
+      "grounded_in": [
+        "city-context fact: Transit is a viable diversion lever only where a parallel rail line exists"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "reasoning": "The predicted congestion is due to a wave of slowing traffic that originated from the Hollywood area (sensor 717481, 34.106, -118.328), where speeds are currently 69.33 mph. This congestion has propagated northward along the US-101 corridor, affecting areas near Downtown LA and eventually reaching the target location north of Downtown LA.",
+  "cited_causes": [
+    {
+      "location": "Hollywood",
+      "resolved_node_id": 96
+    },
+    {
+      "location": "NE of Downtown LA",
+      "resolved_node_id": 166
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering on I-5/SR-134",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduce congestion by limiting the amount of traffic entering the merge",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Coordinate signals on Sunset Blvd and Santa Monica Blvd to optimize surface relief flow",
+      "location": "US-101 Hollywood Freeway corridor",
+      "time_window_minutes": 5,
+      "expected_effect": "Improve traffic distribution through the area by optimizing signal timing",
+      "grounded_in": [
+        "city-context fact: surface relief: Sunset Blvd and Santa Monica Blvd, both ATSAC signal-coordinated"
+      ]
+    },
+    {
+      "action": "Reroute traffic before the merge at I-5/SR-134 interchange",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduce congestion by diverting traffic away from the bottlenecked area",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    }
+  ]
+}

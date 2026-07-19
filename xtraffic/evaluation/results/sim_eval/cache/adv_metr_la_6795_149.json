@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley, which are influenced by the slower speeds in NE of Downtown LA (54.37 mph) and Glendale/Burbank (58.63 mph). The propagation of congestion appears to travel along a path of 2 sensors with no lag between the source and target.",
+  "cited_causes": [
+    {
+      "location": "NE of Downtown LA",
+      "resolved_node_id": 45
+    },
+    {
+      "location": "Glendale/Burbank",
+      "resolved_node_id": 126
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Reroute traffic before the merge",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in San Fernando Valley",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Signal-coordinated surface relief",
+      "location": "Sunset Blvd and Santa Monica Blvd",
+      "time_window_minutes": 15,
+      "expected_effect": "Improved traffic flow in Hollywood area",
+      "grounded_in": [
+        "city-context fact: ATSAC signal-coordinated"
+      ]
+    },
+    {
+      "action": "Upstream metering",
+      "location": "NE of Downtown LA",
+      "time_window_minutes": 5,
+      "expected_effect": "Reduced congestion in San Fernando Valley",
+      "grounded_in": [
+        "cited cause: NE of Downtown LA (sensor 774011, node_id 45)"
+      ]
+    }
+  ]
+}

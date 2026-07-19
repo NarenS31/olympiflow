@@ -1,0 +1,38 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in the Glendale/Burbank area, specifically at sensor 718072 (node_id 106), which is currently traveling at 62.75 mph. This slow speed is contributing to the congestion that will reach the San Fernando Valley in 30 minutes.",
+  "cited_causes": [
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 106
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "Glendale/Burbank area (sensor 718072)",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduce congestion by slowing down traffic before it reaches the San Fernando Valley",
+      "grounded_in": [
+        "congestion appears to travel along a path of 10 sensors"
+      ]
+    },
+    {
+      "action": "Reroute traffic before the merge",
+      "location": "I-5/SR-134 interchange (key merge congestion)",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduce congestion by diverting traffic away from the bottlenecked area",
+      "grounded_in": [
+        "Recurrent bottlenecks a planner should assume unless told otherwise"
+      ]
+    },
+    {
+      "action": "Use transit as a diversion lever",
+      "location": "Wilshire and Hollywood (B/D Lines)",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduce congestion by diverting traffic to rail lines",
+      "grounded_in": [
+        "Transit is a viable diversion lever only where a parallel rail line exists"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in the Hollywood area, specifically at sensor 717486 (56.33 mph), and the Glendale/Burbank area, with sensors 718076 (68.56 mph) and 773880 (67.56 mph) contributing to the slowdown. This congestion appears to be traveling along a path of 5 sensors, with an estimated lag of 30 minutes between the source and the target.",
+  "cited_causes": [
+    {
+      "location": "Hollywood",
+      "resolved_node_id": 98
+    },
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 105
+    },
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 67
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Reroute traffic before the merge at I-5/SR-134 interchange",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in Downtown LA",
+      "grounded_in": [
+        "Recurrent bottlenecks (LA basin)"
+      ]
+    },
+    {
+      "action": "Coordinate signal timing at surface relief roads Sunset Blvd and Santa Monica Blvd",
+      "location": "US-101 Hollywood Freeway corridor",
+      "time_window_minutes": 15,
+      "expected_effect": "Improved traffic flow in the area",
+      "grounded_in": [
+        "US-101 Hollywood Freeway corridor"
+      ]
+    },
+    {
+      "action": "Use Metro rail relief options by area, specifically the B/D (Red/Purple) Lines under Wilshire and through Hollywood",
+      "location": "Downtown LA",
+      "time_window_minutes": 5,
+      "expected_effect": "Diverted traffic from roads to rail",
+      "grounded_in": [
+        "Transit alternatives (Metro rail/bus)"
+      ]
+    }
+  ]
+}

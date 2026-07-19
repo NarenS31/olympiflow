@@ -1,0 +1,46 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley, specifically at sensor 765171 (node_id 77), which has a current speed of 15.75 mph and will decrease to 10.74 mph in 30 minutes. This slowdown is caused by the slower traffic from other locations: the San Fernando Valley (sensor 767366) with a speed of 60.87 mph, Glendale / Burbank (sensor 769867) with a speed of 65.25 mph, and NE of Downtown LA (sensor 767610) with a speed of 64.88 mph.",
+  "cited_causes": [
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 59
+    },
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 126
+    },
+    {
+      "location": "NE of Downtown LA",
+      "resolved_node_id": 66
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "San Fernando Valley (sensor 765171)",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduce congestion by slowing down traffic before it reaches the bottleneck",
+      "grounded_in": [
+        "The slower speeds in the San Fernando Valley are causing the congestion"
+      ]
+    },
+    {
+      "action": "Reroute traffic before the merge",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduce congestion by diverting traffic away from the bottleneck",
+      "grounded_in": [
+        "The structural geometry of the I-5/SR-134/SR-2 interchange is causing merge congestion"
+      ]
+    },
+    {
+      "action": "Optimize signal timing at nearby intersections",
+      "location": "Brand Blvd, San Fernando Rd and Colorado Blvd",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduce congestion by improving traffic flow through the area",
+      "grounded_in": [
+        "The slower speeds in the surrounding areas are contributing to the congestion"
+      ]
+    }
+  ]
+}

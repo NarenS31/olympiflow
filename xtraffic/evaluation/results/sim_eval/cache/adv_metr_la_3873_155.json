@@ -1,0 +1,46 @@
+{
+  "reasoning": "The predicted congestion in Hollywood is due to the slow speeds and congested traffic upstream, particularly from the San Fernando Valley (64.5 mph), Glendale/Burbank (66.0 mph), and Downtown LA (42.0 mph). The propagation of congestion along a path of 8 sensors with an estimated lag of 35 minutes between the source and the target suggests that the bottleneck is being pushed downstream.",
+  "cited_causes": [
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 59
+    },
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 126
+    },
+    {
+      "location": "Downtown LA",
+      "resolved_node_id": 3
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "San Fernando Valley (sensor 767366)",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in Hollywood by 5-7 mph",
+      "grounded_in": [
+        "City-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Reroute traffic before the merge at I-5/SR-134/SR-2 interchange",
+      "location": "Glendale/Burbank (sensor 769867)",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion in Hollywood by 3-5 mph",
+      "grounded_in": [
+        "City-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Signal-coordinated surface relief on Sunset Blvd and Santa Monica Blvd",
+      "location": "Hollywood (sensor 717468)",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in Hollywood by 2-4 mph",
+      "grounded_in": [
+        "City-context fact: ATSAC signal-coordinated surface relief"
+      ]
+    }
+  ]
+}

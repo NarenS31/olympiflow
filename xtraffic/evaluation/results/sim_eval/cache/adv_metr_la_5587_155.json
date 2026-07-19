@@ -1,0 +1,38 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley, specifically at sensor 717497 (34.157, -118.415), which has a speed of 25.87 mph and an importance of 0.844. This slow speed is contributing to the congestion at the target location, Hollywood (sensor 717468, 34.097, -118.314).",
+  "cited_causes": [
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 69
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Reroute traffic before the merge at I-5/SR-134/SR-2 interchange",
+      "location": "I-5/SR-134/SR-2 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in Hollywood",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Coordinate signals on Sunset Blvd and Santa Monica Blvd to improve surface relief",
+      "location": "Sunset Blvd and Santa Monica Blvd",
+      "time_window_minutes": 15,
+      "expected_effect": "Improved traffic flow in Hollywood",
+      "grounded_in": [
+        "city-context fact: surface relief"
+      ]
+    },
+    {
+      "action": "Encourage carpooling or use of public transit on I-5 and SR-134",
+      "location": "I-5 and SR-134",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced traffic volume in San Fernando Valley",
+      "grounded_in": [
+        "city-context fact: demand is car-dominant"
+      ]
+    }
+  ]
+}

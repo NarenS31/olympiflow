@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion in the San Fernando Valley is predicted because of a wave of slowing traffic that originated from Downtown LA, specifically from sensors N and NE of Downtown LA (node_ids 133 and 29), which are currently moving at 37.33 mph and 44.11 mph respectively. This slowing traffic has propagated to the target location in the San Fernando Valley with an estimated lag of 25 minutes.",
+  "cited_causes": [
+    {
+      "location": "N of Downtown LA",
+      "resolved_node_id": 133
+    },
+    {
+      "location": "NE of Downtown LA",
+      "resolved_node_id": 29
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Reroute traffic before the merge",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in the San Fernando Valley",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Use transit alternatives",
+      "location": "Wilshire and Hollywood areas",
+      "time_window_minutes": 5,
+      "expected_effect": "Divert traffic from roads to rail lines",
+      "grounded_in": [
+        "transit alternatives: Metro rail relief options by area"
+      ]
+    },
+    {
+      "action": "Coordinate surface relief signals",
+      "location": "Sunset Blvd and Santa Monica Blvd",
+      "time_window_minutes": 5,
+      "expected_effect": "Improved traffic flow on surface roads",
+      "grounded_in": [
+        "city-context fact: surface relief: Sunset Blvd and Santa Monica Blvd, both ATSAC signal-coordinated"
+      ]
+    }
+  ]
+}

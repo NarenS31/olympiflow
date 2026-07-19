@@ -1,0 +1,54 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds reported by multiple sensors in Downtown LA and its surrounding areas. Specifically, all sensors in Downtown LA (node_id 91, 144, 56) are reporting a speed of 0.0 mph, indicating that traffic has come to a standstill. Additionally, sensors NE of Downtown LA (node_id 44), N of Downtown LA (node_id 56), and Glendale/Burbank areas (node_id 108, 115, 145) are also contributing to the congestion.",
+  "cited_causes": [
+    {
+      "location": "Downtown LA",
+      "resolved_node_id": 91
+    },
+    {
+      "location": "NE of Downtown LA",
+      "resolved_node_id": 44
+    },
+    {
+      "location": "N of Downtown LA",
+      "resolved_node_id": 56
+    },
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 108
+    },
+    {
+      "location": "Hollywood",
+      "resolved_node_id": null
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "I-10/I-110 downtown interchange",
+      "time_window_minutes": 5,
+      "expected_effect": "Reduced congestion in Downtown LA",
+      "grounded_in": [
+        "structural bottleneck at I-10/I-110 downtown interchange"
+      ]
+    },
+    {
+      "action": "Reroute traffic before the merge",
+      "location": "I-405 Sepulveda Pass",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in Downtown LA",
+      "grounded_in": [
+        "structural bottleneck at I-405 Sepulveda Pass"
+      ]
+    },
+    {
+      "action": "Signal timing adjustments",
+      "location": "Surface relief: Sunset Blvd and Santa Monica Blvd",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion in Downtown LA",
+      "grounded_in": [
+        "ATSAC signal-coordinated surface relief"
+      ]
+    }
+  ]
+}

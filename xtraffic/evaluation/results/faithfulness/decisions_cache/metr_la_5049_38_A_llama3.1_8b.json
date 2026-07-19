@@ -1,0 +1,26 @@
+{
+  "sample_index": 5049,
+  "target_node": 38,
+  "tod_band": "pm_rush",
+  "congestion": "high",
+  "condition": "A",
+  "advisory_error": "",
+  "cited_locations": [
+    "Hollywood",
+    "East LA",
+    "NW of Downtown LA"
+  ],
+  "context_used": [
+    "Transit alternatives (Metro rail/bus)",
+    "US-101 Hollywood Freeway corridor",
+    "Signal-timing control (LADOT ATSAC) constraints",
+    "I-10 Santa Monica Freeway corridor"
+  ],
+  "cause_precision": 1.0,
+  "cause_recall": 0.375,
+  "faithfulness_f1": 0.5454545454545454,
+  "hallucination_rate": 0.0,
+  "quantitative_fidelity": 0.8,
+  "n_cited_causes": 3,
+  "n_topk": 8
+}

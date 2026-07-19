@@ -1,0 +1,46 @@
+{
+  "reasoning": "The congestion is predicted because of the high speeds in the areas north and northeast of Downtown LA, which are currently traveling at 63.75 mph, 66.63 mph, and 67.12 mph respectively. This indicates that these areas are not congested, but rather are contributing to the congestion downstream by feeding into it. The predicted speed in the San Fernando Valley is only 23.79 mph, indicating that the congestion will continue to propagate.",
+  "cited_causes": [
+    {
+      "location": "NE of Downtown LA",
+      "resolved_node_id": 65
+    },
+    {
+      "location": "N of Downtown LA",
+      "resolved_node_id": 78
+    },
+    {
+      "location": "NE of Downtown LA",
+      "resolved_node_id": 79
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "I-10/I-110 downtown interchange",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduce congestion by limiting the amount of traffic entering the downstream area",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Reroute traffic before merge",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduce congestion by diverting traffic away from the congested area",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Optimize signal timing at parallel arterials",
+      "location": "Sepulveda Blvd and Van Nuys Blvd",
+      "time_window_minutes": 5,
+      "expected_effect": "Reduce congestion by improving traffic flow on parallel roads",
+      "grounded_in": [
+        "city-context fact: San Fernando Valley freeways"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "curve": [
+    {
+      "round": 0,
+      "used_correction": false,
+      "faithfulness_f1": 0.7692307692307693,
+      "cause_precision": 1.0,
+      "cause_recall": 0.625,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 2,
+      "n_topk": 8,
+      "n_missed": 3,
+      "missed_regions": [
+        "NE of Downtown LA",
+        "NW of Downtown LA",
+        "N of Downtown LA"
+      ],
+      "missed_node_ids": [
+        196,
+        139,
+        56
+      ],
+      "advisory_error": ""
+    }
+  ],
+  "n_rounds": 0,
+  "reached_threshold": true,
+  "stop_reason": "threshold_reached",
+  "f1_initial": 0.7692307692307693,
+  "f1_final": 0.7692307692307693,
+  "f1_gain": 0.0,
+  "final_advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley, specifically at sensor 717497 (34.157, -118.415), which has a speed of 29.75 mph and an importance of 0.815. This slow speed is also reflected in nearby sensors, such as sensor 769358 (34.157, -118.422) with a speed of 18.75 mph and an importance of 0.777.",
+    "cited_causes": [
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 69
+      },
+      {
+        "location": "Downtown LA",
+        "resolved_node_id": 16
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Activate ramp metering on I-405",
+        "location": "I-405 Sepulveda Pass",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion in the San Fernando Valley",
+        "grounded_in": [
+          "cited cause: San Fernando Valley (sensor 717497, node_id 69)"
+        ]
+      },
+      {
+        "action": "Implement dynamic lane management on I-405",
+        "location": "I-405 Sepulveda Pass",
+        "time_window_minutes": 15,
+        "expected_effect": "Increased capacity and reduced congestion in the San Fernando Valley",
+        "grounded_in": [
+          "cited cause: San Fernando Valley (sensor 717497, node_id 69)"
+        ]
+      },
+      {
+        "action": "Optimize signal timing on Sepulveda Blvd",
+        "location": "Sepulveda Blvd",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion in the San Fernando Valley by providing an alternative route",
+        "grounded_in": [
+          "city-context: Sepulveda Blvd is a parallel arterial to I-405"
+        ]
+      }
+    ]
+  },
+  "sample_index": 3270,
+  "target_node": 10,
+  "tod_band": "midday",
+  "congestion": "high",
+  "model": "llama3.1:8b"
+}

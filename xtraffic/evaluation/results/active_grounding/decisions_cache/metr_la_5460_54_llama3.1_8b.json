@@ -1,0 +1,71 @@
+{
+  "curve": [
+    {
+      "round": 0,
+      "used_correction": false,
+      "faithfulness_f1": 0.9333333333333333,
+      "cause_precision": 1.0,
+      "cause_recall": 0.875,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 1,
+      "n_topk": 8,
+      "n_missed": 1,
+      "missed_regions": [
+        "NE of Downtown LA"
+      ],
+      "missed_node_ids": [
+        45
+      ],
+      "advisory_error": ""
+    }
+  ],
+  "n_rounds": 0,
+  "reached_threshold": true,
+  "stop_reason": "threshold_reached",
+  "f1_initial": 0.9333333333333333,
+  "f1_final": 0.9333333333333333,
+  "f1_gain": 0.0,
+  "final_advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley, particularly at sensor 772140 (node_id 41), which has a speed of 28.0 mph. This slow speed is contributing to the congestion at the target location, Glendale / Burbank (sensor 773953, node_id 54).",
+    "cited_causes": [
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 41
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Reroute traffic before the merge at I-5/SR-134/SR-2 interchange",
+        "location": "I-5/SR-134/SR-2 interchange",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion at Glendale / Burbank",
+        "grounded_in": [
+          "city-context fact: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Implement upstream metering on I-5 and SR-134",
+        "location": "I-5/SR-134",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion at Glendale / Burbank",
+        "grounded_in": [
+          "city-context fact: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Optimize signal timing on parallel arterials (e.g. Brand Blvd, San Fernando Rd)",
+        "location": "Brand Blvd, San Fernando Rd",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion at Glendale / Burbank",
+        "grounded_in": [
+          "city-context fact: surface reliefs"
+        ]
+      }
+    ]
+  },
+  "sample_index": 5460,
+  "target_node": 54,
+  "tod_band": "night",
+  "congestion": "low",
+  "model": "llama3.1:8b"
+}

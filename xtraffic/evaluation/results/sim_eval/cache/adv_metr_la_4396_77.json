@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley, specifically at sensor 769430 (node_id 82), which has a speed of 0.0 mph and an importance of 0.722. This slow speed is driving the prediction of reduced speed at the target location.",
+  "cited_causes": [
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 82
+    },
+    {
+      "location": "San Fernando Valley (sensor 717497)",
+      "resolved_node_id": 69
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement ramp metering on Sepulveda Blvd",
+      "location": "Sepulveda Blvd, San Fernando Valley",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in the area",
+      "grounded_in": [
+        "Ramp metering is active pass-wide (city-context fact)"
+      ]
+    },
+    {
+      "action": "Adjust signal timing on Sepulveda/Van Nuys Blvd",
+      "location": "Sepulveda/Van Nuys Blvd, San Fernando Valley",
+      "time_window_minutes": 15,
+      "expected_effect": "Improved traffic flow in the area",
+      "grounded_in": [
+        "Congestion builds westbound US-101 in the AM peak (city-context fact)"
+      ]
+    },
+    {
+      "action": "Implement dynamic lane management on I-405",
+      "location": "I-405, Sepulveda Pass",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion on I-405",
+      "grounded_in": [
+        "Sepulveda Pass saturates in both peaks (city-context fact)"
+      ]
+    }
+  ]
+}

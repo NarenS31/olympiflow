@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in several locations. The Koreatown / Mid-City area (sensor 717450, node_id 191) has a speed of 32.0 mph, which is slower than expected. Additionally, the Downtown LA area (sensors 718045 and 773023, node_ids 38 and 91) have speeds of 52.86 and 20.0 mph respectively, indicating congestion in this area.",
+  "cited_causes": [
+    {
+      "location": "Koreatown / Mid-City",
+      "resolved_node_id": 191
+    },
+    {
+      "location": "Downtown LA",
+      "resolved_node_id": null
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Extend green-band by 10-20% for up to ~30 min on coordinated corridors",
+      "location": "Olympic Blvd and Pico Blvd (parallel relief arterials)",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion in the Downtown LA area",
+      "grounded_in": [
+        "city-context fact: LADOT ATSAC can push a special timing plan to a corridor within minutes"
+      ]
+    },
+    {
+      "action": "Reroute traffic before the merge at I-10/I-110 interchange downtown",
+      "location": "I-10/I-110 interchange downtown",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion in the Downtown LA area",
+      "grounded_in": [
+        "city-context fact: upstream metering and reroute-before-the-merge are levers for structural bottlenecks"
+      ]
+    },
+    {
+      "action": "Activate Caltrans ramp meters on eastbound on-ramps during peak",
+      "location": "I-10 (Santa Monica Fwy) eastbound on-ramps",
+      "time_window_minutes": 5,
+      "expected_effect": "Reduced congestion in the Downtown LA area",
+      "grounded_in": [
+        "city-context fact: Caltrans ramp meters operate on most eastbound on-ramps during peak"
+      ]
+    }
+  ]
+}

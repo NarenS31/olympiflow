@@ -1,0 +1,46 @@
+{
+  "reasoning": "The predicted congestion in Hollywood is caused by a wave of slow traffic traveling from Downtown LA, where the speed is currently 56.75 mph, through NW of Downtown LA with a speed of 46.0 mph, and then to Pasadena/East with a speed of 66.75 mph, before finally reaching the San Fernando Valley with speeds ranging from 63.75 to 68.25 mph.",
+  "cited_causes": [
+    {
+      "location": "Downtown LA",
+      "resolved_node_id": 5
+    },
+    {
+      "location": "NW of Downtown LA",
+      "resolved_node_id": 26
+    },
+    {
+      "location": "Pasadena / East",
+      "resolved_node_id": 200
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering on I-5/SR-134 interchange",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in Hollywood by slowing down traffic before it reaches the bottleneck",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Coordinate signal timing on Sunset Blvd and Santa Monica Blvd to optimize surface relief flow",
+      "location": "Sunset Blvd and Santa Monica Blvd",
+      "time_window_minutes": 5,
+      "expected_effect": "Improved traffic distribution through Hollywood, reducing congestion",
+      "grounded_in": [
+        "city-context fact: surface reliefs"
+      ]
+    },
+    {
+      "action": "Reroute traffic before the merge at I-5/SR-134 interchange",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion in Hollywood by diverting traffic away from the bottleneck",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in Downtown LA, particularly at sensor 764853 (node_id 144), which is currently moving at 45.75 mph. This slow speed is contributing to the congestion at the target location NW of Downtown LA, where the current speed is 27.25 mph and is expected to increase to 65.65 mph in 30 minutes.",
+  "cited_causes": [
+    {
+      "location": "Downtown LA",
+      "resolved_node_id": 144
+    },
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": null
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Reroute traffic before the merge",
+      "location": "NW of Downtown LA",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion at target location",
+      "grounded_in": [
+        "city-context fact: recurrent bottleneck at I-10/I-110 downtown interchange"
+      ]
+    },
+    {
+      "action": "Activate ramp metering on Sepulveda Blvd",
+      "location": "Sepulveda Pass",
+      "time_window_minutes": 5,
+      "expected_effect": "Reduced congestion in the Sepulveda Pass area",
+      "grounded_in": [
+        "city-context fact: I-405 (San Diego Fwy) is one of the most congested segments in the US"
+      ]
+    },
+    {
+      "action": "Optimize signal timing on Sunset Blvd and Santa Monica Blvd",
+      "location": "Hollywood Freeway corridor",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion at the Cahuenga Pass grade",
+      "grounded_in": [
+        "city-context fact: Surface relief: Sunset Blvd and Santa Monica Blvd, both ATSAC signal-coordinated"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the high speeds in the Glendale/Burbank area, particularly at sensor 717585 (67.12 mph), and sensor 718076 (70.0 mph). This indicates that traffic is flowing freely in this region, but it will eventually reach Downtown LA with a delay.",
+  "cited_causes": [
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 173
+    },
+    {
+      "location": "NE of Downtown LA",
+      "resolved_node_id": 66
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering on I-5/SR-134 interchange",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in the Glendale/Burbank area and subsequent reduction of delay to Downtown LA",
+      "grounded_in": [
+        "Glendale / Burbank (sensor 717585, 34.156, -118.242)"
+      ]
+    },
+    {
+      "action": "Reroute traffic before merge on I-5/SR-134 interchange",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion in the Glendale/Burbank area and subsequent reduction of delay to Downtown LA",
+      "grounded_in": [
+        "Glendale / Burbank (sensor 717585, 34.156, -118.242)"
+      ]
+    },
+    {
+      "action": "Adjust signal timing at sensor 767610 (NE of Downtown LA)",
+      "location": "Sensor 767610 (NE of Downtown LA)",
+      "time_window_minutes": 5,
+      "expected_effect": "Reduced delay to Downtown LA",
+      "grounded_in": [
+        "NE of Downtown LA (sensor 767610, 34.186, -118.218)"
+      ]
+    }
+  ]
+}

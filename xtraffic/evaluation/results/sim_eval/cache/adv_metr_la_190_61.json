@@ -1,0 +1,46 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in the Glendale/Burbank area, specifically at sensors 774067 (66.75 mph), 718076 (69.25 mph), and 769867 (60.63 mph). These locations are contributing to the congestion that will propagate to the San Fernando Valley in about 30 minutes.",
+  "cited_causes": [
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 62
+    },
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 105
+    },
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 126
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduce congestion by limiting the number of vehicles entering the merge",
+      "grounded_in": [
+        "structural geometry/merges in city context"
+      ]
+    },
+    {
+      "action": "Reroute traffic before the merge",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduce congestion by diverting traffic away from the bottleneck",
+      "grounded_in": [
+        "structural geometry/merges in city context"
+      ]
+    },
+    {
+      "action": "Optimize signal timing at nearby intersections",
+      "location": "Brand Blvd, San Fernando Rd and Colorado Blvd",
+      "time_window_minutes": 10,
+      "expected_effect": "Improve traffic flow by synchronizing signals to reduce congestion",
+      "grounded_in": [
+        "city context: surface reliefs"
+      ]
+    }
+  ]
+}

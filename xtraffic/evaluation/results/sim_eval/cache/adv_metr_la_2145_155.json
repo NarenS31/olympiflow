@@ -1,0 +1,46 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in Hollywood (8.22 mph), which is likely caused by the slower traffic from Glendale/Burbank (12.67 mph at sensor 717461) and NE of Downtown LA (59.22 mph at sensor 773995). The propagation of congestion appears to travel along a path of 3 sensors, with an estimated lag of 5 minutes between the source and the target.",
+  "cited_causes": [
+    {
+      "location": "Hollywood",
+      "resolved_node_id": 160
+    },
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": null
+    },
+    {
+      "location": "NE of Downtown LA",
+      "resolved_node_id": 153
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Reroute traffic before the merge",
+      "location": "I-10/I-110 downtown interchange",
+      "time_window_minutes": 5,
+      "expected_effect": "Reduced congestion in Hollywood",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Signal-coordinated surface relief",
+      "location": "Sunset Blvd and Santa Monica Blvd",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in Hollywood",
+      "grounded_in": [
+        "city-context fact: surface reliefs are ATSAC signal-coordinated"
+      ]
+    },
+    {
+      "action": "Upstream metering",
+      "location": "Glendale / Burbank (sensor 718496)",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion in Hollywood",
+      "grounded_in": [
+        "cited cause: Glendale / Burbank (sensor 718496)"
+      ]
+    }
+  ]
+}

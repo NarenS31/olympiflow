@@ -1,0 +1,42 @@
+{
+  "reasoning": "The predicted congestion is due to a propagation of congestion from the San Fernando Valley, where westbound US-101 is congested in the AM peak. This congestion travels along a path of 2 sensors with an estimated lag of 5 minutes between the source and the target.",
+  "cited_causes": [
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 122
+    },
+    {
+      "location": "Hollywood (sensor 717481, 34.106, -118.328)",
+      "resolved_node_id": 96
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering on US-101 in the San Fernando Valley",
+      "location": "San Fernando Valley",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion on westbound US-101",
+      "grounded_in": [
+        "Congestion builds westbound US-101 in the AM peak (city-context)"
+      ]
+    },
+    {
+      "action": "Reroute traffic before merging onto I-110 from US-101",
+      "location": "Hollywood (sensor 769373, 34.103, -118.317)",
+      "time_window_minutes": 5,
+      "expected_effect": "Reduced congestion on I-110",
+      "grounded_in": [
+        "US-101/I-110 four-level bottleneck (city-context)"
+      ]
+    },
+    {
+      "action": "Optimize signal timing at ATSAC-coordinated intersections along Sunset Blvd and Santa Monica Blvd",
+      "location": "Hollywood",
+      "time_window_minutes": 15,
+      "expected_effect": "Improved traffic flow through Hollywood",
+      "grounded_in": [
+        "Surface relief: Sunset Blvd and Santa Monica Blvd, both ATSAC signal-coordinated (city-context)"
+      ]
+    }
+  ]
+}

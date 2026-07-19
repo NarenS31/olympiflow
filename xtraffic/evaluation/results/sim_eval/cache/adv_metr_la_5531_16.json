@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the slower speeds in the San Fernando Valley (65.11 mph and 68.0 mph) and Glendale/Burbank areas (67.44 mph, 69.0 mph), which are contributing to a propagation of congestion along a path of 2 sensors with an estimated lag of 10 minutes between the source and the target location in Downtown LA.",
+  "cited_causes": [
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 99
+    },
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 171
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering on I-5/SR-134 interchange",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in the San Fernando Valley and Glendale/Burbank areas",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Reroute traffic before merge on I-5/SR-134 interchange",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in the San Fernando Valley and Glendale/Burbank areas",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Activate ramp metering on Sepulveda Blvd",
+      "location": "Sepulveda Blvd",
+      "time_window_minutes": 5,
+      "expected_effect": "Reduced congestion in the San Fernando Valley and Glendale/Burbank areas",
+      "grounded_in": [
+        "city-context fact: I-405 San Diego Freeway corridor"
+      ]
+    }
+  ]
+}

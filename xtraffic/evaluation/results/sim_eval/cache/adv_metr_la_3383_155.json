@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in the Glendale/Burbank area, specifically at sensor 769847 (node_id 121), which is currently moving at 63.78 mph, and sensor 774067 (node_id 62), which is currently moving at 25.0 mph. This slow speed is affecting traffic downstream, including the target location in Hollywood.",
+  "cited_causes": [
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 121
+    },
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 62
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Reroute traffic before the merge",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion at the target location in Hollywood",
+      "grounded_in": [
+        "Recurrent bottlenecks (LA basin)"
+      ]
+    },
+    {
+      "action": "Meter traffic upstream of the merge",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion at the target location in Hollywood",
+      "grounded_in": [
+        "Recurrent bottlenecks (LA basin)"
+      ]
+    },
+    {
+      "action": "Coordinate signals on surface relief roads",
+      "location": "Sunset Blvd and Santa Monica Blvd",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion at the target location in Hollywood",
+      "grounded_in": [
+        "US-101 Hollywood Freeway corridor"
+      ]
+    }
+  ]
+}

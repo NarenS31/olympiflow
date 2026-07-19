@@ -1,0 +1,83 @@
+{
+  "curve": [
+    {
+      "round": 0,
+      "used_correction": false,
+      "faithfulness_f1": 0.7692307692307693,
+      "cause_precision": 1.0,
+      "cause_recall": 0.625,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 3,
+      "n_topk": 8,
+      "n_missed": 3,
+      "missed_regions": [
+        "Hollywood",
+        "Downtown LA",
+        "San Fernando Valley"
+      ],
+      "missed_node_ids": [
+        155,
+        138,
+        31
+      ],
+      "advisory_error": ""
+    }
+  ],
+  "n_rounds": 0,
+  "reached_threshold": true,
+  "stop_reason": "threshold_reached",
+  "f1_initial": 0.7692307692307693,
+  "f1_final": 0.7692307692307693,
+  "f1_gain": 0.0,
+  "final_advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley, which are influenced by the slower speeds in the areas to its north and east. Specifically, the NE of Downtown LA (sensor 774011) has a speed of 54.37 mph, while the Glendale/Burbank area (sensors 769867 and 717580) have speeds ranging from 47.37 to 58.63 mph.",
+    "cited_causes": [
+      {
+        "location": "NE of Downtown LA",
+        "resolved_node_id": 45
+      },
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 126
+      },
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 169
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Reroute traffic before the merge",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion in the San Fernando Valley",
+        "grounded_in": [
+          "structural (geometry/merges) bottleneck at I-5/SR-134 interchange"
+        ]
+      },
+      {
+        "action": "Coordinate surface relief signals",
+        "location": "Sunset Blvd and Santa Monica Blvd",
+        "time_window_minutes": 15,
+        "expected_effect": "Improved traffic flow through Hollywood",
+        "grounded_in": [
+          "ATSAC signal-coordinated surface relief: Sunset Blvd and Santa Monica Blvd"
+        ]
+      },
+      {
+        "action": "Meter upstream traffic",
+        "location": "I-10/I-110 downtown interchange",
+        "time_window_minutes": 5,
+        "expected_effect": "Reduced congestion in the San Fernando Valley",
+        "grounded_in": [
+          "upstream metering lever for structural bottleneck at I-10/I-110 downtown interchange"
+        ]
+      }
+    ]
+  },
+  "sample_index": 6795,
+  "target_node": 149,
+  "tod_band": "pm_rush",
+  "congestion": "high",
+  "model": "llama3.1:8b"
+}

@@ -1,0 +1,46 @@
+{
+  "reasoning": "The predicted congestion in Hollywood is due to the slow speeds upstream, particularly at Pasadena / East (68.75 mph), Hollywood (65.25 mph), and Glendale / Burbank (67.62-69.0 mph). The congestion appears to be propagating along a path of 2 sensors with no lag between the source and target.",
+  "cited_causes": [
+    {
+      "location": "Pasadena / East",
+      "resolved_node_id": 203
+    },
+    {
+      "location": "Hollywood",
+      "resolved_node_id": 128
+    },
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": null
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Reroute traffic before the merge at I-5/SR-134 interchange",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in Hollywood by diverting traffic away from the bottleneck",
+      "grounded_in": [
+        "City-context fact: Recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Implement upstream metering at Pasadena / East and Glendale / Burbank",
+      "location": "Pasadena / East and Glendale / Burbank",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion in Hollywood by regulating traffic flow upstream",
+      "grounded_in": [
+        "City-context fact: Recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Coordinate ATSAC signals on Sunset Blvd and Santa Monica Blvd to optimize surface relief",
+      "location": "Sunset Blvd and Santa Monica Blvd",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in Hollywood by improving surface relief capacity",
+      "grounded_in": [
+        "City-context fact: Surface reliefs"
+      ]
+    }
+  ]
+}

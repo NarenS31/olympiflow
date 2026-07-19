@@ -1,0 +1,38 @@
+{
+  "reasoning": "The congestion is predicted because of the slower speeds in the San Fernando Valley, specifically at sensor 717825 (56.71 mph), which is driving the prediction with an importance of 0.872. This slow speed is likely due to the merge congestion at the I-5/SR-134/SR-2 interchange, a known recurrent bottleneck.",
+  "cited_causes": [
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 182
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "I-5/SR-134/SR-2 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion at the merge point",
+      "grounded_in": [
+        "known recurrent bottleneck"
+      ]
+    },
+    {
+      "action": "Reroute traffic before the merge",
+      "location": "Glendale/Burbank area (near sensor 773974)",
+      "time_window_minutes": 15,
+      "expected_effect": "Reducing the amount of traffic entering the congested area",
+      "grounded_in": [
+        "city-context fact: Metro is limited here, so demand is car-dominant"
+      ]
+    },
+    {
+      "action": "Use transit as a diversion lever",
+      "location": "Wilshire and Hollywood areas (near sensor 716571)",
+      "time_window_minutes": 10,
+      "expected_effect": "Reducing the number of cars on the road",
+      "grounded_in": [
+        "transit alternatives: Metro rail relief options by area"
+      ]
+    }
+  ]
+}

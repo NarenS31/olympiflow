@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in the Glendale/Burbank area, specifically at sensor 718076 (node_id 105), which has a speed of 68.5 mph, and its neighboring sensors, such as sensor 717595 (node_id 203) with a speed of 69.62 mph. This congestion is then propagated to Downtown LA through the network.",
+  "cited_causes": [
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 105
+    },
+    {
+      "location": "Pasadena / East",
+      "resolved_node_id": 203
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering on I-5/SR-134 interchange",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in the Glendale/Burbank area and subsequent propagation to Downtown LA",
+      "grounded_in": [
+        "cited_cause: Glendale / Burbank (sensor 718076, node_id 105)"
+      ]
+    },
+    {
+      "action": "Reroute traffic before merging onto I-5/SR-134 interchange",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion in the Glendale/Burbank area and subsequent propagation to Downtown LA",
+      "grounded_in": [
+        "cited_cause: Pasadena / East (sensor 717595, node_id 203)"
+      ]
+    },
+    {
+      "action": "Increase transit capacity on Wilshire Line (B/D Lines)",
+      "location": "Wilshire Line",
+      "time_window_minutes": 5,
+      "expected_effect": "Divert traffic from I-5/SR-134 interchange to Wilshire Line, reducing congestion in the Glendale/Burbank area and subsequent propagation to Downtown LA",
+      "grounded_in": [
+        "city-context: Transit is a viable diversion lever only where a parallel rail line exists (Wilshire)"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "sample_index": 3370,
+  "target_node": 206,
+  "tod_band": "evening",
+  "congestion": "high",
+  "condition": "D_CONTRA",
+  "advisory_error": "",
+  "cited_locations": [
+    "Downtown LA",
+    "Hollywood (sensor 717473)",
+    "Hollywood (sensor 769372)"
+  ],
+  "context_used": [
+    "CONTRADICTORY:Glendale/Burbank freeways (SR-134, I-5, SR-2)"
+  ],
+  "cause_precision": 1.0,
+  "cause_recall": 0.75,
+  "faithfulness_f1": 0.8571428571428571,
+  "hallucination_rate": 0.0,
+  "quantitative_fidelity": 0.8,
+  "n_cited_causes": 3,
+  "n_topk": 8
+}

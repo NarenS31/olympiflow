@@ -1,0 +1,38 @@
+{
+  "reasoning": "The predicted congestion is due to the slow speed of traffic in the San Fernando Valley, specifically at sensor 717513 (node_id 181), which has a current speed of 65.12 mph and an importance of 0.461. This slow traffic is contributing to the congestion at the target location, which is also in the San Fernando Valley.",
+  "cited_causes": [
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 181
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement ramp metering",
+      "location": "Sepulveda Pass (I-405)",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in the San Fernando Valley and Sepulveda Pass",
+      "grounded_in": [
+        "City-context fact: I-405 Sepulveda Pass saturates in both peaks"
+      ]
+    },
+    {
+      "action": "Optimize signal timing at surface relief roads",
+      "location": "Sunset Blvd and Santa Monica Blvd (ATSAC signal-coordinated)",
+      "time_window_minutes": 15,
+      "expected_effect": "Improved traffic flow on surface relief roads, reducing congestion in the San Fernando Valley",
+      "grounded_in": [
+        "City-context fact: Surface relief: Sunset Blvd and Santa Monica Blvd, both ATSAC signal-coordinated"
+      ]
+    },
+    {
+      "action": "Implement dynamic lane management",
+      "location": "San Fernando Valley (US-101)",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion on US-101 in the San Fernando Valley",
+      "grounded_in": [
+        "City-context fact: Congestion builds westbound US-101 in the AM peak"
+      ]
+    }
+  ]
+}

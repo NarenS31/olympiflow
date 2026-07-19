@@ -1,0 +1,42 @@
+{
+  "reasoning": "The predicted congestion is due to a wave of slowing traffic that originated from the NE of Downtown LA, where the speed was 61.0 mph (sensor 716949). This slowdown has propagated along a path of 6 sensors, with an estimated lag of 0.0 minutes between the source and the target location in Hollywood, where the current speed is 50.0 mph.",
+  "cited_causes": [
+    {
+      "location": "NE of Downtown LA",
+      "resolved_node_id": 170
+    },
+    {
+      "location": "Hollywood",
+      "resolved_node_id": null
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Activate ramp metering",
+      "location": "Sepulveda Pass (I-405)",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduce congestion by regulating the flow of traffic onto I-405",
+      "grounded_in": [
+        "City-context fact: Ramp metering is active pass-wide on I-405"
+      ]
+    },
+    {
+      "action": "Optimize signal timing at surface relief roads",
+      "location": "Sunset Blvd and Santa Monica Blvd (ATSAC signal-coordinated)",
+      "time_window_minutes": 15,
+      "expected_effect": "Improve traffic flow by synchronizing signals with the slowing traffic wave",
+      "grounded_in": [
+        "City-context fact: Surface relief roads are ATSAC signal-coordinated"
+      ]
+    },
+    {
+      "action": "Implement dynamic lane management",
+      "location": "US-101 (Hollywood Fwy)",
+      "time_window_minutes": 20,
+      "expected_effect": "Increase capacity by dynamically allocating lanes to reduce congestion",
+      "grounded_in": [
+        "City-context fact: Bottleneck at the US-101/I-110 four-level and at the Cahuenga Pass grade"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in the surrounding areas, particularly in Pasadena / East (67.67 mph), Glendale / Burbank (63.44-67.56 mph), and San Fernando Valley (69.33 mph). These locations are contributing to the congestion that will travel along a path of 2 sensors with an estimated lag of 25 minutes.",
+  "cited_causes": [
+    {
+      "location": "Pasadena / East",
+      "resolved_node_id": 203
+    },
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 36
+    },
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 99
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "Pasadena / East (SR-134)",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduce congestion by slowing down traffic before it reaches the target location",
+      "grounded_in": [
+        "City context: SR-134 and I-5/SR-134 interchange are key merge congestion points"
+      ]
+    },
+    {
+      "action": "Reroute traffic before the merge",
+      "location": "Glendale / Burbank (I-5/SR-134)",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduce congestion by diverting traffic away from the merge point",
+      "grounded_in": [
+        "City context: I-5/SR-134 interchange is a recurrent bottleneck"
+      ]
+    },
+    {
+      "action": "Use transit as a diversion lever",
+      "location": "Downtown LA (Wilshire and Hollywood)",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduce congestion by diverting traffic to parallel rail lines",
+      "grounded_in": [
+        "Transit alternatives: B/D Lines under Wilshire and through Hollywood"
+      ]
+    }
+  ]
+}

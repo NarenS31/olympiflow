@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the high speeds observed in nearby locations, indicating that traffic is flowing freely and there are no significant bottlenecks. However, the speed at the target location (Glendale / Burbank) is significantly lower than its neighbors, suggesting that it is being affected by a downstream issue.",
+  "cited_causes": [
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 9
+    },
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 51
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Reroute traffic before the merge",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion at the target location",
+      "grounded_in": [
+        "City-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Optimize traffic signal timing upstream of the merge",
+      "location": "Upstream of I-5/SR-134 interchange",
+      "time_window_minutes": 15,
+      "expected_effect": "Improved traffic flow through the area",
+      "grounded_in": [
+        "City-context fact: structural (geometry/merges)"
+      ]
+    },
+    {
+      "action": "Use transit as a diversion lever",
+      "location": "Wilshire and Hollywood areas",
+      "time_window_minutes": 5,
+      "expected_effect": "Reduced traffic on the freeways",
+      "grounded_in": [
+        "Transit alternatives: Metro rail relief options"
+      ]
+    }
+  ]
+}

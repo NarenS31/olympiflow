@@ -1,0 +1,38 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley, particularly at sensor 717510 (65.86 mph), which is driving the prediction with an importance of 0.697. This slow speed is likely due to the bottleneck at the Cahuenga Pass grade on US-101, where traffic is merging from multiple directions.",
+  "cited_causes": [
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 180
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Reroute traffic before the merge",
+      "location": "US-101, Cahuenga Pass grade",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion at the bottleneck",
+      "grounded_in": [
+        "city-context fact: structural (geometry/merges) bottlenecks"
+      ]
+    },
+    {
+      "action": "Optimize signal timing on surface arterials",
+      "location": "Sunset Blvd and Santa Monica Blvd",
+      "time_window_minutes": 15,
+      "expected_effect": "Improved traffic flow on surrounding roads",
+      "grounded_in": [
+        "city-context fact: ATSAC signal-coordinated"
+      ]
+    },
+    {
+      "action": "Use transit as a diversion lever",
+      "location": "Wilshire and Expo/I-10 rail lines",
+      "time_window_minutes": 5,
+      "expected_effect": "Reduced traffic on US-101",
+      "grounded_in": [
+        "transit alternatives: Metro rail relief options by area"
+      ]
+    }
+  ]
+}

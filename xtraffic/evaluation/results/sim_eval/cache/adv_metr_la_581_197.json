@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the propagation of slow speeds from nearby locations. The San Fernando Valley (sensor 717608, node_id 122) has a speed of 65.12 mph, which is slower than expected, and this slowdown is affecting the target location in the San Fernando Valley (node_id 197).",
+  "cited_causes": [
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 122
+    },
+    {
+      "location": "East LA",
+      "resolved_node_id": null
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Reroute traffic before the merge at I-5/SR-134/SR-2 interchange",
+      "location": "I-5/SR-134/SR-2 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in the San Fernando Valley",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Use Metro rail relief options along Wilshire and Expo/I-10",
+      "location": "Wilshire and Expo/I-10",
+      "time_window_minutes": 15,
+      "expected_effect": "Diverted traffic from the San Fernando Valley",
+      "grounded_in": [
+        "city-context fact: transit alternatives"
+      ]
+    },
+    {
+      "action": "Implement upstream metering on I-5/SR-134",
+      "location": "I-5/SR-134",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in the San Fernando Valley",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    }
+  ]
+}

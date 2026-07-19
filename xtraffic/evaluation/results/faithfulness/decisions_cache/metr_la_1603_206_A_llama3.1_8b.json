@@ -1,0 +1,25 @@
+{
+  "sample_index": 1603,
+  "target_node": 206,
+  "tod_band": "pm_rush",
+  "congestion": "high",
+  "condition": "A",
+  "advisory_error": "",
+  "cited_locations": [
+    "Downtown LA",
+    "NE of Downtown LA"
+  ],
+  "context_used": [
+    "Glendale/Burbank freeways (SR-134, I-5, SR-2)",
+    "Known recurrent bottlenecks (LA basin)",
+    "Transit alternatives (Metro rail/bus)",
+    "US-101 Hollywood Freeway corridor"
+  ],
+  "cause_precision": 1.0,
+  "cause_recall": 0.5,
+  "faithfulness_f1": 0.6666666666666666,
+  "hallucination_rate": 0.0,
+  "quantitative_fidelity": 0.8333333333333334,
+  "n_cited_causes": 2,
+  "n_topk": 8
+}

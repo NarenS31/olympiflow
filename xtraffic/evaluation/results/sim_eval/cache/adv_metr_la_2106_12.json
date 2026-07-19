@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in several locations north and northwest of Downtown LA. Specifically, sensor 717462 at Hollywood (node_id 163) is reporting a speed of 68.56 mph, which is slower than expected. Additionally, sensors 716955 and 767495 near Downtown LA are reporting speeds of 0.0 mph and 67.78 mph respectively, indicating congestion in these areas.",
+  "cited_causes": [
+    {
+      "location": "Hollywood",
+      "resolved_node_id": 163
+    },
+    {
+      "location": "NW of Downtown LA",
+      "resolved_node_id": null
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Extend green-band on Sunset Blvd and Santa Monica Blvd by 10-20% for up to 30 minutes",
+      "location": "Sunset Blvd and Santa Monica Blvd",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion in the area",
+      "grounded_in": [
+        "city-context fact: coordinated corridors can have green-band extended by 10-20% for up to ~30 min"
+      ]
+    },
+    {
+      "action": "Activate Caltrans ramp meters on most eastbound on-ramps along I-10 during peak hours",
+      "location": "I-10",
+      "time_window_minutes": 5,
+      "expected_effect": "Reduced congestion at the I-10/I-110 interchange downtown and the La Cienega/Robertson stretch",
+      "grounded_in": [
+        "city-context fact: Caltrans ramp meters operate on most eastbound on-ramps during peak"
+      ]
+    },
+    {
+      "action": "Push a special timing plan to the US-101 corridor through LADOT's ATSAC/ATCS system",
+      "location": "US-101",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion at the US-101/I-110 four-level and at the Cahuenga Pass grade",
+      "grounded_in": [
+        "city-context fact: LADOT's ATSAC/ATCS system can push a special timing plan to a corridor within minutes from the Transportation Management Center"
+      ]
+    }
+  ]
+}

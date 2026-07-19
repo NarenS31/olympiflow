@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in the Hollywood area, specifically at sensor locations 717483 and 769402, which are currently moving at 59.22 mph and 55.89 mph respectively. This slow speed is propagating along a path of 3 sensors with an estimated lag of 20 minutes between the source and the target.",
+  "cited_causes": [
+    {
+      "location": "Hollywood",
+      "resolved_node_id": 94
+    },
+    {
+      "location": "Hollywood",
+      "resolved_node_id": 19
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement ramp metering",
+      "location": "Sepulveda Pass (I-405)",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in the Sepulveda Pass area",
+      "grounded_in": [
+        "Ramp metering is active pass-wide (city-context fact)"
+      ]
+    },
+    {
+      "action": "Adjust signal timing at surface relief roads",
+      "location": "Sunset Blvd and Santa Monica Blvd",
+      "time_window_minutes": 15,
+      "expected_effect": "Improved traffic flow on surface relief roads",
+      "grounded_in": [
+        "Surface relief: Sunset Blvd and Santa Monica Blvd, both ATSAC signal-coordinated (city-context fact)"
+      ]
+    },
+    {
+      "action": "Implement dynamic lane management",
+      "location": "US-101/I-110 four-level",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion at the US-101/I-110 four-level",
+      "grounded_in": [
+        "Bottleneck at the US-101/I-110 four-level (city-context fact)"
+      ]
+    }
+  ]
+}

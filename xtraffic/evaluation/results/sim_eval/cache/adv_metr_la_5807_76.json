@@ -1,0 +1,46 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in Downtown LA (33.88 mph), NE of Downtown LA (35.63 and 46.5 mph), and N of Downtown LA (70.0 mph). These locations are contributing to the congestion, which appears to travel along a path of 2 sensors with no lag.",
+  "cited_causes": [
+    {
+      "location": "Downtown LA",
+      "resolved_node_id": 16
+    },
+    {
+      "location": "NE of Downtown LA",
+      "resolved_node_id": 29
+    },
+    {
+      "location": "N of Downtown LA",
+      "resolved_node_id": 56
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Activate ramp metering on I-405 Sepulveda Pass",
+      "location": "I-405 Sepulveda Pass",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion on I-405",
+      "grounded_in": [
+        "city-context fact: recurrent bottleneck at I-405 Sepulveda Pass"
+      ]
+    },
+    {
+      "action": "Optimize signal timing on Sunset Blvd and Santa Monica Blvd",
+      "location": "Sunset Blvd and Santa Monica Blvd",
+      "time_window_minutes": 15,
+      "expected_effect": "Improved traffic flow through Hollywood",
+      "grounded_in": [
+        "city-context fact: surface relief: Sunset Blvd and Santa Monica Blvd, both ATSAC signal-coordinated"
+      ]
+    },
+    {
+      "action": "Implement dynamic lane management on I-405",
+      "location": "I-405 San Fernando Valley freeways",
+      "time_window_minutes": 20,
+      "expected_effect": "Increased capacity on I-405",
+      "grounded_in": [
+        "city-context fact: recurrent bottleneck at I-5/SR-134 interchange"
+      ]
+    }
+  ]
+}

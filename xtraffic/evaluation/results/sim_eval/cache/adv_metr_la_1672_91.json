@@ -1,0 +1,46 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley, specifically at sensors 764794 (67.38 mph), 764781 (65.63 mph), and 717502 (65.75 mph). These slow speeds are causing a ripple effect downstream, with congestion propagating along a path of 11 sensors.",
+  "cited_causes": [
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 158
+    },
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 130
+    },
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 146
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "I-10/I-110 downtown interchange",
+      "time_window_minutes": 5,
+      "expected_effect": "Reduced congestion in the San Fernando Valley",
+      "grounded_in": [
+        "City-context fact: Recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Reroute traffic before merge",
+      "location": "I-405 Sepulveda Pass",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in the San Fernando Valley",
+      "grounded_in": [
+        "City-context fact: Recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Adjust ramp metering",
+      "location": "I-405 Sepulveda Pass",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion in the San Fernando Valley",
+      "grounded_in": [
+        "City-context fact: Ramp metering is active pass-wide"
+      ]
+    }
+  ]
+}

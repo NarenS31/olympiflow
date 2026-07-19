@@ -1,0 +1,46 @@
+{
+  "reasoning": "The congestion is predicted because of the propagation of congestion from multiple locations. The top contributing sensors indicate that traffic in the San Fernando Valley (sensor 717497, node_id 69) and NE of Downtown LA (sensors 772669 and 718066, node_ids 166 and 79) are moving at speeds between 63.5 mph and 67.0 mph, which is slower than the target location's current speed of 37.13 mph. This congestion appears to travel along a path of 2 sensors with an estimated lag of 10 minutes.",
+  "cited_causes": [
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 69
+    },
+    {
+      "location": "NE of Downtown LA",
+      "resolved_node_id": 166
+    },
+    {
+      "location": "NE of Downtown LA",
+      "resolved_node_id": 79
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "San Fernando Valley (sensor 717497)",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduce congestion by slowing down traffic upstream of the bottleneck",
+      "grounded_in": [
+        "cited cause: San Fernando Valley"
+      ]
+    },
+    {
+      "action": "Reroute traffic before merge",
+      "location": "I-5/SR-134 interchange (city-context fact)",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduce congestion by diverting traffic away from the bottleneck",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Signal-coordinated surface relief",
+      "location": "Sunset Blvd and Santa Monica Blvd (US-101 Hollywood Freeway corridor)",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduce congestion by providing an alternative route for traffic",
+      "grounded_in": [
+        "city-context fact: US-101 Hollywood Freeway corridor"
+      ]
+    }
+  ]
+}

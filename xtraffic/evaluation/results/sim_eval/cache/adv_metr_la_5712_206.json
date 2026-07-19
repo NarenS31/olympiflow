@@ -1,0 +1,46 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in the Hollywood area, specifically at sensor 769373 (node_id 206), which has a current speed of 6.86 mph and is expected to increase to 24.48 mph in 30 minutes. This slow speed is influenced by several nearby sensors: Hollywood (sensor 717473, node_id 128) with a speed of 65.29 mph, Hollywood (sensor 769372, node_id 198) with a speed of 69.86 mph, and San Fernando Valley (sensor 765171, node_id 77) which is currently at a standstill.",
+  "cited_causes": [
+    {
+      "location": "Hollywood",
+      "resolved_node_id": null
+    },
+    {
+      "location": "Hollywood",
+      "resolved_node_id": 128
+    },
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 77
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "US-101/I-110 four-level (near sensor 769373)",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in the Hollywood area",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Reroute traffic before merging onto US-101/I-110 four-level",
+      "location": "US-101/I-110 four-level (near sensor 769373)",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion in the Hollywood area",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Adjust signal timing at surface relief points (Sunset Blvd and Santa Monica Blvd)",
+      "location": "Surface relief points (near sensor 717473)",
+      "time_window_minutes": 10,
+      "expected_effect": "Improved traffic flow in the Hollywood area",
+      "grounded_in": [
+        "city-context fact: ATSAC signal-coordinated"
+      ]
+    }
+  ]
+}

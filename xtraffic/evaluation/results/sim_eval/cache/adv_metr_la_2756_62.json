@@ -1,0 +1,46 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds at multiple locations in the Glendale/Burbank area, with sensors 761003 and 718379 reporting speeds of 16.87 mph and 11.0 mph respectively, which are contributing to the overall slowdown. Additionally, sensor 718090 reports a speed of 9.13 mph, further exacerbating the congestion.",
+  "cited_causes": [
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 145
+    },
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 95
+    },
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 125
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion at the I-5/SR-134/SR-2 interchange",
+      "grounded_in": [
+        "City-context fact: recurrent bottleneck at I-5/SR-134 interchange"
+      ]
+    },
+    {
+      "action": "Reroute traffic before merge",
+      "location": "I-5/SR-134/SR-2 interchange",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion at the I-5/SR-134/SR-2 interchange",
+      "grounded_in": [
+        "City-context fact: recurrent bottleneck at I-5/SR-134 interchange"
+      ]
+    },
+    {
+      "action": "Signal-coordinated relief on surface roads",
+      "location": "Sunset Blvd and Santa Monica Blvd",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in the area",
+      "grounded_in": [
+        "City-context fact: surface relief options available"
+      ]
+    }
+  ]
+}

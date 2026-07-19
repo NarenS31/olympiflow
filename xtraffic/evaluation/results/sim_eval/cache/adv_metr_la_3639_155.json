@@ -1,0 +1,46 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in areas north-east of Downtown LA (69.62 mph), Glendale/Burbank (65.5-69.25 mph), and the San Fernando Valley (68.25-69.25 mph). These slow speeds are contributing to a propagation of congestion along a path of 2 sensors, with an estimated lag of 10 minutes between the source and the target.",
+  "cited_causes": [
+    {
+      "location": "NE of Downtown LA",
+      "resolved_node_id": 45
+    },
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": null
+    },
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 89
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Reroute traffic before the merge at I-5/SR-134/SR-2 interchange",
+      "location": "I-5/SR-134/SR-2 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion on the Hollywood Freeway",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Use surface relief roads (Brand Blvd, San Fernando Rd and Colorado Blvd) to divert traffic",
+      "location": "Glendale/Burbank freeways (SR-134, I-5, SR-2)",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion on the Hollywood Freeway",
+      "grounded_in": [
+        "city-context fact: surface relief roads"
+      ]
+    },
+    {
+      "action": "Use Metro rail options (B/D Lines under Wilshire and through Hollywood) to divert traffic",
+      "location": "Downtown LA and Hollywood",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion on the Hollywood Freeway",
+      "grounded_in": [
+        "city-context fact: transit alternatives"
+      ]
+    }
+  ]
+}

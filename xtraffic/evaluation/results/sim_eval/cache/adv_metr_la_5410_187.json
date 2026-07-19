@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the high speeds in the San Fernando Valley (67.56-68.22 mph), particularly at sensors 767351, 717819, and 764120, which are driving the prediction. This suggests that traffic is building up in the valley and propagating downstream towards Downtown LA.",
+  "cited_causes": [
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 89
+    },
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 115
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering on I-5/SR-134 interchange",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion at the target location",
+      "grounded_in": [
+        "cited_cause: San Fernando Valley (sensor 767351, node_id 89)"
+      ]
+    },
+    {
+      "action": "Reroute traffic before merge on I-5/SR-134 interchange",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion at the target location",
+      "grounded_in": [
+        "cited_cause: Glendale / Burbank (sensor 717573, node_id 115)"
+      ]
+    },
+    {
+      "action": "Increase transit capacity on Wilshire and Expo/I-10 lines",
+      "location": "Wilshire and Expo/I-10 lines",
+      "time_window_minutes": 15,
+      "expected_effect": "Divert traffic from roads to transit, reducing congestion at the target location",
+      "grounded_in": [
+        "city-context: Transit is a viable diversion lever only where a parallel rail line exists"
+      ]
+    }
+  ]
+}

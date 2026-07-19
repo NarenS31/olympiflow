@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in the Glendale/Burbank area (16.5 mph), which is causing a ripple effect and slowing down traffic in the San Fernando Valley, including at the sensor location (11.87 mph). This congestion appears to be traveling along a path of 8 sensors with an estimated lag of 15 minutes between the source and the target.",
+  "cited_causes": [
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 140
+    },
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 61
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "NE of Downtown LA (sensor 773012, node_id 29)",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in the San Fernando Valley",
+      "grounded_in": [
+        "cited cause: NE of Downtown LA"
+      ]
+    },
+    {
+      "action": "Reroute traffic before the merge",
+      "location": "I-5/SR-134 interchange (city-context fact)",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion in the San Fernando Valley",
+      "grounded_in": [
+        "city-context fact: recurrent bottleneck at I-5/SR-134 interchange"
+      ]
+    },
+    {
+      "action": "Increase transit capacity on parallel rail lines",
+      "location": "Wilshire and Hollywood (transit alternatives)",
+      "time_window_minutes": 15,
+      "expected_effect": "Divert some traffic away from the San Fernando Valley",
+      "grounded_in": [
+        "city-context fact: Metro rail relief options by area"
+      ]
+    }
+  ]
+}

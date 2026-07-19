@@ -1,0 +1,46 @@
+{
+  "reasoning": "The congestion is predicted because there are multiple sensors in the San Fernando Valley reporting zero speed, indicating that traffic has come to a standstill. This congestion appears to be traveling along a path of four sensors with no lag between the source and target.",
+  "cited_causes": [
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": null
+    },
+    {
+      "location": "N of Downtown LA",
+      "resolved_node_id": 56
+    },
+    {
+      "location": "NE of Downtown LA",
+      "resolved_node_id": 29
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "San Fernando Valley",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduce congestion by limiting the number of vehicles entering the bottlenecked area",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Reroute traffic before merge",
+      "location": "I-405 Sepulveda Pass",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduce congestion by diverting traffic away from the bottlenecked area",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Signal-coordinated relief on parallel arterials",
+      "location": "Sepulveda Blvd and Van Nuys Blvd",
+      "time_window_minutes": 10,
+      "expected_effect": "Provide alternative routes for traffic to bypass the bottlenecked area",
+      "grounded_in": [
+        "city-context fact: surface relief"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in Hollywood, specifically at sensor 717472 (16.0 mph), and the faster but still congested traffic in Glendale/Burbank, with sensors 773880 (68.25 mph) and 760987 (67.5 mph) contributing to the prediction.",
+  "cited_causes": [
+    {
+      "location": "Hollywood",
+      "resolved_node_id": 127
+    },
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 67
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in the target area",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Reroute traffic before merge",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion in the target area",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Signal-coordinated surface relief",
+      "location": "Sunset Blvd and Santa Monica Blvd",
+      "time_window_minutes": 5,
+      "expected_effect": "Reduced congestion in the target area",
+      "grounded_in": [
+        "city-context fact: US-101 Hollywood Freeway corridor"
+      ]
+    }
+  ]
+}

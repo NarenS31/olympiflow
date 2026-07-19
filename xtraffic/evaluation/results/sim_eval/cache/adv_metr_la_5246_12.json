@@ -1,0 +1,46 @@
+{
+  "reasoning": "The congestion is predicted because of the high speeds in areas north-east of Downtown LA (67.57 mph, 61.43 mph, and 69.57 mph), which indicates that traffic is flowing freely in these areas. However, this traffic appears to be propagating towards the target location with a lag of 45 minutes, suggesting that congestion is building up as it travels along this path.",
+  "cited_causes": [
+    {
+      "location": "NE of Downtown LA",
+      "resolved_node_id": 45
+    },
+    {
+      "location": "NE of Downtown LA",
+      "resolved_node_id": 30
+    },
+    {
+      "location": "NE of Downtown LA",
+      "resolved_node_id": 44
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion at the target location",
+      "grounded_in": [
+        "The I-5/SR-134/SR-2 interchange is a known recurrent bottleneck"
+      ]
+    },
+    {
+      "action": "Reroute traffic before the merge",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion at the target location",
+      "grounded_in": [
+        "The I-5/SR-134/SR-2 interchange is a known recurrent bottleneck"
+      ]
+    },
+    {
+      "action": "Use transit as a diversion lever",
+      "location": "Wilshire and Hollywood areas",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion at the target location",
+      "grounded_in": [
+        "Transit is a viable diversion lever where a parallel rail line exists"
+      ]
+    }
+  ]
+}

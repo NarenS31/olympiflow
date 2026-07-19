@@ -1,0 +1,42 @@
+{
+  "reasoning": "The predicted congestion is due to the slow speed of traffic in the San Fernando Valley, specifically at sensor 717502 (node_id 146), which is currently moving at 11.0 mph. This slow speed is contributing to the congestion at the target location, which is also in the San Fernando Valley.",
+  "cited_causes": [
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 146
+    },
+    {
+      "location": "San Fernando Valley (sensor 772596)",
+      "resolved_node_id": 86
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "I-405 Sepulveda Pass, southbound approaching the pass",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion at target location",
+      "grounded_in": [
+        "City-context fact: Congestion builds westbound US-101 in the AM peak and southbound I-405 approaching the pass"
+      ]
+    },
+    {
+      "action": "Reroute traffic before merge",
+      "location": "I-5/SR-134 interchange, PM peak",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion at target location",
+      "grounded_in": [
+        "City-context fact: Upstream metering and reroute-before-the-merge are the levers, not signal timing at the interchange itself"
+      ]
+    },
+    {
+      "action": "Optimize ramp metering",
+      "location": "I-405 Sepulveda Pass, pass-wide",
+      "time_window_minutes": 5,
+      "expected_effect": "Reduced congestion at target location",
+      "grounded_in": [
+        "City-context fact: Ramp metering is active pass-wide"
+      ]
+    }
+  ]
+}

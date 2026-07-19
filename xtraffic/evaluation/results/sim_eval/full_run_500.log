@@ -1,2 +1,36 @@
 /Users/narensara/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
   warnings.warn(
+[resume] loaded 144 completed decisions from /Users/narensara/Desktop/OlympiFlow/xtraffic/evaluation/results/sim_eval/decisions.jsonl
+
+### dataset=metr_la ckpt=models/gnn/checkpoints/metr_la_best.pt
+Sampled 444 scenarios (5 tod-bands x 3 congestion cells).
+  [25/444] night|low gt=signal_retiming
+  [50/444] night|medium gt=transit_surge
+  [75/444] am_rush|low gt=signal_retiming
+  [100/444] am_rush|low gt=signal_retiming
+  [125/444] am_rush|medium gt=ramp_metering
+  [150/444] am_rush|high gt=ramp_metering
+  [175/444] midday|low gt=transit_surge
+  [200/444] midday|low gt=no_action
+  [225/444] midday|medium gt=ramp_metering
+  [250/444] midday|high gt=ramp_metering
+  [275/444] pm_rush|low gt=ramp_metering
+  [300/444] pm_rush|low gt=transit_surge
+  [325/444] pm_rush|medium gt=transit_surge
+  [350/444] pm_rush|high gt=ramp_metering
+  [400/444] evening|low gt=signal_retiming
+  [425/444] evening|medium gt=ramp_metering
+  [444/444] evening|high gt=signal_retiming
+
+=== SIM-EVAL DECISION QUALITY (mean +/- std over seeds) ===
+(RANDOM reported as its expectation over 200 uniform draws; RAW/XTRAFFIC over the 3 study seeds.)
+condition               accuracy       delay_reduction         consistency
+--------------------------------------------------------------------------
+RANDOM           0.200 +/- 0.019        13.27 +/- 0.67     0.294 +/- 0.012
+RAW              0.233 +/- 0.001        15.72 +/- 0.02     0.998 +/- 0.002
+XTRAFFIC         0.266 +/- 0.012        19.73 +/- 0.22     0.619 +/- 0.045
+
+Wrote:
+  /Users/narensara/Desktop/OlympiFlow/xtraffic/evaluation/results/sim_eval/sim_eval_per_decision.csv
+  /Users/narensara/Desktop/OlympiFlow/xtraffic/evaluation/results/sim_eval/sim_eval_summary.json
+  /Users/narensara/Desktop/OlympiFlow/xtraffic/evaluation/paper/table_sim_eval.tex

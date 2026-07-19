@@ -1,0 +1,46 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in the Glendale/Burbank area, specifically at sensor locations 718076 (34.163, -118.225), 717587 (34.154, -118.239), and 773880 (34.154, -118.348). These sensors are reporting speeds between 68.56 mph and 69.44 mph, which is slower than the normal speed in this area. This slow traffic is then propagating to Downtown LA with a lag of approximately 40 minutes.",
+  "cited_causes": [
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 105
+    },
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 171
+    },
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 67
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering on I-5/SR-134 interchange",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in the Glendale/Burbank area and subsequent propagation to Downtown LA",
+      "grounded_in": [
+        "City-context fact: recurrent bottlenecks at I-5/SR-134 interchange"
+      ]
+    },
+    {
+      "action": "Reroute traffic before merge on I-405 Sepulveda Pass",
+      "location": "I-405 Sepulveda Pass",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion in the Glendale/Burbank area and subsequent propagation to Downtown LA",
+      "grounded_in": [
+        "City-context fact: recurrent bottlenecks at I-405 Sepulveda Pass"
+      ]
+    },
+    {
+      "action": "Optimize signal timing on Brand Blvd, San Fernando Rd, and Colorado Blvd",
+      "location": "Brand Blvd, San Fernando Rd, and Colorado Blvd",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in the Glendale/Burbank area and subsequent propagation to Downtown LA",
+      "grounded_in": [
+        "City-context fact: surface reliefs on Brand Blvd, San Fernando Rd, and Colorado Blvd"
+      ]
+    }
+  ]
+}

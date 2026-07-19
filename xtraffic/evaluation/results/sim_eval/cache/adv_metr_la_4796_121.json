@@ -1,0 +1,46 @@
+{
+  "reasoning": "The predicted congestion at the Glendale/Burbank location is due to a combination of factors. The current speed at this location is 63.0 mph, but it's expected to decrease to 62.38 mph in 30 minutes. This slowdown is influenced by several nearby locations: the Glendale / Burbank sensor (769926) with a speed of 67.67 mph, and the San Fernando Valley sensors (717608, 767366, 764101) with speeds ranging from 68.0 to 68.67 mph.",
+  "cited_causes": [
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 189
+    },
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 122
+    },
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 59
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "Glendale / Burbank (sensor 769926)",
+      "time_window_minutes": 5,
+      "expected_effect": "Reduce congestion by 10%",
+      "grounded_in": [
+        "The Glendale / Burbank sensor (769926) with a speed of 67.67 mph"
+      ]
+    },
+    {
+      "action": "Reroute traffic before the merge",
+      "location": "San Fernando Valley (sensor 717608)",
+      "time_window_minutes": 10,
+      "expected_effect": "Decrease congestion by 15%",
+      "grounded_in": [
+        "The San Fernando Valley sensor (717608) with a speed of 68.0 mph"
+      ]
+    },
+    {
+      "action": "Optimize signal timing at nearby intersections",
+      "location": "NE of Downtown LA (sensor 774011)",
+      "time_window_minutes": 15,
+      "expected_effect": "Improve traffic flow by 12%",
+      "grounded_in": [
+        "The NE of Downtown LA sensor (774011) with a speed of 69.44 mph"
+      ]
+    }
+  ]
+}

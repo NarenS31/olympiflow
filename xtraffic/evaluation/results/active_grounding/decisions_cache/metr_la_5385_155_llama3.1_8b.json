@@ -1,0 +1,83 @@
+{
+  "curve": [
+    {
+      "round": 0,
+      "used_correction": false,
+      "faithfulness_f1": 0.7692307692307693,
+      "cause_precision": 1.0,
+      "cause_recall": 0.625,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 3,
+      "n_topk": 8,
+      "n_missed": 3,
+      "missed_regions": [
+        "NE of Downtown LA",
+        "NE of Downtown LA",
+        "San Fernando Valley"
+      ],
+      "missed_node_ids": [
+        64,
+        35,
+        8
+      ],
+      "advisory_error": ""
+    }
+  ],
+  "n_rounds": 0,
+  "reached_threshold": true,
+  "stop_reason": "threshold_reached",
+  "f1_initial": 0.7692307692307693,
+  "f1_final": 0.7692307692307693,
+  "f1_gain": 0.0,
+  "final_advisory": {
+    "reasoning": "The congestion is predicted because of the high speeds in the surrounding areas, particularly in Hollywood (67.67 mph), Glendale/Burbank (65.86-68.86 mph), and Pasadena/East (65.0 mph). This suggests that traffic is flowing freely in these areas, but there may be a bottleneck or congestion further downstream.",
+    "cited_causes": [
+      {
+        "location": "Hollywood",
+        "resolved_node_id": 96
+      },
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 178
+      },
+      {
+        "location": "Pasadena / East",
+        "resolved_node_id": 200
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Reroute traffic before the merge",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion at the target location",
+        "grounded_in": [
+          "Recurrent bottlenecks (LA basin)"
+        ]
+      },
+      {
+        "action": "Meter traffic upstream of the merge",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion at the target location",
+        "grounded_in": [
+          "Recurrent bottlenecks (LA basin)"
+        ]
+      },
+      {
+        "action": "Use transit alternatives where available",
+        "location": "Wilshire, Expo/I-10, Harbor/I-110, Pasadena A Line",
+        "time_window_minutes": 15,
+        "expected_effect": "Diverted traffic from the road network",
+        "grounded_in": [
+          "Transit alternatives (Metro rail/bus)"
+        ]
+      }
+    ]
+  },
+  "sample_index": 5385,
+  "target_node": 155,
+  "tod_band": "evening",
+  "congestion": "medium",
+  "model": "llama3.1:8b"
+}

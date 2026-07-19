@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the high speeds (65-68 mph) in Glendale/Burbank, which are driving the prediction. This suggests that traffic is flowing freely from Glendale/Burbank towards Downtown LA, but there may be a bottleneck or congestion further downstream.",
+  "cited_causes": [
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 105
+    },
+    {
+      "location": "NE of Downtown LA",
+      "resolved_node_id": 29
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Reroute traffic from Glendale/Burbank to use the surface relief roads (Brand Blvd, San Fernando Rd, and Colorado Blvd)",
+      "location": "Glendale / Burbank",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion on freeways in Glendale/Burbank",
+      "grounded_in": [
+        "City-context fact: Metro is limited here, so demand is car-dominant"
+      ]
+    },
+    {
+      "action": "Implement upstream metering to slow down traffic entering the bottleneck area",
+      "location": "NE of Downtown LA",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion in the bottleneck area",
+      "grounded_in": [
+        "City-context fact: Recurrent bottlenecks are structural (geometry/merges), so upstream metering is a lever"
+      ]
+    },
+    {
+      "action": "Coordinate signals on surface relief roads to improve traffic flow",
+      "location": "Hollywood",
+      "time_window_minutes": 10,
+      "expected_effect": "Improved traffic flow on surface relief roads",
+      "grounded_in": [
+        "City-context fact: Surface relief: Sunset Blvd and Santa Monica Blvd, both ATSAC signal-coordinated"
+      ]
+    }
+  ]
+}

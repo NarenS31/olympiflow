@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in the Glendale/Burbank area, specifically at sensor 717580 (34.156, -118.264), which has a speed of 57.22 mph and an importance of 0.809. This slow speed is contributing to the congestion at the target location in the San Fernando Valley.",
+  "cited_causes": [
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 169
+    },
+    {
+      "location": "Hollywood",
+      "resolved_node_id": null
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Reroute traffic before the merge",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion at target location",
+      "grounded_in": [
+        "structural (geometry/merges) bottleneck at I-5/SR-134 interchange"
+      ]
+    },
+    {
+      "action": "Use surface relief roads",
+      "location": "Brand Blvd, San Fernando Rd and Colorado Blvd",
+      "time_window_minutes": 15,
+      "expected_effect": "Divert traffic away from congested areas",
+      "grounded_in": [
+        "surface reliefs in Glendale/Burbank area"
+      ]
+    },
+    {
+      "action": "Coordinate signal timing at ATSAC-coordinated intersections",
+      "location": "Sunset Blvd and Santa Monica Blvd",
+      "time_window_minutes": 5,
+      "expected_effect": "Improve traffic flow through Hollywood",
+      "grounded_in": [
+        "ATSAC signal-coordinated surface relief roads in Hollywood"
+      ]
+    }
+  ]
+}

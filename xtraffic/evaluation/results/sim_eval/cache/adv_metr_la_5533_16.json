@@ -1,0 +1,46 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in areas north and east of Downtown LA, particularly near Glendale/Burbank (68.5 mph), NE of Downtown LA (66.0-68.62 mph), and San Fernando Valley (64.88-68.0 mph). These locations are contributing to a propagation of congestion along a path of 2 sensors with an estimated lag of 10 minutes.",
+  "cited_causes": [
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 171
+    },
+    {
+      "location": "NE of Downtown LA",
+      "resolved_node_id": 45
+    },
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": null
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "Glendale / Burbank (SR-134, I-5)",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion at the merge point",
+      "grounded_in": [
+        "cited_cause: Glendale / Burbank"
+      ]
+    },
+    {
+      "action": "Reroute traffic before the merge",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion at the merge point",
+      "grounded_in": [
+        "city-context: recurrent bottleneck"
+      ]
+    },
+    {
+      "action": "Encourage transit use in areas with parallel rail lines",
+      "location": "Wilshire, Expo/I-10, Harbor/I-110, Pasadena A Line",
+      "time_window_minutes": 30,
+      "expected_effect": "Reduced demand on the freeways",
+      "grounded_in": [
+        "city-context: transit alternatives"
+      ]
+    }
+  ]
+}

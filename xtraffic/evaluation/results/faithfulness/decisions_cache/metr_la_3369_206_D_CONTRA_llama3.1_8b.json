@@ -1,0 +1,22 @@
+{
+  "sample_index": 3369,
+  "target_node": 206,
+  "tod_band": "evening",
+  "congestion": "high",
+  "condition": "D_CONTRA",
+  "advisory_error": "",
+  "cited_locations": [
+    "NW of Downtown LA",
+    "Glendale / Burbank"
+  ],
+  "context_used": [
+    "CONTRADICTORY:I-10 Santa Monica Freeway corridor"
+  ],
+  "cause_precision": 1.0,
+  "cause_recall": 0.25,
+  "faithfulness_f1": 0.4,
+  "hallucination_rate": 0.0,
+  "quantitative_fidelity": 0.8,
+  "n_cited_causes": 2,
+  "n_topk": 8
+}

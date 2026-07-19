@@ -1,0 +1,42 @@
+{
+  "reasoning": "The predicted congestion in Downtown LA is due to the propagation of congestion from upstream locations. Specifically, the high speeds (65-68 mph) at sensor 773062 and sensor 773024 in Downtown LA indicate that there is not much congestion here yet. However, the lower speeds (30-32 mph) at sensors 772167, 765099, and 764794 in the San Fernando Valley suggest that congestion is building up upstream. This congestion appears to be traveling along a path of 2 sensors with an estimated lag of 25 minutes between the source and the target.",
+  "cited_causes": [
+    {
+      "location": "Downtown LA",
+      "resolved_node_id": 6
+    },
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 197
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering",
+      "location": "I-405 Sepulveda Pass, southbound approaching the pass",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduce congestion by limiting the number of vehicles entering the congested area",
+      "grounded_in": [
+        "City-context fact: Congestion builds up westbound US-101 in the AM peak and southbound I-405 approaching the pass"
+      ]
+    },
+    {
+      "action": "Reroute traffic before merge",
+      "location": "I-5/SR-134 interchange, PM peak",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduce congestion by diverting traffic away from the congested area",
+      "grounded_in": [
+        "City-context fact: Key merge congestion at the I-5/SR-134/SR-2 interchange"
+      ]
+    },
+    {
+      "action": "Activate ramp metering",
+      "location": "I-405 Sepulveda Pass, pass-wide",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduce congestion by regulating the flow of traffic onto the freeway",
+      "grounded_in": [
+        "City-context fact: Ramp metering is active pass-wide"
+      ]
+    }
+  ]
+}

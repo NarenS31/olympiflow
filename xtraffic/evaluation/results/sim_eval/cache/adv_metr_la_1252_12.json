@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley, particularly at sensor 765171 (34.168, -118.469), which has a speed of 39.78 mph and an importance of 0.816. This slow speed is contributing to the congestion at the target location NW of Downtown LA.",
+  "cited_causes": [
+    {
+      "location": "San Fernando Valley",
+      "resolved_node_id": 77
+    },
+    {
+      "location": "NW of Downtown LA",
+      "resolved_node_id": null
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement ramp metering at Sepulveda Blvd",
+      "location": "Sepulveda Blvd, San Fernando Valley",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in the San Fernando Valley",
+      "grounded_in": [
+        "San Fernando Valley (sensor 765171, 34.168, -118.469)"
+      ]
+    },
+    {
+      "action": "Optimize signal timing at surface relief roads",
+      "location": "Sunset Blvd and Santa Monica Blvd, Hollywood",
+      "time_window_minutes": 15,
+      "expected_effect": "Improved traffic flow through Hollywood",
+      "grounded_in": [
+        "Hollywood (sensor 769403, 34.121, -118.339)"
+      ]
+    },
+    {
+      "action": "Activate upstream metering at I-405 Sepulveda Pass",
+      "location": "I-405 Sepulveda Pass",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion approaching the pass",
+      "grounded_in": [
+        "Sepulveda Pass saturates in both peaks (city-context fact)"
+      ]
+    }
+  ]
+}

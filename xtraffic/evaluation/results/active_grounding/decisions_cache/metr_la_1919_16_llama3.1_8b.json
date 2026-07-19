@@ -1,0 +1,83 @@
+{
+  "curve": [
+    {
+      "round": 0,
+      "used_correction": false,
+      "faithfulness_f1": 0.7692307692307693,
+      "cause_precision": 1.0,
+      "cause_recall": 0.625,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 3,
+      "n_topk": 8,
+      "n_missed": 3,
+      "missed_regions": [
+        "NE of Downtown LA",
+        "San Fernando Valley",
+        "San Fernando Valley"
+      ],
+      "missed_node_ids": [
+        45,
+        182,
+        99
+      ],
+      "advisory_error": ""
+    }
+  ],
+  "n_rounds": 0,
+  "reached_threshold": true,
+  "stop_reason": "threshold_reached",
+  "f1_initial": 0.7692307692307693,
+  "f1_final": 0.7692307692307693,
+  "f1_gain": 0.0,
+  "final_advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in the Glendale/Burbank area, specifically at sensor locations 718076 (68.14 mph), 717587 (69.14 mph), and 717583 (68.86 mph). These slow speeds are propagating downstream to Downtown LA, with a lag of approximately 35 minutes.",
+    "cited_causes": [
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 105
+      },
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 171
+      },
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 168
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement ramp metering on I-405 in the Sepulveda Pass",
+        "location": "Sepulveda Pass",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion and increased speed in the area",
+        "grounded_in": [
+          "City-context fact: Ramp metering is active pass-wide on I-405"
+        ]
+      },
+      {
+        "action": "Optimize traffic signal timing at Brand Blvd, San Fernando Rd, and Colorado Blvd to reduce merge congestion",
+        "location": "Glendale/Burbank freeways (SR-134, I-5, SR-2)",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion and increased speed in the area",
+        "grounded_in": [
+          "City-context fact: Metro is limited here, so demand is car-dominant"
+        ]
+      },
+      {
+        "action": "Implement dynamic lane management on I-405 to increase capacity",
+        "location": "Sepulveda Pass",
+        "time_window_minutes": 15,
+        "expected_effect": "Increased capacity and reduced congestion in the area",
+        "grounded_in": [
+          "City-context fact: Sepulveda Pass saturates in both peaks"
+        ]
+      }
+    ]
+  },
+  "sample_index": 1919,
+  "target_node": 16,
+  "tod_band": "pm_rush",
+  "congestion": "low",
+  "model": "llama3.1:8b"
+}

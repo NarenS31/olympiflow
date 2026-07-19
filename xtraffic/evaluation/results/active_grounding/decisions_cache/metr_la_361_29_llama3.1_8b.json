@@ -1,0 +1,75 @@
+{
+  "curve": [
+    {
+      "round": 0,
+      "used_correction": false,
+      "faithfulness_f1": 0.7692307692307693,
+      "cause_precision": 1.0,
+      "cause_recall": 0.625,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 1,
+      "n_topk": 8,
+      "n_missed": 3,
+      "missed_regions": [
+        "N of Downtown LA",
+        "Downtown LA",
+        "NE of Downtown LA"
+      ],
+      "missed_node_ids": [
+        56,
+        91,
+        134
+      ],
+      "advisory_error": ""
+    }
+  ],
+  "n_rounds": 0,
+  "reached_threshold": true,
+  "stop_reason": "threshold_reached",
+  "f1_initial": 0.7692307692307693,
+  "f1_final": 0.7692307692307693,
+  "f1_gain": 0.0,
+  "final_advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds reported by sensors in the San Fernando Valley, specifically sensor 767053 (node_id 84), which has a speed of 0.0 mph and an importance of 0.753. This slow speed is likely due to the structural bottleneck at the I-405 Sepulveda Pass, which saturates in both peaks.",
+    "cited_causes": [
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 84
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering on I-405",
+        "location": "I-405 Sepulveda Pass",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion and increased speed",
+        "grounded_in": [
+          "cited_cause: San Fernando Valley (sensor 767053, node_id 84)"
+        ]
+      },
+      {
+        "action": "Reroute traffic before the merge at I-405 Sepulveda Pass",
+        "location": "I-405 Sepulveda Pass",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion and increased speed",
+        "grounded_in": [
+          "city-context: structural bottleneck at I-405 Sepulveda Pass"
+        ]
+      },
+      {
+        "action": "Coordinate signals on parallel arterials (Sepulveda Blvd)",
+        "location": "I-405 Sepulveda Pass",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion and increased speed",
+        "grounded_in": [
+          "city-context: parallel arterials like Sepulveda Blvd"
+        ]
+      }
+    ]
+  },
+  "sample_index": 361,
+  "target_node": 29,
+  "tod_band": "am_rush",
+  "congestion": "high",
+  "model": "llama3.1:8b"
+}

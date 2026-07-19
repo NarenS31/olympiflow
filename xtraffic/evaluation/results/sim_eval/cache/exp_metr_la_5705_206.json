@@ -1,0 +1,112 @@
+{
+  "meta": {
+    "city": "metr_la",
+    "timestamp": "test#5705 @ 22:40",
+    "model_checkpoint": "metr_la_best.pt"
+  },
+  "prediction": {
+    "node_id": 206,
+    "node_name": "Hollywood (sensor 769373, 34.103, -118.317)",
+    "predicted_speed_mph": 7.29,
+    "horizon_minutes": 30,
+    "current_speed_mph": 7.75
+  },
+  "top_nodes": [
+    {
+      "node_id": 128,
+      "node_name": "Hollywood (sensor 717473, 34.101, -118.316)",
+      "importance": 0.7874,
+      "current_speed_mph": 61.5
+    },
+    {
+      "node_id": 203,
+      "node_name": "Pasadena / East (sensor 717595, 34.142, -118.183)",
+      "importance": 0.7777,
+      "current_speed_mph": 68.5
+    },
+    {
+      "node_id": 107,
+      "node_name": "Glendale / Burbank (sensor 767455, 34.143, -118.227)",
+      "importance": 0.7661,
+      "current_speed_mph": 66.0
+    },
+    {
+      "node_id": 198,
+      "node_name": "Hollywood (sensor 769372, 34.103, -118.317)",
+      "importance": 0.766,
+      "current_speed_mph": 68.75
+    },
+    {
+      "node_id": 67,
+      "node_name": "Glendale / Burbank (sensor 773880, 34.154, -118.348)",
+      "importance": 0.7659,
+      "current_speed_mph": 69.13
+    },
+    {
+      "node_id": 191,
+      "node_name": "Koreatown / Mid-City (sensor 717450, 34.075, -118.274)",
+      "importance": 0.7628,
+      "current_speed_mph": 37.88
+    },
+    {
+      "node_id": 167,
+      "node_name": "Glendale / Burbank (sensor 717582, 34.156, -118.261)",
+      "importance": 0.7627,
+      "current_speed_mph": 68.62
+    },
+    {
+      "node_id": 97,
+      "node_name": "Hollywood (sensor 717480, 34.105, -118.325)",
+      "importance": 0.7565,
+      "current_speed_mph": 68.13
+    }
+  ],
+  "top_edges": [
+    {
+      "from_id": 45,
+      "to_id": 203,
+      "importance": 0.8099
+    },
+    {
+      "from_id": 203,
+      "to_id": 203,
+      "importance": 0.8075
+    },
+    {
+      "from_id": 97,
+      "to_id": 206,
+      "importance": 0.7972
+    },
+    {
+      "from_id": 191,
+      "to_id": 191,
+      "importance": 0.7902
+    },
+    {
+      "from_id": 198,
+      "to_id": 206,
+      "importance": 0.7845
+    },
+    {
+      "from_id": 191,
+      "to_id": 15,
+      "importance": 0.7751
+    },
+    {
+      "from_id": 163,
+      "to_id": 128,
+      "importance": 0.7694
+    },
+    {
+      "from_id": 118,
+      "to_id": 67,
+      "importance": 0.7671
+    }
+  ],
+  "propagation_path": [
+    128,
+    206
+  ],
+  "propagation_lag_minutes": 0.0,
+  "explanation_confidence": 0.4352
+}

@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in the Hollywood area (sensor 717461, 34.086, -118.302), with a speed of 20.63 mph, and its high importance (0.797) in driving the prediction. Additionally, there are other contributing factors from various locations around Downtown LA and the San Fernando Valley.",
+  "cited_causes": [
+    {
+      "location": "Hollywood",
+      "resolved_node_id": 160
+    },
+    {
+      "location": "NW of Downtown LA",
+      "resolved_node_id": 120
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Reroute traffic before the merge",
+      "location": "I-10/I-110 downtown interchange",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion at the target location",
+      "grounded_in": [
+        "upstream metering and reroute-before-the-merge are the levers, not signal timing at the interchange itself (city-context)"
+      ]
+    },
+    {
+      "action": "Signal coordination on surface relief routes",
+      "location": "Sunset Blvd and Santa Monica Blvd",
+      "time_window_minutes": 10,
+      "expected_effect": "Improved traffic flow through Hollywood",
+      "grounded_in": [
+        "ATSAC signal-coordinated (city-context)"
+      ]
+    },
+    {
+      "action": "Use transit alternatives where available",
+      "location": "Wilshire and Expo/I-10 rail lines",
+      "time_window_minutes": 5,
+      "expected_effect": "Diverting traffic to parallel rail lines",
+      "grounded_in": [
+        "Transit is a viable diversion lever only where a parallel rail line exists (city-context)"
+      ]
+    }
+  ]
+}

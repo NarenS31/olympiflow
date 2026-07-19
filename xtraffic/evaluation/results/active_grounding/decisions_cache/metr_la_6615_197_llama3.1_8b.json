@@ -1,0 +1,77 @@
+{
+  "curve": [
+    {
+      "round": 0,
+      "used_correction": false,
+      "faithfulness_f1": 0.8571428571428571,
+      "cause_precision": 1.0,
+      "cause_recall": 0.75,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 2,
+      "n_topk": 8,
+      "n_missed": 2,
+      "missed_regions": [
+        "Downtown LA",
+        "NE of Downtown LA"
+      ],
+      "missed_node_ids": [
+        5,
+        44
+      ],
+      "advisory_error": ""
+    }
+  ],
+  "n_rounds": 0,
+  "reached_threshold": true,
+  "stop_reason": "threshold_reached",
+  "f1_initial": 0.8571428571428571,
+  "f1_final": 0.8571428571428571,
+  "f1_gain": 0.0,
+  "final_advisory": {
+    "reasoning": "The congestion is predicted because of the slower speeds in the San Fernando Valley, particularly at sensor 717502 (node_id 146), which is currently moving at 50.88 mph. This slow speed is also reflected in nearby sensors, such as 763995 (node_id 149) and 765099 (node_id 131). Additionally, there are slower speeds further away, like in Downtown LA (sensor 717445, node_id 5), which suggests that congestion is propagating along a path of 2 sensors.",
+    "cited_causes": [
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 146
+      },
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": null
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion in the San Fernando Valley",
+        "grounded_in": [
+          "congestion propagates along a path of 2 sensors"
+        ]
+      },
+      {
+        "action": "Reroute traffic before merge",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion in the San Fernando Valley",
+        "grounded_in": [
+          "congestion propagates along a path of 2 sensors"
+        ]
+      },
+      {
+        "action": "Activate ramp metering",
+        "location": "Sepulveda Pass (I-405)",
+        "time_window_minutes": 5,
+        "expected_effect": "Reduced congestion in the San Fernando Valley",
+        "grounded_in": [
+          "city-context fact: I-405 Sepulveda Pass saturates in both peaks"
+        ]
+      }
+    ]
+  },
+  "sample_index": 6615,
+  "target_node": 197,
+  "tod_band": "night",
+  "congestion": "medium",
+  "model": "llama3.1:8b"
+}

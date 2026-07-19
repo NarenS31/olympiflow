@@ -1,0 +1,42 @@
+{
+  "reasoning": "The congestion is predicted because of the high speeds in the Glendale/Burbank area (sensor 718090, node_id 125: 57.0 mph and sensor 717587, node_id 171: 68.0 mph) and NE of Downtown LA (sensor 767751, node_id 65: 67.14 mph and sensor 774011, node_id 45: 66.86 mph), which are contributing to the congestion in the San Fernando Valley (target location).",
+  "cited_causes": [
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 125
+    },
+    {
+      "location": "NE of Downtown LA",
+      "resolved_node_id": 65
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering on I-5/SR-134",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in the San Fernando Valley",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Reroute traffic before merging onto I-5/SR-134",
+      "location": "I-5/SR-134 interchange",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduced congestion in the San Fernando Valley",
+      "grounded_in": [
+        "city-context fact: recurrent bottlenecks"
+      ]
+    },
+    {
+      "action": "Optimize signal timing on parallel arterials (e.g. Ventura Blvd)",
+      "location": "San Fernando Valley",
+      "time_window_minutes": 5,
+      "expected_effect": "Reduced congestion in the San Fernando Valley",
+      "grounded_in": [
+        "city-context fact: Glendale/Burbank freeways carry traffic between eastern San Fernando Valley and Pasadena/Downtown"
+      ]
+    }
+  ]
+}

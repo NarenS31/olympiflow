@@ -1,0 +1,30 @@
+{
+  "sample_index": 5385,
+  "target_node": 155,
+  "tod_band": "evening",
+  "congestion": "medium",
+  "condition": "C_RICH",
+  "advisory_error": "",
+  "cited_locations": [
+    "Glendale / Burbank",
+    "Hollywood"
+  ],
+  "context_used": [
+    "Glendale/Burbank freeways (SR-134, I-5, SR-2)",
+    "Known recurrent bottlenecks (LA basin)",
+    "Transit alternatives (Metro rail/bus)",
+    "US-101 Hollywood Freeway corridor",
+    "San Fernando Valley freeways (US-101, I-405, SR-118)",
+    "I-405 San Diego Freeway corridor",
+    "I-10 Santa Monica Freeway corridor",
+    "Signal-timing control (LADOT ATSAC) constraints",
+    "I-110 Harbor Freeway corridor"
+  ],
+  "cause_precision": 1.0,
+  "cause_recall": 0.5,
+  "faithfulness_f1": 0.6666666666666666,
+  "hallucination_rate": 0.0,
+  "quantitative_fidelity": 0.25,
+  "n_cited_causes": 2,
+  "n_topk": 8
+}

@@ -1,0 +1,46 @@
+{
+  "reasoning": "The congestion is predicted because of the slow speeds in several locations. The Hollywood area (sensor 717472, node_id 127) has a speed of 14.56 mph, which is contributing significantly to the prediction. Additionally, the N of Downtown LA (sensor 716955, node_id 56) and NE of Downtown LA (sensors 716949 and 773012, node_ids 170 and 29) have speeds ranging from 33.62 to 52.78 mph, indicating congestion in these areas.",
+  "cited_causes": [
+    {
+      "location": "Hollywood",
+      "resolved_node_id": 127
+    },
+    {
+      "location": "N of Downtown LA",
+      "resolved_node_id": 56
+    },
+    {
+      "location": "NE of Downtown LA",
+      "resolved_node_id": null
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Push a special timing plan to the Wilshire corridor",
+      "location": "Wilshire",
+      "time_window_minutes": 10,
+      "expected_effect": "Extend green-band by 15% for up to 30 minutes, reducing congestion in the area",
+      "grounded_in": [
+        "city-context fact: coordinated corridors can have green-band extended"
+      ]
+    },
+    {
+      "action": "Activate Caltrans ramp meters on eastbound on-ramps along I-10",
+      "location": "I-10",
+      "time_window_minutes": 5,
+      "expected_effect": "Reduce congestion by managing traffic flow onto the freeway",
+      "grounded_in": [
+        "city-context fact: Caltrans ramp meters operate on most eastbound on-ramps during peak"
+      ]
+    },
+    {
+      "action": "Coordinate signals along Olympic Blvd and Pico Blvd to optimize traffic flow",
+      "location": "Olympic Blvd and Pico Blvd",
+      "time_window_minutes": 15,
+      "expected_effect": "Reduce congestion by optimizing traffic flow through these parallel relief arterials",
+      "grounded_in": [
+        "city-context fact: Parallel relief arterials: Olympic Blvd and Pico Blvd (both signal-coordinated by LADOT ATSAC)"
+      ]
+    }
+  ]
+}

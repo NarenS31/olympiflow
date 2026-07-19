@@ -1,0 +1,46 @@
+{
+  "reasoning": "The congestion predicted in Downtown LA is likely due to the slow speeds of traffic coming from the Glendale/Burbank area, specifically at sensor locations 718076 (68.22 mph), 773880 (67.33 mph), and 760987 (63.78 mph). These sensors are contributing significantly to the prediction, indicating that congestion is building up in this region before reaching Downtown LA.",
+  "cited_causes": [
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 105
+    },
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 67
+    },
+    {
+      "location": "Glendale / Burbank",
+      "resolved_node_id": 36
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Implement upstream metering on SR-134 and I-5",
+      "location": "SR-134/I-5 interchange, Glendale/Burbank area",
+      "time_window_minutes": 10,
+      "expected_effect": "Reduced congestion in the Glendale/Burbank area by regulating traffic flow before it reaches Downtown LA",
+      "grounded_in": [
+        "congestion builds up in the Glendale/Burbank area"
+      ]
+    },
+    {
+      "action": "Reroute traffic through Brand Blvd, San Fernando Rd, or Colorado Blvd",
+      "location": "Glendale/Burbank area",
+      "time_window_minutes": 5,
+      "expected_effect": "Redirect some traffic away from the congested freeways and onto surface streets to alleviate pressure on the Glendale/Burbank area",
+      "grounded_in": [
+        "surface reliefs in the Glendale/Burbank area"
+      ]
+    },
+    {
+      "action": "Adjust ramp metering on I-405 Sepulveda Pass",
+      "location": "I-405 Sepulveda Pass, Westside LA",
+      "time_window_minutes": 5,
+      "expected_effect": "Regulate traffic flow onto the Sepulveda Pass to prevent congestion from spilling over into Downtown LA",
+      "grounded_in": [
+        "ramp metering is active pass-wide on I-405"
+      ]
+    }
+  ]
+}
