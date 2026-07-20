@@ -6,7 +6,7 @@
   },
   "prediction": {
     "node_id": 142,
-    "node_name": "SW of Downtown San Jose (sensor 401167, 37.317, -121.923)",
+    "node_name": "Willow Glen / Cambrian (sensor 401167, 37.317, -121.923)",
     "predicted_speed_mph": 66.54,
     "horizon_minutes": 30,
     "current_speed_mph": 13.5
@@ -14,49 +14,49 @@
   "top_nodes": [
     {
       "node_id": 251,
-      "node_name": "NW of Downtown San Jose (sensor 404586, 37.407, -122.010)",
+      "node_name": "Sunnyvale / Lawrence Expressway (sensor 404586, 37.407, -122.010)",
       "importance": 0.7425,
       "current_speed_mph": 45.4
     },
     {
       "node_id": 110,
-      "node_name": "SE of Downtown San Jose (sensor 400799, 37.328, -121.876)",
+      "node_name": "Downtown San Jose (sensor 400799, 37.328, -121.876)",
       "importance": 0.6791,
       "current_speed_mph": 38.9
     },
     {
       "node_id": 70,
-      "node_name": "W of Downtown San Jose (sensor 400499, 37.331, -122.015)",
+      "node_name": "Cupertino / I-280 corridor (sensor 400499, 37.331, -122.015)",
       "importance": 0.6711,
       "current_speed_mph": 41.4
     },
     {
       "node_id": 69,
-      "node_name": "SW of Downtown San Jose (sensor 400485, 37.254, -121.949)",
+      "node_name": "Willow Glen / Cambrian (sensor 400485, 37.254, -121.949)",
       "importance": 0.6693,
       "current_speed_mph": 42.1
     },
     {
       "node_id": 143,
-      "node_name": "SW of Downtown San Jose (sensor 401210, 37.291, -122.023)",
+      "node_name": "Cupertino / I-280 corridor (sensor 401210, 37.291, -122.023)",
       "importance": 0.6533,
       "current_speed_mph": 41.5
     },
     {
       "node_id": 290,
-      "node_name": "W of Downtown San Jose (sensor 407331, 37.335, -122.058)",
+      "node_name": "Cupertino / I-280 corridor (sensor 407331, 37.335, -122.058)",
       "importance": 0.6504,
       "current_speed_mph": 39.4
     },
     {
       "node_id": 322,
-      "node_name": "S of Downtown San Jose (sensor 413878, 37.325, -121.889)",
+      "node_name": "Downtown San Jose (sensor 413878, 37.325, -121.889)",
       "importance": 0.6281,
       "current_speed_mph": 49.2
     },
     {
       "node_id": 254,
-      "node_name": "NW of Downtown San Jose (sensor 404759, 37.365, -121.902)",
+      "node_name": "San Jose Airport / US-101 junction (sensor 404759, 37.365, -121.902)",
       "importance": 0.624,
       "current_speed_mph": 41.1
     }

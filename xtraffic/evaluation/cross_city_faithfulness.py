@@ -409,6 +409,58 @@ class MockAdvisor:
 # ===========================================================================
 # Running one (city, model) cell -- resumable
 # ===========================================================================
+def chance_metrics(exp: Dict[str, Any], table: NodeTable, n_causes: float,
+                   vocabulary: str, draws: int, rng: random.Random
+                   ) -> Dict[str, float]:
+    """Score `draws` RANDOM advisories against this explanation's top-k.
+
+    Phase-11 correction. This is the traffic analogue of Phase 19's
+    chance_metrics (RANDOM_bus / RANDOM_zone); it is duplicated rather than
+    imported so the committed power-grid numbers cannot be perturbed by an edit
+    made for the traffic side. The only difference is the vocabulary:
+      "node"   -> the full rendered sensor names, e.g.
+                  "Downtown San Jose (sensor 400664, 37.303, -121.878)"
+                  = a PRECISE citation, resolves to exactly one node.
+      "region" -> the region labels, e.g. "Downtown San Jose"
+                  = a COARSE citation, resolves to that region's whole node set.
+
+    WHY THIS ROW IS NOT OPTIONAL (learned the hard way). The metric grants
+    region-level credit, so a coarse citation "hits" the top-k whenever the
+    region contains ANY top-k node. Under the old compass-fallback naming, PEMS-BAY's
+    largest region held 37.5% of the graph, and a citer that simply echoed the
+    target's own sector scored precision 0.894 / F1 0.510 / hallucination 0.106
+    with zero causal information — which is essentially the number the
+    PEMS-BAY x mistral condition-B cell reported (0.888 / 0.508 / 0.112). Without
+    a chance row on the table there was nothing to reveal that.
+
+    Everything downstream — resolution, hit test, precision/recall/F1 — goes
+    through the SAME score_advisory the LLM conditions use, so the comparison is
+    exact rather than approximate.
+    """
+    if vocabulary == "node":
+        pool = [table.namer.name(i) for i in range(table.n_nodes)]
+    elif vocabulary == "region":
+        pool = sorted(table.region_to_nodes.keys())
+    else:
+        raise ValueError("unknown vocabulary {!r}".format(vocabulary))
+
+    n = max(1, int(round(n_causes)))
+    acc: Dict[str, List[float]] = {"cause_precision": [], "cause_recall": [],
+                                   "faithfulness_f1": [], "hallucination_rate": []}
+    for _ in range(draws):
+        advisory = {
+            "reasoning": "",
+            # with replacement: an LLM can repeat a location
+            "cited_causes": [{"location": rng.choice(pool), "resolved_node_id": None}
+                             for _ in range(n)],
+            "recommendations": [],
+        }
+        m = score_advisory(exp, advisory, table)
+        for k in acc:
+            acc[k].append(float(m[k]))
+    return {k: float(sum(v) / len(v)) for k, v in acc.items()}
+
+
 def _sanitize(model: str) -> str:
     return model.replace(":", "_").replace("/", "_")
 
@@ -439,7 +491,8 @@ def run_cell(city: str, dataset: str, checkpoint: str, model: str,
              conditions: List[str], scenarios: List[Dict[str, Any]],
              table: NodeTable, advisor: Any, results_dir: str,
              explainer_cfg: Dict[str, Any], device: torch.device,
-             mock: bool) -> Dict[str, Any]:
+             mock: bool, chance_cfg: Optional[Dict[str, Any]] = None
+             ) -> Dict[str, Any]:
     """Run every scenario x condition for one (city, model) cell and return the
     aggregated A/B/C metrics. Explanations are built once per scenario (shared
     across conditions); advisories + metrics are cached per decision (resumable)."""
@@ -454,8 +507,10 @@ def run_cell(city: str, dataset: str, checkpoint: str, model: str,
     done = _load_done(dec_path)
     rows: List[Dict[str, Any]] = []
 
+    exps: List[Dict[str, Any]] = []          # kept for the chance baselines below
     for i, sc in enumerate(scenarios):
         exp = build_or_load_explanation(builder, city, dataset, sc, results_dir)
+        exps.append(exp)
         for cond in conditions:
             key = (sc["sample_index"], cond)
             if key in done:
@@ -469,6 +524,21 @@ def run_cell(city: str, dataset: str, checkpoint: str, model: str,
                 "tod_band": sc["tod_band"], "congestion": sc["congestion"],
                 "condition": cond,
                 "advisory_error": res["advisory"].get("_error", ""),
+                # Phase-11 correction: LOG THE CITATION TEXT AND THE RESOLVER RUNG.
+                # This study previously persisted metrics ONLY, so diagnosing the
+                # PEMS-BAY condition-B outlier required re-running the LLM against
+                # the cached explanations just to see what it had actually cited —
+                # and an LLM at temp 0.1 does not reproduce its own output, so the
+                # re-run could only ever be circumstantial. Phase 19 already logs
+                # both fields; this backports that to the traffic study. With these
+                # two columns the same investigation is a grep.
+                "cited_locations": [c.get("location") for c in
+                                    (res["advisory"].get("cited_causes") or [])
+                                    if isinstance(c, dict)],
+                "resolution_methods": [p["resolved_method"]
+                                       for p in metrics["per_cause"]],
+                "resolved_set_sizes": [len(p["resolved_node_ids"])
+                                       for p in metrics["per_cause"]],
             }
             for k in _METRIC_KEYS + ["n_cited_causes", "n_topk"]:
                 row[k] = metrics[k]
@@ -485,10 +555,50 @@ def run_cell(city: str, dataset: str, checkpoint: str, model: str,
     wanted = {sc["sample_index"] for sc in scenarios}
     rows = [r for r in rows if r["sample_index"] in wanted]
 
-    aggs = {c: _aggregate(rows, c) for c in conditions}
+    # --- chance baselines (Phase-11 correction; no LLM, so these are cheap) ----
+    # Sized to condition A's mean citation count so the random citer is given the
+    # SAME budget of guesses the real model used — otherwise a chance row with
+    # more citations would score a higher recall for free.
+    all_conditions = list(conditions)
+    if chance_cfg:
+        rng = random.Random(SEED)
+        a_rows = [r for r in rows if r["condition"] == "A"]
+        mean_cited = (float(np.mean([r["n_cited_causes"] for r in a_rows]))
+                      if a_rows else 3.0)
+        draws = int(chance_cfg.get("random_draws", 200))
+        for vocab in chance_cfg.get("random_baselines", []):
+            cond_name = "RANDOM_" + vocab
+            for sc, exp in zip(scenarios, exps):
+                row = {
+                    "city": city, "model": model,
+                    "sample_index": sc["sample_index"], "target_node": sc["target_node"],
+                    "tod_band": sc["tod_band"], "congestion": sc["congestion"],
+                    "condition": cond_name, "advisory_error": "",
+                    "n_cited_causes": int(round(mean_cited)),
+                    "n_topk": len(exp.get("top_nodes", [])),
+                    # A random citer writes no prose, so it states no numbers and
+                    # quantitative fidelity is UNDEFINED — the same None
+                    # score_advisory returns for a numberless advisory, which
+                    # _aggregate already filters out of its mean.
+                    "quantitative_fidelity": None,
+                    # Same columns as the LLM rows so the per-scenario CSV has one
+                    # consistent schema. A chance draw has no prose to log.
+                    "cited_locations": [], "resolution_methods": [],
+                    "resolved_set_sizes": [],
+                }
+                row.update(chance_metrics(exp, table, mean_cited, vocab, draws, rng))
+                # NOT written to decisions.jsonl: these are recomputed
+                # deterministically from (seed, explanation) and carry no LLM cost,
+                # so caching them would only risk staleness.
+                rows.append(row)
+            all_conditions.append(cond_name)
+        print("  chance baselines: {} ({} draws x {:.1f} citations)".format(
+            ", ".join(chance_cfg.get("random_baselines", [])), draws, mean_cited))
+
+    aggs = {c: _aggregate(rows, c) for c in all_conditions}
     summary = {
         "city": city, "model": model, "n_scenarios": len(scenarios),
-        "conditions": conditions, "aggregate": aggs, "seed": SEED,
+        "conditions": all_conditions, "aggregate": aggs, "seed": SEED,
         "zero_shot": (city != "metr_la"),
     }
     # Persist per-cell CSV + JSON (CLAUDE.md: both formats).
@@ -795,7 +905,9 @@ def main() -> None:
             advisor = (MockAdvisor(model) if mock else make_advisor(city, model))
             results[(city, model)] = run_cell(
                 city, dataset, checkpoint, model, conditions, scenarios, table,
-                advisor, results_dir, explainer_cfg, device, mock)
+                advisor, results_dir, explainer_cfg, device, mock,
+                chance_cfg={"random_baselines": cfg.get("random_baselines", []),
+                            "random_draws": cfg.get("random_draws", 200)})
 
     verdict = build_master_table(results, cities, models, out_tex, results_dir)
     print_master(results, cities, models, verdict)

@@ -6,7 +6,7 @@
   },
   "prediction": {
     "node_id": 32,
-    "node_name": "SW of Downtown San Jose (sensor 400209, 37.320, -122.049)",
+    "node_name": "Cupertino / I-280 corridor (sensor 400209, 37.320, -122.049)",
     "predicted_speed_mph": 67.54,
     "horizon_minutes": 30,
     "current_speed_mph": 10.2
@@ -14,49 +14,49 @@
   "top_nodes": [
     {
       "node_id": 250,
-      "node_name": "NW of Downtown San Jose (sensor 404585, 37.407, -122.010)",
+      "node_name": "Sunnyvale / Lawrence Expressway (sensor 404585, 37.407, -122.010)",
       "importance": 0.6142,
       "current_speed_mph": 21.7
     },
     {
       "node_id": 84,
-      "node_name": "NW of Downtown San Jose (sensor 400643, 37.391, -121.995)",
+      "node_name": "Santa Clara / Great America (sensor 400643, 37.391, -121.995)",
       "importance": 0.6055,
       "current_speed_mph": 8.5
     },
     {
       "node_id": 165,
-      "node_name": "E of Downtown San Jose (sensor 401655, 37.336, -121.859)",
+      "node_name": "Evergreen / Silver Creek (sensor 401655, 37.336, -121.859)",
       "importance": 0.5832,
       "current_speed_mph": 75.0
     },
     {
       "node_id": 55,
-      "node_name": "NW of Downtown San Jose (sensor 400372, 37.385, -121.974)",
+      "node_name": "Santa Clara / Great America (sensor 400372, 37.385, -121.974)",
       "importance": 0.5726,
       "current_speed_mph": 7.9
     },
     {
       "node_id": 282,
-      "node_name": "NE of Downtown San Jose (sensor 407202, 37.361, -121.842)",
+      "node_name": "Berryessa / East San Jose (sensor 407202, 37.361, -121.842)",
       "importance": 0.5711,
       "current_speed_mph": 46.6
     },
     {
       "node_id": 274,
-      "node_name": "N of Downtown San Jose (sensor 407184, 37.427, -121.885)",
+      "node_name": "Milpitas / I-880 corridor (sensor 407184, 37.427, -121.885)",
       "importance": 0.5682,
       "current_speed_mph": 16.6
     },
     {
       "node_id": 283,
-      "node_name": "NE of Downtown San Jose (sensor 407204, 37.366, -121.845)",
+      "node_name": "Berryessa / East San Jose (sensor 407204, 37.366, -121.845)",
       "importance": 0.5513,
       "current_speed_mph": 44.1
     },
     {
       "node_id": 152,
-      "node_name": "SE of Downtown San Jose (sensor 401457, 37.280, -121.865)",
+      "node_name": "Evergreen / Silver Creek (sensor 401457, 37.280, -121.865)",
       "importance": 0.5276,
       "current_speed_mph": 54.0
     }

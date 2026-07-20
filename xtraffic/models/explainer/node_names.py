@@ -59,6 +59,50 @@ _CHICAGO_REGIONS: List[Tuple[str, float, float, float, float]] = [
     ("Far South Side",                   41.660, 41.775, -87.685, -87.590),
 ]
 
+# PEMS-BAY regions (public Santa Clara Valley geography). Reference = Downtown
+# San Jose.
+#
+# WHY THIS EXISTS (Phase 11 correction, FLAGGED — this CHANGES committed numbers).
+# PEMS-BAY had NO entry here, so all 325 sensors fell through to the _compass()
+# fallback and collapsed into 9 sectors. That silently broke the faithfulness
+# metric in two ways:
+#   (1) SET SIZE. The biggest sector held 122/325 = 37.5% of the graph, and the
+#       resolver grants region-level credit to the WHOLE set. One citation of
+#       "NW of Downtown San Jose" therefore intersected the explainer's top-k
+#       almost automatically, scoring a "hit" with zero causal information.
+#   (2) LABEL COLLAPSE. The 9 labels differ only by a 1-2 character compass
+#       prefix, so _ratio("nw of downtown san jose", "n of downtown san jose")
+#       ~ 92 >= FUZZY_THRESHOLD (82). The fuzzy rung matched an ARBITRARY sector
+#       — observed live: a citation of "Downtown San Jose" for a target in the
+#       WEST sector resolved to the EAST sector and still counted as a hit.
+# The boxes below were accepted against both failure modes: largest region is
+# 10.8% of the graph (was 37.5%), zero sensors fall to the compass fallback, and
+# no two labels score >= 82 against each other (closest pair 70.6).
+#
+# FOOTPRINT HONESTY: PEMS-BAY spans only lat 37.250-37.428, lon -122.080 to
+# -121.840 — the Santa Clara Valley. It contains NO sensors within 5 km of San
+# Francisco, Oakland, Berkeley, Fremont or Palo Alto, so this table deliberately
+# defines no boxes for them. Naming regions the data does not cover would be
+# fabricated geography, which is exactly the error class this metric measures.
+_PEMS_BAY_REGIONS: List[Tuple[str, float, float, float, float]] = [
+    # Specific/small areas first (first match wins), broad ones after — same
+    # contract as _LA_REGIONS / _CHICAGO_REGIONS above.
+    ("San Jose Airport / US-101 junction", 37.352, 37.392, -121.950, -121.890),
+    ("Downtown San Jose",                  37.310, 37.352, -121.918, -121.868),
+    ("Santa Clara / Great America",        37.330, 37.425, -121.998, -121.950),
+    ("North San Jose / Alviso",            37.380, 37.440, -121.950, -121.900),
+    ("Milpitas / I-880 corridor",          37.398, 37.445, -121.900, -121.855),
+    ("Berryessa / East San Jose",          37.336, 37.400, -121.900, -121.835),
+    ("Evergreen / Silver Creek",           37.275, 37.340, -121.868, -121.835),
+    ("Blossom Valley / South San Jose",    37.240, 37.312, -121.900, -121.835),
+    ("Willow Glen / Cambrian",             37.240, 37.318, -121.960, -121.900),
+    ("West San Jose / Stevens Creek",      37.296, 37.352, -121.995, -121.918),
+    ("Sunnyvale / Lawrence Expressway",    37.340, 37.435, -122.058, -121.995),
+    ("Mountain View / SR-237 west",        37.352, 37.445, -122.090, -122.058),
+    ("Cupertino / I-280 corridor",         37.288, 37.360, -122.090, -121.995),
+    ("Campbell / Los Gatos SR-17",         37.240, 37.296, -122.090, -121.960),
+]
+
 # --- Phase 19: the IEEE 14-bus power grid (NO GEOGRAPHY AT ALL) -------------
 # An IEEE test case is a circuit, not a place: its buses have no lat/lon, so the
 # coordinate -> region-box path above simply does not apply. Cities listed here
@@ -119,6 +163,10 @@ _CITY_REF: Dict[str, Tuple[float, float, str]] = {
 _CITY_REGIONS: Dict[str, List[Tuple[str, float, float, float, float]]] = {
     "metr_la":  _LA_REGIONS,
     "chicago":  _CHICAGO_REGIONS,
+    # Phase 11 correction (FLAGGED): PEMS-BAY previously had no entry and fell to
+    # _compass(). METR-LA and Chicago look up their own keys, so adding this one
+    # cannot alter their names — proven by evaluation/verify_traffic_unchanged.py.
+    "pems_bay": _PEMS_BAY_REGIONS,
 }
 
 

@@ -45,8 +45,22 @@ _PROBE_LOCATIONS = [
     "Downtown LA", "glendale", "San Fernando Valley", "sensor 772167",
     "near downtown", "the Westside", "I-10 corridor", "Pasadena",
     "nowhere at all", "East Los Angeles", "South LA", "Long Beach",
+    # --- Phase-11 addition: FULL RENDERED NODE NAMES -----------------------
+    # BLIND SPOT this closes: every probe above is either a bare region name or a
+    # bare sensor id, but the form the LLM actually writes most often is the whole
+    # rendered name, parenthetical included — 72% of PEMS-BAY condition-A
+    # citations. Because no probe had that shape, this gate PASSED throughout the
+    # period when `_normalize` was silently discarding the id inside the
+    # parentheses and awarding region-level credit instead. A regression gate that
+    # cannot see the dominant input form is not guarding the thing that matters.
+    "Downtown LA (sensor 773869, 34.045, -118.240)",
+    "Glendale / Burbank (sensor 759772, 34.150, -118.250)",
 ]
-_PROBE_CHICAGO = ["The Loop", "south loop", "Hyde Park", "nowhere"]
+_PROBE_CHICAGO = [
+    "The Loop", "south loop", "Hyde Park", "nowhere",
+    # Same addition for Chicago, whose unit word is "segment", not "sensor".
+    "The Loop / Downtown (segment 1, 41.880, -87.630)",
+]
 
 
 def _explanation_files(limit: int = 6) -> List[str]:

@@ -1,0 +1,7 @@
+a_f1,a_halluc,b_f1,b_halluc,city,f1_gap,gap_holds,model,n,status
+0.4,0.0,0.0,1.0,metr_la,0.4,True,llama3.1:8b,3,ok
+0.4,0.0,0.0,1.0,metr_la,0.4,True,mock2,3,ok
+0.4,0.0,0.0,1.0,pems_bay,0.4,True,llama3.1:8b,3,ok
+0.4,0.0,0.0,1.0,pems_bay,0.4,True,mock2,3,ok
+0.4,0.0,0.0,1.0,chicago,0.4,True,llama3.1:8b,3,ok
+0.4,0.0,0.0,1.0,chicago,0.4,True,mock2,3,ok

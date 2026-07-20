@@ -6,7 +6,7 @@
   },
   "prediction": {
     "node_id": 115,
-    "node_name": "SW of Downtown San Jose (sensor 400832, 37.255, -121.957)",
+    "node_name": "Willow Glen / Cambrian (sensor 400832, 37.255, -121.957)",
     "predicted_speed_mph": 64.86,
     "horizon_minutes": 30,
     "current_speed_mph": 54.2
@@ -14,49 +14,49 @@
   "top_nodes": [
     {
       "node_id": 197,
-      "node_name": "W of Downtown San Jose (sensor 402117, 37.344, -121.902)",
+      "node_name": "Downtown San Jose (sensor 402117, 37.344, -121.902)",
       "importance": 0.8147,
       "current_speed_mph": 67.3
     },
     {
       "node_id": 189,
-      "node_name": "NW of Downtown San Jose (sensor 401998, 37.404, -122.051)",
+      "node_name": "Sunnyvale / Lawrence Expressway (sensor 401998, 37.404, -122.051)",
       "importance": 0.7897,
       "current_speed_mph": 67.7
     },
     {
       "node_id": 122,
-      "node_name": "NW of Downtown San Jose (sensor 400904, 37.395, -122.011)",
+      "node_name": "Sunnyvale / Lawrence Expressway (sensor 400904, 37.395, -122.011)",
       "importance": 0.7855,
       "current_speed_mph": 67.0
     },
     {
       "node_id": 209,
-      "node_name": "NW of Downtown San Jose (sensor 402288, 37.419, -121.914)",
+      "node_name": "North San Jose / Alviso (sensor 402288, 37.419, -121.914)",
       "importance": 0.7769,
       "current_speed_mph": 66.9
     },
     {
       "node_id": 22,
-      "node_name": "NW of Downtown San Jose (sensor 400149, 37.412, -122.078)",
+      "node_name": "Mountain View / SR-237 west (sensor 400149, 37.412, -122.078)",
       "importance": 0.7628,
       "current_speed_mph": 68.2
     },
     {
       "node_id": 312,
-      "node_name": "SW of Downtown San Jose (sensor 408907, 37.322, -121.940)",
+      "node_name": "West San Jose / Stevens Creek (sensor 408907, 37.322, -121.940)",
       "importance": 0.7607,
       "current_speed_mph": 67.5
     },
     {
       "node_id": 10,
-      "node_name": "SW of Downtown San Jose (sensor 400073, 37.256, -121.956)",
+      "node_name": "Willow Glen / Cambrian (sensor 400073, 37.256, -121.956)",
       "importance": 0.76,
       "current_speed_mph": 67.6
     },
     {
       "node_id": 188,
-      "node_name": "NW of Downtown San Jose (sensor 401997, 37.399, -122.026)",
+      "node_name": "Sunnyvale / Lawrence Expressway (sensor 401997, 37.399, -122.026)",
       "importance": 0.744,
       "current_speed_mph": 67.6
     }

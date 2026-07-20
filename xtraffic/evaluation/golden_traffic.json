@@ -17,6 +17,14 @@
    "method": "unresolved",
    "n": 0
   },
+  "The Loop / Downtown (segment 1, 41.880, -87.630)": {
+   "ids": [
+    0
+   ],
+   "matched": "sensor 1",
+   "method": "exact_sensor",
+   "n": 1
+  },
   "nowhere": {
    "ids": [],
    "matched": null,
@@ -55,6 +63,14 @@
    "method": "exact_region",
    "n": 13
   },
+  "Downtown LA (sensor 773869, 34.045, -118.240)": {
+   "ids": [
+    0
+   ],
+   "matched": "sensor 773869",
+   "method": "exact_sensor",
+   "n": 1
+  },
   "East Los Angeles": {
    "ids": [
     23,
@@ -65,6 +81,14 @@
    "matched": "east los angeles->east la",
    "method": "geographic",
    "n": 4
+  },
+  "Glendale / Burbank (sensor 759772, 34.150, -118.250)": {
+   "ids": [
+    194
+   ],
+   "matched": "sensor 759772",
+   "method": "exact_sensor",
+   "n": 1
   },
   "I-10 corridor": {
    "ids": [],

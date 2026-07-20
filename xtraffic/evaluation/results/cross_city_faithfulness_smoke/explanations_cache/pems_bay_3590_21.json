@@ -1,0 +1,119 @@
+{
+  "meta": {
+    "city": "pems_bay",
+    "timestamp": "test#3590 @ 05:00",
+    "model_checkpoint": "pems_bay_zero_shot.pt"
+  },
+  "prediction": {
+    "node_id": 21,
+    "node_name": "Willow Glen / Cambrian (sensor 400148, 37.251, -121.912)",
+    "predicted_speed_mph": 59.24,
+    "horizon_minutes": 30,
+    "current_speed_mph": 57.3
+  },
+  "top_nodes": [
+    {
+      "node_id": 59,
+      "node_name": "Blossom Valley / South San Jose (sensor 400418, 37.292, -121.872)",
+      "importance": 0.6164,
+      "current_speed_mph": 62.1
+    },
+    {
+      "node_id": 69,
+      "node_name": "Willow Glen / Cambrian (sensor 400485, 37.254, -121.949)",
+      "importance": 0.6008,
+      "current_speed_mph": 64.8
+    },
+    {
+      "node_id": 324,
+      "node_name": "Downtown San Jose (sensor 414694, 37.315, -121.913)",
+      "importance": 0.5963,
+      "current_speed_mph": 71.4
+    },
+    {
+      "node_id": 89,
+      "node_name": "Berryessa / East San Jose (sensor 400665, 37.341, -121.849)",
+      "importance": 0.5943,
+      "current_speed_mph": 70.0
+    },
+    {
+      "node_id": 45,
+      "node_name": "Santa Clara / Great America (sensor 400274, 37.410, -121.996)",
+      "importance": 0.5942,
+      "current_speed_mph": 69.5
+    },
+    {
+      "node_id": 271,
+      "node_name": "Berryessa / East San Jose (sensor 407179, 37.369, -121.847)",
+      "importance": 0.5883,
+      "current_speed_mph": 70.7
+    },
+    {
+      "node_id": 134,
+      "node_name": "San Jose Airport / US-101 junction (sensor 400971, 37.369, -121.901)",
+      "importance": 0.5856,
+      "current_speed_mph": 68.5
+    },
+    {
+      "node_id": 122,
+      "node_name": "Sunnyvale / Lawrence Expressway (sensor 400904, 37.395, -122.011)",
+      "importance": 0.5854,
+      "current_speed_mph": 68.4
+    }
+  ],
+  "top_edges": [
+    {
+      "from_id": 45,
+      "to_id": 251,
+      "importance": 0.5862
+    },
+    {
+      "from_id": 324,
+      "to_id": 310,
+      "importance": 0.574
+    },
+    {
+      "from_id": 89,
+      "to_id": 150,
+      "importance": 0.5718
+    },
+    {
+      "from_id": 203,
+      "to_id": 134,
+      "importance": 0.5709
+    },
+    {
+      "from_id": 69,
+      "to_id": 238,
+      "importance": 0.5576
+    },
+    {
+      "from_id": 59,
+      "to_id": 42,
+      "importance": 0.556
+    },
+    {
+      "from_id": 45,
+      "to_id": 45,
+      "importance": 0.5543
+    },
+    {
+      "from_id": 104,
+      "to_id": 21,
+      "importance": 0.5465
+    }
+  ],
+  "propagation_path": [
+    59,
+    37,
+    316,
+    254,
+    190,
+    43,
+    184,
+    5,
+    21
+  ],
+  "propagation_lag_minutes": 35.0,
+  "explanation_confidence": 0.0667
+}

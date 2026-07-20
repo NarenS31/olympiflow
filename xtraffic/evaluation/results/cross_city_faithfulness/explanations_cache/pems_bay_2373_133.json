@@ -6,7 +6,7 @@
   },
   "prediction": {
     "node_id": 133,
-    "node_name": "NW of Downtown San Jose (sensor 400970, 37.410, -121.996)",
+    "node_name": "Santa Clara / Great America (sensor 400970, 37.410, -121.996)",
     "predicted_speed_mph": 47.59,
     "horizon_minutes": 30,
     "current_speed_mph": 47.0
@@ -14,49 +14,49 @@
   "top_nodes": [
     {
       "node_id": 300,
-      "node_name": "NW of Downtown San Jose (sensor 407352, 37.377, -122.068)",
+      "node_name": "Mountain View / SR-237 west (sensor 407352, 37.377, -122.068)",
       "importance": 0.8161,
       "current_speed_mph": 68.3
     },
     {
       "node_id": 153,
-      "node_name": "NW of Downtown San Jose (sensor 401464, 37.425, -121.916)",
+      "node_name": "North San Jose / Alviso (sensor 401464, 37.425, -121.916)",
       "importance": 0.8055,
       "current_speed_mph": 68.9
     },
     {
       "node_id": 271,
-      "node_name": "NE of Downtown San Jose (sensor 407179, 37.369, -121.847)",
+      "node_name": "Berryessa / East San Jose (sensor 407179, 37.369, -121.847)",
       "importance": 0.7978,
       "current_speed_mph": 68.0
     },
     {
       "node_id": 265,
-      "node_name": "E of Downtown San Jose (sensor 407165, 37.344, -121.845)",
+      "node_name": "Berryessa / East San Jose (sensor 407165, 37.344, -121.845)",
       "importance": 0.7978,
       "current_speed_mph": 69.9
     },
     {
       "node_id": 166,
-      "node_name": "E of Downtown San Jose (sensor 401808, 37.335, -121.860)",
+      "node_name": "Evergreen / Silver Creek (sensor 401808, 37.335, -121.860)",
       "importance": 0.7967,
       "current_speed_mph": 59.4
     },
     {
       "node_id": 71,
-      "node_name": "SW of Downtown San Jose (sensor 400507, 37.299, -122.030)",
+      "node_name": "Cupertino / I-280 corridor (sensor 400507, 37.299, -122.030)",
       "importance": 0.7959,
       "current_speed_mph": 63.2
     },
     {
       "node_id": 4,
-      "node_name": "NW of Downtown San Jose (sensor 400045, 37.363, -121.902)",
+      "node_name": "San Jose Airport / US-101 junction (sensor 400045, 37.363, -121.902)",
       "importance": 0.7889,
       "current_speed_mph": 71.3
     },
     {
       "node_id": 281,
-      "node_name": "NE of Downtown San Jose (sensor 407200, 37.398, -121.876)",
+      "node_name": "Milpitas / I-880 corridor (sensor 407200, 37.398, -121.876)",
       "importance": 0.7888,
       "current_speed_mph": 68.0
     }

@@ -1,0 +1,112 @@
+{
+  "meta": {
+    "city": "pems_bay",
+    "timestamp": "test#8139 @ 00:05",
+    "model_checkpoint": "pems_bay_zero_shot.pt"
+  },
+  "prediction": {
+    "node_id": 45,
+    "node_name": "Santa Clara / Great America (sensor 400274, 37.410, -121.996)",
+    "predicted_speed_mph": 59.77,
+    "horizon_minutes": 30,
+    "current_speed_mph": 58.0
+  },
+  "top_nodes": [
+    {
+      "node_id": 13,
+      "node_name": "North San Jose / Alviso (sensor 400088, 37.415, -121.913)",
+      "importance": 0.5665,
+      "current_speed_mph": 69.7
+    },
+    {
+      "node_id": 309,
+      "node_name": "Mountain View / SR-237 west (sensor 407374, 37.395, -122.069)",
+      "importance": 0.5609,
+      "current_speed_mph": 69.0
+    },
+    {
+      "node_id": 199,
+      "node_name": "North San Jose / Alviso (sensor 402119, 37.421, -121.915)",
+      "importance": 0.5605,
+      "current_speed_mph": 68.4
+    },
+    {
+      "node_id": 4,
+      "node_name": "San Jose Airport / US-101 junction (sensor 400045, 37.363, -121.902)",
+      "importance": 0.5579,
+      "current_speed_mph": 70.4
+    },
+    {
+      "node_id": 79,
+      "node_name": "Santa Clara / Great America (sensor 400567, 37.419, -121.963)",
+      "importance": 0.5554,
+      "current_speed_mph": 70.0
+    },
+    {
+      "node_id": 246,
+      "node_name": "Santa Clara / Great America (sensor 404521, 37.383, -121.966)",
+      "importance": 0.5508,
+      "current_speed_mph": 68.4
+    },
+    {
+      "node_id": 59,
+      "node_name": "Blossom Valley / South San Jose (sensor 400418, 37.292, -121.872)",
+      "importance": 0.5491,
+      "current_speed_mph": 69.3
+    },
+    {
+      "node_id": 36,
+      "node_name": "San Jose Airport / US-101 junction (sensor 400227, 37.377, -121.944)",
+      "importance": 0.5472,
+      "current_speed_mph": 70.4
+    }
+  ],
+  "top_edges": [
+    {
+      "from_id": 119,
+      "to_id": 309,
+      "importance": 0.5932
+    },
+    {
+      "from_id": 45,
+      "to_id": 251,
+      "importance": 0.5861
+    },
+    {
+      "from_id": 246,
+      "to_id": 40,
+      "importance": 0.5796
+    },
+    {
+      "from_id": 246,
+      "to_id": 220,
+      "importance": 0.5772
+    },
+    {
+      "from_id": 162,
+      "to_id": 59,
+      "importance": 0.5754
+    },
+    {
+      "from_id": 45,
+      "to_id": 248,
+      "importance": 0.5747
+    },
+    {
+      "from_id": 246,
+      "to_id": 222,
+      "importance": 0.5736
+    },
+    {
+      "from_id": 199,
+      "to_id": 208,
+      "importance": 0.5703
+    }
+  ],
+  "propagation_path": [
+    13,
+    45
+  ],
+  "propagation_lag_minutes": 40.0,
+  "explanation_confidence": 0.0667
+}

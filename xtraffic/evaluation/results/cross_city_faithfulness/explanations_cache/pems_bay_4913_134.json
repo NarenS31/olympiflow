@@ -6,7 +6,7 @@
   },
   "prediction": {
     "node_id": 134,
-    "node_name": "NW of Downtown San Jose (sensor 400971, 37.369, -121.901)",
+    "node_name": "San Jose Airport / US-101 junction (sensor 400971, 37.369, -121.901)",
     "predicted_speed_mph": 65.38,
     "horizon_minutes": 30,
     "current_speed_mph": 48.3
@@ -14,49 +14,49 @@
   "top_nodes": [
     {
       "node_id": 291,
-      "node_name": "NW of Downtown San Jose (sensor 407332, 37.407, -122.070)",
+      "node_name": "Mountain View / SR-237 west (sensor 407332, 37.407, -122.070)",
       "importance": 0.8776,
       "current_speed_mph": 66.7
     },
     {
       "node_id": 38,
-      "node_name": "NW of Downtown San Jose (sensor 400238, 37.413, -121.912)",
+      "node_name": "North San Jose / Alviso (sensor 400238, 37.413, -121.912)",
       "importance": 0.8693,
       "current_speed_mph": 66.3
     },
     {
       "node_id": 234,
-      "node_name": "S of Downtown San Jose (sensor 403412, 37.322, -121.898)",
+      "node_name": "Downtown San Jose (sensor 403412, 37.322, -121.898)",
       "importance": 0.8655,
       "current_speed_mph": 68.6
     },
     {
       "node_id": 208,
-      "node_name": "NW of Downtown San Jose (sensor 402287, 37.406, -121.910)",
+      "node_name": "North San Jose / Alviso (sensor 402287, 37.406, -121.910)",
       "importance": 0.8581,
       "current_speed_mph": 64.4
     },
     {
       "node_id": 217,
-      "node_name": "NW of Downtown San Jose (sensor 402365, 37.368, -121.908)",
+      "node_name": "San Jose Airport / US-101 junction (sensor 402365, 37.368, -121.908)",
       "importance": 0.8523,
       "current_speed_mph": 68.9
     },
     {
       "node_id": 228,
-      "node_name": "SW of Downtown San Jose (sensor 403329, 37.270, -121.947)",
+      "node_name": "Willow Glen / Cambrian (sensor 403329, 37.270, -121.947)",
       "importance": 0.8499,
       "current_speed_mph": 69.5
     },
     {
       "node_id": 34,
-      "node_name": "SW of Downtown San Jose (sensor 400221, 37.294, -121.938)",
+      "node_name": "Willow Glen / Cambrian (sensor 400221, 37.294, -121.938)",
       "importance": 0.8483,
       "current_speed_mph": 69.7
     },
     {
       "node_id": 210,
-      "node_name": "NW of Downtown San Jose (sensor 402289, 37.419, -121.914)",
+      "node_name": "North San Jose / Alviso (sensor 402289, 37.419, -121.914)",
       "importance": 0.8455,
       "current_speed_mph": 65.0
     }

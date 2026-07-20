@@ -6,7 +6,7 @@
   },
   "prediction": {
     "node_id": 152,
-    "node_name": "SE of Downtown San Jose (sensor 401457, 37.280, -121.865)",
+    "node_name": "Evergreen / Silver Creek (sensor 401457, 37.280, -121.865)",
     "predicted_speed_mph": 59.02,
     "horizon_minutes": 30,
     "current_speed_mph": 58.4
@@ -14,49 +14,49 @@
   "top_nodes": [
     {
       "node_id": 156,
-      "node_name": "NW of Downtown San Jose (sensor 401507, 37.413, -122.080)",
+      "node_name": "Mountain View / SR-237 west (sensor 401507, 37.413, -122.080)",
       "importance": 0.4677,
       "current_speed_mph": 69.7
     },
     {
       "node_id": 99,
-      "node_name": "SW of Downtown San Jose (sensor 400714, 37.317, -121.954)",
+      "node_name": "Willow Glen / Cambrian (sensor 400714, 37.317, -121.954)",
       "importance": 0.3755,
       "current_speed_mph": 70.6
     },
     {
       "node_id": 65,
-      "node_name": "SE of Downtown San Jose (sensor 400457, 37.277, -121.864)",
+      "node_name": "Evergreen / Silver Creek (sensor 400457, 37.277, -121.864)",
       "importance": 0.3259,
       "current_speed_mph": 67.1
     },
     {
       "node_id": 245,
-      "node_name": "SE of Downtown San Jose (sensor 404462, 37.273, -121.863)",
+      "node_name": "Blossom Valley / South San Jose (sensor 404462, 37.273, -121.863)",
       "importance": 0.3192,
       "current_speed_mph": 66.8
     },
     {
       "node_id": 133,
-      "node_name": "NW of Downtown San Jose (sensor 400970, 37.410, -121.996)",
+      "node_name": "Santa Clara / Great America (sensor 400970, 37.410, -121.996)",
       "importance": 0.3062,
       "current_speed_mph": 69.5
     },
     {
       "node_id": 253,
-      "node_name": "NW of Downtown San Jose (sensor 404753, 37.365, -121.903)",
+      "node_name": "San Jose Airport / US-101 junction (sensor 404753, 37.365, -121.903)",
       "importance": 0.2885,
       "current_speed_mph": 71.3
     },
     {
       "node_id": 28,
-      "node_name": "SE of Downtown San Jose (sensor 400178, 37.277, -121.864)",
+      "node_name": "Evergreen / Silver Creek (sensor 400178, 37.277, -121.864)",
       "importance": 0.2877,
       "current_speed_mph": 66.0
     },
     {
       "node_id": 122,
-      "node_name": "NW of Downtown San Jose (sensor 400904, 37.395, -122.011)",
+      "node_name": "Sunnyvale / Lawrence Expressway (sensor 400904, 37.395, -122.011)",
       "importance": 0.28,
       "current_speed_mph": 68.7
     }

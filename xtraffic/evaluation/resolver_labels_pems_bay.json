@@ -1,0 +1,135 @@
+{
+  "_note": "Hand-labeled resolver ground truth for PEMS-BAY \u2014 the Santa Clara Valley analogue of resolver_labels.json (Phase-5 gate, >= 90%). Added in the Phase-11 correction. Until now the resolver was hand-validated on METR-LA (30 cases) and power_grid (22) ONLY, so the 96.7% figure quoted in CLAUDE.md never covered PEMS-BAY \u2014 the very cell that produced the condition-B outlier. `expected` is one of: a region label exactly as _PEMS_BAY_REGIONS emits it, lowercased; 'sensor:<id>' meaning 'resolves to exactly that sensor'; or null meaning 'must NOT resolve'. Labeled from Santa Clara Valley geography BEFORE measuring, so this is ground truth the resolver is scored against, not a description of what it happens to do.",
+  "_why_the_nulls_matter": "Half the value here is the REFUSALS, and they are chosen from the two failure modes the Phase-11 investigation actually found. (a) FOOTPRINT: PEMS-BAY holds zero sensors within 5 km of San Francisco, Oakland, Berkeley, Fremont or Palo Alto, so those names must NOT resolve \u2014 if they did, an LLM inventing Bay Area geography would score as grounded. (b) STALE COMPASS LABELS: the old degenerate names ('NW of Downtown San Jose') are directions, not places; they must not collapse onto 'Downtown San Jose', which is the mislabeling that made a citation of the target's own sector count as a causal hit.",
+  "city": "pems_bay",
+  "cases": [
+    {
+      "location": "sensor 400970",
+      "expected": "sensor:400970"
+    },
+    {
+      "location": "Santa Clara / Great America (sensor 400970, 37.410, -121.996)",
+      "expected": "sensor:400970"
+    },
+    {
+      "location": "Downtown San Jose (sensor 400664, 37.303, -121.878)",
+      "expected": "sensor:400664"
+    },
+    {
+      "location": "sensor 407204",
+      "expected": "sensor:407204"
+    },
+    {
+      "location": "Downtown San Jose",
+      "expected": "downtown san jose"
+    },
+    {
+      "location": "downtown san jose",
+      "expected": "downtown san jose"
+    },
+    {
+      "location": "Berryessa / East San Jose",
+      "expected": "berryessa / east san jose"
+    },
+    {
+      "location": "Willow Glen / Cambrian",
+      "expected": "willow glen / cambrian"
+    },
+    {
+      "location": "Blossom Valley / South San Jose",
+      "expected": "blossom valley / south san jose"
+    },
+    {
+      "location": "Mountain View / SR-237 west",
+      "expected": "mountain view / sr-237 west"
+    },
+    {
+      "location": "Cupertino / I-280 corridor",
+      "expected": "cupertino / i-280 corridor"
+    },
+    {
+      "location": "San Jose Airport / US-101 junction",
+      "expected": "san jose airport / us-101 junction"
+    },
+    {
+      "location": "Sunnyvale",
+      "expected": "sunnyvale / lawrence expressway"
+    },
+    {
+      "location": "Cupertino",
+      "expected": "cupertino / i-280 corridor"
+    },
+    {
+      "location": "Milpitas",
+      "expected": "milpitas / i-880 corridor"
+    },
+    {
+      "location": "Mountain View",
+      "expected": "mountain view / sr-237 west"
+    },
+    {
+      "location": "Santa Clara",
+      "expected": "santa clara / great america"
+    },
+    {
+      "location": "Levi's Stadium",
+      "expected": "santa clara / great america"
+    },
+    {
+      "location": "Willow Glen",
+      "expected": "willow glen / cambrian"
+    },
+    {
+      "location": "the Berryessa area",
+      "expected": "berryessa / east san jose"
+    },
+    {
+      "location": "Los Gatos",
+      "expected": "campbell / los gatos sr-17"
+    },
+    {
+      "location": "NW of Downtown San Jose",
+      "expected": null
+    },
+    {
+      "location": "SE of Downtown San Jose",
+      "expected": null
+    },
+    {
+      "location": "Palo Alto",
+      "expected": null
+    },
+    {
+      "location": "Oakland",
+      "expected": null
+    },
+    {
+      "location": "Berkeley",
+      "expected": null
+    },
+    {
+      "location": "San Francisco",
+      "expected": null
+    },
+    {
+      "location": "Fremont",
+      "expected": null
+    },
+    {
+      "location": "the Bay Bridge",
+      "expected": null
+    },
+    {
+      "location": "Downtown LA",
+      "expected": null
+    },
+    {
+      "location": "sensor 999999",
+      "expected": null
+    },
+    {
+      "location": "an unspecified freeway segment",
+      "expected": null
+    }
+  ]
+}

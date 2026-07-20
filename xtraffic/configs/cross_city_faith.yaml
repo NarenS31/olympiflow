@@ -43,6 +43,18 @@ conditions:
   primary: [A, B, C]     # full study on the primary model (A/C vs B is the story)
   second: [A, B]         # the second model only needs A vs B (the hallucination gap)
 
+# CHANCE BASELINES (Phase-11 correction; the traffic analogue of Phase 19's
+# RANDOM_bus / RANDOM_zone rows). A citer that draws locations UNIFORMLY, with no
+# model and no explanation, still scores non-zero under this metric — because
+# region-level credit gives a coarse citation the whole region's node set. Without
+# these rows, "A scored F1 0.86" is uninterpretable: the graphs differ in size
+# (207 / 325 / 1020 nodes) and in region granularity, so the same F1 means
+# different things per city and the cells are NOT comparable to each other.
+#   node   -> draw from the full rendered sensor names  (precise citations)
+#   region -> draw from the region labels               (coarse citations)
+random_baselines: [node, region]
+random_draws: 200        # uniform draws per scenario per baseline -> its expectation
+
 explainer:
   epochs: 200            # GNNExplainer mask-optimisation steps (Phase-3 default)
   confidence_runs: 5     # reruns for explanation_confidence (Phase-3 default)
@@ -53,4 +65,11 @@ output:
   tex: evaluation/paper/table_cross_city_faith.tex
   # Reuse the committed Phase-5 llama3.1 METR-LA summary for that one cell instead
   # of recomputing ~93 scenarios we already have logged.
-  reuse_phase5_metr_la: true
+  #
+  # TURNED OFF by the Phase-11 correction (FLAGGED). The committed Phase-5 summary
+  # was scored under the OLD resolver, which discarded the sensor id inside a
+  # rendered node name and awarded region-level credit instead (recall inflated
+  # ~+0.2). Reusing it would mix two different scoring RULES in one master table,
+  # which is worse than either rule alone. Recompute this cell so all six share
+  # one rule. Turn back on only once the Phase-5 study itself has been rerun.
+  reuse_phase5_metr_la: false

@@ -1,0 +1,112 @@
+{
+  "meta": {
+    "city": "pems_bay",
+    "timestamp": "test#4692 @ 00:50",
+    "model_checkpoint": "pems_bay_zero_shot.pt"
+  },
+  "prediction": {
+    "node_id": 152,
+    "node_name": "Evergreen / Silver Creek (sensor 401457, 37.280, -121.865)",
+    "predicted_speed_mph": 59.02,
+    "horizon_minutes": 30,
+    "current_speed_mph": 58.4
+  },
+  "top_nodes": [
+    {
+      "node_id": 59,
+      "node_name": "Blossom Valley / South San Jose (sensor 400418, 37.292, -121.872)",
+      "importance": 0.5482,
+      "current_speed_mph": 67.5
+    },
+    {
+      "node_id": 69,
+      "node_name": "Willow Glen / Cambrian (sensor 400485, 37.254, -121.949)",
+      "importance": 0.5265,
+      "current_speed_mph": 63.2
+    },
+    {
+      "node_id": 275,
+      "node_name": "Milpitas / I-880 corridor (sensor 407185, 37.421, -121.882)",
+      "importance": 0.5251,
+      "current_speed_mph": 67.1
+    },
+    {
+      "node_id": 324,
+      "node_name": "Downtown San Jose (sensor 414694, 37.315, -121.913)",
+      "importance": 0.5231,
+      "current_speed_mph": 67.8
+    },
+    {
+      "node_id": 45,
+      "node_name": "Santa Clara / Great America (sensor 400274, 37.410, -121.996)",
+      "importance": 0.5207,
+      "current_speed_mph": 66.7
+    },
+    {
+      "node_id": 89,
+      "node_name": "Berryessa / East San Jose (sensor 400665, 37.341, -121.849)",
+      "importance": 0.5204,
+      "current_speed_mph": 67.6
+    },
+    {
+      "node_id": 156,
+      "node_name": "Mountain View / SR-237 west (sensor 401507, 37.413, -122.080)",
+      "importance": 0.5193,
+      "current_speed_mph": 69.7
+    },
+    {
+      "node_id": 271,
+      "node_name": "Berryessa / East San Jose (sensor 407179, 37.369, -121.847)",
+      "importance": 0.5148,
+      "current_speed_mph": 67.0
+    }
+  ],
+  "top_edges": [
+    {
+      "from_id": 183,
+      "to_id": 156,
+      "importance": 0.5971
+    },
+    {
+      "from_id": 291,
+      "to_id": 156,
+      "importance": 0.5677
+    },
+    {
+      "from_id": 152,
+      "to_id": 152,
+      "importance": 0.5621
+    },
+    {
+      "from_id": 241,
+      "to_id": 152,
+      "importance": 0.5617
+    },
+    {
+      "from_id": 288,
+      "to_id": 156,
+      "importance": 0.5514
+    },
+    {
+      "from_id": 27,
+      "to_id": 156,
+      "importance": 0.545
+    },
+    {
+      "from_id": 69,
+      "to_id": 94,
+      "importance": 0.5449
+    },
+    {
+      "from_id": 140,
+      "to_id": 152,
+      "importance": 0.5416
+    }
+  ],
+  "propagation_path": [
+    59,
+    152
+  ],
+  "propagation_lag_minutes": 0.0,
+  "explanation_confidence": 0.1429
+}

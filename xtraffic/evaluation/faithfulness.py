@@ -184,6 +184,46 @@ _GEO_ALIASES: List[Tuple[str, str]] = [
     ("inglewood", "inglewood / lax"),
     ("lax", "inglewood / lax"),
     ("long beach", "long beach corridor"),
+    # --- Phase 11 correction: Santa Clara Valley (PEMS-BAY) ------------------
+    # WHY: METR-LA had a rung-4 gazetteer and PEMS-BAY had none, so PEMS-BAY
+    # citations were resolved more STRICTLY than METR-LA ones — an asymmetry that
+    # confounds the very cross-city comparison this study makes. These restore
+    # parity.
+    # SAFETY: every alias below maps to a region that exists ONLY in
+    # _PEMS_BAY_REGIONS, and rung 4 fires only when the mapped region is present
+    # in THIS city's table ("reg in table.region_to_nodes"). So none of these can
+    # change METR-LA or Chicago resolution — verified by verify_traffic_unchanged.
+    # Deliberately NOT added: a bare "san jose" or "downtown" alias. "downtown"
+    # already maps to "downtown la" and a bare city name is not evidence of WHICH
+    # part of a 325-sensor network is meant — guessing there is precisely the
+    # over-generous resolution that produced the artifact this phase corrects.
+    ("san jose airport", "san jose airport / us-101 junction"),
+    ("downtown san jose", "downtown san jose"),
+    # NOTE: aliases are matched against the NORMALISED citation, which strips
+    # apostrophes, so "levi's stadium" is spelled here as _normalize emits it.
+    ("levi s stadium", "santa clara / great america"),
+    ("levis stadium", "santa clara / great america"),
+    ("great america", "santa clara / great america"),
+    ("santa clara", "santa clara / great america"),
+    ("alviso", "north san jose / alviso"),
+    ("north san jose", "north san jose / alviso"),
+    ("milpitas", "milpitas / i-880 corridor"),
+    ("berryessa", "berryessa / east san jose"),
+    ("east san jose", "berryessa / east san jose"),
+    ("evergreen", "evergreen / silver creek"),
+    ("silver creek", "evergreen / silver creek"),
+    ("blossom valley", "blossom valley / south san jose"),
+    ("south san jose", "blossom valley / south san jose"),
+    ("willow glen", "willow glen / cambrian"),
+    ("cambrian", "willow glen / cambrian"),
+    ("stevens creek", "west san jose / stevens creek"),
+    ("west san jose", "west san jose / stevens creek"),
+    ("sunnyvale", "sunnyvale / lawrence expressway"),
+    ("lawrence expressway", "sunnyvale / lawrence expressway"),
+    ("mountain view", "mountain view / sr-237 west"),
+    ("cupertino", "cupertino / i-280 corridor"),
+    ("campbell", "campbell / los gatos sr-17"),
+    ("los gatos", "campbell / los gatos sr-17"),
 ]
 
 
@@ -280,13 +320,41 @@ def resolve_location(location: str, table: NodeTable) -> Resolution:
     if not table.geo:
         return _resolve_non_geographic(location, table)
 
+    # Rung 0 (Phase-11 CORRECTION — FLAGGED, this CHANGES committed Phase-5/11/12/
+    # 13/15b/16 numbers and every affected cell is being rerun).
+    #
+    # THE BUG: `_normalize` strips parentheticals, and a traffic node's identity
+    # lives INSIDE one — "Downtown LA (sensor 773869, 34.045, -118.240)". The old
+    # rung 1 scanned the NORMALISED text, so the id was already gone and the
+    # citation fell through to rung 2 and took REGION-level credit instead.
+    # Measured on PEMS-BAY condition A: 72% of citations name an explicit sensor
+    # (the LLM copies the rendered name, exactly as the prompt asks), and scoring
+    # them as regions inflated RECALL by +0.206 (0.544 -> 0.750) because ONE
+    # full-name citation was credited with EVERY top-k node in that sensor's
+    # region. Precision was unaffected on that sample (all 57 named sensors were
+    # genuinely in top-k) — this is a recall-side correction.
+    #
+    # Phase 19 already fixed exactly this for the power-grid ladder (see
+    # _resolve_non_geographic rung 1 and its comment); the traffic ladder never
+    # got the same treatment. This restores parity between the two domains.
+    #
+    # SAFETY — why the literal unit word is required, not a bare number: Chicago
+    # segment ids are 1-4 digits and 842 of the 1020 collide with the node-INDEX
+    # range, so matching a bare integer (or the word "node", as in the LLM's
+    # "(sensor 400581, node_id 80)") would resolve to the wrong segment. Requiring
+    # "sensor"/"segment" immediately before the digits makes that impossible.
+    raw = (location or "").lower()
+    m = re.search(r"\b(?:sensor|segment)s?\s*#?\s*(\d{1,7})\b", raw)
+    if m and m.group(1) in table.sid_to_node:
+        nid = table.sid_to_node[m.group(1)]
+        return Resolution({nid}, "exact_sensor", matched="sensor " + m.group(1))
+
     norm = _normalize(location)
     if not norm:
         return Resolution(set(), "unresolved")
 
-    # Rung 1 — explicit sensor id ("sensor 772167" / "node 197" won't appear as a
-    # sensor id but a bare sensor number might). Match any 4-6 digit token that
-    # is a known sensor id.
+    # Rung 1 — bare sensor number with no unit word ("772167"). Unchanged from
+    # Phase 5; the 4-digit floor is what keeps it off Chicago's short segment ids.
     for tok in re.findall(r"\d{4,7}", norm):
         if tok in table.sid_to_node:
             nid = table.sid_to_node[tok]
@@ -297,23 +365,39 @@ def resolve_location(location: str, table: NodeTable) -> Resolution:
         return Resolution(set(table.region_to_nodes[norm]), "exact_region",
                           matched=norm)
 
+    # Phase-11 CORRECTION (FLAGGED) — DIRECTIONAL citations must not collapse onto
+    # the place they are relative to. "NW of Downtown San Jose" is explicitly NOT
+    # Downtown San Jose, yet _ratio("nw of downtown san jose", "downtown san jose")
+    # clears the 82 threshold, and the "downtown san jose" gazetteer alias is a
+    # substring of it. Both rungs would therefore hand a vague direction the full
+    # node set of a real region — the same over-generous credit that produced the
+    # PEMS-BAY outlier.
+    #
+    # This guard is SAFE for METR-LA, where compass strings ARE legitimate region
+    # labels ("NE of Downtown LA" holds 26 sensors): those match rung 2 EXACTLY and
+    # have already returned above. Only short compass tokens are matched, so a
+    # spelled-out "northeast of Downtown LA" still reaches the fuzzy rung.
+    is_directional = re.match(r"^(?:n|s|e|w|ne|nw|se|sw|central)\s+of\s+", norm)
+
     # Rung 3 — fuzzy match against region labels. Handles "glendale burbank" vs
     # "glendale / burbank", "san fernando" vs "san fernando valley", etc.
-    best_reg, best_score = None, 0.0
-    for reg in table.regions:
-        s = _ratio(norm, reg)
-        if s > best_score:
-            best_reg, best_score = reg, s
-    if best_reg is not None and best_score >= FUZZY_THRESHOLD:
-        return Resolution(set(table.region_to_nodes[best_reg]), "fuzzy",
-                          matched=best_reg, score=best_score)
+    if not is_directional:
+        best_reg, best_score = None, 0.0
+        for reg in table.regions:
+            s = _ratio(norm, reg)
+            if s > best_score:
+                best_reg, best_score = reg, s
+        if best_reg is not None and best_score >= FUZZY_THRESHOLD:
+            return Resolution(set(table.region_to_nodes[best_reg]), "fuzzy",
+                              matched=best_reg, score=best_score)
 
-    # Rung 4 — geographic gazetteer. Free-text directions/landmarks that are not
-    # region labels. Longest alias first so "east los angeles" wins over "east".
-    for alias, reg in sorted(_GEO_ALIASES, key=lambda kv: -len(kv[0])):
-        if alias in norm and reg in table.region_to_nodes:
-            return Resolution(set(table.region_to_nodes[reg]), "geographic",
-                              matched=alias + "->" + reg)
+        # Rung 4 — geographic gazetteer. Free-text directions/landmarks that are
+        # not region labels. Longest alias first so "east los angeles" wins over
+        # "east".
+        for alias, reg in sorted(_GEO_ALIASES, key=lambda kv: -len(kv[0])):
+            if alias in norm and reg in table.region_to_nodes:
+                return Resolution(set(table.region_to_nodes[reg]), "geographic",
+                                  matched=alias + "->" + reg)
 
     return Resolution(set(), "unresolved")
 

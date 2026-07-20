@@ -6,7 +6,7 @@
   },
   "prediction": {
     "node_id": 80,
-    "node_name": "NW of Downtown San Jose (sensor 400581, 37.403, -122.027)",
+    "node_name": "Sunnyvale / Lawrence Expressway (sensor 400581, 37.403, -122.027)",
     "predicted_speed_mph": 65.86,
     "horizon_minutes": 30,
     "current_speed_mph": 61.8
@@ -14,49 +14,49 @@
   "top_nodes": [
     {
       "node_id": 286,
-      "node_name": "W of Downtown San Jose (sensor 407321, 37.334, -122.057)",
+      "node_name": "Cupertino / I-280 corridor (sensor 407321, 37.334, -122.057)",
       "importance": 0.5835,
       "current_speed_mph": 68.5
     },
     {
       "node_id": 24,
-      "node_name": "E of Downtown San Jose (sensor 400160, 37.348, -121.861)",
+      "node_name": "Berryessa / East San Jose (sensor 400160, 37.348, -121.861)",
       "importance": 0.5827,
       "current_speed_mph": 69.7
     },
     {
       "node_id": 33,
-      "node_name": "SW of Downtown San Jose (sensor 400213, 37.259, -121.967)",
+      "node_name": "Campbell / Los Gatos SR-17 (sensor 400213, 37.259, -121.967)",
       "importance": 0.5764,
       "current_speed_mph": 69.5
     },
     {
       "node_id": 79,
-      "node_name": "NW of Downtown San Jose (sensor 400567, 37.419, -121.963)",
+      "node_name": "Santa Clara / Great America (sensor 400567, 37.419, -121.963)",
       "importance": 0.5756,
       "current_speed_mph": 70.0
     },
     {
       "node_id": 311,
-      "node_name": "SW of Downtown San Jose (sensor 407711, 37.317, -121.942)",
+      "node_name": "Willow Glen / Cambrian (sensor 407711, 37.317, -121.942)",
       "importance": 0.57,
       "current_speed_mph": 69.2
     },
     {
       "node_id": 52,
-      "node_name": "SW of Downtown San Jose (sensor 400336, 37.251, -121.928)",
+      "node_name": "Willow Glen / Cambrian (sensor 400336, 37.251, -121.928)",
       "importance": 0.5673,
       "current_speed_mph": 70.3
     },
     {
       "node_id": 193,
-      "node_name": "central of Downtown San Jose (sensor 402059, 37.337, -121.898)",
+      "node_name": "Downtown San Jose (sensor 402059, 37.337, -121.898)",
       "importance": 0.565,
       "current_speed_mph": 70.3
     },
     {
       "node_id": 299,
-      "node_name": "NW of Downtown San Jose (sensor 407348, 37.384, -122.068)",
+      "node_name": "Mountain View / SR-237 west (sensor 407348, 37.384, -122.068)",
       "importance": 0.5607,
       "current_speed_mph": 68.5
     }

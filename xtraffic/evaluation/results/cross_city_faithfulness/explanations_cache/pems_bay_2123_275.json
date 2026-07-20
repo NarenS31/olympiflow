@@ -6,7 +6,7 @@
   },
   "prediction": {
     "node_id": 275,
-    "node_name": "N of Downtown San Jose (sensor 407185, 37.421, -121.882)",
+    "node_name": "Milpitas / I-880 corridor (sensor 407185, 37.421, -121.882)",
     "predicted_speed_mph": 64.93,
     "horizon_minutes": 30,
     "current_speed_mph": 63.8
@@ -14,49 +14,49 @@
   "top_nodes": [
     {
       "node_id": 279,
-      "node_name": "NE of Downtown San Jose (sensor 407191, 37.408, -121.879)",
+      "node_name": "Milpitas / I-880 corridor (sensor 407191, 37.408, -121.879)",
       "importance": 0.2672,
       "current_speed_mph": 60.9
     },
     {
       "node_id": 274,
-      "node_name": "N of Downtown San Jose (sensor 407184, 37.427, -121.885)",
+      "node_name": "Milpitas / I-880 corridor (sensor 407184, 37.427, -121.885)",
       "importance": 0.1712,
       "current_speed_mph": 66.9
     },
     {
       "node_id": 278,
-      "node_name": "N of Downtown San Jose (sensor 407190, 37.413, -121.880)",
+      "node_name": "Milpitas / I-880 corridor (sensor 407190, 37.413, -121.880)",
       "importance": 0.1711,
       "current_speed_mph": 66.6
     },
     {
       "node_id": 69,
-      "node_name": "SW of Downtown San Jose (sensor 400485, 37.254, -121.949)",
+      "node_name": "Willow Glen / Cambrian (sensor 400485, 37.254, -121.949)",
       "importance": 0.1481,
       "current_speed_mph": 62.8
     },
     {
       "node_id": 270,
-      "node_name": "NE of Downtown San Jose (sensor 407177, 37.360, -121.841)",
+      "node_name": "Berryessa / East San Jose (sensor 407177, 37.360, -121.841)",
       "importance": 0.1458,
       "current_speed_mph": 65.1
     },
     {
       "node_id": 134,
-      "node_name": "NW of Downtown San Jose (sensor 400971, 37.369, -121.901)",
+      "node_name": "San Jose Airport / US-101 junction (sensor 400971, 37.369, -121.901)",
       "importance": 0.1443,
       "current_speed_mph": 63.2
     },
     {
       "node_id": 23,
-      "node_name": "NW of Downtown San Jose (sensor 400158, 37.421, -121.937)",
+      "node_name": "North San Jose / Alviso (sensor 400158, 37.421, -121.937)",
       "importance": 0.1416,
       "current_speed_mph": 66.5
     },
     {
       "node_id": 318,
-      "node_name": "NW of Downtown San Jose (sensor 409529, 37.367, -121.922)",
+      "node_name": "San Jose Airport / US-101 junction (sensor 409529, 37.367, -121.922)",
       "importance": 0.1413,
       "current_speed_mph": 62.6
     }

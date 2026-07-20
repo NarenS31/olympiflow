@@ -6,7 +6,7 @@
   },
   "prediction": {
     "node_id": 303,
-    "node_name": "NW of Downtown San Jose (sensor 407361, 37.363, -122.063)",
+    "node_name": "Mountain View / SR-237 west (sensor 407361, 37.363, -122.063)",
     "predicted_speed_mph": 54.01,
     "horizon_minutes": 30,
     "current_speed_mph": 41.4
@@ -14,49 +14,49 @@
   "top_nodes": [
     {
       "node_id": 250,
-      "node_name": "NW of Downtown San Jose (sensor 404585, 37.407, -122.010)",
+      "node_name": "Sunnyvale / Lawrence Expressway (sensor 404585, 37.407, -122.010)",
       "importance": 0.7727,
       "current_speed_mph": 69.8
     },
     {
       "node_id": 232,
-      "node_name": "S of Downtown San Jose (sensor 403406, 37.326, -121.883)",
+      "node_name": "Downtown San Jose (sensor 403406, 37.326, -121.883)",
       "importance": 0.7544,
       "current_speed_mph": 69.7
     },
     {
       "node_id": 278,
-      "node_name": "N of Downtown San Jose (sensor 407190, 37.413, -121.880)",
+      "node_name": "Milpitas / I-880 corridor (sensor 407190, 37.413, -121.880)",
       "importance": 0.7496,
       "current_speed_mph": 70.5
     },
     {
       "node_id": 59,
-      "node_name": "SE of Downtown San Jose (sensor 400418, 37.292, -121.872)",
+      "node_name": "Blossom Valley / South San Jose (sensor 400418, 37.292, -121.872)",
       "importance": 0.7485,
       "current_speed_mph": 68.9
     },
     {
       "node_id": 312,
-      "node_name": "SW of Downtown San Jose (sensor 408907, 37.322, -121.940)",
+      "node_name": "West San Jose / Stevens Creek (sensor 408907, 37.322, -121.940)",
       "importance": 0.7383,
       "current_speed_mph": 69.7
     },
     {
       "node_id": 122,
-      "node_name": "NW of Downtown San Jose (sensor 400904, 37.395, -122.011)",
+      "node_name": "Sunnyvale / Lawrence Expressway (sensor 400904, 37.395, -122.011)",
       "importance": 0.7369,
       "current_speed_mph": 69.4
     },
     {
       "node_id": 15,
-      "node_name": "SW of Downtown San Jose (sensor 400097, 37.279, -122.011)",
+      "node_name": "Campbell / Los Gatos SR-17 (sensor 400097, 37.279, -122.011)",
       "importance": 0.7321,
       "current_speed_mph": 69.4
     },
     {
       "node_id": 275,
-      "node_name": "N of Downtown San Jose (sensor 407185, 37.421, -121.882)",
+      "node_name": "Milpitas / I-880 corridor (sensor 407185, 37.421, -121.882)",
       "importance": 0.732,
       "current_speed_mph": 68.2
     }

@@ -1,0 +1,89 @@
+{
+  "cities": [
+    "metr_la",
+    "pems_bay",
+    "chicago"
+  ],
+  "models": [
+    "llama3.1:8b",
+    "mock2"
+  ],
+  "cells": [
+    {
+      "city": "metr_la",
+      "model": "llama3.1:8b",
+      "status": "ok",
+      "a_halluc": 0.0,
+      "b_halluc": 1.0,
+      "a_f1": 0.4,
+      "b_f1": 0.0,
+      "f1_gap": 0.4,
+      "n": 3,
+      "gap_holds": true
+    },
+    {
+      "city": "metr_la",
+      "model": "mock2",
+      "status": "ok",
+      "a_halluc": 0.0,
+      "b_halluc": 1.0,
+      "a_f1": 0.4,
+      "b_f1": 0.0,
+      "f1_gap": 0.4,
+      "n": 3,
+      "gap_holds": true
+    },
+    {
+      "city": "pems_bay",
+      "model": "llama3.1:8b",
+      "status": "ok",
+      "a_halluc": 0.0,
+      "b_halluc": 1.0,
+      "a_f1": 0.4,
+      "b_f1": 0.0,
+      "f1_gap": 0.4,
+      "n": 3,
+      "gap_holds": true
+    },
+    {
+      "city": "pems_bay",
+      "model": "mock2",
+      "status": "ok",
+      "a_halluc": 0.0,
+      "b_halluc": 1.0,
+      "a_f1": 0.4,
+      "b_f1": 0.0,
+      "f1_gap": 0.4,
+      "n": 3,
+      "gap_holds": true
+    },
+    {
+      "city": "chicago",
+      "model": "llama3.1:8b",
+      "status": "ok",
+      "a_halluc": 0.0,
+      "b_halluc": 1.0,
+      "a_f1": 0.4,
+      "b_f1": 0.0,
+      "f1_gap": 0.4,
+      "n": 3,
+      "gap_holds": true
+    },
+    {
+      "city": "chicago",
+      "model": "mock2",
+      "status": "ok",
+      "a_halluc": 0.0,
+      "b_halluc": 1.0,
+      "a_f1": 0.4,
+      "b_f1": 0.0,
+      "f1_gap": 0.4,
+      "n": 3,
+      "gap_holds": true
+    }
+  ],
+  "n_computed": 6,
+  "n_pending": 0,
+  "hallucination_gap_holds_everywhere": true,
+  "note": "A vs B hallucination gap holds across ALL 6 populated city x model cells"
+}

@@ -6,7 +6,7 @@
   },
   "prediction": {
     "node_id": 55,
-    "node_name": "NW of Downtown San Jose (sensor 400372, 37.385, -121.974)",
+    "node_name": "Santa Clara / Great America (sensor 400372, 37.385, -121.974)",
     "predicted_speed_mph": 66.5,
     "horizon_minutes": 30,
     "current_speed_mph": 12.7
@@ -14,49 +14,49 @@
   "top_nodes": [
     {
       "node_id": 208,
-      "node_name": "NW of Downtown San Jose (sensor 402287, 37.406, -121.910)",
+      "node_name": "North San Jose / Alviso (sensor 402287, 37.406, -121.910)",
       "importance": 0.5525,
       "current_speed_mph": 33.7
     },
     {
       "node_id": 217,
-      "node_name": "NW of Downtown San Jose (sensor 402365, 37.368, -121.908)",
+      "node_name": "San Jose Airport / US-101 junction (sensor 402365, 37.368, -121.908)",
       "importance": 0.5482,
       "current_speed_mph": 23.2
     },
     {
       "node_id": 38,
-      "node_name": "NW of Downtown San Jose (sensor 400238, 37.413, -121.912)",
+      "node_name": "North San Jose / Alviso (sensor 400238, 37.413, -121.912)",
       "importance": 0.5452,
       "current_speed_mph": 28.1
     },
     {
       "node_id": 221,
-      "node_name": "NW of Downtown San Jose (sensor 402369, 37.394, -122.005)",
+      "node_name": "Sunnyvale / Lawrence Expressway (sensor 402369, 37.394, -122.005)",
       "importance": 0.5361,
       "current_speed_mph": 53.3
     },
     {
       "node_id": 20,
-      "node_name": "W of Downtown San Jose (sensor 400147, 37.342, -121.926)",
+      "node_name": "West San Jose / Stevens Creek (sensor 400147, 37.342, -121.926)",
       "importance": 0.5236,
       "current_speed_mph": 34.6
     },
     {
       "node_id": 200,
-      "node_name": "NW of Downtown San Jose (sensor 402120, 37.399, -121.909)",
+      "node_name": "North San Jose / Alviso (sensor 402120, 37.399, -121.909)",
       "importance": 0.523,
       "current_speed_mph": 20.8
     },
     {
       "node_id": 15,
-      "node_name": "SW of Downtown San Jose (sensor 400097, 37.279, -122.011)",
+      "node_name": "Campbell / Los Gatos SR-17 (sensor 400097, 37.279, -122.011)",
       "importance": 0.5122,
       "current_speed_mph": 30.1
     },
     {
       "node_id": 323,
-      "node_name": "S of Downtown San Jose (sensor 414284, 37.323, -121.897)",
+      "node_name": "Downtown San Jose (sensor 414284, 37.323, -121.897)",
       "importance": 0.5099,
       "current_speed_mph": 71.5
     }
