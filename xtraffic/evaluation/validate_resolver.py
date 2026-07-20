@@ -18,6 +18,7 @@ Python 3.9 compatible.
 """
 from __future__ import annotations
 
+import argparse
 import json
 import os
 from typing import Set
@@ -31,15 +32,32 @@ def _expected_set(expected, table: NodeTable) -> Set[int]:
     """Turn a label's `expected` field into the node-id set it implies."""
     if expected is None:
         return set()
-    if isinstance(expected, str) and expected.startswith("sensor:"):
+    # "sensor:<id>" (traffic) or "bus:<id>" (Phase 19 power grid) — both mean
+    # "resolves to exactly this one node". The prefix is just the domain's word
+    # for a node; the lookup is identical.
+    if isinstance(expected, str) and (expected.startswith("sensor:")
+                                      or expected.startswith("bus:")):
         sid = expected.split(":", 1)[1]
         return {table.sid_to_node[sid]} if sid in table.sid_to_node else set()
-    # otherwise it is a region label
+    # otherwise it is a region/zone label
     return set(table.region_to_nodes.get(expected, set()))
 
 
 def main() -> None:
-    labels_path = os.path.join(PKG_ROOT, "evaluation", "resolver_labels.json")
+    # Phase 19 (FLAGGED, default-preserving): --labels lets the SAME validator
+    # gate a second domain's resolver. The default is the METR-LA file, so
+    # `python -m xtraffic.evaluation.validate_resolver` with no arguments behaves
+    # exactly as it did in Phase 5 and still writes resolver_accuracy.json.
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--labels", default=None,
+                    help="path to a resolver-labels JSON (default: METR-LA)")
+    args = ap.parse_args()
+
+    labels_path = args.labels or os.path.join(PKG_ROOT, "evaluation",
+                                              "resolver_labels.json")
+    if not os.path.isabs(labels_path):
+        cand = os.path.join(PKG_ROOT, labels_path)
+        labels_path = cand if os.path.exists(cand) else labels_path
     with open(labels_path) as f:
         spec = json.load(f)
 
@@ -67,7 +85,11 @@ def main() -> None:
     print("GATE (>= 90%): {}".format("PASS" if acc >= 0.90 else "FAIL"))
 
     # Persist for the paper's methods section (CLAUDE.md: results -> JSON+CSV).
-    out = os.path.join(PKG_ROOT, "evaluation", "results", "resolver_accuracy.json")
+    # Non-default label sets write their own file so a power-grid run can never
+    # overwrite the committed Phase-5 METR-LA gate result.
+    suffix = "" if spec.get("city", "metr_la") == "metr_la" else "_" + spec["city"]
+    out = os.path.join(PKG_ROOT, "evaluation", "results",
+                       "resolver_accuracy{}.json".format(suffix))
     with open(out, "w") as f:
         json.dump({"n_cases": len(cases), "n_pass": n_pass, "accuracy": acc,
                    "threshold": 0.90, "passed": acc >= 0.90,

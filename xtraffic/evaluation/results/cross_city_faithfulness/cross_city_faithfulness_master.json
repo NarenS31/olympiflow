@@ -12,36 +12,78 @@
     {
       "city": "metr_la",
       "model": "llama3.1:8b",
-      "status": "PENDING"
+      "status": "ok",
+      "a_halluc": 0.0054,
+      "b_halluc": 0.828,
+      "a_f1": 0.7246,
+      "b_f1": 0.0896,
+      "f1_gap": 0.635,
+      "n": 93,
+      "gap_holds": true
     },
     {
       "city": "metr_la",
       "model": "mistral:7b",
-      "status": "PENDING"
+      "status": "ok",
+      "a_halluc": 0.0,
+      "b_halluc": 0.81,
+      "a_f1": 0.8212,
+      "b_f1": 0.0869,
+      "f1_gap": 0.7343,
+      "n": 93,
+      "gap_holds": true
     },
     {
       "city": "pems_bay",
       "model": "llama3.1:8b",
-      "status": "PENDING"
+      "status": "ok",
+      "a_halluc": 0.0059,
+      "b_halluc": 0.9471,
+      "a_f1": 0.7642,
+      "b_f1": 0.0321,
+      "f1_gap": 0.7321,
+      "n": 85,
+      "gap_holds": true
     },
     {
       "city": "pems_bay",
       "model": "mistral:7b",
-      "status": "PENDING"
+      "status": "ok",
+      "a_halluc": 0.005,
+      "b_halluc": 0.1118,
+      "a_f1": 0.8587,
+      "b_f1": 0.5079,
+      "f1_gap": 0.3508,
+      "n": 85,
+      "gap_holds": false
     },
     {
       "city": "chicago",
       "model": "llama3.1:8b",
-      "status": "PENDING"
+      "status": "ok",
+      "a_halluc": 0.0152,
+      "b_halluc": 1.0,
+      "a_f1": 0.7536,
+      "b_f1": 0.0,
+      "f1_gap": 0.7536,
+      "n": 33,
+      "gap_holds": true
     },
     {
       "city": "chicago",
       "model": "mistral:7b",
-      "status": "PENDING"
+      "status": "ok",
+      "a_halluc": 0.0,
+      "b_halluc": 1.0,
+      "a_f1": 0.7722,
+      "b_f1": 0.0,
+      "f1_gap": 0.7722,
+      "n": 33,
+      "gap_holds": true
     }
   ],
-  "n_computed": 0,
-  "n_pending": 6,
+  "n_computed": 6,
+  "n_pending": 0,
   "hallucination_gap_holds_everywhere": false,
-  "note": "no cells computed yet (6 PENDING) -- run the full study to populate the table"
+  "note": "gap does NOT hold in some populated cell -- inspect the failing cells (gap_holds=false)"
 }

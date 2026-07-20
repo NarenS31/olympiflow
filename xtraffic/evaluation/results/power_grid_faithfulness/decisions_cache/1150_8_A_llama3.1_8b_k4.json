@@ -1,0 +1,26 @@
+{
+  "sample_index": 1150,
+  "target_bus": 9,
+  "tod_band": "pm_rush",
+  "severity": "severe",
+  "condition": "A",
+  "advisory_error": "",
+  "n_cited_causes": 4,
+  "n_topk": 4,
+  "cited_locations": [
+    "LV load pocket (bus 14, load bus, 0.208 kV)",
+    "MV step-down tier (bus 7, passive bus, 14 kV)",
+    "HV transmission core (bus 4, load bus, 135 kV)",
+    "LV load pocket (bus 10, load bus, 0.208 kV)"
+  ],
+  "resolution_methods": [
+    "exact_bus",
+    "exact_bus",
+    "exact_bus",
+    "exact_bus"
+  ],
+  "cause_precision": 1.0,
+  "cause_recall": 1.0,
+  "faithfulness_f1": 1.0,
+  "hallucination_rate": 0.0
+}

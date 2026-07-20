@@ -1,0 +1,112 @@
+{
+  "meta": {
+    "city": "chicago",
+    "timestamp": "chicago-pooled#39 @ 20:15",
+    "model_checkpoint": "chicago_zero_shot.pt"
+  },
+  "prediction": {
+    "node_id": 605,
+    "node_name": "The Loop / Downtown (segment 656, 41.876, -87.626)",
+    "predicted_speed_mph": 11.16,
+    "horizon_minutes": 30,
+    "current_speed_mph": 0.0
+  },
+  "top_nodes": [
+    {
+      "node_id": 777,
+      "node_name": "The Loop / Downtown (segment 907, 41.880, -87.624)",
+      "importance": 0.7761,
+      "current_speed_mph": 18.0
+    },
+    {
+      "node_id": 1005,
+      "node_name": "The Loop / Downtown (segment 1295, 41.881, -87.628)",
+      "importance": 0.758,
+      "current_speed_mph": 18.0
+    },
+    {
+      "node_id": 784,
+      "node_name": "The Loop / Downtown (segment 918, 41.872, -87.625)",
+      "importance": 0.754,
+      "current_speed_mph": 22.0
+    },
+    {
+      "node_id": 785,
+      "node_name": "The Loop / Downtown (segment 921, 41.880, -87.625)",
+      "importance": 0.7533,
+      "current_speed_mph": 18.0
+    },
+    {
+      "node_id": 1002,
+      "node_name": "The Loop / Downtown (segment 1292, 41.872, -87.627)",
+      "importance": 0.7463,
+      "current_speed_mph": 17.0
+    },
+    {
+      "node_id": 1003,
+      "node_name": "The Loop / Downtown (segment 1293, 41.872, -87.628)",
+      "importance": 0.7387,
+      "current_speed_mph": 23.0
+    },
+    {
+      "node_id": 1004,
+      "node_name": "The Loop / Downtown (segment 1294, 41.881, -87.628)",
+      "importance": 0.7181,
+      "current_speed_mph": 17.0
+    },
+    {
+      "node_id": 606,
+      "node_name": "The Loop / Downtown (segment 660, 41.876, -87.626)",
+      "importance": 0.7099,
+      "current_speed_mph": 19.0
+    }
+  ],
+  "top_edges": [
+    {
+      "from_id": 606,
+      "to_id": 784,
+      "importance": 0.8126
+    },
+    {
+      "from_id": 606,
+      "to_id": 1002,
+      "importance": 0.812
+    },
+    {
+      "from_id": 605,
+      "to_id": 1002,
+      "importance": 0.8091
+    },
+    {
+      "from_id": 606,
+      "to_id": 776,
+      "importance": 0.8078
+    },
+    {
+      "from_id": 605,
+      "to_id": 1003,
+      "importance": 0.8015
+    },
+    {
+      "from_id": 1002,
+      "to_id": 606,
+      "importance": 0.8005
+    },
+    {
+      "from_id": 605,
+      "to_id": 606,
+      "importance": 0.7979
+    },
+    {
+      "from_id": 605,
+      "to_id": 776,
+      "importance": 0.7964
+    }
+  ],
+  "propagation_path": [
+    777,
+    605
+  ],
+  "propagation_lag_minutes": 0.0,
+  "explanation_confidence": 0.7778
+}

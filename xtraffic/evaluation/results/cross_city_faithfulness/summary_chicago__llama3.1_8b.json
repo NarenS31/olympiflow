@@ -1,0 +1,71 @@
+{
+  "city": "chicago",
+  "model": "llama3.1:8b",
+  "n_scenarios": 33,
+  "conditions": [
+    "A",
+    "B",
+    "C"
+  ],
+  "aggregate": {
+    "A": {
+      "condition": "A",
+      "n": 33,
+      "cause_precision_mean": 0.9848484848484849,
+      "cause_precision_std": 0.08570991287109671,
+      "cause_precision_n": 33,
+      "cause_recall_mean": 0.6439393939393939,
+      "cause_recall_std": 0.2200232686584486,
+      "cause_recall_n": 33,
+      "faithfulness_f1_mean": 0.7536100263372992,
+      "faithfulness_f1_std": 0.15471463105504743,
+      "faithfulness_f1_n": 33,
+      "hallucination_rate_mean": 0.015151515151515152,
+      "hallucination_rate_std": 0.08570991287109671,
+      "hallucination_rate_n": 33,
+      "quantitative_fidelity_mean": 0.7061967602290183,
+      "quantitative_fidelity_std": 0.31442335302407537,
+      "quantitative_fidelity_n": 31
+    },
+    "B": {
+      "condition": "B",
+      "n": 33,
+      "cause_precision_mean": 0.0,
+      "cause_precision_std": 0.0,
+      "cause_precision_n": 33,
+      "cause_recall_mean": 0.0,
+      "cause_recall_std": 0.0,
+      "cause_recall_n": 33,
+      "faithfulness_f1_mean": 0.0,
+      "faithfulness_f1_std": 0.0,
+      "faithfulness_f1_n": 33,
+      "hallucination_rate_mean": 1.0,
+      "hallucination_rate_std": 0.0,
+      "hallucination_rate_n": 33,
+      "quantitative_fidelity_mean": 0.0,
+      "quantitative_fidelity_std": 0.0,
+      "quantitative_fidelity_n": 26
+    },
+    "C": {
+      "condition": "C",
+      "n": 33,
+      "cause_precision_mean": 1.0,
+      "cause_precision_std": 0.0,
+      "cause_precision_n": 33,
+      "cause_recall_mean": 0.6439393939393939,
+      "cause_recall_std": 0.25584310289042855,
+      "cause_recall_n": 33,
+      "faithfulness_f1_mean": 0.7533052805780079,
+      "faithfulness_f1_std": 0.19565698586706542,
+      "faithfulness_f1_n": 33,
+      "hallucination_rate_mean": 0.0,
+      "hallucination_rate_std": 0.0,
+      "hallucination_rate_n": 33,
+      "quantitative_fidelity_mean": 0.6289986922799422,
+      "quantitative_fidelity_std": 0.3352711560667877,
+      "quantitative_fidelity_n": 32
+    }
+  },
+  "seed": 42,
+  "zero_shot": true
+}

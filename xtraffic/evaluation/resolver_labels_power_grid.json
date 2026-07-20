@@ -1,0 +1,31 @@
+{
+  "_note": "Hand-labeled resolver ground truth for the Phase-19 POWER GRID domain — the cross-domain analogue of resolver_labels.json (Phase-5 gate, >= 90%). Each case is a location string an LLM plausibly writes when advising on an IEEE 14-bus explanation, plus the outcome a HUMAN judges correct. `expected` is one of: an electrical ZONE label exactly as node_meta['zones'] emits it, lowercased, meaning 'should resolve to that zone's bus set'; 'bus:<n>' meaning 'should resolve to exactly that bus'; or null meaning 'should NOT resolve to any node'. Labeled from the domain (DIFFERENCES_POWER_GRID.md §2/§6 and kb/power_grid.json) BEFORE measuring, so this is ground truth the resolver is scored against, not a description of what it happens to do.",
+  "_why_the_nulls_matter": "Half the value of this set is the REFUSALS. The faithfulness metric counts an unresolvable citation as a hallucination, so a resolver that cheerfully matches anything would erase condition B's hallucination rate and destroy the result. Cases 15-22 are things the LLM actually said or plausibly says that must NOT resolve: BRANCH names (a line/transformer is an edge, not a node — the metric scores nodes), voltage levels that look like ids, out-of-range bus numbers, and leftover traffic vocabulary.",
+  "city": "power_grid",
+  "cases": [
+    {"location": "bus 14", "expected": "bus:14"},
+    {"location": "Bus 9", "expected": "bus:9"},
+    {"location": "LV load pocket (bus 9, load bus + shunt capacitor, 0.208 kV)", "expected": "bus:9"},
+    {"location": "HV transmission core (bus 4, load bus, 135 kV)", "expected": "bus:4"},
+    {"location": "MV step-down tier (bus 7, passive bus, 14 kV)", "expected": "bus:7"},
+    {"location": "the slack bus, bus 1", "expected": "bus:1"},
+    {"location": "bus  12", "expected": "bus:12"},
+
+    {"location": "HV transmission core", "expected": "hv transmission core"},
+    {"location": "the HV transmission core", "expected": "hv transmission core"},
+    {"location": "LV load pocket", "expected": "lv load pocket"},
+    {"location": "the LV load pocket", "expected": "lv load pocket"},
+    {"location": "MV step-down tier", "expected": "mv step-down tier"},
+    {"location": "the MV step down tier", "expected": "mv step-down tier"},
+    {"location": "load pocket", "expected": "lv load pocket"},
+
+    {"location": "line 13-14", "expected": null},
+    {"location": "transformer 4-9", "expected": null},
+    {"location": "the 5-6 transformer", "expected": null},
+    {"location": "135 kV line", "expected": null},
+    {"location": "the 0.208 kV feeder", "expected": null},
+    {"location": "bus 99", "expected": null},
+    {"location": "Downtown LA", "expected": null},
+    {"location": "the I-10 corridor", "expected": null}
+  ]
+}

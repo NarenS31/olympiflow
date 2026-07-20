@@ -14,7 +14,7 @@ import os
 
 import torch
 
-from ...utils.io_utils import PKG_ROOT
+from ...utils.io_utils import PKG_ROOT, units_for_dataset
 from ...utils.metrics import masked_metrics, per_horizon_metrics
 from .loaders import (build_modality_dict, load_adjacency, load_scaler,
                       make_fusion_loaders)
@@ -80,9 +80,13 @@ def evaluate(checkpoint: str, dataset: str) -> dict:
 
     overall = masked_metrics(preds, trues, scaler)
     horizon = per_horizon_metrics(preds, trues, scaler, tuple(cfg["horizons_steps"]))
+    # Units come from the EVALUATED dataset, not the trained-on one: a METR-LA
+    # checkpoint scored on the power grid produces per-unit voltages, not mph.
+    units = units_for_dataset(dataset)
     result = {"model": "XTrafficSTGNN", "checkpoint": os.path.basename(checkpoint),
               "trained_on": cfg["dataset"], "evaluated_on": dataset,
               "run_name": cfg.get("run_name", cfg["dataset"]),
+              "units": units,
               "use_sidecars": use_sidecars, "overall": overall, "per_horizon": horizon}
 
     res_dir = os.path.join(PKG_ROOT, cfg["results_dir"])
@@ -90,12 +94,15 @@ def evaluate(checkpoint: str, dataset: str) -> dict:
     tag = f"eval_{cfg.get('run_name', cfg['dataset'])}_on_{dataset}"
     with open(os.path.join(res_dir, f"{tag}.json"), "w") as f:
         json.dump(result, f, indent=2)
-    print(f"[eval] {tag}: MAE={overall['mae']:.3f}  RMSE={overall['rmse']:.3f}  "
-          f"MAPE={overall['mape']:.2f}%")
+    # Decimal places follow the unit: 3 d.p. is right for mph (MAE ~3.2) but would
+    # round a per-unit voltage MAE (~0.005) down to near-nothing.
+    p = 3 if units == "mph" else 5
+    print(f"[eval] {tag}: MAE={overall['mae']:.{p}f} {units}  "
+          f"RMSE={overall['rmse']:.{p}f} {units}  MAPE={overall['mape']:.2f}%")
     for h, lab in [(3, "15min"), (6, "30min"), (12, "60min")]:
         if lab in horizon:
-            print(f"       {lab}: MAE={horizon[lab]['mae']:.3f}  "
-                  f"RMSE={horizon[lab]['rmse']:.3f}")
+            print(f"       {lab}: MAE={horizon[lab]['mae']:.{p}f} {units}  "
+                  f"RMSE={horizon[lab]['rmse']:.{p}f} {units}")
     return result
 
 

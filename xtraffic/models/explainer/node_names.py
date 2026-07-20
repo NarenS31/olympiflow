@@ -20,7 +20,7 @@ Python 3.9 compatible.
 """
 from __future__ import annotations
 
-from typing import Dict, List, Tuple
+from typing import Dict, List, Optional, Tuple
 
 # Approximate lat/lon bounding boxes for LA-basin regions the METR-LA sensors
 # cover (min_lat, max_lat, min_lon, max_lon). Order matters: first match wins,
@@ -58,6 +58,56 @@ _CHICAGO_REGIONS: List[Tuple[str, float, float, float, float]] = [
     ("Northwest Side / O'Hare corridor", 41.935, 42.010, -87.870, -87.745),
     ("Far South Side",                   41.660, 41.775, -87.685, -87.590),
 ]
+
+# --- Phase 19: the IEEE 14-bus power grid (NO GEOGRAPHY AT ALL) -------------
+# An IEEE test case is a circuit, not a place: its buses have no lat/lon, so the
+# coordinate -> region-box path above simply does not apply. Cities listed here
+# take a completely separate naming path in NodeNamer and NEVER touch the
+# lat/lon code, which is why METR-LA / PEMS-BAY / Chicago behaviour is provably
+# unchanged by this addition.
+_NO_GEOMETRY_CITIES = {"power_grid"}
+
+# bus number (1-indexed, as the literature numbers them) -> (zone, role).
+#
+# ROLES ARE THE VERIFIED ONES, read out of pandapower's case14 during the Phase-19
+# build — NOT the common shorthand "buses 4-14 are load buses". Three corrections
+# that matter, because a wrong role here would feed the advisor a false fact and
+# this phase exists to measure exactly that kind of error:
+#   * bus 3 hosts a synchronous condenser AND is the LARGEST load in the system
+#     (94.2 MW). Calling it only a condenser hides the thing a planner most needs.
+#   * buses 6 and 8 are synchronous condensers, not plain load buses (bus 6 also
+#     carries 11.2 MW of demand; bus 8 carries none).
+#   * bus 7 is PASSIVE — no demand and no generation. It is a transformer junction.
+# Zones are the voltage tiers the pipeline emits, so these strings line up with
+# the region_tags in models/advisor/kb/power_grid.json.
+_POWER_GRID_BUSES: Dict[int, Tuple[str, str]] = {
+    1:  ("HV transmission core", "slack bus"),
+    2:  ("HV transmission core", "generator bus + load"),
+    3:  ("HV transmission core", "synchronous condenser + load"),
+    4:  ("HV transmission core", "load bus"),
+    5:  ("HV transmission core", "load bus"),
+    6:  ("LV load pocket",       "synchronous condenser + load"),
+    7:  ("MV step-down tier",    "passive bus"),
+    8:  ("MV step-down tier",    "synchronous condenser"),
+    9:  ("LV load pocket",       "load bus + shunt capacitor"),
+    10: ("LV load pocket",       "load bus"),
+    11: ("LV load pocket",       "load bus"),
+    12: ("LV load pocket",       "load bus"),
+    13: ("LV load pocket",       "load bus"),
+    14: ("LV load pocket",       "load bus"),
+}
+
+
+def power_grid_bus_name(bus_number: int) -> str:
+    """Human-readable name for one IEEE 14-bus bus. Offline, deterministic.
+
+    Mirrors the traffic name shape "<region> (<unit> <id>, ...)" so the advisor
+    prompt and the Phase-5 entity resolver see a familiar structure:
+        "LV load pocket (bus 14, load bus)"
+    """
+    zone, role = _POWER_GRID_BUSES.get(bus_number, ("unknown zone", "bus"))
+    return "{} (bus {}, {})".format(zone, bus_number, role)
+
 
 # Per-city centre for the compass fallback (lat, lon, human name).
 _CITY_REF: Dict[str, Tuple[float, float, str]] = {
@@ -100,17 +150,42 @@ class NodeNamer:
 
     def __init__(self, node_meta: Dict):
         self.sensor_ids: List[int] = list(node_meta["sensor_ids"])
-        self.latlon: List[List[float]] = list(node_meta["latlon"])
         # City drives which region table region_for uses (Phase 6 cross-city).
         # Defaults to metr_la so existing Phase 3/4/5 behaviour is unchanged.
         self.city: str = node_meta.get("dataset", "metr_la")
-        # Chicago nodes are road SEGMENTS, not point sensors — label them honestly.
-        self.unit: str = "segment" if self.city == "chicago" else "sensor"
         self._cache: Dict[int, str] = {}
+
+        # Phase 19 — datasets with NO geography take a separate path entirely.
+        # node_meta["latlon"] is null for them, so reading it would crash; and a
+        # region box drawn over LA is meaningless for a circuit. Everything below
+        # the `else` is the ORIGINAL code, untouched, so METR-LA / PEMS-BAY /
+        # Chicago naming is byte-identical to Phase 3/4/5/6/11.
+        self._explicit_names: Optional[List[str]] = None
+        if self.city in _NO_GEOMETRY_CITIES:
+            # Prefer the names the pipeline composed from the live network (they
+            # carry the kV level too); fall back to the static table in this file
+            # so the namer still works with no processed data on disk.
+            names = node_meta.get("names")
+            self._explicit_names = list(names) if names else None
+            self.latlon: List[List[float]] = []
+            self.unit: str = "bus"
+        else:
+            self.latlon = list(node_meta["latlon"])
+            # Chicago nodes are road SEGMENTS, not point sensors — label them honestly.
+            self.unit = "segment" if self.city == "chicago" else "sensor"
 
     def name(self, node_id: int) -> str:
         if node_id in self._cache:
             return self._cache[node_id]
+
+        if self.city in _NO_GEOMETRY_CITIES:
+            if self._explicit_names is not None and node_id < len(self._explicit_names):
+                label = self._explicit_names[node_id]
+            else:
+                label = power_grid_bus_name(int(self.sensor_ids[node_id]))
+            self._cache[node_id] = label
+            return label
+
         lat, lon = self.latlon[node_id]
         sid = self.sensor_ids[node_id]
         region = region_for(lat, lon, self.city)

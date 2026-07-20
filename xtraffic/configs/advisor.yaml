@@ -44,3 +44,7 @@ active_grounding:
 cities:
   metr_la: "la.json"
   chicago: "chicago.json"   # Phase 6: built from the kb/README.md template
+  # Phase 19 cross-domain: not a city at all, but the same contract. The advisor
+  # is domain-agnostic — it consumes an explanation + a context block, and neither
+  # advisor.py nor knowledge_base.py needed a single change to serve a power grid.
+  power_grid: "power_grid.json"

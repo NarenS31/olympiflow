@@ -1,0 +1,26 @@
+{
+  "sample_index": 481,
+  "target_bus": 10,
+  "tod_band": "am_rush",
+  "severity": "moderate",
+  "condition": "A",
+  "advisory_error": "",
+  "n_cited_causes": 4,
+  "n_topk": 4,
+  "cited_locations": [
+    "HV transmission core (bus 4, load bus, 135 kV)",
+    "LV load pocket (bus 14, load bus, 0.208 kV)",
+    "HV transmission core (bus 1, slack bus, 135 kV)",
+    "HV transmission core (bus 5, load bus, 135 kV)"
+  ],
+  "resolution_methods": [
+    "exact_bus",
+    "exact_bus",
+    "exact_bus",
+    "exact_bus"
+  ],
+  "cause_precision": 1.0,
+  "cause_recall": 1.0,
+  "faithfulness_f1": 1.0,
+  "hallucination_rate": 0.0
+}

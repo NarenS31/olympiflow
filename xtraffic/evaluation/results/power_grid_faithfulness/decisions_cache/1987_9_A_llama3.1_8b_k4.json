@@ -1,0 +1,24 @@
+{
+  "sample_index": 1987,
+  "target_bus": 10,
+  "tod_band": "midday",
+  "severity": "mild",
+  "condition": "A",
+  "advisory_error": "",
+  "n_cited_causes": 3,
+  "n_topk": 4,
+  "cited_locations": [
+    "HV transmission core",
+    "LV load pocket",
+    "MV step-down tier"
+  ],
+  "resolution_methods": [
+    "exact_region",
+    "exact_region",
+    "fuzzy"
+  ],
+  "cause_precision": 1.0,
+  "cause_recall": 1.0,
+  "faithfulness_f1": 1.0,
+  "hallucination_rate": 0.0
+}

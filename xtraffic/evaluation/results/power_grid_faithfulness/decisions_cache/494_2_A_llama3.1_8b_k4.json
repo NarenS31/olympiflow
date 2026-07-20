@@ -1,0 +1,24 @@
+{
+  "sample_index": 494,
+  "target_bus": 3,
+  "tod_band": "midday",
+  "severity": "severe",
+  "condition": "A",
+  "advisory_error": "",
+  "n_cited_causes": 3,
+  "n_topk": 4,
+  "cited_locations": [
+    "MV step-down tier",
+    "HV transmission core (bus 4)",
+    "LV load pocket"
+  ],
+  "resolution_methods": [
+    "fuzzy",
+    "exact_bus",
+    "exact_region"
+  ],
+  "cause_precision": 1.0,
+  "cause_recall": 0.75,
+  "faithfulness_f1": 0.8571428571428571,
+  "hallucination_rate": 0.0
+}

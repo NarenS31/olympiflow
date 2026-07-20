@@ -1,0 +1,51 @@
+{
+  "city": "chicago",
+  "model": "mistral:7b",
+  "n_scenarios": 33,
+  "conditions": [
+    "A",
+    "B"
+  ],
+  "aggregate": {
+    "A": {
+      "condition": "A",
+      "n": 33,
+      "cause_precision_mean": 1.0,
+      "cause_precision_std": 0.0,
+      "cause_precision_n": 33,
+      "cause_recall_mean": 0.6742424242424242,
+      "cause_recall_std": 0.2734103398881604,
+      "cause_recall_n": 33,
+      "faithfulness_f1_mean": 0.7721995176540632,
+      "faithfulness_f1_std": 0.2050745013229336,
+      "faithfulness_f1_n": 33,
+      "hallucination_rate_mean": 0.0,
+      "hallucination_rate_std": 0.0,
+      "hallucination_rate_n": 33,
+      "quantitative_fidelity_mean": 0.6299422799422799,
+      "quantitative_fidelity_std": 0.37067505723553035,
+      "quantitative_fidelity_n": 27
+    },
+    "B": {
+      "condition": "B",
+      "n": 33,
+      "cause_precision_mean": 0.0,
+      "cause_precision_std": 0.0,
+      "cause_precision_n": 33,
+      "cause_recall_mean": 0.0,
+      "cause_recall_std": 0.0,
+      "cause_recall_n": 33,
+      "faithfulness_f1_mean": 0.0,
+      "faithfulness_f1_std": 0.0,
+      "faithfulness_f1_n": 33,
+      "hallucination_rate_mean": 1.0,
+      "hallucination_rate_std": 0.0,
+      "hallucination_rate_n": 33,
+      "quantitative_fidelity_mean": 0.07099567099567099,
+      "quantitative_fidelity_std": 0.15940418351279872,
+      "quantitative_fidelity_n": 33
+    }
+  },
+  "seed": 42,
+  "zero_shot": true
+}

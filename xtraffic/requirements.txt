@@ -10,6 +10,10 @@ pandas==2.1.4
 scipy==1.11.4          # cross-correlation for propagation-lag (Phase 3)
 rapidfuzz==3.6.1       # fuzzy entity resolution in the faithfulness metric
                        # (Phase 5). Code falls back to stdlib difflib if absent.
+pandapower==2.14.11    # Phase 19: ships the IEEE 14-bus case as LIBRARY DATA (so
+                       # the "download" is reproducible without a URL) and solves
+                       # the AC power flow. 2.14.x is the last line that supports
+                       # Python 3.9 AND declares numpy<2 — 3.x drops both.
 shap==0.44.1           # Phase 12: SHAP baseline explainer (KernelExplainer) we
                        # compare GNNExplainer against. 0.44.1 is the last line with
                        # clean cp39 wheels and it holds numpy 1.26 (never bump numpy

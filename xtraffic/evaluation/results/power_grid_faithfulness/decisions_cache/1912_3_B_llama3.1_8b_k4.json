@@ -1,0 +1,20 @@
+{
+  "sample_index": 1912,
+  "target_bus": 4,
+  "tod_band": "am_rush",
+  "severity": "mild",
+  "condition": "B",
+  "advisory_error": "",
+  "n_cited_causes": 1,
+  "n_topk": 4,
+  "cited_locations": [
+    "bus 4"
+  ],
+  "resolution_methods": [
+    "exact_bus"
+  ],
+  "cause_precision": 0.0,
+  "cause_recall": 0.0,
+  "faithfulness_f1": 0.0,
+  "hallucination_rate": 1.0
+}

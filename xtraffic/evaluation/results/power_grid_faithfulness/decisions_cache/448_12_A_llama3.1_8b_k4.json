@@ -1,0 +1,22 @@
+{
+  "sample_index": 448,
+  "target_bus": 13,
+  "tod_band": "am_rush",
+  "severity": "severe",
+  "condition": "A",
+  "advisory_error": "",
+  "n_cited_causes": 2,
+  "n_topk": 4,
+  "cited_locations": [
+    "LV load pocket (bus 13, load bus, 0.208 kV)",
+    "LV load pocket (bus 14, load bus, 0.208 kV)"
+  ],
+  "resolution_methods": [
+    "exact_bus",
+    "exact_bus"
+  ],
+  "cause_precision": 0.5,
+  "cause_recall": 0.25,
+  "faithfulness_f1": 0.3333333333333333,
+  "hallucination_rate": 0.5
+}

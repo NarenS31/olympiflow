@@ -1,0 +1,31 @@
+{
+  "model": "XTrafficSTGNN",
+  "checkpoint": "power_grid_best.pt",
+  "trained_on": "power_grid",
+  "evaluated_on": "power_grid",
+  "run_name": "power_grid",
+  "units": "pu",
+  "use_sidecars": false,
+  "overall": {
+    "mae": 0.0029123241547495127,
+    "rmse": 0.009695906192064285,
+    "mape": 0.2875908613204956
+  },
+  "per_horizon": {
+    "15min": {
+      "mae": 0.0018963586771860719,
+      "rmse": 0.006970463320612907,
+      "mape": 0.18806159496307373
+    },
+    "30min": {
+      "mae": 0.0027793629560619593,
+      "rmse": 0.00926398579031229,
+      "mape": 0.2744613587856293
+    },
+    "60min": {
+      "mae": 0.004380905069410801,
+      "rmse": 0.012678266502916813,
+      "mape": 0.43144360184669495
+    }
+  }
+}

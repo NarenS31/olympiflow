@@ -1,0 +1,15 @@
+\begin{table}[t]
+\centering
+\caption{Cross-domain faithfulness on the IEEE 14-bus power grid ($n=20$ undervoltage scenarios, llama3.1:8b, top-$k$=4). The same pipeline, explainer and metric as the METR-LA study; only the prompt vocabulary and the entity resolver's notion of a location group were adapted. Chance rows cite uniformly at random from the same vocabulary and are scored identically --- they are the reference the hallucination rates must be read against, because $k/N$ is far larger here (4/14) than on METR-LA (8/207).}
+\label{tab:power_grid_faith}
+\begin{tabular}{lcccc}
+\toprule
+Condition & Precision & Recall & F1 & Hallucination \\
+\midrule
+XTraffic full pipeline (explanation shown) & 0.950 & 0.825 & 0.869 & 0.050 \\
+No explanation (prediction only) & 0.000 & 0.000 & 0.000 & 1.000 \\
+\emph{Chance}: random bus citation & 0.276 & 0.193 & 0.225 & 0.724 \\
+\emph{Chance}: random zone citation & 0.687 & 0.706 & 0.653 & 0.313 \\
+\bottomrule
+\end{tabular}
+\end{table}

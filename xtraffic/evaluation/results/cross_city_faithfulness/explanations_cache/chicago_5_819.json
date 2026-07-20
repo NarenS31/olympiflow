@@ -1,0 +1,112 @@
+{
+  "meta": {
+    "city": "chicago",
+    "timestamp": "chicago-pooled#5 @ 17:25",
+    "model_checkpoint": "chicago_zero_shot.pt"
+  },
+  "prediction": {
+    "node_id": 819,
+    "node_name": "Near North Side (segment 962, 41.893, -87.630)",
+    "predicted_speed_mph": 8.29,
+    "horizon_minutes": 30,
+    "current_speed_mph": 0.0
+  },
+  "top_nodes": [
+    {
+      "node_id": 818,
+      "node_name": "Near North Side (segment 961, 41.893, -87.626)",
+      "importance": 0.199,
+      "current_speed_mph": 0.0
+    },
+    {
+      "node_id": 393,
+      "node_name": "Far South Side (segment 414, 41.751, -87.591)",
+      "importance": 0.174,
+      "current_speed_mph": 22.0
+    },
+    {
+      "node_id": 337,
+      "node_name": "West Side / Garfield Park (segment 352, 41.887, -87.686)",
+      "importance": 0.1698,
+      "current_speed_mph": 27.0
+    },
+    {
+      "node_id": 914,
+      "node_name": "Far South Side (segment 1197, 41.703, -87.643)",
+      "importance": 0.1673,
+      "current_speed_mph": 0.0
+    },
+    {
+      "node_id": 254,
+      "node_name": "SW of the Loop (segment 264, 41.735, -87.736)",
+      "importance": 0.1666,
+      "current_speed_mph": 10.0
+    },
+    {
+      "node_id": 59,
+      "node_name": "SW of the Loop (segment 62, 41.717, -87.721)",
+      "importance": 0.1659,
+      "current_speed_mph": 31.0
+    },
+    {
+      "node_id": 615,
+      "node_name": "Far South Side (segment 689, 41.769, -87.615)",
+      "importance": 0.1656,
+      "current_speed_mph": 0.0
+    },
+    {
+      "node_id": 452,
+      "node_name": "Far South Side (segment 485, 41.692, -87.658)",
+      "importance": 0.1642,
+      "current_speed_mph": 26.0
+    }
+  ],
+  "top_edges": [
+    {
+      "from_id": 819,
+      "to_id": 819,
+      "importance": 0.5155
+    },
+    {
+      "from_id": 818,
+      "to_id": 819,
+      "importance": 0.4469
+    },
+    {
+      "from_id": 818,
+      "to_id": 818,
+      "importance": 0.2755
+    },
+    {
+      "from_id": 817,
+      "to_id": 818,
+      "importance": 0.2552
+    },
+    {
+      "from_id": 819,
+      "to_id": 818,
+      "importance": 0.2495
+    },
+    {
+      "from_id": 21,
+      "to_id": 59,
+      "importance": 0.1492
+    },
+    {
+      "from_id": 337,
+      "to_id": 811,
+      "importance": 0.1483
+    },
+    {
+      "from_id": 255,
+      "to_id": 254,
+      "importance": 0.1436
+    }
+  ],
+  "propagation_path": [
+    818,
+    819
+  ],
+  "propagation_lag_minutes": 0.0,
+  "explanation_confidence": 0.0819
+}

@@ -1,0 +1,22 @@
+{
+  "sample_index": 215,
+  "target_bus": 14,
+  "tod_band": "midday",
+  "severity": "moderate",
+  "condition": "A",
+  "advisory_error": "",
+  "n_cited_causes": 2,
+  "n_topk": 4,
+  "cited_locations": [
+    "LV load pocket (bus 13, load bus, 0.208 kV)",
+    "HV transmission core (bus 4, load bus, 135 kV)"
+  ],
+  "resolution_methods": [
+    "exact_bus",
+    "exact_bus"
+  ],
+  "cause_precision": 1.0,
+  "cause_recall": 0.5,
+  "faithfulness_f1": 0.6666666666666666,
+  "hallucination_rate": 0.0
+}

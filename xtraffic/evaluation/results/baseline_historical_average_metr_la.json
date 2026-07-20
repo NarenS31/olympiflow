@@ -1,6 +1,7 @@
 {
   "model": "historical_average",
   "dataset": "metr_la",
+  "units": "mph",
   "overall": {
     "mae": 5.152193546295166,
     "rmse": 9.000923156738281,

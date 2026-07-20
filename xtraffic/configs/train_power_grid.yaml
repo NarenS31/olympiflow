@@ -1,0 +1,67 @@
+# XTraffic — Phase 19 Step 2 training config: IEEE 14-bus POWER GRID.
+#
+# Deliberately a near-copy of train_metr_la.yaml. That is the experiment: the
+# cross-domain claim is "the SAME model, unmodified", so anything that differs
+# here has to be justified, and only three things do (all marked CHANGED below).
+# Everything else — every model hyperparameter and every optimiser setting — is
+# byte-identical to the METR-LA config.
+
+dataset: power_grid       # reads xtraffic/data/processed/power_grid/
+seed: 42                  # numpy + torch + python RNG (reproducibility, CLAUDE.md)
+
+# --- Modalities present in this dataset (MOD 3 heterogeneous fusion) ---
+# CHANGED vs METR-LA: this domain has no weather/events/transit. It has ONE extra
+# feed, `power` (active + reactive power per bus), built by the Phase-19 pipeline
+# as a Phase-6-style sidecar (processed/power_grid/mod_power.npz).
+#
+# Declaring `power` here builds its encoder + gate, but `use_sidecars` below is
+# FALSE, so it is fed None and MOD 3 zeroes its gate. That makes this run the
+# VOLTAGE-ONLY BASELINE — the exact analogue of the traffic-only METR-LA run —
+# and leaves the fusion comparison as a second run, mirroring how Phase 6 kept
+# metr_la and metr_la_fusion as separate checkpoints.
+modalities:
+  traffic: 2       # channel 0 = z-scored VOLTAGE MAGNITUDE (pu), channel 1 = time-of-day
+  power: 2         # p_mw, q_mvar per bus (sidecar; off in this run)
+# NOTE the modality is still called "traffic". That name is now a misnomer here,
+# but renaming it would mean touching build_modality_dict / the explainer / the
+# advisor — i.e. exactly the "no architecture changes" property this phase is
+# testing. The key stays; the docstrings say what it holds. Flagged, not hidden.
+traffic_channels: [0, 1]
+
+# Sidecar fusion is OPT-IN, same switch Phase 6 added. False = voltage-only.
+use_sidecars: false
+
+# --- Model hyperparameters (IDENTICAL to train_metr_la.yaml) ---
+model:
+  residual_channels: 32
+  dilation_channels: 32
+  skip_channels: 64
+  end_channels: 128
+  n_blocks: 4          # 4 stacked spatial-temporal blocks
+  embed_dim: 10        # dim of semantic (MOD 1) and adaptive node embeddings
+  gcn_order: 2         # diffusion hops in each graph conv
+  dropout: 0.3
+  out_len: 12          # forecast 12 steps (60 min)
+
+# --- Optimisation (IDENTICAL to train_metr_la.yaml) ---
+train:
+  epochs: 100
+  batch_size: 32
+  lr: 0.001
+  weight_decay: 0.0001
+  grad_clip: 5.0       # clip global grad norm (Graph WaveNet is prone to spikes)
+  early_stopping_patience: 15   # early stopping ON: stop if val MAE hasn't improved in N epochs
+  num_workers: 0       # 0 keeps it simple + deterministic on laptop
+
+# Horizons to report (in 5-min steps): 15 / 30 / 60 min. The grid runs on the
+# same 5-min grid as METR-LA precisely so these mean the same thing.
+horizons_steps: [3, 6, 12]
+
+# CHANGED vs METR-LA: run_name drives the checkpoint filename, so the best model
+# lands at models/gnn/checkpoints/power_grid_best.pt and cannot collide with any
+# traffic checkpoint.
+run_name: power_grid
+
+# Where checkpoints + logs go (CLAUDE.md: results to /evaluation/results/).
+checkpoint_dir: models/gnn/checkpoints
+results_dir: evaluation/results

@@ -17,7 +17,10 @@ import numpy as np
 
 from xtraffic.utils.io_utils import PKG_ROOT, load_data_config
 
-DATASETS = ["metr_la", "pems_bay", "chicago"]
+# power_grid (Phase 19) is checked by the SAME assertions as the traffic datasets
+# on purpose: passing this gate IS the proof that the cross-domain tensor contract
+# holds and that the unmodified model can consume it.
+DATASETS = ["metr_la", "pems_bay", "chicago", "power_grid"]
 
 
 def _load_split(dpath, split):

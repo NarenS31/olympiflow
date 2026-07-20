@@ -31,6 +31,7 @@ import requests
 import yaml
 
 from ...utils.io_utils import PKG_ROOT
+from .domains import TRAFFIC, DomainProfile, domain_for
 from .knowledge_base import (
     KnowledgeBase, load_kb_for_city, render_kb_block,
 )
@@ -93,29 +94,44 @@ def validate_advisory(adv: Any) -> List[str]:
 # ----------------------------------------------------------------------------
 # Rendering the explanation as clean structured text for the prompt.
 # ----------------------------------------------------------------------------
-def render_explanation_text(exp: Dict[str, Any]) -> str:
+def render_explanation_text(exp: Dict[str, Any],
+                            domain: Optional[DomainProfile] = None) -> str:
     """Turn the explanation JSON into human-readable structured text, using node
-    NAMES (not indices) so the LLM reasons in places, not numbers."""
+    NAMES (not indices) so the LLM reasons in places, not numbers.
+
+    Phase 19 (FLAGGED, default-preserving): `domain` selects the VOCABULARY only
+    — units, node noun, stress noun (models/advisor/domains.py). It defaults to
+    TRAFFIC, whose strings are the verbatim Phase-4 ones, so every existing caller
+    renders BYTE-IDENTICAL text. The schema keys stay `*_speed_mph` because
+    schema.py is a frozen contract Phase 4 depends on; only the LABEL changes, so
+    a power-grid voltage of 0.881 renders "0.881 pu" instead of "0.88 mph".
+    Getting this wrong is not cosmetic: an LLM told a substation is doing 0.88 mph
+    will invent traffic interventions, and we would score OUR OWN prompt's
+    confusion as the model's hallucination."""
+    d = domain or TRAFFIC
     p = exp["prediction"]
     lines: List[str] = []
     lines.append("TARGET PREDICTION:")
     lines.append("  Location: {} (node_id {})".format(p["node_name"], p["node_id"]))
-    lines.append("  Current speed: {} mph".format(p["current_speed_mph"]))
-    lines.append("  Predicted speed in {} min: {} mph".format(
-        p["horizon_minutes"], p["predicted_speed_mph"]))
+    lines.append("  Current {}: {}".format(d.quantity, d.fmt(p["current_speed_mph"])))
+    lines.append("  Predicted {} in {} min: {}".format(
+        d.quantity, p["horizon_minutes"], d.fmt(p["predicted_speed_mph"])))
 
     lines.append("")
-    lines.append("TOP CONTRIBUTING SENSORS (importance = how much this sensor "
-                 "drives the prediction; ONLY these are valid causes):")
+    lines.append("TOP CONTRIBUTING {} (importance = how much this {} "
+                 "drives the prediction; ONLY these are valid causes):".format(
+                     d.node_plural_upper, d.node_noun))
     for n in exp.get("top_nodes", []):
-        lines.append("  - {} (node_id {}): importance {:.3f}, currently {} mph".format(
-            n["node_name"], n["node_id"], float(n["importance"]), n["current_speed_mph"]))
+        lines.append("  - {} (node_id {}): importance {:.3f}, currently {}".format(
+            n["node_name"], n["node_id"], float(n["importance"]),
+            d.fmt(n["current_speed_mph"])))
 
     path = exp.get("propagation_path", [])
     lines.append("")
-    lines.append("PROPAGATION: congestion appears to travel along a path of {} "
-                 "sensors, with an estimated lag of {} minutes between the source "
-                 "and the target.".format(len(path), exp.get("propagation_lag_minutes")))
+    lines.append("PROPAGATION: {} appears to travel along a path of {} "
+                 "{}, with an estimated lag of {} minutes between the source "
+                 "and the target.".format(d.stress, len(path), d.node_plural,
+                                          exp.get("propagation_lag_minutes")))
     lines.append("EXPLANATION CONFIDENCE: {:.2f} (0-1; higher = the explainer was "
                  "more stable across reruns).".format(
                      float(exp.get("explanation_confidence", 0.0))))
@@ -126,19 +142,41 @@ def render_explanation_text(exp: Dict[str, Any]) -> str:
 # Prompt assembly (exact order required by Phase 4: SYSTEM, CITY CONTEXT,
 # MATHEMATICAL EXPLANATION, TASK).
 # ----------------------------------------------------------------------------
-_SYSTEM = (
-    "You are a traffic-operations advisor. You may ONLY cite causes that are "
-    "present in the mathematical explanation below. Do NOT invent sensors, "
-    "roads, incidents, or numbers that are not given to you. Prediction is not "
-    "your job — translation and recommendation are. Every recommendation must be "
-    "physically implementable given the stated city infrastructure."
-)
+def _system_for(d: DomainProfile) -> str:
+    """The SYSTEM prompt, in one domain's vocabulary.
 
-_TASK = (
+    The GROUNDING INSTRUCTION — "only cite causes present in the mathematical
+    explanation" — is IDENTICAL across domains. That is deliberate and it is the
+    thing Phase 19 tests: if the hallucination gap survives a domain swap, it is
+    the explanation doing the work, not traffic-specific phrasing. Only the role
+    and the noun list are swapped."""
+    return (
+        "You are a {role}. You may ONLY cite causes that are "
+        "present in the mathematical explanation below. Do NOT invent {invent}"
+        ", or numbers that are not given to you. Prediction is not "
+        "your job — translation and recommendation are. Every recommendation must be "
+        "physically implementable given the stated {network}."
+    ).format(role=d.role, invent=d.invent_list, network=d.network)
+
+
+def _task_for(d: DomainProfile) -> str:
+    """The TASK block, in one domain's vocabulary. Structure and the required JSON
+    shape are identical across domains — only `stress` and the quantity noun change.
+
+    We substitute with str.replace, NOT str.format: the template embeds a literal
+    JSON skeleton full of `{` and `}`, which .format would try to interpret as
+    fields (and raise). Sentinels are @@-delimited so they cannot collide with
+    prose. For TRAFFIC the two replacements restore the verbatim Phase-4 wording."""
+    return (_TASK_TEMPLATE
+            .replace("@@STRESS@@", d.stress)
+            .replace("@@QUANTITY@@", d.quantity))
+
+
+_TASK_TEMPLATE = (
     "TASK:\n"
-    "1) Explain in plain language why this congestion is predicted, referencing "
+    "1) Explain in plain language why this @@STRESS@@ is predicted, referencing "
     "the SPECIFIC locations and quantities in the mathematical explanation "
-    "(use the location names and speeds given, not invented ones).\n"
+    "(use the location names and @@QUANTITY@@s given, not invented ones).\n"
     "2) Provide 3 to 5 interventions implementable within 15 minutes given the "
     "stated infrastructure constraints. Each needs a time window (minutes) and "
     "an expected effect.\n\n"
@@ -157,17 +195,32 @@ _TASK = (
     "}"
 )
 
+# The Phase-4 constants, now DERIVED from the TRAFFIC profile rather than typed
+# out. Byte-identical to the strings they replace (pinned by
+# evaluation/verify_traffic_unchanged.py), so every module that imports _SYSTEM /
+# _TASK — condition B's _TASK_NO_EXPLANATION, the counterfactual and uncertainty
+# prompts — is unaffected.
+_SYSTEM = _system_for(TRAFFIC)
+_TASK = _task_for(TRAFFIC)
 
-def build_prompt(exp: Dict[str, Any], kb_block: str) -> str:
-    """Assemble the full prompt in the required order."""
-    exp_text = render_explanation_text(exp)
+
+def build_prompt(exp: Dict[str, Any], kb_block: str,
+                 domain: Optional[DomainProfile] = None) -> str:
+    """Assemble the full prompt in the required order.
+
+    Phase 19 (FLAGGED, default-preserving): `domain=None` -> TRAFFIC -> the exact
+    Phase-4 prompt. The section HEADERS stay "CITY CONTEXT" / "MATHEMATICAL
+    EXPLANATION" in every domain: they are structural landmarks the LLM keys off,
+    and holding them fixed is part of showing that only the vocabulary changed."""
+    d = domain or TRAFFIC
+    exp_text = render_explanation_text(exp, domain=d)
     return (
         "{system}\n\n"
         "=== CITY CONTEXT (retrieved knowledge base) ===\n{kb}\n\n"
         "=== MATHEMATICAL EXPLANATION ===\n{exp}\n\n"
         "=== {task}"
-    ).format(system=_SYSTEM, kb=kb_block or "(no city context retrieved)",
-             exp=exp_text, task=_TASK)
+    ).format(system=_system_for(d), kb=kb_block or "(no city context retrieved)",
+             exp=exp_text, task=_task_for(d))
 
 
 # ----------------------------------------------------------------------------
@@ -201,31 +254,47 @@ def build_prompt(exp: Dict[str, Any], kb_block: str) -> str:
 #                                  real limitation. (Labelled D_CONTRA, not "D", so
 #                                  it never blurs with Phase-12's condition D=SHAP.)
 # ----------------------------------------------------------------------------
-def render_prediction_only_text(exp: Dict[str, Any]) -> str:
+def render_prediction_only_text(exp: Dict[str, Any],
+                                domain: Optional[DomainProfile] = None) -> str:
     """Condition B input: the target prediction WITHOUT the explanation's
-    top_nodes / propagation. The model sees what is predicted, not why."""
+    top_nodes / propagation. The model sees what is predicted, not why.
+
+    Phase 19: `domain` swaps units/quantity noun only; None -> TRAFFIC -> the
+    verbatim Phase-5 condition-B text."""
+    d = domain or TRAFFIC
     p = exp["prediction"]
     return (
         "TARGET PREDICTION:\n"
         "  Location: {} (node_id {})\n"
-        "  Current speed: {} mph\n"
-        "  Predicted speed in {} min: {} mph\n"
+        "  Current {}: {}\n"
+        "  Predicted {} in {} min: {}\n"
         "(No mathematical explanation is provided in this condition.)"
-    ).format(p["node_name"], p["node_id"], p["current_speed_mph"],
-             p["horizon_minutes"], p["predicted_speed_mph"])
+    ).format(p["node_name"], p["node_id"],
+             d.quantity, d.fmt(p["current_speed_mph"]),
+             d.quantity, p["horizon_minutes"], d.fmt(p["predicted_speed_mph"]))
 
 
-_TASK_NO_EXPLANATION = _TASK.replace(
-    "in the mathematical explanation ",
-    "").replace(
-    "the SPECIFIC locations and quantities in the mathematical explanation "
-    "(use the location names and speeds given, not invented ones)",
-    "the likely locations and quantities involved")
+def _task_no_explanation_for(d: DomainProfile) -> str:
+    """Condition B's TASK: the same task with every reference to the mathematical
+    explanation stripped out, so the model is asked for causes it was never shown.
+    Derived from the domain's TASK by the same two replacements Phase 5 used, so
+    for TRAFFIC the result is byte-identical to the committed _TASK_NO_EXPLANATION."""
+    return _task_for(d).replace(
+        "in the mathematical explanation ",
+        "").replace(
+        "the SPECIFIC locations and quantities in the mathematical explanation "
+        "(use the location names and {q}s given, not invented ones)".format(
+            q=d.quantity),
+        "the likely locations and quantities involved")
+
+
+_TASK_NO_EXPLANATION = _task_no_explanation_for(TRAFFIC)
 
 
 def build_prompt_condition(exp: Dict[str, Any], kb_block: str,
                            condition: str,
-                           extra_instruction: Optional[str] = None) -> str:
+                           extra_instruction: Optional[str] = None,
+                           domain: Optional[DomainProfile] = None) -> str:
     """Assemble the prompt for a condition.
 
     A, C_RICH, and D_CONTRA are structurally IDENTICAL (SYSTEM + CITY CONTEXT +
@@ -240,21 +309,22 @@ def build_prompt_condition(exp: Dict[str, Any], kb_block: str,
     (every Phase-4/5/15b caller), the returned prompt is BYTE-IDENTICAL to before,
     so no earlier behaviour changes. It goes last so the model reads the correction
     as the final, most recent instruction."""
+    d = domain or TRAFFIC
     if condition in ("A", "C_RICH", "D_CONTRA"):
-        prompt = build_prompt(exp, kb_block)
+        prompt = build_prompt(exp, kb_block, domain=d)
     elif condition == "C":
         # Same as A but with the city context deliberately blanked out.
-        prompt = build_prompt(exp, "")
+        prompt = build_prompt(exp, "", domain=d)
     elif condition == "B":
         prompt = (
             "{system}\n\n"
             "=== CITY CONTEXT (retrieved knowledge base) ===\n{kb}\n\n"
             "=== PREDICTION ===\n{pred}\n\n"
             "=== {task}"
-        ).format(system=_SYSTEM,
+        ).format(system=_system_for(d),
                  kb=kb_block or "(no city context retrieved)",
-                 pred=render_prediction_only_text(exp),
-                 task=_TASK_NO_EXPLANATION)
+                 pred=render_prediction_only_text(exp, domain=d),
+                 task=_task_no_explanation_for(d))
     else:
         raise ValueError(
             "condition must be one of A/B/C/C_RICH/D_CONTRA, got {!r}".format(condition))
@@ -545,6 +615,11 @@ class Advisor:
         self.cfg = cfg if cfg is not None else load_advisor_config()
         self.city = city
         self.kb: KnowledgeBase = load_kb_for_city(city, self.cfg)
+        # Phase 19 (FLAGGED, default-preserving): the advisor speaks the domain's
+        # vocabulary. Every traffic city maps to TRAFFIC — whose strings are the
+        # verbatim Phase-4 ones — so METR-LA / PEMS-BAY / Chicago prompts are
+        # byte-identical; only power_grid resolves to a different profile.
+        self.domain: DomainProfile = domain_for(city)
 
         oll = self.cfg["ollama"]
         self.host: str = oll["host"].rstrip("/")
@@ -641,7 +716,7 @@ class Advisor:
         (which KB chunks and model were used) for the ablation/faithfulness logs."""
         chunks = self.kb.retrieve(exp, top_k=self.top_k)
         kb_block = render_kb_block(chunks, self.max_context_chars)
-        prompt = build_prompt(exp, kb_block)
+        prompt = build_prompt(exp, kb_block, domain=self.domain)
         advisory, raws = self._generate_validated(prompt)
         return {
             "advisory": advisory,
@@ -702,7 +777,8 @@ class Advisor:
                 .format(condition))
 
         prompt = build_prompt_condition(exp, kb_block, condition,
-                                        extra_instruction=extra_instruction)
+                                        extra_instruction=extra_instruction,
+                                        domain=self.domain)
         advisory, raws = self._generate_validated(prompt)
         return {
             "advisory": advisory,

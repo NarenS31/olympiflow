@@ -1,0 +1,112 @@
+{
+  "meta": {
+    "city": "chicago",
+    "timestamp": "chicago-pooled#66 @ 22:30",
+    "model_checkpoint": "chicago_zero_shot.pt"
+  },
+  "prediction": {
+    "node_id": 851,
+    "node_name": "The Loop / Downtown (segment 1035, 41.886, -87.636)",
+    "predicted_speed_mph": 11.7,
+    "horizon_minutes": 30,
+    "current_speed_mph": 0.0
+  },
+  "top_nodes": [
+    {
+      "node_id": 850,
+      "node_name": "The Loop / Downtown (segment 1034, 41.884, -87.637)",
+      "importance": 0.437,
+      "current_speed_mph": 0.0
+    },
+    {
+      "node_id": 852,
+      "node_name": "The Loop / Downtown (segment 1036, 41.887, -87.634)",
+      "importance": 0.4113,
+      "current_speed_mph": 0.0
+    },
+    {
+      "node_id": 541,
+      "node_name": "Bronzeville / South Side (segment 580, 41.832, -87.604)",
+      "importance": 0.37,
+      "current_speed_mph": 0.0
+    },
+    {
+      "node_id": 540,
+      "node_name": "SE of the Loop (segment 579, 41.821, -87.597)",
+      "importance": 0.3425,
+      "current_speed_mph": 0.0
+    },
+    {
+      "node_id": 542,
+      "node_name": "South Loop (segment 581, 41.844, -87.610)",
+      "importance": 0.3363,
+      "current_speed_mph": 0.0
+    },
+    {
+      "node_id": 186,
+      "node_name": "Near North Side (segment 195, 41.911, -87.641)",
+      "importance": 0.3308,
+      "current_speed_mph": 0.0
+    },
+    {
+      "node_id": 857,
+      "node_name": "Near West Side (segment 1050, 41.882, -87.666)",
+      "importance": 0.3292,
+      "current_speed_mph": 0.0
+    },
+    {
+      "node_id": 567,
+      "node_name": "South Loop (segment 610, 41.844, -87.611)",
+      "importance": 0.328,
+      "current_speed_mph": 0.0
+    }
+  ],
+  "top_edges": [
+    {
+      "from_id": 851,
+      "to_id": 844,
+      "importance": 0.7605
+    },
+    {
+      "from_id": 844,
+      "to_id": 850,
+      "importance": 0.7581
+    },
+    {
+      "from_id": 843,
+      "to_id": 850,
+      "importance": 0.747
+    },
+    {
+      "from_id": 850,
+      "to_id": 850,
+      "importance": 0.7432
+    },
+    {
+      "from_id": 849,
+      "to_id": 850,
+      "importance": 0.7364
+    },
+    {
+      "from_id": 852,
+      "to_id": 845,
+      "importance": 0.7308
+    },
+    {
+      "from_id": 846,
+      "to_id": 852,
+      "importance": 0.7302
+    },
+    {
+      "from_id": 842,
+      "to_id": 850,
+      "importance": 0.7299
+    }
+  ],
+  "propagation_path": [
+    850,
+    851
+  ],
+  "propagation_lag_minutes": 0.0,
+  "explanation_confidence": 0.4594
+}

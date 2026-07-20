@@ -30,7 +30,7 @@ import numpy as np
 import torch
 import yaml
 
-from ...utils.io_utils import PKG_ROOT
+from ...utils.io_utils import PKG_ROOT, units_for_dataset
 from ...utils.metrics import masked_mae_loss, masked_metrics, per_horizon_metrics
 from .loaders import (build_modality_dict, load_adjacency, load_scaler,
                       make_fusion_loaders)
@@ -117,7 +117,13 @@ def main():
     set_seed(cfg["seed"])
     device = pick_device()
     dataset = cfg["dataset"]
-    print(f"[train] dataset={dataset} device={device} smoke={args.smoke}")
+    # Phase 19: metrics are unit-agnostic but the labels were hard-coded "mph".
+    # `units` drives every printed/plotted label; defaults to "mph" so the traffic
+    # runs print exactly what they always did. `prec` widens the decimals for
+    # per-unit voltage, where MAE ~0.005 would otherwise round to nothing.
+    units = units_for_dataset(dataset)
+    prec = 3 if units == "mph" else 5
+    print(f"[train] dataset={dataset} device={device} units={units} smoke={args.smoke}")
 
     # --- data ---
     scaler = load_scaler(dataset)
@@ -195,6 +201,9 @@ def main():
     best_val = float("inf")
     best_epoch = -1
     epochs_no_improve = 0
+    # Smallest val-MAE gain that counts as improvement (see the fix note below).
+    # Default 1e-4 = the historical hard-coded value, so traffic runs are unchanged.
+    min_delta = float(cfg["train"].get("early_stopping_min_delta", 1e-4))
     history = {"train_loss": [], "val_loss": []}
 
     for epoch in range(1, epochs + 1):
@@ -224,12 +233,21 @@ def main():
         history["val_loss"].append(va_loss)
 
         print(f"[epoch {epoch:3d}/{epochs}] "
-              f"train_loss={tr_loss:.3f}  val_mae={va_overall['mae']:.3f}  "
-              f"val_mae@30min={va_h['30min']['mae']:.3f}  "
+              f"train_loss={tr_loss:.{prec}f}  val_mae={va_overall['mae']:.{prec}f} {units}  "
+              f"val_mae@30min={va_h['30min']['mae']:.{prec}f} {units}  "
               f"alpha={alpha:.3f}  ({dt:.1f}s)")
 
         # --- early stopping + best checkpoint on val MAE ---
-        if va_overall["mae"] < best_val - 1e-4:
+        # BUG FIX (Phase 19): this used to be a hard-coded `best_val - 1e-4`, the
+        # minimum val-MAE improvement that counts as progress. That constant
+        # silently assumes the mph scale. On METR-LA (MAE ~3.1) 1e-4 is 0.003% of
+        # the metric and is exactly the intended "ignore numerical noise" guard.
+        # On the power grid (per-unit voltage, MAE ~0.0017) the SAME constant is
+        # 5.9% of the metric, so real progress was being scored as no-progress:
+        # the first run reached 0.00163 at epoch 21 — better than the recorded
+        # best 0.00170 — yet early-stopped and saved the WORSE checkpoint.
+        # Now a config knob. Default 1e-4 keeps every traffic run byte-identical.
+        if va_overall["mae"] < best_val - min_delta:
             best_val = va_overall["mae"]
             best_epoch = epoch
             epochs_no_improve = 0
@@ -240,7 +258,7 @@ def main():
             epochs_no_improve += 1
             if epochs_no_improve >= cfg["train"]["early_stopping_patience"]:
                 print(f"[train] early stopping at epoch {epoch} "
-                      f"(best val MAE {best_val:.3f} @ epoch {best_epoch})")
+                      f"(best val MAE {best_val:.{prec}f} {units} @ epoch {best_epoch})")
                 break
 
     log_f.close()
@@ -253,7 +271,7 @@ def main():
         plt.figure(figsize=(6, 4))
         plt.plot(history["train_loss"], label="train")
         plt.plot(history["val_loss"], label="val")
-        plt.xlabel("epoch"); plt.ylabel("masked MAE (mph)")
+        plt.xlabel("epoch"); plt.ylabel(f"masked MAE ({units})")
         plt.title(f"XTraffic ST-GNN training — {dataset}")
         plt.legend(); plt.tight_layout()
         png = os.path.join(res_dir, f"loss_curve_{run_name}.png")
@@ -262,13 +280,13 @@ def main():
     except Exception as e:
         print(f"[train] (loss-curve plot skipped: {e})")
 
-    print(f"[train] done. best val MAE {best_val:.3f} @ epoch {best_epoch}. "
+    print(f"[train] done. best val MAE {best_val:.{prec}f} {units} @ epoch {best_epoch}. "
           f"checkpoint -> {ckpt_path}")
 
     # Write a tiny JSON summary next to the CSV (CLAUDE.md: JSON + CSV).
     with open(os.path.join(res_dir, f"train_{run_name}_summary.json"), "w") as f:
         json.dump({"dataset": dataset, "run_name": run_name, "best_val_mae": best_val,
-                   "best_epoch": best_epoch, "n_params": n_params,
+                   "units": units, "best_epoch": best_epoch, "n_params": n_params,
                    "device": str(device)}, f, indent=2)
 
 

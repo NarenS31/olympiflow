@@ -1,0 +1,9 @@
+{
+  "dataset": "power_grid",
+  "run_name": "power_grid",
+  "best_val_mae": 0.001703783986158669,
+  "units": "pu",
+  "best_epoch": 6,
+  "n_params": 389107,
+  "device": "mps"
+}

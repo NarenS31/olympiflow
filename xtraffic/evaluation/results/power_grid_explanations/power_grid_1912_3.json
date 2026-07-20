@@ -1,0 +1,79 @@
+{
+  "meta": {
+    "city": "power_grid",
+    "timestamp": "test#1912 @ 08:30",
+    "model_checkpoint": "power_grid_best.pt",
+    "units": "pu",
+    "note": "Power grid: schema keys named *_speed_mph carry VOLTAGE MAGNITUDE in per-unit. Key names are frozen by the Phase-3 contract; the values are voltages."
+  },
+  "prediction": {
+    "node_id": 3,
+    "node_name": "HV transmission core (bus 4, load bus, 135 kV)",
+    "predicted_speed_mph": 1.0,
+    "horizon_minutes": 30,
+    "current_speed_mph": 1.0
+  },
+  "top_nodes": [
+    {
+      "node_id": 13,
+      "node_name": "LV load pocket (bus 14, load bus, 0.208 kV)",
+      "importance": 0.1545,
+      "current_speed_mph": 1.03
+    },
+    {
+      "node_id": 2,
+      "node_name": "HV transmission core (bus 3, synchronous condenser + load, 135 kV)",
+      "importance": 0.1492,
+      "current_speed_mph": 1.0
+    },
+    {
+      "node_id": 4,
+      "node_name": "HV transmission core (bus 5, load bus, 135 kV)",
+      "importance": 0.149,
+      "current_speed_mph": 1.01
+    },
+    {
+      "node_id": 0,
+      "node_name": "HV transmission core (bus 1, slack bus, 135 kV)",
+      "importance": 0.1271,
+      "current_speed_mph": 1.06
+    }
+  ],
+  "top_edges": [
+    {
+      "from_id": 3,
+      "to_id": 3,
+      "importance": 0.5818
+    },
+    {
+      "from_id": 2,
+      "to_id": 2,
+      "importance": 0.1495
+    },
+    {
+      "from_id": 4,
+      "to_id": 5,
+      "importance": 0.1481
+    },
+    {
+      "from_id": 12,
+      "to_id": 13,
+      "importance": 0.142
+    }
+  ],
+  "propagation_path": [
+    13,
+    8,
+    3
+  ],
+  "propagation_lag_minutes": 0.0,
+  "explanation_confidence": 0.6,
+  "scenario": {
+    "target_bus": 4,
+    "tod_band": "am_rush",
+    "severity": "mild",
+    "deviation_pu": 0.013319999910891056,
+    "voltage_pu": 1.0025299787521362,
+    "normal_pu": 1.0158499479293823
+  }
+}

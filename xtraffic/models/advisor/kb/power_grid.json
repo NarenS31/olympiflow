@@ -1,0 +1,86 @@
+{
+  "city": "power_grid",
+  "display_name": "IEEE 14-bus test system",
+  "_schema_note": "Phase 19 cross-domain knowledge base. Same schema as la.json / chicago.json (see kb/README.md). region_tags MUST match the zone and role strings that data/pipelines/power_grid.py::bus_metadata emits ('HV transmission core', 'MV step-down tier', 'LV load pocket', 'slack bus', 'generator bus', 'synchronous condenser', 'load bus', 'shunt capacitor'), because those are the words that appear in the explanation's node names and therefore in the retrieval query.",
+  "_provenance": "Two kinds of statement live here and they are labelled inline. (1) TEXTBOOK: standard power-system operating knowledge and published properties of the IEEE 14-bus case — checkable against any power-systems reference. (2) MEASURED: results produced by our own pipeline (the N-1 screen in power_grid.py) and labelled 'measured in this dataset'. Nothing here is invented. Per kb/README.md, never fabricate a capacity or a limit a reviewer could check.",
+  "chunks": [
+    {
+      "id": "system_overview",
+      "title": "The IEEE 14-bus system at a glance",
+      "region_tags": ["hv transmission core", "mv step-down tier", "lv load pocket", "bus", "grid", "network", "topology"],
+      "text": "The IEEE 14-bus case is a standard test system representing a simplified portion of the American Electric Power network in the US Midwest as of February 1962. It has 14 buses and 20 branches (in this build: 15 transmission lines and 5 transformers), 11 buses carrying demand, one slack/swing bus, one dispatched generator and three synchronous condensers, plus one shunt capacitor bank. Total published demand is 259.0 MW and 73.5 MVAr, treated in this dataset as the DAILY MEAN operating point. The three largest single demands sit at bus 3 (94.2 MW), bus 4 (47.8 MW) and bus 9 (29.5 MW). All impedances are handled in per-unit on a 100 MVA base, which is what makes branches at different voltage levels comparable. Note that several buses play more than one role at once - bus 3 hosts a synchronous condenser and is simultaneously the largest load in the system."
+    },
+    {
+      "id": "zone_hv_core",
+      "title": "HV transmission core (buses 1-5, 135 kV)",
+      "region_tags": ["hv transmission core", "transmission", "slack bus", "generator bus", "135"],
+      "text": "Buses 1-5 form the 135 kV transmission core, interconnected by seven lines. Bus 1 is the slack (swing) bus and the system's voltage-angle reference: it absorbs whatever real-power imbalance the rest of the dispatch leaves over, so its output is the best single indicator of total system loading, and its own voltage is held essentially constant. Bus 2 carries the only dispatched generator (40 MW) and also serves demand. Bus 3 hosts a synchronous condenser and the largest load in the system. Buses 4 and 5 are the transfer points into the rest of the network - every transformer feeding the lower tiers originates at bus 4 or bus 5 - so the core is where a disturbance either stays contained or spreads downward. The core carries the lowest-impedance branches in the system (line 4-5 at 0.044 per-unit is the strongest coupling anywhere in the network, line 1-2 at 0.062 the next), which is why power redistributes across the core within a single measurement interval after a contingency."
+    },
+    {
+      "id": "zone_mv_tier",
+      "title": "MV step-down tier (buses 6-8)",
+      "region_tags": ["mv step-down tier", "synchronous condenser", "transformer", "step-down", "reactive"],
+      "text": "Buses 7 and 8 form the transformer-fed middle tier. Bus 7 is a passive junction with no demand and no generation of its own: it ties the 4-7 transformer from the core to the 7-9 transformer feeding the load pocket and to the 7-8 transformer. Bus 8 hosts a synchronous condenser - a machine that produces no real power and exists solely to inject or absorb reactive power for voltage control. Because the 7-8 transformer is bus 8's ONLY connection to the network, it is a structural single point of failure: it can never be switched out, since doing so islands bus 8 and the power flow has no solution. This tier is the reactive gateway between the transmission core and the load pocket, and bus 7's voltage is a useful early indicator of trouble spreading downward."
+    },
+    {
+      "id": "zone_lv_pocket",
+      "title": "LV load pocket (buses 9-14)",
+      "region_tags": ["lv load pocket", "load bus", "shunt capacitor", "distribution", "demand"],
+      "text": "Buses 6 and 9 through 14 form the load pocket - the electrically most remote part of the system, fed from the transmission core through only three transformers: 5-6, 4-9 and 7-9. It has two sub-groups joined weakly at the far end. The bus 6 group (6, 11, 12, 13) hangs off the 5-6 transformer, and bus 6 itself carries both demand and a synchronous condenser providing local reactive support. The bus 9 group (9, 10, 14) hangs off the 4-9 and 7-9 transformers, and bus 9 carries the shunt capacitor bank. The two groups are tied only by lines 10-11 and 13-14. MEASURED IN THIS DATASET: bus 14 is the weakest point in the network, with the largest voltage swing (standard deviation 0.0165 per-unit) and the lowest voltage ever reached (0.792 per-unit); buses 10 and 9 are next. This is exactly what the topology predicts - bus 14 sits at the far end of the pocket behind line 13-14, which at 0.388 per-unit is the highest-impedance branch in the system, and the 4-9 transformer at 0.556 per-unit is the weakest link into the pocket at all. Voltage problems in this system appear here first."
+    },
+    {
+      "id": "generation_and_reactive_limits",
+      "title": "Generation, voltage setpoints and reactive limits",
+      "region_tags": ["generator bus", "slack bus", "synchronous condenser", "reactive", "voltage control", "avr"],
+      "text": "Voltage-controlling sources: the slack bus 1 and the generator at bus 2 (40 MW), plus synchronous condensers at buses 3, 6 and 8 that supply reactive power only. Note that the condensers at buses 3 and 6 sit at buses that also carry demand, so they support voltage at a point that is simultaneously drawing power. Each source holds a scheduled voltage at its own bus by varying reactive output, but only WITHIN its reactive limits. This is the single most important operating fact about this system: while a machine has reactive headroom it pins its bus voltage exactly, and the rest of the network sees almost no disturbance; the moment it saturates at its reactive limit it can no longer hold the setpoint, the bus converts from voltage-controlled to load behaviour, and voltage across the whole downstream pocket begins to fall. Voltage problems in this network therefore appear suddenly rather than gradually, and the correct question during a sag is always which machine has just run out of reactive headroom."
+    },
+    {
+      "id": "shunt_compensation",
+      "title": "Shunt capacitor bank at bus 9",
+      "region_tags": ["shunt capacitor", "lv load pocket", "load bus", "reactive", "compensation"],
+      "text": "Bus 9 carries a 19 MVAr shunt capacitor bank, the only static reactive compensation in the system. It sits at the entry to the load pocket, which is where locally-supplied reactive power does the most good: reactive power transmits poorly over long electrical distances, so compensation must be installed near the demand it supports rather than at the generators. Note that a capacitor's output falls with the SQUARE of voltage, so a shunt bank delivers least support exactly when voltage is lowest and support is most needed. It is a first-line lever, not a rescue for a deep sag."
+    },
+    {
+      "id": "cascade_voltage_collapse",
+      "title": "Cascade pattern 1 - voltage collapse from reactive deficiency",
+      "region_tags": ["cascade", "voltage collapse", "reactive", "load bus", "lv load pocket", "undervoltage"],
+      "text": "TEXTBOOK MECHANISM, and the dominant failure mode in this system. As demand rises, reactive losses in the network grow roughly with the square of current, so reactive demand grows faster than real demand. Voltage-controlling machines take up the difference until they hit their reactive limits one by one. Each saturation removes a voltage-holding point, which raises the burden on the remaining machines and accelerates the decline - a positive feedback. Below roughly 0.90 per-unit the process runs away and the power flow has no solution at all: that is voltage collapse, and it is a loss of equilibrium rather than a component failure. Warning signs, in order: reactive output of one machine flat at its ceiling, voltage falling faster than demand is rising, and the deepest sag appearing at the electrically most remote load buses (here, the bus 13-14 end of the load pocket)."
+    },
+    {
+      "id": "cascade_overload_tripping",
+      "title": "Cascade pattern 2 - overload tripping and flow redistribution",
+      "region_tags": ["cascade", "overload", "outage", "line", "transmission", "hv transmission core", "contingency"],
+      "text": "TEXTBOOK MECHANISM. When a branch is lost, its power does not disappear - it instantly redistributes onto the remaining parallel paths according to their impedances. If that pushes another branch past its thermal rating, protection removes it too, and each removal concentrates flow onto fewer paths. This is the classic cascading-outage sequence behind most large blackouts. It is why grids are operated N-1 SECURE, meaning any single branch or generator can be lost without violating a limit, and why the operator's response to a first contingency is to restore N-1 security before anything else. In this system the tightly-coupled 135 kV core redistributes flow very fast, so the consequences of a core contingency appear within one measurement interval rather than building slowly."
+    },
+    {
+      "id": "n1_critical_branches",
+      "title": "Critical branches (measured in this dataset)",
+      "region_tags": ["contingency", "outage", "cascade", "hv transmission core", "n-1", "critical"],
+      "text": "MEASURED IN THIS DATASET, not quoted from the literature: our N-1 screen solved a power flow at the 99th-percentile demand level with each branch removed in turn. Three branches could not be removed without the power flow losing its solution - line 1-2, line 2-3 and transformer 5-6 - so those are the system's critical elements at peak. Separately, transformer 7-8 cannot be removed at any demand level because it is the sole connection to bus 8 and its removal islands that bus. The remaining 16 branches are N-1 secure at peak and are the only ones this dataset ever takes out of service. Operationally, a contingency on one of those four elements is a different class of event from the rest: it calls for immediate demand reduction, not merely reconfiguration. Note that line 1-2 and transformer 5-6 are critical for different reasons - 1-2 is the main path out of the slack bus, while 5-6 is the sole feed to the bus 6 half of the load pocket."
+    },
+    {
+      "id": "intervention_reactive_support",
+      "title": "Intervention - reactive support and voltage setpoints",
+      "region_tags": ["intervention", "reactive", "shunt capacitor", "synchronous condenser", "generator bus", "compensation", "avr"],
+      "text": "TEXTBOOK PRACTICE. The fastest voltage levers, in escalating order. (1) Switch in shunt capacitor banks near the affected load - here that is the 19 MVAr bank at bus 9. Acts in seconds via a circuit breaker, but capacitive output falls with the square of voltage, so it is weakest during a deep sag. (2) Raise the voltage setpoint of a nearby voltage-controlling machine - the condensers at buses 6 and 8 for the load pocket, the generator at bus 2 for the core. Continuous and fast (seconds, via the automatic voltage regulator) but only effective while that machine still has reactive headroom; check its reactive output against its limit first. (3) Change transformer on-load tap positions to shift the voltage ratio between tiers. Slower (tens of seconds to minutes) and mechanically limited in how often it can operate, and it moves voltage between levels rather than creating reactive power, so it can make the upstream side worse."
+    },
+    {
+      "id": "intervention_load_shedding",
+      "title": "Intervention - load shedding",
+      "region_tags": ["intervention", "load shedding", "load bus", "lv load pocket", "undervoltage", "emergency"],
+      "text": "TEXTBOOK PRACTICE. Load shedding is the last-resort lever and the only one guaranteed to work: disconnecting demand directly removes both the real and the reactive burden causing the sag. Automatic under-voltage load shedding schemes are armed to drop blocks of demand when voltage stays below a threshold for a set time, precisely because voltage collapse runs away faster than an operator can respond. Shedding should be applied AT or ELECTRICALLY NEAR the buses that are sagging, since reactive relief does not travel far - shedding at a healthy bus far from the problem buys little. It is deliberately disruptive and is justified only when reactive levers are exhausted or the decline is accelerating."
+    },
+    {
+      "id": "intervention_switching_redispatch",
+      "title": "Intervention - network switching and generation redispatch",
+      "region_tags": ["intervention", "switching", "redispatch", "outage", "transmission", "hv transmission core", "reconfiguration"],
+      "text": "TEXTBOOK PRACTICE. Two structural levers. (1) NETWORK SWITCHING: open or close a branch to change how power flows. Closing a normally-open tie can relieve an overload; note that switching a line OUT sometimes RAISES voltage nearby, because a lightly-loaded line generates reactive power through its own charging capacitance. Switching alters the graph itself, so its effects are hard to intuit and are normally checked with a power flow before execution. (2) GENERATION REDISPATCH: move real-power output between generating units to change flow patterns and relieve a loaded corridor. In this system real-power redispatch is very limited - only bus 1 and bus 2 produce real power - so redispatch is a weak lever here and reactive support or demand reduction carries the load."
+    },
+    {
+      "id": "voltage_standards",
+      "title": "Voltage limits and what counts as a problem",
+      "region_tags": ["voltage", "limit", "undervoltage", "standard", "per unit", "load bus"],
+      "text": "TEXTBOOK STANDARD. Service voltage is normally held within 0.95 to 1.05 per-unit (ANSI C84.1 Range A); 0.90 to 1.05 per-unit is Range B, acceptable only briefly and to be corrected. Below about 0.90 per-unit, motor loads begin drawing more current to hold their mechanical output, which increases reactive demand and pushes voltage down further - the load itself becomes part of the instability. Per-unit means 'as a fraction of the bus's nominal voltage', so 0.95 per-unit means the same severity at 135 kV as at 0.208 kV and voltages at different tiers are directly comparable. A useful operating rule: an absolute level below 0.95 per-unit is a limit violation, but a RAPID DECLINE while demand is only rising slowly is the more urgent signal, because that is the signature of a machine having just saturated its reactive limit."
+    }
+  ]
+}

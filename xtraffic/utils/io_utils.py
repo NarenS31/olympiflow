@@ -23,6 +23,25 @@ def load_data_config() -> Dict:
         return yaml.safe_load(f)
 
 
+def units_for_dataset(dataset: str, default: str = "mph") -> str:
+    """Real-world unit of a dataset's TARGET state, from configs/data.yaml.
+
+    Phase 19 added this because the metrics are unit-agnostic but every label was
+    hard-coded "mph". On the power grid the target is voltage in per-unit and MAE
+    lands around 0.005, so an axis or table caption reading "mph" would be a lie
+    about a number that is ~800x smaller.
+
+    Defaults to "mph" when the key (or the whole dataset entry) is absent, so the
+    three traffic datasets and any older config behave exactly as before.
+    """
+    try:
+        ds = load_data_config().get("datasets", {}).get(dataset, {})
+        return str(ds.get("units", default))
+    except Exception:
+        # Never let a label lookup break a training run.
+        return default
+
+
 def raw_dir(dataset: str) -> str:
     d = os.path.join(PKG_ROOT, "data", "raw", dataset)
     os.makedirs(d, exist_ok=True)

@@ -22,3 +22,19 @@ PHASE 12 — shap_comparison
 start:   2026-07-19 18:40:11
 log:     /Users/narensara/Desktop/OlympiFlow/xtraffic/evaluation/results/phase_logs/phase12_shap.log
 ------------------------------------------------------------
+PHASE 12 finished: 2026-07-19 20:07:48
+PHASE 12 exit code: 0
+PHASE 12 elapsed: 1h 27m 37s
+
+============================================================
+BOTH PHASES DONE — 2026-07-19 20:07:48
+============================================================
+Phase 11 (cross-city):  exit 1    7h 37m 39s
+Phase 12 (SHAP):        exit 0    1h 27m 37s
+
+Check the results landed:
+  cat /Users/narensara/Desktop/OlympiFlow/xtraffic/evaluation/results/cross_city_faithfulness/cross_city_faithfulness_master.csv
+  (no PENDING rows == Phase 11 complete)
+  grep n_scenarios /Users/narensara/Desktop/OlympiFlow/xtraffic/evaluation/results/shap_comparison/shap_comparison_summary.json
+  (should be ~28-30, not 3)
+============================================================

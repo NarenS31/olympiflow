@@ -99,17 +99,43 @@ class NodeTable:
 
         self.namer = NodeNamer(node_meta)
         self.sensor_ids: List[int] = list(node_meta["sensor_ids"])
-        self.latlon: List[List[float]] = list(node_meta["latlon"])
+        # Phase 19: a power grid has NO geography (node_meta["latlon"] is null), so
+        # this must tolerate absence rather than crash. `or []` keeps every traffic
+        # dataset on the identical code path below.
+        self.latlon: List[List[float]] = list(node_meta.get("latlon") or [])
         self.n_nodes: int = len(self.sensor_ids)
         # City selects the region table (Phase 6 cross-city); defaults to LA.
         self.city: str = node_meta.get("dataset", "metr_la")
 
-        # Per-node region label (e.g. "san fernando valley"), lowercased once so
-        # every comparison downstream is case-insensitive.
-        self.region: List[str] = [
-            region_for(self.latlon[i][0], self.latlon[i][1], self.city).lower()
-            for i in range(self.n_nodes)
-        ]
+        # `geo` = does this dataset resolve locations through COORDINATES? True for
+        # every traffic city; False for the power grid, which resolves through the
+        # electrical ZONE it belongs to instead. The two ladders are structurally
+        # the same (precise id -> exact group -> fuzzy group); only the notion of
+        # "group" differs, which is exactly the substitution DIFFERENCES_POWER_GRID
+        # §2 defines (road region -> electrical zone).
+        self.geo: bool = bool(self.latlon)
+
+        if self.geo:
+            # Per-node region label (e.g. "san fernando valley"), lowercased once so
+            # every comparison downstream is case-insensitive. UNCHANGED from Phase 5.
+            self.region: List[str] = [
+                region_for(self.latlon[i][0], self.latlon[i][1], self.city).lower()
+                for i in range(self.n_nodes)
+            ]
+        else:
+            # Power grid: the group is the voltage ZONE the pipeline wrote into
+            # node_meta ("HV transmission core" / "MV step-down tier" / "LV load
+            # pocket"). These are the SAME strings kb/power_grid.json uses as
+            # region_tags, so retrieval and resolution share one vocabulary —
+            # the property the traffic side gets from node_names.py region labels.
+            zones = node_meta.get("zones")
+            if zones:
+                self.region = [str(z).lower() for z in zones]
+            else:
+                # Fall back to the leading label of the composed node name,
+                # "LV load pocket (bus 9, ...)" -> "lv load pocket".
+                self.region = [self.namer.name(i).split("(")[0].strip().lower()
+                               for i in range(self.n_nodes)]
         # region label -> the set of node_ids that fall in it. A region maps to
         # MANY nodes (that's why a citation resolves to a set, not one id).
         self.region_to_nodes: Dict[str, Set[int]] = {}
@@ -122,6 +148,9 @@ class NodeTable:
         }
         # Sorted unique region labels, for fuzzy matching against.
         self.regions: List[str] = sorted(self.region_to_nodes.keys())
+        # The `unit` word this dataset's nodes are called by ("sensor"/"segment"/
+        # "bus") — the non-geographic ladder uses it to spot "bus 9" citations.
+        self.unit: str = str(node_meta.get("unit", "sensor")).lower()
 
 
 # ---------------------------------------------------------------------------
@@ -188,10 +217,69 @@ class Resolution:
         return len(self.node_ids) > 0
 
 
+def _resolve_non_geographic(location: str, table: NodeTable) -> Resolution:
+    """Phase 19 — the resolution ladder for a dataset with NO coordinates.
+
+    Structurally identical to the traffic ladder (precise unit id -> exact group
+    -> fuzzy group), with electrical ZONE in place of geographic region and no
+    gazetteer rung (there are no landmarks in a circuit — inventing aliases would
+    be fabricating domain knowledge, which is exactly what this phase measures).
+
+    Rung 1 reads the RAW text, not the normalised text, on purpose. `_normalize`
+    strips parentheticals so that "Downtown LA (sensor 773869, ...)" compares
+    cleanly as a region — but a bus's identity lives INSIDE that parenthetical
+    ("LV load pocket (bus 9, load bus + shunt capacitor, 0.208 kV)"), which is the
+    exact string the advisor is shown and therefore the most likely citation. So
+    we pull the bus number before normalisation, then fall back to zone matching.
+
+    Precision note: the pattern requires the literal word "bus"/"buses", so the
+    kV figures in a node name ("135 kV", "0.208 kV") can never be mistaken for a
+    bus id. On a range like "buses 9-14" we take the first number — a documented,
+    conservative reading (it resolves to one real bus rather than guessing a span).
+    """
+    raw = (location or "").lower()
+
+    # Rung 1 — explicit unit id, e.g. "bus 9". Precise: resolves to ONE node.
+    m = re.search(r"\b{}(?:es|s)?\s*#?\s*(\d{{1,3}})\b".format(re.escape(table.unit)), raw)
+    if m:
+        num = m.group(1)
+        if num in table.sid_to_node:
+            nid = table.sid_to_node[num]
+            return Resolution({nid}, "exact_{}".format(table.unit),
+                              matched="{} {}".format(table.unit, num))
+
+    norm = _normalize(location)
+    if not norm:
+        return Resolution(set(), "unresolved")
+
+    # Rung 2 — exact zone label ("lv load pocket").
+    if norm in table.region_to_nodes:
+        return Resolution(set(table.region_to_nodes[norm]), "exact_region",
+                          matched=norm)
+
+    # Rung 3 — fuzzy against zone labels ("the LV pocket" -> "lv load pocket").
+    best_reg, best_score = None, 0.0
+    for reg in table.regions:
+        s = _ratio(norm, reg)
+        if s > best_score:
+            best_reg, best_score = reg, s
+    if best_reg is not None and best_score >= FUZZY_THRESHOLD:
+        return Resolution(set(table.region_to_nodes[best_reg]), "fuzzy",
+                          matched=best_reg, score=best_score)
+
+    return Resolution(set(), "unresolved")
+
+
 def resolve_location(location: str, table: NodeTable) -> Resolution:
     """Resolve one free-text location to a set of node_ids via the escalating
     ladder. Order matters: cheap/precise rungs first, generous rungs last, so
     the logged `method` reflects the STRONGEST evidence that succeeded."""
+    # Phase 19 (FLAGGED, default-preserving): datasets without coordinates take a
+    # separate ladder. Every traffic city has latlon, so `table.geo` is True and
+    # the original code below runs untouched.
+    if not table.geo:
+        return _resolve_non_geographic(location, table)
+
     norm = _normalize(location)
     if not norm:
         return Resolution(set(), "unresolved")

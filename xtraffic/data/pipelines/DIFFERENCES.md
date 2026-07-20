@@ -1,5 +1,9 @@
 # Schema differences: METR-LA / PEMS-BAY vs Chicago
 
+> For the cross-DOMAIN jump (traffic → IEEE 14-bus power grid, Phase 19) see
+> [`DIFFERENCES_POWER_GRID.md`](DIFFERENCES_POWER_GRID.md). This file covers the
+> cross-CITY differences only.
+
 This file documents every place the Chicago pipeline had to diverge from the two
 HDF5 point-sensor datasets. It exists for the paper's **cross-city generalization**
 discussion — a model trained on LA runs on Chicago only because we forced both into

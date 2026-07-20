@@ -1,0 +1,52 @@
+# XTraffic — Phase 19 Step 3: cross-DOMAIN faithfulness study (IEEE 14-bus grid).
+# No magic numbers in code (CLAUDE.md): every knob the study needs lives here.
+
+dataset: power_grid
+city: power_grid                  # selects kb/power_grid.json + the POWER_GRID domain profile
+checkpoint: models/gnn/checkpoints/power_grid_best.pt
+
+scenarios:
+  n: 20                           # scenarios to score (the assignment's number)
+  horizon_step: 6                 # 6 x 5 min = the 30-min headline horizon
+  seed: 42                        # CLAUDE.md: fixed seed everywhere
+
+  # --- What counts as an "undervoltage" (congestion-analogue) scenario --------
+  # DIFFERENCES_POWER_GRID.md §8.5 warns that the traffic rule ("below an absolute
+  # threshold") does NOT port: only 1.04% of steps have any bus under 0.95 pu, and
+  # each bus has its own very different normal voltage (bus 3 sits at 1.008 pu,
+  # bus 8 at 1.089 pu). An absolute cut would therefore sample bus 3 almost every
+  # time. We instead measure each bus's sag RELATIVE TO ITS OWN train-split mean —
+  # the true analogue of "speed below this road's free-flow speed".
+  min_deviation_pu: 0.010         # a bus must sit >= this far below its own normal
+  # Buses whose train-split std is below this never sag meaningfully and must not
+  # be targets. This excludes ONLY bus 1, the slack bus / voltage reference
+  # (std 2.0e-4, ~50x smaller than any other bus); DIFFERENCES §8.4 already flags
+  # it as near-constant. Without this the argmax lands on bus-1 measurement noise
+  # in 1081/1995 windows and the study becomes a study of one trivial bus.
+  min_bus_std_pu: 0.001
+
+explainer:
+  # top_k = 4, NOT the traffic default of 8. This is the single most important
+  # methodological adjustment in the phase and it is a fairness fix, not tuning:
+  # k=8 of METR-LA's 207 nodes is 3.9% of the graph, but k=8 of the grid's 14 buses
+  # is 57% — more than half the network would be "a valid cause", so even a random
+  # citation would usually "hit" the top-k and the hallucination gap would be
+  # structurally compressed toward zero. k=4 (of the 13 eligible non-target buses,
+  # ~31%) keeps recall meaningful while leaving room for a citation to be WRONG.
+  # We do not merely assert this is fair — the RANDOM baselines below MEASURE the
+  # residual chance advantage so the paper can report the gap against chance.
+  top_k: 4
+  epochs: 200
+  confidence_runs: 3              # 3 not 5: N=14 solves are cheap but not free
+
+study:
+  conditions: ["A", "B"]          # A = full pipeline, B = prediction-only (no explanation)
+  # Chance controls. A hallucination rate is only interpretable against the rate a
+  # model would get by citing at random from the same vocabulary. We compute two,
+  # bracketing how the LLM actually phrases citations:
+  #   bus  = uniform over the 14 bus names   (precise citations, e.g. "bus 14")
+  #   zone = uniform over the 3 zone labels  (coarse citations, e.g. "LV load pocket")
+  # Zone-level is the generous end: one zone covers up to 7 buses, so it hits top-k
+  # often. Reporting both is the honest way to state what the A/B gap is worth.
+  random_baselines: ["bus", "zone"]
+  random_draws: 200               # draws per scenario, averaged (cheap, no LLM)

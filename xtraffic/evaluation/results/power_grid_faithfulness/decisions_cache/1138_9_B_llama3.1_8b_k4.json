@@ -1,0 +1,22 @@
+{
+  "sample_index": 1138,
+  "target_bus": 10,
+  "tod_band": "pm_rush",
+  "severity": "moderate",
+  "condition": "B",
+  "advisory_error": "",
+  "n_cited_causes": 2,
+  "n_topk": 4,
+  "cited_locations": [
+    "line 13-14",
+    "transformer 4-9"
+  ],
+  "resolution_methods": [
+    "unresolved",
+    "unresolved"
+  ],
+  "cause_precision": 0.0,
+  "cause_recall": 0.0,
+  "faithfulness_f1": 0.0,
+  "hallucination_rate": 1.0
+}

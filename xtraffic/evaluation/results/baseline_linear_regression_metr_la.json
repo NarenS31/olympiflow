@@ -1,6 +1,7 @@
 {
   "model": "linear_regression",
   "dataset": "metr_la",
+  "units": "mph",
   "overall": {
     "mae": 5.053612232208252,
     "rmse": 9.73741626739502,

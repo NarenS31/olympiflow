@@ -1,2 +1,45 @@
 /Users/narensara/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
   warnings.warn(
+[shap-cmp] 28 scenarios | nsamples=50 | model=advisor.yaml
+  [1/28] night cong=low | GNN/SHAP top-k overlap 0.00
+  [2/28] night cong=low | GNN/SHAP top-k overlap 0.00
+  [3/28] night cong=medium | GNN/SHAP top-k overlap 0.00
+  [4/28] night cong=medium | GNN/SHAP top-k overlap 0.00
+  [5/28] am_rush cong=low | GNN/SHAP top-k overlap 0.00
+  [6/28] am_rush cong=low | GNN/SHAP top-k overlap 0.00
+  [7/28] am_rush cong=medium | GNN/SHAP top-k overlap 0.00
+  [8/28] am_rush cong=medium | GNN/SHAP top-k overlap 0.14
+  [9/28] am_rush cong=high | GNN/SHAP top-k overlap 0.00
+  [10/28] am_rush cong=high | GNN/SHAP top-k overlap 0.00
+  [11/28] midday cong=low | GNN/SHAP top-k overlap 0.00
+  [12/28] midday cong=low | GNN/SHAP top-k overlap 0.00
+  [13/28] midday cong=medium | GNN/SHAP top-k overlap 0.07
+  [14/28] midday cong=medium | GNN/SHAP top-k overlap 0.00
+  [15/28] midday cong=high | GNN/SHAP top-k overlap 0.00
+  [16/28] midday cong=high | GNN/SHAP top-k overlap 0.00
+  [17/28] pm_rush cong=low | GNN/SHAP top-k overlap 0.00
+  [18/28] pm_rush cong=low | GNN/SHAP top-k overlap 0.00
+  [19/28] pm_rush cong=medium | GNN/SHAP top-k overlap 0.07
+  [20/28] pm_rush cong=medium | GNN/SHAP top-k overlap 0.07
+  [21/28] pm_rush cong=high | GNN/SHAP top-k overlap 0.00
+  [22/28] pm_rush cong=high | GNN/SHAP top-k overlap 0.00
+  [23/28] evening cong=low | GNN/SHAP top-k overlap 0.07
+  [24/28] evening cong=low | GNN/SHAP top-k overlap 0.14
+  [25/28] evening cong=medium | GNN/SHAP top-k overlap 0.07
+  [26/28] evening cong=medium | GNN/SHAP top-k overlap 0.00
+  [27/28] evening cong=high | GNN/SHAP top-k overlap 0.00
+  [28/28] evening cong=high | GNN/SHAP top-k overlap 0.00
+
+=== SHAP vs GNNExplainer (mean +/- std, n=28) ===
+explainer                               F1     Hallucination         Precision            Recall
+------------------------------------------------------------------------------------------------
+GNNExplainer (ours)          0.742+/-0.168     0.018+/-0.093     0.982+/-0.093     0.616+/-0.192
+SHAP (KernelExplainer)       0.692+/-0.160     0.018+/-0.093     0.982+/-0.093     0.554+/-0.187
+No explainer                 0.048+/-0.137     0.857+/-0.350     0.143+/-0.350     0.031+/-0.098
+
+GNN vs SHAP top-k overlap (Jaccard): 0.02 +/- 0.04
+VERDICT: GNNExplainer yields MORE faithful advisories than SHAP (F1 0.742 vs 0.692; halluc 0.018 vs 0.018).
+
+[shap-cmp] wrote:
+  /Users/narensara/Desktop/OlympiFlow/xtraffic/evaluation/paper/table_shap_comparison.tex
+  /Users/narensara/Desktop/OlympiFlow/xtraffic/evaluation/results/shap_comparison/shap_comparison_summary.json

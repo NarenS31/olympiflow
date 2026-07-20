@@ -1,0 +1,26 @@
+{
+  "sample_index": 1022,
+  "target_bus": 14,
+  "tod_band": "am_rush",
+  "severity": "severe",
+  "condition": "A",
+  "advisory_error": "",
+  "n_cited_causes": 4,
+  "n_topk": 4,
+  "cited_locations": [
+    "MV step-down tier (bus 8, synchronous condenser, 12 kV)",
+    "HV transmission core (bus 4, load bus, 135 kV)",
+    "HV transmission core (bus 5, load bus, 135 kV)",
+    "HV transmission core (bus 3, synchronous condenser + load, 135 kV)"
+  ],
+  "resolution_methods": [
+    "exact_bus",
+    "exact_bus",
+    "exact_bus",
+    "exact_bus"
+  ],
+  "cause_precision": 1.0,
+  "cause_recall": 1.0,
+  "faithfulness_f1": 1.0,
+  "hallucination_rate": 0.0
+}

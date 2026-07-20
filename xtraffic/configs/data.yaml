@@ -37,16 +37,129 @@ datasets:
   # The canonical node ordering is simply the CSV column order.
   metr_la:
     n_nodes: 207
+    units: "mph"              # real-world unit of the target state (see `units:` note below)
     speed_csv_url: "https://zenodo.org/api/records/5146275/files/METR-LA.csv/content"
     distances_csv_url: "https://raw.githubusercontent.com/liyaguang/DCRNN/master/data/sensor_graph/distances_la_2012.csv"
     sensor_locations_url: "https://raw.githubusercontent.com/liyaguang/DCRNN/master/data/sensor_graph/graph_sensor_locations.csv"
 
   pems_bay:
     n_nodes: 325
+    units: "mph"
     speed_csv_url: "https://zenodo.org/api/records/5146275/files/PEMS-BAY.csv/content"
     distances_csv_url: "https://raw.githubusercontent.com/liyaguang/DCRNN/master/data/sensor_graph/distances_bay_2017.csv"
     # Bay ships a metadata CSV with lat/lon for human-readable node names.
     sensor_meta_url: "https://zenodo.org/api/records/5146275/files/PEMS-BAY-META.csv/content"
+
+  # BUG FIX (Phase 19, 2026-07-19): this block used to sit indented under the
+  # `transit:` section further down, so it parsed as cfg["transit"]["chicago"]
+  # while chicago.py reads cfg["datasets"]["chicago"] -> KeyError. The Chicago
+  # Phase-1 pipeline could not run. Moved back under `datasets:` unchanged.
+  chicago:
+    units: "mph"
+    # Chicago Traffic Tracker — segment-level congestion, Socrata API, no key for small volumes.
+    # 'n1i9-zdnp' is the historical estimates dataset; 'sxs8-h27x' is current. We use current
+    # for the live snapshot and build the graph from segment endpoint coordinates.
+    socrata_domain: "data.cityofchicago.org"
+    current_dataset_id: "n4j6-wkkf"      # Congestion Estimates by Segments (live, ~1250 segments)
+    historical_dataset_id: "4g9f-3jbs"   # Historical Congestion by Segment (2024-current)
+    page_limit: 50000            # max rows per Socrata request without an app token
+    segment_adjacency_tol_m: 50  # two segments are adjacent if endpoints are within 50 m
+
+  # --- Phase 19: IEEE 14-bus power grid (the CROSS-DOMAIN dataset) ---------
+  # Not downloaded — pandapower.networks.case14() ships the standard test case as
+  # library data, so the "download script" is a library call and is byte-identical
+  # for anyone who installs the pinned version. Every number below is a knob of
+  # the SYNTHETIC time-series generator; see data/pipelines/power_grid.py for the
+  # methodology and DIFFERENCES_POWER_GRID.md for the honest limitations.
+  power_grid:
+    n_nodes: 14                 # buses in the IEEE 14-bus test case
+    # Phase 19: the target state is VOLTAGE in per-unit, not speed in mph. Every
+    # metric (MAE/RMSE) is computed in these units, so a table or axis label that
+    # says "mph" here would be a lie — the numbers are ~800x smaller. Read via
+    # utils.io_utils.units_for_dataset(); defaults to "mph" when absent, so the
+    # three traffic datasets behave exactly as before.
+    units: "pu"
+    n_branches: 20              # 15 transmission lines + 5 transformers
+    n_timesteps: 10000          # 5-min steps => ~34.7 simulated days (METR-LA has 34,272)
+    start_time: "2013-01-01 00:00:00"   # arbitrary but FIXED, so the clock/weekday
+                                        # pattern is reproducible. 2013-01-01 = Tuesday.
+    seed: 42                    # generator RNG (load noise + outage process)
+
+    # -- Load model ---------------------------------------------------------
+    # The published case14 load vector is treated as the DAILY MEAN operating
+    # point, not the peak. Multipliers below are dimensionless and multiply it.
+    base_load_scale: 1.00       # scales the whole published operating point
+    weekend_factor: 0.88        # weekend demand relative to weekday (typical utility figure)
+    # Two-peak daily shape: base level + morning commercial ramp + midday plateau
+    # + evening residential peak. Amplitudes/centres/widths in hours.
+    daily_profile:
+      base: 0.62
+      peaks:                    # [amplitude, centre_hour, sigma_hours]
+        - [0.22, 8.0, 1.6]      # morning ramp-up
+        - [0.12, 13.0, 3.0]     # midday commercial plateau
+        - [0.38, 19.0, 2.2]     # evening residential peak (the annual system peak)
+    # Per-bus profile classes give SPATIAL heterogeneity (without it every bus
+    # moves identically and the graph has nothing to learn). Weights blend the
+    # three daily peaks above; assigned to buses deterministically (see pipeline).
+    bus_classes:
+      residential: [0.4, 0.5, 1.6]   # evening-dominant
+      commercial:  [1.5, 1.8, 0.4]   # daytime-dominant
+      industrial:  [1.0, 1.0, 1.0]   # flat-ish, runs around the clock
+    # Each bus's daily curve is shifted by a fixed offset drawn once from
+    # +/- this many hours. Real load centres do not all peak at the same minute,
+    # and de-synchronising them de-correlates the buses (see phase_jitter note in
+    # build_load_multipliers).
+    phase_jitter_hours: 1.5
+    # AR(1) load noise: temporally CORRELATED, not white. phi=0.9 at 5-min steps
+    # => e-folding time ~47 min, which is the right order for real load residuals.
+    noise_ar1_phi: 0.90
+    noise_std: 0.03             # steady-state std of the multiplicative noise (3%)
+
+    # -- Local demand surges (the per-bus analogue of a traffic incident) ----
+    # ADDED after measuring v1 of this dataset, which had only a daily curve +
+    # noise. Diagnostic: predict each bus's de-globalised voltage residual from its
+    # GRAPH NEIGHBOURS vs from an equal number of NON-neighbours. v1 scored R^2
+    # 0.653 vs 0.558 — a ratio of only 1.17x, i.e. the graph barely mattered and an
+    # explainer would have had almost nothing real to find. With local surges the
+    # ratio rises to ~1.9x. Surges are also simply more realistic (industrial
+    # start-up, EV-charging cluster, motor bank switching in).
+    # Values are physically motivated, NOT tuned to maximise that diagnostic:
+    # one local surge per substation every ~2 days, 30-120 min, 1.3-2.0x.
+    surges_per_bus_per_day: 0.5
+    surge_min_steps: 6          # 30 min
+    surge_max_steps: 24         # 120 min
+    surge_amplitude: [1.3, 2.0] # uniform multiplicative step on that bus's demand
+
+    # -- Contingencies (N-1 branch outages) ---------------------------------
+    # The traffic analogue of an incident. Without them, voltage is a smooth
+    # function of the global load multiplier and every explanation is degenerate.
+    outages_per_day: 2.0        # Poisson arrival rate
+    outage_min_steps: 6         # 30 min
+    outage_max_steps: 24        # 120 min
+    # Demand level the N-1 security screen is assessed at, as a percentile of
+    # system-wide demand. NOT the absolute max: screening at the single worst
+    # instant in 34 days knocked out every branch and left the dataset with zero
+    # contingencies. Real N-1 security is assessed against a forecast peak.
+    n1_screen_percentile: 99.0
+
+    # -- Power flow ---------------------------------------------------------
+    # enforce_q_lims=True is ESSENTIAL: without it the 4 PV generators hold their
+    # voltage setpoints exactly at any load and bus voltages barely move.
+    enforce_q_lims: true
+    # Adjacency construction. "admittance" = |Y_ij| = 1/|Z_ij| normalised to (0,1],
+    # the canonical graph operator of a power network. "gaussian" reuses the traffic
+    # DCRNN kernel and is kept only for the ablation that shows why we don't use it
+    # (it crushes 6 of the 20 REAL branches below weight 0.02). See the
+    # build_adjacency docstring for the measured comparison.
+    adjacency_method: "admittance"
+    # Only read when adjacency_method == "gaussian". 0.0 = do not sparsify: unlike a
+    # road network, the 20 branches ARE the topology, so a kappa threshold would
+    # delete real physical connections rather than prune a dense distance matrix.
+    adjacency_normalized_k: 0.0
+    # ANSI C84.1 Range A service band, used to label undervoltage events. This is
+    # the "congestion threshold" analogue for scenario stratification downstream.
+    undervoltage_pu: 0.95
+    nominal_voltage_pu: 1.00
 
 # --- Phase 6: transit modality (GTFS static feeds -> nearby stop count per node) ---
 # GTFS static is a public, keyless zip; stops.txt carries stop_id/lat/lon. We count
@@ -60,13 +173,3 @@ transit:
       - "https://gitlab.com/LACMTA/gtfs_rail/-/raw/master/gtfs_rail.zip"
     chicago:                  # CTA (bus + rail) — used in Phase 6 cross-city
       - "https://www.transitchicago.com/downloads/sch_data/google_transit.zip"
-
-  chicago:
-    # Chicago Traffic Tracker — segment-level congestion, Socrata API, no key for small volumes.
-    # 'n1i9-zdnp' is the historical estimates dataset; 'sxs8-h27x' is current. We use current
-    # for the live snapshot and build the graph from segment endpoint coordinates.
-    socrata_domain: "data.cityofchicago.org"
-    current_dataset_id: "n4j6-wkkf"      # Congestion Estimates by Segments (live, ~1250 segments)
-    historical_dataset_id: "4g9f-3jbs"   # Historical Congestion by Segment (2024-current)
-    page_limit: 50000            # max rows per Socrata request without an app token
-    segment_adjacency_tol_m: 50  # two segments are adjacent if endpoints are within 50 m

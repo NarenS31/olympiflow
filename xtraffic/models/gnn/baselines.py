@@ -23,7 +23,7 @@ from typing import Dict
 import numpy as np
 import torch
 
-from ...utils.io_utils import PKG_ROOT
+from ...utils.io_utils import PKG_ROOT, units_for_dataset
 from ...utils.metrics import masked_metrics, per_horizon_metrics
 from .loaders import _load_split, load_scaler
 from .train import load_config
@@ -89,6 +89,25 @@ def linear_regression(dataset: str, scaler: Dict[str, float], ridge: float = 1.0
     return pred, Yte
 
 
+def persistence(dataset: str, scaler: Dict[str, float]):
+    """Predict every future step as the LAST observed value. -> (pred, true).
+
+    ADDED in Phase 19, and it is the baseline that matters most on a smooth signal.
+    Historical Average and Linear Regression are the standard TRAFFIC floors, but
+    bus voltage moves slowly and continuously, so "whatever it is now, it will
+    still be that in 30 minutes" is a genuinely strong predictor. If the ST-GNN
+    cannot clearly beat persistence on the power grid, the domain is too easy to
+    support any claim, and we would rather find that out here than in review.
+
+    Applies to traffic datasets too, where it is a well-known (and much weaker)
+    reference point. Purely additive: no existing baseline changed.
+    """
+    Xte, Yte = _load_split(dataset, "test")     # X:[S,12,N,2] Y:[S,12,N]
+    last = Xte[:, -1, :, 0]                     # [S, N] final z-scored input step
+    pred = last.unsqueeze(1).repeat(1, Yte.shape[1], 1)   # [S, 12, N] held flat
+    return pred, Yte
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--config", required=True)
@@ -99,14 +118,21 @@ def main():
     res_dir = os.path.join(PKG_ROOT, cfg["results_dir"])
     os.makedirs(res_dir, exist_ok=True)
 
+    # Phase 19: label + precision follow the dataset's units. On the power grid a
+    # per-unit MAE of 0.00209 printed at 3 d.p. reads "0.002", which hides the very
+    # differences between baselines we are trying to see. Defaults to mph/3 d.p.
+    units = units_for_dataset(dataset)
+    prec = 3 if units == "mph" else 5
+
     for name, fn in [("historical_average", historical_average),
-                     ("linear_regression", linear_regression)]:
+                     ("linear_regression", linear_regression),
+                     ("persistence", persistence)]:
         pred, true = fn(dataset, scaler)
         overall = masked_metrics(pred, true, scaler)
         horizon = per_horizon_metrics(pred, true, scaler, tuple(cfg["horizons_steps"]))
-        print(f"[baseline] {name}: MAE={overall['mae']:.3f}  "
-              f"MAE@30min={horizon['30min']['mae']:.3f}")
-        out = {"model": name, "dataset": dataset, "overall": overall,
+        print(f"[baseline] {name:<20}: MAE={overall['mae']:.{prec}f} {units}  "
+              f"MAE@30min={horizon['30min']['mae']:.{prec}f} {units}")
+        out = {"model": name, "dataset": dataset, "units": units, "overall": overall,
                "per_horizon": horizon}
         with open(os.path.join(res_dir, f"baseline_{name}_{dataset}.json"), "w") as f:
             json.dump(out, f, indent=2)

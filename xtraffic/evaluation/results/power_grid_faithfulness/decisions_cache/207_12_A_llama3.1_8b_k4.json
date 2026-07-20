@@ -1,0 +1,26 @@
+{
+  "sample_index": 207,
+  "target_bus": 13,
+  "tod_band": "midday",
+  "severity": "severe",
+  "condition": "A",
+  "advisory_error": "",
+  "n_cited_causes": 4,
+  "n_topk": 4,
+  "cited_locations": [
+    "LV load pocket",
+    "HV transmission core",
+    "HV transmission core",
+    "HV transmission core"
+  ],
+  "resolution_methods": [
+    "exact_region",
+    "exact_region",
+    "exact_region",
+    "exact_region"
+  ],
+  "cause_precision": 1.0,
+  "cause_recall": 1.0,
+  "faithfulness_f1": 1.0,
+  "hallucination_rate": 0.0
+}

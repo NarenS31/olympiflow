@@ -1,0 +1,130 @@
+{
+  "meta": {
+    "city": "chicago",
+    "timestamp": "chicago-pooled#65 @ 22:25",
+    "model_checkpoint": "chicago_zero_shot.pt"
+  },
+  "prediction": {
+    "node_id": 851,
+    "node_name": "The Loop / Downtown (segment 1035, 41.886, -87.636)",
+    "predicted_speed_mph": 13.45,
+    "horizon_minutes": 30,
+    "current_speed_mph": 0.0
+  },
+  "top_nodes": [
+    {
+      "node_id": 357,
+      "node_name": "Southwest Side / Midway (segment 378, 41.768, -87.684)",
+      "importance": 0.8929,
+      "current_speed_mph": 33.0
+    },
+    {
+      "node_id": 393,
+      "node_name": "Far South Side (segment 414, 41.751, -87.591)",
+      "importance": 0.8917,
+      "current_speed_mph": 21.0
+    },
+    {
+      "node_id": 620,
+      "node_name": "Bronzeville / South Side (segment 694, 41.806, -87.616)",
+      "importance": 0.8913,
+      "current_speed_mph": 32.0
+    },
+    {
+      "node_id": 415,
+      "node_name": "SW of the Loop (segment 444, 41.750, -87.688)",
+      "importance": 0.8861,
+      "current_speed_mph": 28.0
+    },
+    {
+      "node_id": 337,
+      "node_name": "West Side / Garfield Park (segment 352, 41.887, -87.686)",
+      "importance": 0.8858,
+      "current_speed_mph": 28.0
+    },
+    {
+      "node_id": 89,
+      "node_name": "NW of the Loop (segment 92, 41.947, -87.728)",
+      "importance": 0.8857,
+      "current_speed_mph": 28.0
+    },
+    {
+      "node_id": 601,
+      "node_name": "Northwest Side / O'Hare corridor (segment 650, 41.935, -87.747)",
+      "importance": 0.884,
+      "current_speed_mph": 28.0
+    },
+    {
+      "node_id": 928,
+      "node_name": "SW of the Loop (segment 1211, 41.805, -87.645)",
+      "importance": 0.8831,
+      "current_speed_mph": 23.0
+    }
+  ],
+  "top_edges": [
+    {
+      "from_id": 337,
+      "to_id": 337,
+      "importance": 0.7038
+    },
+    {
+      "from_id": 336,
+      "to_id": 337,
+      "importance": 0.6992
+    },
+    {
+      "from_id": 928,
+      "to_id": 928,
+      "importance": 0.6742
+    },
+    {
+      "from_id": 964,
+      "to_id": 928,
+      "importance": 0.6569
+    },
+    {
+      "from_id": 811,
+      "to_id": 337,
+      "importance": 0.6529
+    },
+    {
+      "from_id": 89,
+      "to_id": 89,
+      "importance": 0.6331
+    },
+    {
+      "from_id": 601,
+      "to_id": 602,
+      "importance": 0.6282
+    },
+    {
+      "from_id": 371,
+      "to_id": 337,
+      "importance": 0.6157
+    }
+  ],
+  "propagation_path": [
+    357,
+    323,
+    324,
+    325,
+    326,
+    327,
+    328,
+    329,
+    330,
+    470,
+    471,
+    472,
+    934,
+    935,
+    936,
+    937,
+    938,
+    984,
+    843,
+    851
+  ],
+  "propagation_lag_minutes": 20.0,
+  "explanation_confidence": 0.099
+}

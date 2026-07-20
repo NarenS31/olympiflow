@@ -1,0 +1,8 @@
+{
+  "n_cases": 22,
+  "n_pass": 22,
+  "accuracy": 1.0,
+  "threshold": 0.9,
+  "passed": true,
+  "fuzz_backend": "difflib.SequenceMatcher"
+}

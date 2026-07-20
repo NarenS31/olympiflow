@@ -4,6 +4,7 @@
   "trained_on": "metr_la",
   "evaluated_on": "metr_la",
   "run_name": "metr_la",
+  "units": "mph",
   "use_sidecars": false,
   "overall": {
     "mae": 3.145350217819214,

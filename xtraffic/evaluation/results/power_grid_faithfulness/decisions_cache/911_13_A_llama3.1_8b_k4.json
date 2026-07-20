@@ -1,0 +1,22 @@
+{
+  "sample_index": 911,
+  "target_bus": 14,
+  "tod_band": "evening",
+  "severity": "moderate",
+  "condition": "A",
+  "advisory_error": "",
+  "n_cited_causes": 2,
+  "n_topk": 4,
+  "cited_locations": [
+    "HV transmission core",
+    "HV transmission core"
+  ],
+  "resolution_methods": [
+    "exact_region",
+    "exact_region"
+  ],
+  "cause_precision": 1.0,
+  "cause_recall": 1.0,
+  "faithfulness_f1": 1.0,
+  "hallucination_rate": 0.0
+}

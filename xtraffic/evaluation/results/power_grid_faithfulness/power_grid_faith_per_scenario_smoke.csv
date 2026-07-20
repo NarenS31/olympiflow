@@ -1,0 +1,13 @@
+sample_index,target_bus,tod_band,severity,condition,advisory_error,cause_precision,cause_recall,faithfulness_f1,hallucination_rate,n_cited_causes,n_topk
+1912,4,am_rush,mild,A,,0.5,0.25,0.3333333333333333,0.5,2,4
+1912,4,am_rush,mild,B,,0.0,0.0,0.0,1.0,1,4
+481,10,am_rush,moderate,A,,1.0,1.0,1.0,0.0,4,4
+481,10,am_rush,moderate,B,,0.0,0.0,0.0,1.0,2,4
+1022,14,am_rush,severe,A,,1.0,1.0,1.0,0.0,4,4
+1022,14,am_rush,severe,B,,0.0,0.0,0.0,1.0,2,4
+1912,4,am_rush,mild,RANDOM_bus,,0.2833333333333334,0.20375,0.23575757575757578,0.7166666666666666,3,4
+481,10,am_rush,moderate,RANDOM_bus,,0.2816666666666666,0.19875,0.23138528138528136,0.7183333333333333,3,4
+1022,14,am_rush,severe,RANDOM_bus,,0.2983333333333333,0.21625,0.24965367965367968,0.7016666666666667,3,4
+1912,4,am_rush,mild,RANDOM_zone,,0.6566666666666666,0.725,0.6570242698477992,0.3433333333333334,3,4
+481,10,am_rush,moderate,RANDOM_zone,,0.65,0.6525,0.609963036963037,0.35,3,4
+1022,14,am_rush,severe,RANDOM_zone,,0.68,0.70875,0.6562845389904214,0.32,3,4
