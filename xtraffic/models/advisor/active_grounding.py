@@ -126,33 +126,54 @@ def missed_topk_nodes(exp: Dict[str, Any],
             if int(n["node_id"]) not in covered]
 
 
-def build_correction_block(missed: List[Dict[str, Any]], round_num: int) -> str:
+def build_correction_block(missed: List[Dict[str, Any]], round_num: int,
+                           domain: Optional[Any] = None) -> str:
     """The targeted correction appended after the TASK for the next round.
 
     It (a) names the missed top-k locations with their importance and current
     speed, (b) demands EVERY one be addressed, and (c) re-states the hard rule
     against inventing causes — so raising recall never comes at the cost of
     precision. round_num is the round this correction produces (1-based), logged
-    in the text for traceability."""
+    in the text for traceability.
+
+    PHASE 20 (FLAGGED, default-preserving): the optional `domain` parameter.
+    -----------------------------------------------------------------------
+    Three strings in this block were hard-coded traffic — "the predicted
+    CONGESTION", "currently {} MPH", and "do NOT invent new SENSORS, ROADS,
+    INCIDENTS". Phase 19 fixed exactly this class of leak in advisor.py via
+    models/advisor/domains.py, with the argument (domains.py docstring) that a
+    wrong unit in an LLM prompt is a CONFOUND, not a cosmetic bug: tell llama3.1
+    a substation is doing 1.021 mph and it will invent ramp metering for it, and
+    we would then score our own prompt's confusion as the model's hallucination.
+    The correction block was missed by that sweep because Phase 16 predates it.
+
+    `domain=None` -> TRAFFIC -> the output is BYTE-IDENTICAL to the Phase-16
+    original, so the committed n=93 METR-LA convergence numbers are untouched.
+    Only the VOCABULARY is parameterised; the loop's control flow, its stopping
+    rules, and what it names are unchanged. Pinned by the golden-bytes assertion
+    in evaluation/active_grounding_power_grid.py --verify-unchanged.
+    """
+    from .domains import TRAFFIC
+    d = domain if domain is not None else TRAFFIC
     lines = [
         "=== GROUNDING CORRECTION (round {}) ===".format(round_num),
         "Your previous answer did not address these locations from the "
         "MATHEMATICAL EXPLANATION above. The model identified them as important "
-        "causes of the predicted congestion, but your reasoning and "
-        "recommendations did not mention them:",
+        "causes of the predicted {stress}, but your reasoning and "
+        "recommendations did not mention them:".format(stress=d.stress),
     ]
     for n in missed:
         lines.append(
-            "  - {} (node_id {}): importance {:.3f}, currently {} mph".format(
+            "  - {} (node_id {}): importance {:.3f}, currently {}".format(
                 n["node_name"], n["node_id"], float(n["importance"]),
-                n["current_speed_mph"]))
+                d.fmt(n["current_speed_mph"])))
     lines.append("")
     lines.append(
         "Revise your reasoning and recommendations so that EVERY one of these "
         "locations is explicitly addressed. You must STILL cite ONLY causes that "
-        "appear in the mathematical explanation above — do NOT invent new sensors, "
-        "roads, incidents, or numbers to comply. Return ONLY the corrected JSON "
-        "object in the same shape as before.")
+        "appear in the mathematical explanation above — do NOT invent new {invent}"
+        ", or numbers to comply. Return ONLY the corrected JSON "
+        "object in the same shape as before.".format(invent=d.invent_list))
     return "\n".join(lines)
 
 
@@ -165,8 +186,8 @@ def _region(name: str) -> str:
 
 
 def run_active_grounding(advisor: Any, exp: Dict[str, Any], table: Any,
-                         f1_threshold: float, max_rounds: int
-                         ) -> Dict[str, Any]:
+                         f1_threshold: float, max_rounds: int,
+                         domain: Optional[Any] = None) -> Dict[str, Any]:
     """Run the closed grounding loop on ONE (explanation) and return its trace.
 
     Structure (round 0 = the plain condition-A answer; rounds 1..max are
@@ -229,7 +250,10 @@ def run_active_grounding(advisor: Any, exp: Dict[str, Any], table: Any,
             # no missed node to name, so honestly stop instead of looping uselessly.
             stop_reason = "no_missed_nodes"
             break
-        extra = build_correction_block(missed, r + 1)
+        # Phase 20: `domain` is None for every pre-existing caller -> TRAFFIC ->
+        # byte-identical correction text. Only the power-grid driver passes a
+        # profile, and it also runs the None path so both are measured.
+        extra = build_correction_block(missed, r + 1, domain=domain)
 
     f1_0 = curve[0]["faithfulness_f1"]
     f1_f = curve[-1]["faithfulness_f1"]

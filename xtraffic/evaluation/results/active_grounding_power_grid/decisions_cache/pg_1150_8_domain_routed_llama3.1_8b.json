@@ -1,0 +1,59 @@
+{
+  "curve": [
+    {
+      "round": 0,
+      "used_correction": false,
+      "faithfulness_f1": 1.0,
+      "cause_precision": 1.0,
+      "cause_recall": 1.0,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 4,
+      "n_topk": 4,
+      "n_missed": 0,
+      "missed_regions": [],
+      "missed_node_ids": [],
+      "advisory_error": ""
+    }
+  ],
+  "n_rounds": 0,
+  "reached_threshold": true,
+  "stop_reason": "threshold_reached",
+  "f1_initial": 1.0,
+  "f1_final": 1.0,
+  "f1_gain": 0.0,
+  "sample_index": 1150,
+  "target_node": 8,
+  "target_bus": 9,
+  "tod_band": "pm_rush",
+  "congestion": "severe",
+  "severity": "severe",
+  "variant": "domain_routed",
+  "model": "llama3.1:8b",
+  "llm_log": [
+    {
+      "round": 0,
+      "correction_prompt": null,
+      "reasoning": "The undervoltage is predicted because the LV load pocket (bus 14, with a current voltage of 0.870 pu) is driving the prediction, and it's located at the far end of the pocket behind line 13-14, which has the highest impedance in the system.",
+      "cited_causes": [
+        {
+          "location": "LV load pocket",
+          "resolved_node_id": 13
+        },
+        {
+          "location": "MV step-down tier",
+          "resolved_node_id": 6
+        },
+        {
+          "location": "HV transmission core",
+          "resolved_node_id": 3
+        },
+        {
+          "location": "LV load pocket",
+          "resolved_node_id": 9
+        }
+      ],
+      "n_recommendations": 3,
+      "advisory_error": ""
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "curve": [
+    {
+      "round": 0,
+      "used_correction": false,
+      "faithfulness_f1": 1.0,
+      "cause_precision": 1.0,
+      "cause_recall": 1.0,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 2,
+      "n_topk": 4,
+      "n_missed": 0,
+      "missed_regions": [],
+      "missed_node_ids": [],
+      "advisory_error": ""
+    }
+  ],
+  "n_rounds": 0,
+  "reached_threshold": true,
+  "stop_reason": "threshold_reached",
+  "f1_initial": 1.0,
+  "f1_final": 1.0,
+  "f1_gain": 0.0,
+  "sample_index": 1138,
+  "target_node": 9,
+  "target_bus": 10,
+  "tod_band": "pm_rush",
+  "congestion": "moderate",
+  "severity": "moderate",
+  "variant": "unmodified",
+  "model": "llama3.1:8b",
+  "llm_log": [
+    {
+      "round": 0,
+      "correction_prompt": null,
+      "reasoning": "The undervoltage at bus 10 in the LV load pocket is predicted because of the influence from buses 4 and 5 in the HV transmission core, which are both experiencing slightly low voltages (1.010 pu) compared to their nominal values.",
+      "cited_causes": [
+        {
+          "location": "HV transmission core",
+          "resolved_node_id": 3
+        },
+        {
+          "location": "LV load pocket",
+          "resolved_node_id": 13
+        }
+      ],
+      "n_recommendations": 3,
+      "advisory_error": ""
+    }
+  ]
+}

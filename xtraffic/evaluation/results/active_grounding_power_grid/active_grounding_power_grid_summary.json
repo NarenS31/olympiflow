@@ -1,0 +1,370 @@
+{
+  "dataset": "power_grid",
+  "model": "llama3.1:8b",
+  "top_k": 4,
+  "f1_threshold": 0.7,
+  "max_rounds": 3,
+  "n_scenarios": 20,
+  "loop_source": "models/advisor/active_grounding.run_active_grounding (imported unmodified; only scenarios/explanations differ)",
+  "power_grid": {
+    "unmodified": {
+      "n_scenarios": 20,
+      "f1_threshold": 0.7,
+      "max_rounds": 3,
+      "per_round": [
+        {
+          "round": 0,
+          "mean_f1": 0.8920238095238094,
+          "std_f1": 0.18465552134887778,
+          "mean_recall": 0.8625,
+          "mean_precision": 0.9625,
+          "mean_hallucination": 0.0375,
+          "frac_reached_threshold": 0.8,
+          "n_reached_threshold": 16
+        },
+        {
+          "round": 1,
+          "mean_f1": 0.9732142857142858,
+          "std_f1": 0.06669589070351105,
+          "mean_recall": 0.9625,
+          "mean_precision": 0.9875,
+          "mean_hallucination": 0.0125,
+          "frac_reached_threshold": 1.0,
+          "n_reached_threshold": 20
+        },
+        {
+          "round": 2,
+          "mean_f1": 0.9732142857142858,
+          "std_f1": 0.06669589070351105,
+          "mean_recall": 0.9625,
+          "mean_precision": 0.9875,
+          "mean_hallucination": 0.0125,
+          "frac_reached_threshold": 1.0,
+          "n_reached_threshold": 20
+        },
+        {
+          "round": 3,
+          "mean_f1": 0.9732142857142858,
+          "std_f1": 0.06669589070351105,
+          "mean_recall": 0.9625,
+          "mean_precision": 0.9875,
+          "mean_hallucination": 0.0125,
+          "frac_reached_threshold": 1.0,
+          "n_reached_threshold": 20
+        }
+      ],
+      "mean_f1_gain": 0.08119047619047619,
+      "mean_rounds_used": 0.2,
+      "frac_reached_overall": 1.0,
+      "stop_reasons": {
+        "threshold_reached": 20
+      }
+    },
+    "domain_routed": {
+      "n_scenarios": 20,
+      "f1_threshold": 0.7,
+      "max_rounds": 3,
+      "per_round": [
+        {
+          "round": 0,
+          "mean_f1": 0.8988095238095237,
+          "std_f1": 0.11508278593711407,
+          "mean_recall": 0.85,
+          "mean_precision": 0.975,
+          "mean_hallucination": 0.025,
+          "frac_reached_threshold": 0.9,
+          "n_reached_threshold": 18
+        },
+        {
+          "round": 1,
+          "mean_f1": 0.9321428571428572,
+          "std_f1": 0.08813544770895046,
+          "mean_recall": 0.9,
+          "mean_precision": 0.975,
+          "mean_hallucination": 0.025,
+          "frac_reached_threshold": 1.0,
+          "n_reached_threshold": 20
+        },
+        {
+          "round": 2,
+          "mean_f1": 0.9321428571428572,
+          "std_f1": 0.08813544770895046,
+          "mean_recall": 0.9,
+          "mean_precision": 0.975,
+          "mean_hallucination": 0.025,
+          "frac_reached_threshold": 1.0,
+          "n_reached_threshold": 20
+        },
+        {
+          "round": 3,
+          "mean_f1": 0.9321428571428572,
+          "std_f1": 0.08813544770895046,
+          "mean_recall": 0.9,
+          "mean_precision": 0.975,
+          "mean_hallucination": 0.025,
+          "frac_reached_threshold": 1.0,
+          "n_reached_threshold": 20
+        }
+      ],
+      "mean_f1_gain": 0.03333333333333334,
+      "mean_rounds_used": 0.1,
+      "frac_reached_overall": 1.0,
+      "stop_reasons": {
+        "threshold_reached": 20
+      }
+    }
+  },
+  "power_grid_low_f1_subpopulation": {
+    "unmodified": {
+      "n_scenarios": 4,
+      "f1_threshold": 0.7,
+      "max_rounds": 3,
+      "per_round": [
+        {
+          "round": 0,
+          "mean_f1": 0.5583333333333333,
+          "std_f1": 0.11395661942647783,
+          "mean_recall": 0.4375,
+          "mean_precision": 0.875,
+          "mean_hallucination": 0.125,
+          "frac_reached_threshold": 0.0,
+          "n_reached_threshold": 0
+        },
+        {
+          "round": 1,
+          "mean_f1": 0.9642857142857143,
+          "std_f1": 0.06185895741317421,
+          "mean_recall": 0.9375,
+          "mean_precision": 1.0,
+          "mean_hallucination": 0.0,
+          "frac_reached_threshold": 1.0,
+          "n_reached_threshold": 4
+        },
+        {
+          "round": 2,
+          "mean_f1": 0.9642857142857143,
+          "std_f1": 0.06185895741317421,
+          "mean_recall": 0.9375,
+          "mean_precision": 1.0,
+          "mean_hallucination": 0.0,
+          "frac_reached_threshold": 1.0,
+          "n_reached_threshold": 4
+        },
+        {
+          "round": 3,
+          "mean_f1": 0.9642857142857143,
+          "std_f1": 0.06185895741317421,
+          "mean_recall": 0.9375,
+          "mean_precision": 1.0,
+          "mean_hallucination": 0.0,
+          "frac_reached_threshold": 1.0,
+          "n_reached_threshold": 4
+        }
+      ],
+      "mean_f1_gain": 0.40595238095238095,
+      "mean_rounds_used": 1.0,
+      "frac_reached_overall": 1.0,
+      "stop_reasons": {
+        "threshold_reached": 4
+      }
+    },
+    "domain_routed": {
+      "n_scenarios": 2,
+      "f1_threshold": 0.7,
+      "max_rounds": 3,
+      "per_round": [
+        {
+          "round": 0,
+          "mean_f1": 0.6666666666666666,
+          "std_f1": 0.0,
+          "mean_recall": 0.5,
+          "mean_precision": 1.0,
+          "mean_hallucination": 0.0,
+          "frac_reached_threshold": 0.0,
+          "n_reached_threshold": 0
+        },
+        {
+          "round": 1,
+          "mean_f1": 1.0,
+          "std_f1": 0.0,
+          "mean_recall": 1.0,
+          "mean_precision": 1.0,
+          "mean_hallucination": 0.0,
+          "frac_reached_threshold": 1.0,
+          "n_reached_threshold": 2
+        },
+        {
+          "round": 2,
+          "mean_f1": 1.0,
+          "std_f1": 0.0,
+          "mean_recall": 1.0,
+          "mean_precision": 1.0,
+          "mean_hallucination": 0.0,
+          "frac_reached_threshold": 1.0,
+          "n_reached_threshold": 2
+        },
+        {
+          "round": 3,
+          "mean_f1": 1.0,
+          "std_f1": 0.0,
+          "mean_recall": 1.0,
+          "mean_precision": 1.0,
+          "mean_hallucination": 0.0,
+          "frac_reached_threshold": 1.0,
+          "n_reached_threshold": 2
+        }
+      ],
+      "mean_f1_gain": 0.33333333333333337,
+      "mean_rounds_used": 1.0,
+      "frac_reached_overall": 1.0,
+      "stop_reasons": {
+        "threshold_reached": 2
+      }
+    }
+  },
+  "traffic_reference": {
+    "n_scenarios": 93,
+    "f1_threshold": 0.7,
+    "max_rounds": 3,
+    "per_round": [
+      {
+        "round": 0,
+        "mean_f1": 0.7323395839524868,
+        "std_f1": 0.16228629231601224,
+        "mean_recall": 0.6048387096774194,
+        "mean_precision": 0.9946236559139785,
+        "mean_hallucination": 0.005376344086021506,
+        "frac_reached_threshold": 0.6451612903225806,
+        "n_reached_threshold": 60
+      },
+      {
+        "round": 1,
+        "mean_f1": 0.8642210835759224,
+        "std_f1": 0.09868382318517642,
+        "mean_recall": 0.7741935483870968,
+        "mean_precision": 1.0,
+        "mean_hallucination": 0.0,
+        "frac_reached_threshold": 0.967741935483871,
+        "n_reached_threshold": 90
+      },
+      {
+        "round": 2,
+        "mean_f1": 0.8702115089211864,
+        "std_f1": 0.09211739321961404,
+        "mean_recall": 0.782258064516129,
+        "mean_precision": 1.0,
+        "mean_hallucination": 0.0,
+        "frac_reached_threshold": 0.989247311827957,
+        "n_reached_threshold": 92
+      },
+      {
+        "round": 3,
+        "mean_f1": 0.8737957383118674,
+        "std_f1": 0.09060026352952077,
+        "mean_recall": 0.7876344086021505,
+        "mean_precision": 1.0,
+        "mean_hallucination": 0.0,
+        "frac_reached_threshold": 1.0,
+        "n_reached_threshold": 93
+      }
+    ],
+    "mean_f1_gain": 0.14145615435938022,
+    "mean_rounds_used": 0.3978494623655914,
+    "frac_reached_overall": 1.0,
+    "stop_reasons": {
+      "threshold_reached": 93
+    },
+    "select": "stratified",
+    "dataset": "metr_la",
+    "model": "llama3.1:8b",
+    "most_missed_regions": [
+      [
+        "NE of Downtown LA",
+        64
+      ],
+      [
+        "Glendale / Burbank",
+        56
+      ],
+      [
+        "San Fernando Valley",
+        48
+      ],
+      [
+        "Hollywood",
+        27
+      ],
+      [
+        "N of Downtown LA",
+        27
+      ],
+      [
+        "Downtown LA",
+        24
+      ],
+      [
+        "NW of Downtown LA",
+        20
+      ],
+      [
+        "Pasadena / East",
+        16
+      ]
+    ]
+  },
+  "variant_contrast": {
+    "n_paired": 20,
+    "round0_noise_floor": {
+      "mean": -0.0067857142857142725,
+      "mean_abs": 0.07821428571428572,
+      "std": 0.13149945250483097,
+      "n_differing": 8,
+      "n": 20
+    },
+    "final_difference": {
+      "mean": 0.04107142857142858,
+      "mean_abs": 0.04107142857142858,
+      "std": 0.06315978279938357,
+      "n_differing": 6,
+      "n": 20
+    },
+    "effect_exceeds_noise_floor": false,
+    "verdict": "final |diff| 0.0411 is SMALLER than the round-0 noise floor 0.0782 (measured with NO correction applied) -> no detectable effect of the correction vocabulary",
+    "n_engaged": {
+      "unmodified": 4,
+      "domain_routed": 2
+    },
+    "engaged_caveat": "Only engaged scenarios can be affected by the correction text at all, and n_engaged is small \u2014 this is a NULL result, not proof of equivalence."
+  },
+  "sampling_diagnostics": {
+    "test_windows": 1995,
+    "ineligible_buses": [
+      1
+    ],
+    "min_deviation_pu": 0.01,
+    "n_stressed_windows": 344,
+    "severity_cuts_pu": [
+      0.01636,
+      0.04259
+    ],
+    "cells_available": {
+      "am_rush|mild": 15,
+      "am_rush|moderate": 12,
+      "am_rush|severe": 30,
+      "evening|moderate": 11,
+      "midday|mild": 1,
+      "midday|moderate": 30,
+      "midday|severe": 25,
+      "night|mild": 4,
+      "night|moderate": 1,
+      "night|severe": 9,
+      "pm_rush|mild": 95,
+      "pm_rush|moderate": 60,
+      "pm_rush|severe": 51
+    },
+    "n_requested": 20,
+    "n_sampled": 20
+  },
+  "is_demo": false,
+  "demo_note": ""
+}

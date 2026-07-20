@@ -1,0 +1,51 @@
+{
+  "curve": [
+    {
+      "round": 0,
+      "used_correction": false,
+      "faithfulness_f1": 1.0,
+      "cause_precision": 1.0,
+      "cause_recall": 1.0,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 2,
+      "n_topk": 4,
+      "n_missed": 0,
+      "missed_regions": [],
+      "missed_node_ids": [],
+      "advisory_error": ""
+    }
+  ],
+  "n_rounds": 0,
+  "reached_threshold": true,
+  "stop_reason": "threshold_reached",
+  "f1_initial": 1.0,
+  "f1_final": 1.0,
+  "f1_gain": 0.0,
+  "sample_index": 909,
+  "target_node": 13,
+  "target_bus": 14,
+  "tod_band": "evening",
+  "congestion": "moderate",
+  "severity": "moderate",
+  "variant": "unmodified",
+  "model": "llama3.1:8b",
+  "llm_log": [
+    {
+      "round": 0,
+      "correction_prompt": null,
+      "reasoning": "The undervoltage at bus 14 is predicted because the HV transmission core, specifically buses 4 and 5, are experiencing overvoltage conditions (1.020 pu), which will propagate to bus 3 with a lag of 35 minutes, causing an undervoltage at bus 14.",
+      "cited_causes": [
+        {
+          "location": "HV transmission core",
+          "resolved_node_id": 3
+        },
+        {
+          "location": "HV transmission core",
+          "resolved_node_id": 4
+        }
+      ],
+      "n_recommendations": 3,
+      "advisory_error": ""
+    }
+  ]
+}

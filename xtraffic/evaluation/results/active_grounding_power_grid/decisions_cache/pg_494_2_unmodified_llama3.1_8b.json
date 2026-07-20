@@ -1,0 +1,59 @@
+{
+  "curve": [
+    {
+      "round": 0,
+      "used_correction": false,
+      "faithfulness_f1": 1.0,
+      "cause_precision": 1.0,
+      "cause_recall": 1.0,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 4,
+      "n_topk": 4,
+      "n_missed": 0,
+      "missed_regions": [],
+      "missed_node_ids": [],
+      "advisory_error": ""
+    }
+  ],
+  "n_rounds": 0,
+  "reached_threshold": true,
+  "stop_reason": "threshold_reached",
+  "f1_initial": 1.0,
+  "f1_final": 1.0,
+  "f1_gain": 0.0,
+  "sample_index": 494,
+  "target_node": 2,
+  "target_bus": 3,
+  "tod_band": "midday",
+  "congestion": "severe",
+  "severity": "severe",
+  "variant": "unmodified",
+  "model": "llama3.1:8b",
+  "llm_log": [
+    {
+      "round": 0,
+      "correction_prompt": null,
+      "reasoning": "The undervoltage at bus 3 in the HV transmission core is predicted because of an imbalance in reactive power flow. The synchronous condenser at bus 8, which injects or absorbs reactive power for voltage control, has a higher voltage (1.090 pu) than its normal value, indicating it's injecting more reactive power than needed. This excess reactive power flows through the HV transmission core and affects the load buses, including bus 4 (1.000 pu), bus 5 (1.000 pu), and indirectly bus 14 in the LV load pocket (1.030 pu). The imbalance causes an undervoltage at bus 3.",
+      "cited_causes": [
+        {
+          "location": "MV step-down tier",
+          "resolved_node_id": 7
+        },
+        {
+          "location": "HV transmission core",
+          "resolved_node_id": 3
+        },
+        {
+          "location": "LV load pocket",
+          "resolved_node_id": null
+        },
+        {
+          "location": "HV transmission core",
+          "resolved_node_id": 4
+        }
+      ],
+      "n_recommendations": 3,
+      "advisory_error": ""
+    }
+  ]
+}

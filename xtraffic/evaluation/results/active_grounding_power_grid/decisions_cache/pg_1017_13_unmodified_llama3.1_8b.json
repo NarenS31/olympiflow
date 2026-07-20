@@ -1,0 +1,56 @@
+{
+  "curve": [
+    {
+      "round": 0,
+      "used_correction": false,
+      "faithfulness_f1": 1.0,
+      "cause_precision": 1.0,
+      "cause_recall": 1.0,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 4,
+      "n_topk": 4,
+      "n_missed": 0,
+      "missed_regions": [],
+      "missed_node_ids": [],
+      "advisory_error": ""
+    }
+  ],
+  "n_rounds": 0,
+  "reached_threshold": true,
+  "stop_reason": "threshold_reached",
+  "f1_initial": 1.0,
+  "f1_final": 1.0,
+  "f1_gain": 0.0,
+  "sample_index": 1017,
+  "target_node": 13,
+  "target_bus": 14,
+  "tod_band": "night",
+  "congestion": "moderate",
+  "severity": "moderate",
+  "variant": "unmodified",
+  "model": "llama3.1:8b",
+  "llm_log": [
+    {
+      "round": 0,
+      "correction_prompt": null,
+      "reasoning": "The undervoltage at bus 14 in the LV load pocket is predicted because of the influence of buses 4 and 5 in the HV transmission core, which are currently at 1.010 pu voltage. Bus 3, also in the HV transmission core, has a synchronous condenser and is simultaneously the largest load in the system, contributing to the undervoltage prediction.",
+      "cited_causes": [
+        {
+          "location": "HV transmission core (bus 4, load bus, 135 kV)",
+          "resolved_node_id": 3
+        },
+        {
+          "location": "HV transmission core (bus 5, load bus, 135 kV)"
+        },
+        {
+          "location": "HV transmission core (bus 3, synchronous condenser + load, 135 kV)"
+        },
+        {
+          "location": "HV transmission core (bus 1, slack bus, 135 kV)"
+        }
+      ],
+      "n_recommendations": 3,
+      "advisory_error": ""
+    }
+  ]
+}

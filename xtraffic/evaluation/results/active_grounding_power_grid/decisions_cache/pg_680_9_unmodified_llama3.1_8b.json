@@ -1,0 +1,59 @@
+{
+  "curve": [
+    {
+      "round": 0,
+      "used_correction": false,
+      "faithfulness_f1": 1.0,
+      "cause_precision": 1.0,
+      "cause_recall": 1.0,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 4,
+      "n_topk": 4,
+      "n_missed": 0,
+      "missed_regions": [],
+      "missed_node_ids": [],
+      "advisory_error": ""
+    }
+  ],
+  "n_rounds": 0,
+  "reached_threshold": true,
+  "stop_reason": "threshold_reached",
+  "f1_initial": 1.0,
+  "f1_final": 1.0,
+  "f1_gain": 0.0,
+  "sample_index": 680,
+  "target_node": 9,
+  "target_bus": 10,
+  "tod_band": "night",
+  "congestion": "mild",
+  "severity": "mild",
+  "variant": "unmodified",
+  "model": "llama3.1:8b",
+  "llm_log": [
+    {
+      "round": 0,
+      "correction_prompt": null,
+      "reasoning": "The undervoltage is predicted because the LV load pocket at bus 14 (node_id 13) has a higher voltage than expected, which will propagate to the target location at bus 10 (node_id 9). Additionally, the HV transmission core at bus 4 (node_id 3) and bus 1 (node_id 0) have lower voltages than expected, contributing to the undervoltage. The propagation of undervoltage appears to travel along a path of 3 buses with an estimated lag of 25 minutes.",
+      "cited_causes": [
+        {
+          "location": "LV load pocket",
+          "resolved_node_id": 13
+        },
+        {
+          "location": "HV transmission core",
+          "resolved_node_id": 3
+        },
+        {
+          "location": "HV transmission core",
+          "resolved_node_id": 0
+        },
+        {
+          "location": "MV step-down tier",
+          "resolved_node_id": null
+        }
+      ],
+      "n_recommendations": 3,
+      "advisory_error": ""
+    }
+  ]
+}

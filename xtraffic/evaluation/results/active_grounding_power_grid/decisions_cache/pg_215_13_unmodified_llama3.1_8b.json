@@ -1,0 +1,60 @@
+{
+  "curve": [
+    {
+      "round": 0,
+      "used_correction": false,
+      "faithfulness_f1": 0.75,
+      "cause_precision": 0.75,
+      "cause_recall": 0.75,
+      "hallucination_rate": 0.25,
+      "n_cited_causes": 4,
+      "n_topk": 4,
+      "n_missed": 1,
+      "missed_regions": [
+        "LV load pocket (bus 12, load bus, 0.208 kV)"
+      ],
+      "missed_node_ids": [
+        11
+      ],
+      "advisory_error": ""
+    }
+  ],
+  "n_rounds": 0,
+  "reached_threshold": true,
+  "stop_reason": "threshold_reached",
+  "f1_initial": 0.75,
+  "f1_final": 0.75,
+  "f1_gain": 0.0,
+  "sample_index": 215,
+  "target_node": 13,
+  "target_bus": 14,
+  "tod_band": "midday",
+  "congestion": "moderate",
+  "severity": "moderate",
+  "variant": "unmodified",
+  "model": "llama3.1:8b",
+  "llm_log": [
+    {
+      "round": 0,
+      "correction_prompt": null,
+      "reasoning": "The undervoltage at bus 14 in the LV load pocket is predicted because of a combination of factors. The voltage at bus 13, which is also in the LV load pocket, is higher than expected (1.050 pu), and this excess voltage seems to be causing an undervoltage downstream at bus 14. Additionally, the HV transmission core buses 4 and 5 are contributing to the situation, with their voltages being slightly lower than expected (1.010 pu and 1.020 pu respectively).",
+      "cited_causes": [
+        {
+          "location": "LV load pocket (bus 13, load bus, 0.208 kV)",
+          "resolved_node_id": 12
+        },
+        {
+          "location": "HV transmission core (bus 4, load bus, 135 kV)"
+        },
+        {
+          "location": "HV transmission core (bus 5, load bus, 135 kV)"
+        },
+        {
+          "location": "LV load pocket (bus 14, load bus, 0.208 kV)"
+        }
+      ],
+      "n_recommendations": 3,
+      "advisory_error": ""
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "curve": [
+    {
+      "round": 0,
+      "used_correction": false,
+      "faithfulness_f1": 1.0,
+      "cause_precision": 1.0,
+      "cause_recall": 1.0,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 4,
+      "n_topk": 4,
+      "n_missed": 0,
+      "missed_regions": [],
+      "missed_node_ids": [],
+      "advisory_error": ""
+    }
+  ],
+  "n_rounds": 0,
+  "reached_threshold": true,
+  "stop_reason": "threshold_reached",
+  "f1_initial": 1.0,
+  "f1_final": 1.0,
+  "f1_gain": 0.0,
+  "sample_index": 1022,
+  "target_node": 13,
+  "target_bus": 14,
+  "tod_band": "am_rush",
+  "congestion": "severe",
+  "severity": "severe",
+  "variant": "domain_routed",
+  "model": "llama3.1:8b",
+  "llm_log": [
+    {
+      "round": 0,
+      "correction_prompt": null,
+      "reasoning": "The undervoltage is predicted because the voltage at bus 8, a synchronous condenser in the MV step-down tier, is higher than its expected value (1.080 pu instead of 1.000 pu). This high voltage at bus 8 causes an overvoltage effect that propagates through the system and reaches the LV load pocket at bus 14.",
+      "cited_causes": [
+        {
+          "location": "MV step-down tier",
+          "resolved_node_id": 7
+        },
+        {
+          "location": "HV transmission core",
+          "resolved_node_id": 3
+        },
+        {
+          "location": "HV transmission core",
+          "resolved_node_id": 4
+        },
+        {
+          "location": "HV transmission core",
+          "resolved_node_id": 2
+        }
+      ],
+      "n_recommendations": 3,
+      "advisory_error": ""
+    }
+  ]
+}

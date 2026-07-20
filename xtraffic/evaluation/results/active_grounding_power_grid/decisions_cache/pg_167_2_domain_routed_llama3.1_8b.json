@@ -1,0 +1,96 @@
+{
+  "curve": [
+    {
+      "round": 0,
+      "used_correction": false,
+      "faithfulness_f1": 0.6666666666666666,
+      "cause_precision": 1.0,
+      "cause_recall": 0.5,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 2,
+      "n_topk": 4,
+      "n_missed": 2,
+      "missed_regions": [
+        "HV transmission core (bus 5, load bus, 135 kV)",
+        "MV step-down tier (bus 8, synchronous condenser, 12 kV)"
+      ],
+      "missed_node_ids": [
+        4,
+        7
+      ],
+      "advisory_error": ""
+    },
+    {
+      "round": 1,
+      "used_correction": true,
+      "faithfulness_f1": 1.0,
+      "cause_precision": 1.0,
+      "cause_recall": 1.0,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 4,
+      "n_topk": 4,
+      "n_missed": 0,
+      "missed_regions": [],
+      "missed_node_ids": [],
+      "advisory_error": ""
+    }
+  ],
+  "n_rounds": 1,
+  "reached_threshold": true,
+  "stop_reason": "threshold_reached",
+  "f1_initial": 0.6666666666666666,
+  "f1_final": 1.0,
+  "f1_gain": 0.33333333333333337,
+  "sample_index": 167,
+  "target_node": 2,
+  "target_bus": 3,
+  "tod_band": "am_rush",
+  "congestion": "mild",
+  "severity": "mild",
+  "variant": "domain_routed",
+  "model": "llama3.1:8b",
+  "llm_log": [
+    {
+      "round": 0,
+      "correction_prompt": null,
+      "reasoning": "The undervoltage at bus 3 in the HV transmission core is predicted because of a combination of factors. Bus 4, also in the HV transmission core, has a slightly lower voltage (1.010 pu) than its nominal value, which contributes to the undervoltage at bus 3. Additionally, the LV load pocket at bus 14 has a higher voltage (1.030 pu), but this is not enough to compensate for the drop in voltage at bus 4.",
+      "cited_causes": [
+        {
+          "location": "HV transmission core (bus 4, load bus, 135 kV)",
+          "resolved_node_id": 3
+        },
+        {
+          "location": "LV load pocket (bus 14, load bus, 0.208 kV)",
+          "resolved_node_id": 13
+        }
+      ],
+      "n_recommendations": 3,
+      "advisory_error": ""
+    },
+    {
+      "round": 1,
+      "correction_prompt": "=== GROUNDING CORRECTION (round 1) ===\nYour previous answer did not address these locations from the MATHEMATICAL EXPLANATION above. The model identified them as important causes of the predicted undervoltage, but your reasoning and recommendations did not mention them:\n  - HV transmission core (bus 5, load bus, 135 kV) (node_id 4): importance 0.149, currently 1.010 pu\n  - MV step-down tier (bus 8, synchronous condenser, 12 kV) (node_id 7): importance 0.136, currently 1.090 pu\n\nRevise your reasoning and recommendations so that EVERY one of these locations is explicitly addressed. You must STILL cite ONLY causes that appear in the mathematical explanation above \u2014 do NOT invent new buses, lines, transformers, outages, or numbers to comply. Return ONLY the corrected JSON object in the same shape as before.",
+      "reasoning": "The predicted undervoltage at bus 3 is likely due to the high voltage at bus 8 (1.090 pu), which is a structural single point of failure and can never be switched out. This high voltage at bus 8 may cause an overvoltage effect that propagates through the system, leading to an undervoltage at bus 3.",
+      "cited_causes": [
+        {
+          "location": "HV transmission core (bus 4, load bus, 135 kV)",
+          "resolved_node_id": 3
+        },
+        {
+          "location": "LV load pocket (bus 14, load bus, 0.208 kV)",
+          "resolved_node_id": 13
+        },
+        {
+          "location": "HV transmission core (bus 5, load bus, 135 kV)",
+          "resolved_node_id": 4
+        },
+        {
+          "location": "MV step-down tier (bus 8, synchronous condenser, 12 kV)",
+          "resolved_node_id": 7
+        }
+      ],
+      "n_recommendations": 3,
+      "advisory_error": ""
+    }
+  ]
+}

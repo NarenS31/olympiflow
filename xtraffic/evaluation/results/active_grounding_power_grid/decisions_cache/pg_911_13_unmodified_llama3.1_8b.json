@@ -1,0 +1,95 @@
+{
+  "curve": [
+    {
+      "round": 0,
+      "used_correction": false,
+      "faithfulness_f1": 0.6666666666666666,
+      "cause_precision": 1.0,
+      "cause_recall": 0.5,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 2,
+      "n_topk": 4,
+      "n_missed": 2,
+      "missed_regions": [
+        "HV transmission core (bus 3, synchronous condenser + load, 135 kV)",
+        "HV transmission core (bus 2, generator bus + load, 135 kV)"
+      ],
+      "missed_node_ids": [
+        2,
+        1
+      ],
+      "advisory_error": ""
+    },
+    {
+      "round": 1,
+      "used_correction": true,
+      "faithfulness_f1": 1.0,
+      "cause_precision": 1.0,
+      "cause_recall": 1.0,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 4,
+      "n_topk": 4,
+      "n_missed": 0,
+      "missed_regions": [],
+      "missed_node_ids": [],
+      "advisory_error": ""
+    }
+  ],
+  "n_rounds": 1,
+  "reached_threshold": true,
+  "stop_reason": "threshold_reached",
+  "f1_initial": 0.6666666666666666,
+  "f1_final": 1.0,
+  "f1_gain": 0.33333333333333337,
+  "sample_index": 911,
+  "target_node": 13,
+  "target_bus": 14,
+  "tod_band": "evening",
+  "congestion": "moderate",
+  "severity": "moderate",
+  "variant": "unmodified",
+  "model": "llama3.1:8b",
+  "llm_log": [
+    {
+      "round": 0,
+      "correction_prompt": null,
+      "reasoning": "The undervoltage at bus 14 is predicted because the HV transmission core, specifically buses 4 and 5, are experiencing overvoltage conditions (1.020 pu), which will propagate to bus 3 with a lag of 25 minutes, causing an undervoltage at bus 14.",
+      "cited_causes": [
+        {
+          "location": "HV transmission core (bus 4, load bus, 135 kV)",
+          "resolved_node_id": 3
+        },
+        {
+          "location": "HV transmission core (bus 5, load bus, 135 kV)"
+        }
+      ],
+      "n_recommendations": 3,
+      "advisory_error": ""
+    },
+    {
+      "round": 1,
+      "correction_prompt": "=== GROUNDING CORRECTION (round 1) ===\nYour previous answer did not address these locations from the MATHEMATICAL EXPLANATION above. The model identified them as important causes of the predicted congestion, but your reasoning and recommendations did not mention them:\n  - HV transmission core (bus 3, synchronous condenser + load, 135 kV) (node_id 2): importance 0.141, currently 1.01 mph\n  - HV transmission core (bus 2, generator bus + load, 135 kV) (node_id 1): importance 0.129, currently 1.04 mph\n\nRevise your reasoning and recommendations so that EVERY one of these locations is explicitly addressed. You must STILL cite ONLY causes that appear in the mathematical explanation above \u2014 do NOT invent new sensors, roads, incidents, or numbers to comply. Return ONLY the corrected JSON object in the same shape as before.",
+      "reasoning": "The predicted undervoltage at bus 14 is caused by an imbalance of power flow from the HV transmission core (buses 1-5). Specifically, buses 4 and 5 are contributing to this imbalance with their high voltages (1.020 pu), while bus 3 has a slightly lower voltage (1.010 pu) but still contributes significantly due to its importance. Bus 2's higher voltage (1.040 pu) also plays a role in the imbalance.",
+      "cited_causes": [
+        {
+          "location": "HV transmission core (bus 4, load bus, 135 kV)",
+          "resolved_node_id": 3
+        },
+        {
+          "location": "HV transmission core (bus 5, load bus, 135 kV)",
+          "resolved_node_id": 4
+        },
+        {
+          "location": "HV transmission core (bus 3, synchronous condenser + load, 135 kV)",
+          "resolved_node_id": 2
+        },
+        {
+          "location": "HV transmission core (bus 2, generator bus + load, 135 kV)",
+          "resolved_node_id": 1
+        }
+      ],
+      "n_recommendations": 3,
+      "advisory_error": ""
+    }
+  ]
+}

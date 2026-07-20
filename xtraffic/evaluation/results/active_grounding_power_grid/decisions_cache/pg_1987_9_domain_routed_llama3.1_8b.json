@@ -1,0 +1,55 @@
+{
+  "curve": [
+    {
+      "round": 0,
+      "used_correction": false,
+      "faithfulness_f1": 1.0,
+      "cause_precision": 1.0,
+      "cause_recall": 1.0,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 3,
+      "n_topk": 4,
+      "n_missed": 0,
+      "missed_regions": [],
+      "missed_node_ids": [],
+      "advisory_error": ""
+    }
+  ],
+  "n_rounds": 0,
+  "reached_threshold": true,
+  "stop_reason": "threshold_reached",
+  "f1_initial": 1.0,
+  "f1_final": 1.0,
+  "f1_gain": 0.0,
+  "sample_index": 1987,
+  "target_node": 9,
+  "target_bus": 10,
+  "tod_band": "midday",
+  "congestion": "mild",
+  "severity": "mild",
+  "variant": "domain_routed",
+  "model": "llama3.1:8b",
+  "llm_log": [
+    {
+      "round": 0,
+      "correction_prompt": null,
+      "reasoning": "The undervoltage is predicted because the HV transmission core (bus 4, load bus, 135 kV) has a voltage of 1.010 pu, which is lower than its nominal value. This low voltage at bus 4 contributes to the undervoltage prediction at the LV load pocket (bus 10). Additionally, the MV step-down tier (bus 8, synchronous condenser, 12 kV) has a high voltage of 1.090 pu, which also affects the overall system voltage.",
+      "cited_causes": [
+        {
+          "location": "HV transmission core",
+          "resolved_node_id": 3
+        },
+        {
+          "location": "LV load pocket",
+          "resolved_node_id": 13
+        },
+        {
+          "location": "MV step-down tier",
+          "resolved_node_id": 7
+        }
+      ],
+      "n_recommendations": 3,
+      "advisory_error": ""
+    }
+  ]
+}

@@ -644,3 +644,246 @@ session. This becomes the paper's experiments section almost for free.
   "true" importances. And U's small hallucination bump is the price of higher recall; if a
   deployment wants zero hallucination, gate on core-only. Committed `table_uncertainty.tex` +
   `fig_uncertainty_stability.pdf` are the real n=20 (captions say n=20). **Gate PASSED.**
+
+---
+
+## Phase 11 — cross-city × cross-model faithfulness: FIRST REAL CELLS (2026-07-19)
+
+- **What landed:** the full run is going in a `phase11` screen session and **2 of the 6
+  cells are done** (Chicago still outstanding; the METR-LA × llama3.1 cell reuses the
+  committed Phase-5 summary). Numbers read straight from
+  `results/cross_city_faithfulness/summary_<city>__<model>.json`, not from memory:
+  - **METR-LA × mistral:7b** (n=93, in-domain checkpoint, conditions A/B):
+    A precision **1.000** / recall 0.714 / **F1 0.821** / **hallucination 0.000**;
+    B precision 0.190 / recall 0.063 / F1 0.087 / **hallucination 0.810**.
+    → **F1 gap +0.734**, hallucination gap −0.810.
+  - **PEMS-BAY × llama3.1:8b** (n=85, **zero-shot** transferred checkpoint, A/B/C):
+    A precision 0.994 / recall 0.650 / **F1 0.764** / **hallucination 0.006**;
+    B precision 0.053 / recall 0.025 / F1 0.032 / **hallucination 0.947**;
+    C precision 0.994 / recall 0.616 / F1 0.739 / hallucination 0.006.
+    → **F1 gap +0.732**, hallucination gap −0.941.
+- **Why this is the result Phase 11 exists for:** the Phase-5 grounding claim is **not a
+  llama3.1 quirk and not a METR-LA quirk**. Change the LLM *family* → gap +0.734. Change
+  the *city* AND run the GNN **zero-shot** (207 → 325 nodes, node-specific params
+  re-initialised) → gap +0.732. Two completely different perturbations, essentially the
+  same magnitude.
+- **What surprised me:** (1) **mistral:7b is MORE disciplined than llama3.1** on METR-LA —
+  hallucination *exactly* 0.000 and precision *exactly* 1.000 across all 93 scenarios, no
+  std at all. I expected the smaller/different-family model to be sloppier; it wasn't.
+  (2) **PEMS-BAY B hallucinates at 0.947** — even worse than METR-LA's 0.81/0.83. With no
+  KB and no explanation the model has *nothing* to cite, so it invents almost every time.
+  That makes B's collapse look like a property of ungrounded LLMs generally, not of one
+  city's prompt.
+  (3) **C ≈ A on PEMS-BAY with a completely EMPTY knowledge base** (F1 0.739 vs 0.764,
+  hallucination identical). Phase 5 said city context is orthogonal to faithfulness; here
+  there *is* no city context and faithfulness barely moves. Cleanest version of that claim
+  we're going to get.
+- **The zero-shot argument to keep making:** PEMS-BAY *prediction* accuracy is degraded by
+  the transfer, but faithfulness is intact — because faithfulness is **prompt-structural**
+  (does the LLM cite only the explainer's top-k?), not accuracy-dependent. A degraded model
+  that still produces a faithful advisory is exactly the not-a-quirk probe we wanted.
+- **Housekeeping:** `cross_city_faithfulness_master.{csv,json}` still reads all-PENDING
+  (dated 07-07) — the master table is rebuilt at the *end* of the run. Regenerate with
+  `--table-only` once Chicago lands. **Not committed yet.**
+
+---
+
+## Phase 12 — SHAP baseline comparison: FULL RUN (n=28) (2026-07-19)
+
+- **The run:** `python -m xtraffic.evaluation.shap_comparison`, llama3.1:8b, **n=28**
+  (30 requested, per_stratum=2), 84 decisions, **0 advisory errors**. Strata covered:
+  10 low / 10 medium / 8 high congestion × 5 time-of-day bands.
+- **THE TABLE** (mean ± std, n=28, scored by the Phase-5 faithfulness metric):
+
+  | Explainer | F1 | Hallucination | Precision | Recall |
+  |---|---|---|---|---|
+  | **GNNExplainer (ours)** | **0.742 ± 0.168** | **0.018 ± 0.093** | **0.982 ± 0.093** | **0.616 ± 0.192** |
+  | **SHAP (KernelExplainer)** | 0.692 ± 0.160 | 0.018 ± 0.093 | 0.982 ± 0.093 | 0.554 ± 0.187 |
+  | **No explainer** | 0.048 ± 0.137 | 0.857 ± 0.350 | 0.143 ± 0.350 | 0.031 ± 0.098 |
+
+  Quantitative fidelity: A 0.749 | SHAP 0.692 | none 0.377.
+  **GNN-vs-SHAP top-k Jaccard overlap: 0.022 ± 0.042.**
+- **Honest verdict (the n=3 smoke reading held up — I am not going to dress this up):**
+  **on faithfulness alone, SHAP is not worse.** GNNExplainer edges it on F1 (0.742 vs
+  0.692) and the whole gap is **recall** (0.616 vs 0.554); hallucination and precision are
+  **identical to 3 d.p.** (the *same single* scenario hallucinated under each), and the
+  per-scenario winner splits **12 A / 7 SHAP / 9 tie**. +0.05 F1 sits well inside a ±0.17
+  std and I have not run a paired CI, so the paper says **"comparable"**, not "we win".
+  The reason they tie is obvious in hindsight: the advisor is told to cite only what it is
+  shown, so it does — *for either explainer*.
+- **What both crush** is the no-explainer baseline: F1 0.048, hallucination 0.857,
+  **24/28 scenarios hallucinated** vs **1/28** for each explainer. That's the Phase-5 core
+  claim re-proven a third way — it is the **presence** of a mathematical explanation, not
+  *which* explainer made it, that eliminates hallucination.
+- **So the real answer to "why not just use SHAP?"** is not a faithfulness win, it's the
+  other three axes (and I have evidence for each): **cost** (a fresh KernelExplainer solve
+  per prediction, nsamples=50 ≪ 207 nodes), **instability** (the underdetermined LARS solve
+  leaves only ~13–18 nodes nonzero and the top-k moves run to run — why I cut
+  `confidence_runs` 5→2), and **structure** (SHAP scores nodes only, so edges and the
+  propagation path come from a product-of-endpoints proxy; GNNExplainer learns an edge mask
+  directly). Argue those, and report the faithfulness parity as a finding.
+- **The thing that actually surprised me — and I think it belongs in the paper:** the two
+  explainers agree on **almost nothing**. Jaccard **0.022** means ~0 shared nodes out of 8.
+  Two *mutually disjoint* "explanations" both keep the LLM at precision 0.982 and
+  hallucination 0.018. Which means **faithfulness measures alignment, not correctness** —
+  you can be perfectly faithful to a bad explanation. That is a real limitation of my own
+  metric and I'd rather state it than have a reviewer find it. The axis that *does* judge
+  correctness is Fidelity+ (Phase 3); running it on the SHAP top-k is the obvious follow-up
+  and is **not done yet**.
+- **Congestion breakdown** (tiny cells, don't over-read): A F1 0.698 low / 0.774 medium /
+  0.758 high; SHAP 0.777 / 0.599 / 0.701. SHAP actually *beat* us in low congestion and
+  lost medium — consistent with noise, and with the recurring "free-flow targets have no
+  real spatial cause" finding.
+- Outputs: `evaluation/paper/table_shap_comparison.tex` (now the real n=28) +
+  `results/shap_comparison/{summary.json, per_scenario.csv, decisions.jsonl,
+  explanations_cache/}`. **Phase 12 gate PASSED. Not committed yet.**
+
+## 2026-07-19 — Phase 19 Steps 2-3: does the grounding result survive leaving traffic?
+
+The whole point of Phase 19: Contribution #2 says the mathematical explanation is what
+stops the LLM inventing causes. So far I'd only ever shown that on road networks
+(METR-LA, then mistral instead of llama, then PEMS-BAY zero-shot). All still traffic.
+Today I ran the same A/B protocol on the IEEE 14-bus power grid.
+
+**Step 1 first, and it's not the headline I wanted.** `power_grid_best.pt` is epoch 6,
+val MAE 0.001704 pu. On test it gets overall MAE 0.002912 pu — which beats HistAvg
+(0.00366) and LinReg (0.00304) but **loses to persistence** (0.00283). At 15 min
+persistence crushes it (0.00149 vs 0.00190); the model only wins at 60 min (0.00438 vs
+0.00475). Bus voltage at 5-min resolution is just far more autocorrelated than traffic
+speed, so "repeat the last value" is a brutal short-horizon baseline. I'm writing that
+down plainly rather than quietly quoting the val MAE, because the val number (0.0017)
+looks great and means nothing on its own. Also spotted `gate_power` sat at exactly
+0.5000 for all 21 epochs — the power sidecar was never actually used in this run.
+
+**The thing that nearly broke the experiment silently.** The Phase-4 prompt is hard-coded
+traffic. Pointed at the grid it said *"You are a traffic-operations advisor... Current
+speed: 0.88 mph"* — for a bus voltage. `DIFFERENCES_POWER_GRID.md` §8.2 had predicted
+"labels will lie" and filed it as cosmetic. It is not cosmetic in a **prompt**: an LLM
+told a substation is doing 0.88 mph will invent ramp metering, and I'd have measured my
+own prompt's confusion as the model's hallucination. So I built `models/advisor/domains.py`
+— units, node noun, stress noun, operator role — and left the grounding instruction and
+prompt structure *identical* across domains, since those are the things actually under test.
+
+**Making sure I didn't break five phases to add one.** Every committed number in Phases
+4-18 came through the code I was editing. So before touching anything I `git stash`ed my
+edits, captured the pre-refactor prompts/resolver output to `golden_traffic.json`, popped
+the stash, and wrote `verify_traffic_unchanged.py` to assert byte-identity. It passes: 12
+explanations x 5 artifacts, the 3 prompt constants, the resolver on METR-LA + Chicago —
+all unchanged. That felt like overkill until I remembered the alternative is "I read it
+carefully and I think it's fine."
+
+**The sampling trap.** My first instinct was to reuse the traffic rule: target = the
+lowest-voltage bus. Checked it: that's bus 3 in **1733 of 1995** test windows, because
+buses don't share a free-flow reference (bus 3 normally sits at 1.008 pu, bus 8 at 1.089).
+I'd have shipped a 20-scenario study of one bus and the flatness would have read as a
+finding. Fixed by measuring each bus's sag against **its own** train-split mean. Second
+trap right behind it: bus 1 (the slack bus, std 2e-4) then won the argmax in 1081 windows
+on pure noise, so near-constant buses are ineligible as targets. After both fixes: 344
+stressed windows, targets spread across buses 3, 4, 9, 10, 13, 14.
+
+**The control that changed how I report everything.** k=8 of 207 METR-LA sensors is 3.9%
+of the graph. k=8 of 14 buses is 57% — over half the network would count as "a valid
+cause". I dropped to k=4, but rather than just assert that's fair I added chance
+baselines: cite at random from the same vocabulary, score with the same metric. A random
+**zone** citer scores **F1 0.653** with no model at all, because one electrical zone spans
+up to 7 of 14 buses. That single number reframed the whole write-up.
+
+**Result (n=20, llama3.1:8b, k=4):**
+
+| condition | precision | recall | F1 | hallucination |
+|---|---|---|---|---|
+| A full pipeline | 0.950 | 0.825 | 0.869 | **0.050** |
+| B no explanation | 0.000 | 0.000 | 0.000 | **1.000** |
+| chance: random bus | 0.276 | 0.193 | 0.225 | 0.724 |
+| chance: random zone | 0.687 | 0.706 | 0.653 | 0.313 |
+
+Paired bootstrap, 10k iters — all nine CIs exclude 0. A vs B halluc -0.950
+[-1.000, -0.875]. And crucially A still beats the *generous* zone-chance row:
+halluc -0.263 [-0.378, -0.145], F1 +0.216 [+0.095, +0.326]. **The gap transfers.**
+
+**Most interesting thing I found: condition B is worse than chance** (1.000 vs 0.724).
+B never hit the top-k once in 20 scenarios. 63% of its citations don't resolve *at all*
+— it kept naming `line 13-14`, `transformer 4-9`, `shunt capacitor bank at bus 9`. Those
+are **edges**, not nodes. Stripped of instance-specific evidence, the LLM reached into the
+knowledge base and recited generic domain facts with total confidence. That's a worse
+failure mode than random guessing, and I didn't expect it — on METR-LA condition B at
+least invented *places*, which are the right type of thing.
+
+**What I refuse to overclaim.** A's F1 of 0.869 is *not* comparable to METR-LA's 0.725 —
+different graph, different chance floor — and 62% of A's citations were coarse zone-level
+ones that get generous credit. Worse: the top-k buses are direct electrical neighbours of
+the target only **17.5%** of the time, *below* the 22% chance rate. So I have no positive
+evidence these explanations are physically *correct* — only that the LLM faithfully repeats
+what it's shown. Same limitation Phase 12 found with SHAP, and sharper here. Fidelity+ is
+the axis that would settle it and it is **not run yet** (it needs the same relative-deviation
+target fix). That's the top of my list.
+
+Gates: traffic regression PASS (byte-identical), METR-LA resolver still 96.7%, new
+power-grid resolver 22/22 — half of those cases are deliberate *refusals*, since a resolver
+that happily matched "line 13-14" would have erased B's hallucination and manufactured my
+own result.
+
+## Phase 20 — does the *loop* transfer, not just the metric? (2026-07-20)
+
+Phase 19 showed the hallucination **measurement** transfers to the power grid. This
+was the harder question: does the **closed loop** from Phase 16 still work on a
+graph that isn't a road network, with nothing retuned? I imported
+`run_active_grounding` and called it as-is. Threshold 0.70, max 3 rounds, straight
+out of `advisor.yaml` — the same values METR-LA used. I deliberately made them
+*non*-overridable in the driver so I couldn't cheat later without noticing.
+
+**One thing I had to fix, and I'm flagging it.** The correction block still had three
+traffic hard-codes Phase 19's sweep missed — it literally told llama3.1 a substation
+was *"currently 1.03 mph"* and warned it not to invent *"sensors, roads, incidents"*.
+That's the exact confound `domains.py` exists to stop. So I ran **both** versions and
+made the confound a measurement instead of a choice. `domain=None` is byte-identical
+to Phase 16 (I pinned it with a golden-bytes test before editing).
+
+| | r0 | r1 | r2 | r3 | reached |
+|---|---|---|---|---|---|
+| METR-LA (n=93) | 0.732 | 0.864 | 0.870 | 0.874 | 100% |
+| grid, unmodified (n=20) | 0.892 | 0.973 | 0.973 | 0.973 | 100% |
+| grid, domain-routed (n=20) | 0.899 | 0.932 | 0.932 | 0.932 | 100% |
+| *grid engaged only (n=4)* | *0.558* | *0.964* | *0.964* | *0.964* | *100%* |
+
+**Answer to my question: yes, one round.** Every single scenario that engaged the
+loop — both variants — converged in *exactly* one correction round. The engaged
+subset went 0.558 → 0.964, which is almost exactly the traffic low-F1 smoke
+(0.438 → 0.912). Same shape, different domain, zero tuning.
+
+**What I refuse to sell.** The grid's round-0 F1 of 0.892 looks better than traffic's
+0.732 and it absolutely is not. Only **4 of 20** scenarios ever engaged, because
+condition A is already above threshold at round 0 — nine of my first twelve traces
+scored *exactly* 1.000. The reason is embarrassingly simple: k=4 of 14 buses, and the
+prompt lists all four, so the model just echoes them back. On METR-LA it's 8 of 207
+with long region names and it under-cites. That's a small-graph artifact, the same
+k/N inflation that made Phase 19's random-zone baseline score 0.653. The loop
+declining to fire is correct behaviour, not a win.
+
+**The thing I'm most pleased with.** The variant comparison came out "unmodified beats
+domain-routed by 0.041" and I nearly wrote that down as a finding. Then I realised
+round 0 uses *no correction in either variant* — identical prompts — so any round-0
+difference is pure LLM nondeterminism. Measured it: round-0 |diff| **0.078**, final
+|diff| **0.041**. The "effect" is *smaller than the noise floor*. So: no detectable
+effect of the correction vocabulary. I got a free test-retest reliability check out
+of a comparison I designed for something else.
+
+**Best single trace (idx 167).** The unmodified correction told it "predicted
+congestion", "1.03 mph", "don't invent roads" — and llama3.1 fixed itself perfectly
+anyway: F1 0.400 → 1.000, all four buses, hallucination 0.000, and its *own* reasoning
+stayed in grid language ("absorbing too much reactive power", "1.090 pu"). It just
+ignored my wrong labels. My hypothesis is the correction's only real job is to *name
+the missed nodes* — the domain semantics come from the base prompt, which is already
+domain-routed. One scenario (678) even went hallucination 0.500 → 0.000, so the
+correction can *reduce* fabrication, not only raise recall.
+
+**Two things this forced me to correct in the Phase 19 record.** First, I'd been
+calling these "the low-faithfulness scenarios" — they're where condition *B*
+hallucinated 1.000, but condition A (what the loop actually operates on) already
+averaged 0.869. Second, and more seriously: **idx 1912 scored 0.857 here and 0.333 in
+the committed Phase 19 run.** Same scenario, same model, same prompt. temp is 0.1, not
+0. So any per-scenario claim I've made anywhere is one draw, not a property. That
+applies to the Phase 13 failure taxonomy too and I need to think about it.
+
+Gates: golden byte-identity PASS, traffic regression gate PASS (n=93 numbers safe).
+Owed: rerun on mistral:7b — "domain-agnostic" currently rests on one LLM.
