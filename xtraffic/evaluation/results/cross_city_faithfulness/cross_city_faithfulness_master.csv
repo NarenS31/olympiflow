@@ -1,7 +1,7 @@
-a_f1,a_halluc,b_f1,b_halluc,city,f1_gap,gap_holds,model,n,status
-0.7246,0.0054,0.0896,0.828,metr_la,0.635,True,llama3.1:8b,93,ok
-0.8212,0.0,0.0869,0.81,metr_la,0.7343,True,mistral:7b,93,ok
-0.7642,0.0059,0.0321,0.9471,pems_bay,0.7321,True,llama3.1:8b,85,ok
-0.8587,0.005,0.5079,0.1118,pems_bay,0.3508,False,mistral:7b,85,ok
-0.7536,0.0152,0.0,1.0,chicago,0.7536,True,llama3.1:8b,33,ok
-0.7722,0.0,0.0,1.0,chicago,0.7722,True,mistral:7b,33,ok
+a_f1,a_halluc,b_f1,b_halluc,city,f1_gap,gap_holds,in_faithfulness_table,model,n,status
+0.7232,0.0054,0.0779,0.8387,metr_la,0.6453,True,True,llama3.1:8b,93,ok
+0.7794,0.0,0.0965,0.7993,metr_la,0.683,True,True,mistral:7b,93,ok
+0.6224,0.0,0.2095,0.4529,pems_bay,0.4128,True,True,llama3.1:8b,85,ok
+0.6728,0.018,0.2376,0.4118,pems_bay,0.4351,True,True,mistral:7b,85,ok
+0.629,0.0,0.0,1.0,chicago,0.629,True,False,llama3.1:8b,33,ok
+0.6174,0.0505,0.0,1.0,chicago,0.6174,True,False,mistral:7b,33,ok

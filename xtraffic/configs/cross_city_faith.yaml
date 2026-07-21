@@ -21,6 +21,24 @@ source_checkpoint: models/gnn/checkpoints/metr_la_best.pt
 # is a clean "not-a-quirk" test.
 cities: [metr_la, pems_bay, chicago]
 
+# Cities that appear in the FAITHFULNESS table. Chicago is deliberately absent.
+#
+# WHY (Phase-11 correction): faithfulness is scored with region-level credit, so
+# every cell must be read against the floor a citer reaches with no model at all.
+# The tight floor is target_region -- naming the target's OWN region, which is the
+# one location condition B is always shown. On Chicago that floor is F1 0.565
+# against condition A's 0.629, a margin of +0.06; on METR-LA and PEMS-BAY the same
+# margin is +0.35 to +0.50.
+#
+# This is STRUCTURAL, not a naming defect we can fix. Chicago has 1020 dense urban
+# segments, so the explainer's top-k causes are geographically adjacent to the
+# target and any region containing the target also contains its causes -- citation
+# precision stays 0.879 no matter how the region boxes are drawn. Rebuilding the
+# Chicago table (44.5% -> 8.4% compass fallback) moved the floor only 0.585 -> 0.565.
+# Chicago is still RUN (it stays in `cities` above) and still reported for
+# PREDICTION TRANSFER; it is only withheld from faithfulness reporting.
+faithfulness_table_cities: [metr_la, pems_bay]
+
 # Stratified sampling: 5 time-of-day bands x 3 congestion terciles = 15 cells.
 # per_stratum 7 -> up to ~105 windows, ~93 in practice (same as Phase 5).
 per_stratum: 7
@@ -52,7 +70,11 @@ conditions:
 # different things per city and the cells are NOT comparable to each other.
 #   node   -> draw from the full rendered sensor names  (precise citations)
 #   region -> draw from the region labels               (coarse citations)
-random_baselines: [node, region]
+#   target_region -> name the TARGET'S OWN region. The TIGHT floor: condition B is
+#                    shown the target's location, so this is the bound that
+#                    actually constrains it. Uniform draws understate it badly
+#                    (Chicago: 0.094 uniform vs 0.565 target-echo).
+random_baselines: [node, region, target_region]
 random_draws: 200        # uniform draws per scenario per baseline -> its expectation
 
 explainer:

@@ -100,7 +100,12 @@ def main() -> None:
         print("\nDRY RUN — pass --yes to rewrite in place.")
         return
 
-    backup = d.rstrip("/") + ".bak.tar"
+    # Per-CITY backup name. A single shared ".bak.tar" meant a second run (a
+    # different city) silently overwrote the first city's backup — and the
+    # original of that file was tracked in git, so the clobber was a real loss of
+    # prior state. Backups are gitignored (*.bak.tar); the explanation JSONs
+    # themselves are versioned individually, so history is the real safety net.
+    backup = "{}.{}.bak.tar".format(d.rstrip("/"), args.city)
     with tarfile.open(backup, "w") as tar:
         for p in files:
             tar.add(p, arcname=os.path.basename(p))

@@ -488,7 +488,9 @@ File: evaluation/sim_eval.py driven by configs/sim_eval.yaml. One command.
   per_decision.csv finalized. PAPER CAPTION NOTE: report n=444 (not 500); RANDOM is
   its expectation over 200 uniform draws, RAW/XTRAFFIC over the 3 study seeds.
 
-Phase 11 IN PROGRESS — CROSS-CITY x CROSS-MODEL faithfulness (robustness of
+Phase 11 COMPLETE (CORRECTED 2026-07-21 — see the CORRECTED block at the end of
+this section; the mid-section numbers dated 07-19 are SUPERSEDED) — CROSS-CITY x
+CROSS-MODEL faithfulness (robustness of
 Contribution #2: prove the hallucination result is not a METR-LA quirk or a
 llama3.1 quirk). File: evaluation/cross_city_faithfulness.py + one config
 configs/cross_city_faith.yaml. Reruns the Phase-5 A/B/C study across 3 cities x
@@ -527,36 +529,121 @@ B-halluc / F1-gap) -> evaluation/paper/table_cross_city_faith.tex (+ CSV/JSON).
   PENDING until the run lands). OWED: the full run (python -m
   xtraffic.evaluation.cross_city_faithfulness) — multi-hour, shares the one local
   Ollama with the running Phase-10 sim, so run it AFTER Phase 10 (resumable).
-- PARTIAL REAL RESULTS LANDED (2026-07-19) — 2 of the 6 cells done, run still going
-  in a `phase11` screen session (Chicago cells outstanding; the METR-LA/llama3.1
-  cell reuses the committed Phase-5 summary). Read straight from
-  results/cross_city_faithfulness/summary_<city>__<model>.json:
-  * METR-LA x mistral:7b (n=93, in-domain ckpt, conditions A/B):
-    A precision 1.000 / recall 0.714 / F1 0.821 / HALLUC 0.000
-    B precision 0.190 / recall 0.063 / F1 0.087 / HALLUC 0.810
-    -> F1 gap +0.734, hallucination gap -0.810.
-  * PEMS-BAY x llama3.1:8b (n=85, ZERO-SHOT transferred ckpt, conditions A/B/C):
-    A precision 0.994 / recall 0.650 / F1 0.764 / HALLUC 0.006
-    B precision 0.053 / recall 0.025 / F1 0.032 / HALLUC 0.947
-    C precision 0.994 / recall 0.616 / F1 0.739 / HALLUC 0.006
-    -> F1 gap +0.732, hallucination gap -0.941.
-  WHAT THIS PROVES (the point of Phase 11): the Phase-5 grounding result is NOT a
-  llama3.1 quirk and NOT a METR-LA quirk. Swap the LLM family (llama3.1 -> mistral)
-  and the gap is +0.734; swap the city AND run the GNN ZERO-SHOT (207 -> 325 nodes,
-  node-specific params re-initialised) and the gap is +0.732 — nearly identical
-  magnitudes on both axes. mistral:7b is if anything MORE disciplined than llama3.1
-  on METR-LA (halluc exactly 0.000 across all 93, precision exactly 1.000).
-  PEMS-BAY C ~= A again (F1 0.739 vs 0.764, halluc identical) with an EMPTY KB, so
-  the Phase-5 "city context is orthogonal to faithfulness" finding reproduces in a
-  city where there is no city context at all — the cleanest possible version of it.
-  ZERO-SHOT NOTE (keep making it): PEMS-BAY prediction accuracy is degraded by the
-  transfer, yet faithfulness is essentially intact — because faithfulness is
-  PROMPT-STRUCTURAL (does the LLM cite only the explainer's top-k?), not
-  accuracy-dependent. A degraded model that still yields a faithful advisory is
-  exactly the not-a-quirk evidence we wanted.
-  NOTE: cross_city_faithfulness_master.{csv,json} still reads all-PENDING (dated
-  07-07) — the master aggregation is rebuilt at the END of the run, so regenerate
-  it (--table-only) once Chicago finishes.
+PHASE 11 CORRECTED + COMPLETE (2026-07-21). The first full run produced an
+OUTLIER — PEMS-BAY x mistral condition-B hallucination 0.112, against 0.810-1.000
+in every other cell — which on investigation was a METRIC BUG, not a model
+property. All 6 cells were rerun under a corrected resolver. THE NUMBERS BELOW
+SUPERSEDE the 2026-07-19 partial results.
+
+WHAT WAS ACTUALLY WRONG (three defects, all real, all now fixed):
+ (1) PEMS-BAY HAD NO REGION TABLE. node_names.py defined boxes for METR-LA and
+     Chicago only, so all 325 PEMS-BAY sensors fell to the _compass() fallback and
+     collapsed into 9 sectors, the largest holding 122 nodes = 37.5% of the graph.
+     Region-level credit then made a single coarse citation hit top-k almost
+     automatically. THE PROOF: a control that cites ONLY the target's own region —
+     zero causal information — scored precision 0.894 / recall 0.385 / F1 0.510 /
+     halluc 0.106, reproducing the reported outlier cell (0.888/0.385/0.508/0.112)
+     to three decimals. Both models were in fact ECHOING THE TARGET back (recovered
+     transcripts: mistral 20/20, llama 19/20); the metric scored them oppositely
+     only because mistral echoed the REGION (122 nodes -> hit) while llama echoed
+     the SENSOR ID (1 node, the target, never in its own top-k -> miss).
+ (2) THE RESOLVER DISCARDED SENSOR IDS. _normalize strips parentheticals, and a
+     node's identity lives inside one ("Downtown LA (sensor 773869, ...)"), so the
+     id was gone before rung 1 looked for it and the citation took REGION credit.
+     72% of condition-A citations carry an explicit sensor id (the LLM copies the
+     rendered name, as instructed), and scoring them as regions inflated RECALL by
+     +0.206. Phase 19 had already fixed this for the power-grid ladder; the traffic
+     ladder never got it. Now fixed as rung 0, reading the RAW text and requiring
+     the literal word sensor/segment (Chicago segment ids are 1-4 digits and 842 of
+     1020 collide with the node-INDEX range, so a bare-number match would be wrong).
+ (3) CHICAGO HAD THE SAME NAMING DEFECT: 454/1020 segments (44.5%) on compass
+     fallback, largest region 22.4%, 15 label pairs colliding at the fuzzy
+     threshold. Fixed with 15 real community-area boxes (APPENDED, so the original
+     12 keep exactly their nodes — verified 0 moved): fallback 44.5% -> 8.4%,
+     largest region 12.6%. Chicago's original 12 regions ALSO had no gazetteer
+     entries at all, so "The Loop" and "Hyde Park" resolved to NOTHING and correct
+     citations were being counted as hallucinations.
+
+CORRECTED RESULTS (n as shown, all 6 cells rerun end-to-end, 2026-07-21):
+  METR-LA  x llama3.1:8b (n=93, in-domain):  A F1 0.723 / halluc 0.005 | B halluc 0.839
+  METR-LA  x mistral:7b  (n=93, in-domain):  A F1 0.779 / halluc 0.000 | B halluc 0.799
+  PEMS-BAY x llama3.1:8b (n=85, zero-shot):  A F1 0.622 / halluc 0.000 | B halluc 0.453
+  PEMS-BAY x mistral:7b  (n=85, zero-shot):  A F1 0.673 / halluc 0.018 | B halluc 0.412
+  Chicago  x both        (n=33, zero-shot):  RETAINED FOR PREDICTION TRANSFER ONLY,
+    withheld from the faithfulness table (see below). For the record: llama A F1
+    0.629 / halluc 0.000, mistral A F1 0.617 / halluc 0.051, B halluc 1.000 both.
+
+CHANCE CONTROLS (NEW — the thing whose absence let the outlier hide). Two citers
+with no model and no explanation, mirroring Phase 19's RANDOM_bus/RANDOM_zone:
+RANDOM_region draws a region uniformly; RANDOM_target_region names the TARGET'S
+OWN region and is the TIGHT floor, because condition B is always shown the
+target's location. Uniform draws badly understate the achievable floor (Chicago:
+0.094 uniform vs 0.565 target-echo — 6x on the same city), so condition A must be
+read against target_region:
+  METR-LA  llama +0.446 | mistral +0.502  (A F1 vs target-region floor 0.278)
+  PEMS-BAY llama +0.354 | mistral +0.404  (floor 0.269)
+  Chicago  llama +0.064 | mistral +0.053  (floor 0.565)  <- too thin to report
+Condition B is BELOW the tight floor in every cell: stripped of the explanation
+these models do worse than naming the target's own neighbourhood.
+
+CHICAGO IS EXCLUDED FROM FAITHFULNESS REPORTING (config: faithfulness_table_cities;
+stated in the table caption). Its margin over the tight chance floor is +0.06,
+versus +0.35 to +0.50 for METR-LA/PEMS-BAY. This is STRUCTURAL, not a naming
+defect: 1020 dense urban segments mean the top-k causes are geographically
+adjacent to the target, so any region containing the target also contains its
+causes (citation precision 0.879 regardless of how the boxes are drawn) —
+rebuilding the table moved the floor only 0.585 -> 0.565. Chicago is still RUN and
+still logged (master CSV keeps it with in_faithfulness_table=False) and remains a
+prediction-transfer result.
+
+WHAT SURVIVES, AND IT IS STRONGER THAN BEFORE: the grounding claim holds on 2
+cities x 2 model families, and now clears an explicit chance floor by +0.35 to
++0.50 — evidence the committed table could not produce at all. METR-LA is
+essentially UNCHANGED by the correction (A F1 0.725 -> 0.723), so the headline
+Phase-5 number stands. The two PEMS-BAY models, previously 8.5x apart on B
+hallucination (0.947 vs 0.112), now agree (0.453 vs 0.412) — which is what a
+metric measuring the MODEL rather than the naming scheme should do.
+
+HONEST DELTAS vs the superseded numbers: condition A fell in every cell except
+METR-LA/llama (by 0.04 to 0.19), all recall-side, and the drop tracks how often a
+model copies rendered node names verbatim (mistral more than llama). PEMS-BAY
+condition B ROSE sharply (llama halluc 0.947 -> 0.453): the old 0.947 was largely
+a MEASUREMENT FAILURE, since with no real Bay Area place names nothing the LLM
+said could resolve. So the previously-reported +0.73 gaps were inflated on BOTH
+sides; the true gaps are +0.41 to +0.68.
+
+RESOLVER GATES (the metric is only as good as this; PEMS-BAY and Chicago had NO
+gate before — the 96.7% quoted previously was METR-LA-only and never covered the
+cell that produced the outlier):
+  METR-LA 29/30 = 96.7% | PEMS-BAY 32/32 = 100% | Chicago 32/32 = 100% |
+  power grid 22/22 = 100% (unaffected: table.geo=False -> separate ladder)
+Label sets: evaluation/resolver_labels{,_pems_bay,_chicago,_power_grid}.json.
+Half of each new set is REFUSALS by design (out-of-footprint cities, expressways
+that span many regions, directional bearings), because a resolver that matches
+anything would erase condition B's hallucination and fabricate the result.
+
+SUPPORTING CHANGES (all flagged in-file): a DIRECTIONAL GUARD so "NW of Downtown
+San Jose" cannot fuzzy-collapse onto "Downtown San Jose" (safe for METR-LA, whose
+compass labels are real regions matched exactly at rung 2); Bay Area + Chicago
+gazetteer aliases restoring parity with METR-LA's; per-decision logging of
+cited_locations / resolution_methods / resolved_set_sizes (this study previously
+persisted metrics ONLY, which is why diagnosing the outlier required re-running
+the LLM — that investigation is now a grep); a CSV writer that takes the UNION of
+row keys so a resumed run cannot crash on its own older cache; and
+evaluation/refresh_explanation_names.py, which rewrites node_name strings in
+cached explanations after a region-table change (names are a deterministic
+function of node_id + node_meta, so no explainer output is touched — needed
+because build_or_load_explanation caches by FILENAME PRESENCE only).
+verify_traffic_unchanged.py gained full-rendered-node-name probes: its old probe
+list had only bare region names and bare ids, so it PASSED throughout the period
+the parenthetical bug was live — a regression gate blind to the dominant input
+form. Golden re-baselined twice, each time after confirming all 12 prompt
+artifacts + 3 prompt constants were byte-identical.
+
+STILL OWED: 8 committed artifacts were scored with the OLD resolver and need
+reruns (Phases 5/15b, 12, 13, 14, 16, 18, 20's METR-LA row). Power grid (Phase 19)
+and Phase 10 sim_eval are UNAFFECTED. No bootstrap CIs on the chance rows yet
+(Phase-15b machinery covers A/B/C only).
 
 Phase 12 COMPLETE (full n=28 real run landed 2026-07-19) — SHAP BASELINE COMPARISON (answers the reviewer question
 "why not just use SHAP?" with an experiment, not an assertion). Two files:

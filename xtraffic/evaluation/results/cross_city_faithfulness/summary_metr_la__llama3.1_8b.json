@@ -7,7 +7,8 @@
     "B",
     "C",
     "RANDOM_node",
-    "RANDOM_region"
+    "RANDOM_region",
+    "RANDOM_target_region"
   ],
   "aggregate": {
     "A": {
@@ -100,6 +101,25 @@
       "faithfulness_f1_n": 93,
       "hallucination_rate_mean": 0.5776881720430107,
       "hallucination_rate_std": 0.10007607090421922,
+      "hallucination_rate_n": 93,
+      "quantitative_fidelity_mean": NaN,
+      "quantitative_fidelity_std": NaN,
+      "quantitative_fidelity_n": 0
+    },
+    "RANDOM_target_region": {
+      "condition": "RANDOM_target_region",
+      "n": 93,
+      "cause_precision_mean": 0.6451612903225806,
+      "cause_precision_std": 0.47846441852230076,
+      "cause_precision_n": 93,
+      "cause_recall_mean": 0.18951612903225806,
+      "cause_recall_std": 0.19279085625616005,
+      "cause_recall_n": 93,
+      "faithfulness_f1_mean": 0.27767119380022603,
+      "faithfulness_f1_std": 0.2554078801549173,
+      "faithfulness_f1_n": 93,
+      "hallucination_rate_mean": 0.3548387096774194,
+      "hallucination_rate_std": 0.47846441852230076,
       "hallucination_rate_n": 93,
       "quantitative_fidelity_mean": NaN,
       "quantitative_fidelity_std": NaN,

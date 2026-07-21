@@ -26,3 +26,8 @@ xtraffic/**/__pycache__/
 xtraffic/**/*.pyc
 xtraffic/.venv/
 xtraffic/venv/
+
+# Transient backups written by evaluation/refresh_explanation_names.py.
+# Regenerable, binary, and the underlying explanation JSONs are versioned
+# individually -- no reason to version a tarball of them too.
+*.bak.tar

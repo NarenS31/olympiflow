@@ -6,7 +6,7 @@
   },
   "prediction": {
     "node_id": 591,
-    "node_name": "SW of the Loop (segment 640, 41.818, -87.744)",
+    "node_name": "Garfield Ridge / Clearing (segment 640, 41.818, -87.744)",
     "predicted_speed_mph": 9.69,
     "horizon_minutes": 30,
     "current_speed_mph": 0.0
@@ -26,25 +26,25 @@
     },
     {
       "node_id": 531,
-      "node_name": "SW of the Loop (segment 570, 41.811, -87.743)",
+      "node_name": "Garfield Ridge / Clearing (segment 570, 41.811, -87.743)",
       "importance": 0.4941,
       "current_speed_mph": 27.0
     },
     {
       "node_id": 532,
-      "node_name": "SW of the Loop (segment 571, 41.818, -87.743)",
+      "node_name": "Garfield Ridge / Clearing (segment 571, 41.818, -87.743)",
       "importance": 0.3361,
       "current_speed_mph": 0.0
     },
     {
       "node_id": 590,
-      "node_name": "SW of the Loop (segment 639, 41.811, -87.743)",
+      "node_name": "Garfield Ridge / Clearing (segment 639, 41.811, -87.743)",
       "importance": 0.3133,
       "current_speed_mph": 0.0
     },
     {
       "node_id": 59,
-      "node_name": "SW of the Loop (segment 62, 41.717, -87.721)",
+      "node_name": "Ashburn / Auburn Gresham (segment 62, 41.717, -87.721)",
       "importance": 0.1605,
       "current_speed_mph": 34.0
     },

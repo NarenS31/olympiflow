@@ -50,13 +50,13 @@
     },
     {
       "node_id": 538,
-      "node_name": "NW of the Loop (segment 577, 41.906, -87.746)",
+      "node_name": "Hermosa / Belmont Cragin (segment 577, 41.906, -87.746)",
       "importance": 0.155,
       "current_speed_mph": 0.0
     },
     {
       "node_id": 909,
-      "node_name": "NW of the Loop (segment 1188, 41.988, -87.670)",
+      "node_name": "Rogers Park / Edgewater (segment 1188, 41.988, -87.670)",
       "importance": 0.1542,
       "current_speed_mph": 0.0
     }

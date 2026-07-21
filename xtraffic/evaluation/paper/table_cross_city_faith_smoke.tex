@@ -2,15 +2,19 @@
 % Do NOT edit by hand -- rerun the study to refresh.
 \begin{table}[t]
 \centering
-\caption{Cross-city, cross-model faithfulness. Each cell reports condition-A hallucination / condition-B hallucination / faithfulness-F1 gap ($\mathrm{F1}_A-\mathrm{F1}_B$). Near-zero A-hallucination and a large positive F1 gap in every cell show the mathematical \emph{explanation}---not the city or the LLM---is what keeps the advisor grounded. PEMS-BAY and Chicago use zero-shot transfer of the METR-LA model.}
+\caption{Cross-city, cross-model faithfulness. Each cell reports condition-A hallucination / condition-B hallucination / faithfulness-F1 gap ($\mathrm{F1}_A-\mathrm{F1}_B$). Near-zero A-hallucination and a large positive F1 gap in every cell show the mathematical \emph{explanation}---not the city or the LLM---is what keeps the advisor grounded. The \textsc{chance} rows are citers with no model and no explanation: \textsc{random region} draws a region uniformly, and \textsc{target region} names the target's own region---the tight floor, since condition~B is always shown the target's location. Condition~A must be read against the latter. PEMS-BAY uses zero-shot transfer of the METR-LA model. \textbf{Chicago} is excluded from faithfulness reporting: its spatial density makes the chance floor (target-region $\mathrm{F1}=0.565$) too close to condition~A ($\mathrm{F1}=0.629$) to report honestly. It is retained for prediction-transfer results.}
 \label{tab:cross_city_faith}
 \begin{tabular}{lcc}
 \toprule
 City & llama3.1:8b & mock2 \\
 \midrule
-METR-LA & \shortstack{A 0.000\\B 1.000\\$\Delta$F1 +0.400} & \shortstack{A 0.000\\B 1.000\\$\Delta$F1 +0.400} \\
-PEMS-BAY & \shortstack{A 0.000\\B 1.000\\$\Delta$F1 +0.400} & \shortstack{A 0.000\\B 1.000\\$\Delta$F1 +0.400} \\
-Chicago & \shortstack{A 0.000\\B 1.000\\$\Delta$F1 +0.400} & \shortstack{A 0.000\\B 1.000\\$\Delta$F1 +0.400} \\
+METR-LA & \shortstack{A F1 0.400\\A hal. 0.000\\B hal. 1.000\\$\Delta$F1 +0.400} & \shortstack{A F1 0.400\\A hal. 0.000\\B hal. 1.000\\$\Delta$F1 +0.400} \\
+\quad \textsc{chance}: random region & F1 0.217 & F1 0.217 \\
+\quad \textsc{chance}: target region & F1 0.182 & F1 0.182 \\
+\midrule
+PEMS-BAY & \shortstack{A F1 0.400\\A hal. 0.000\\B hal. 1.000\\$\Delta$F1 +0.400} & \shortstack{A F1 0.400\\A hal. 0.000\\B hal. 1.000\\$\Delta$F1 +0.400} \\
+\quad \textsc{chance}: random region & F1 0.208 & F1 0.208 \\
+\quad \textsc{chance}: target region & F1 0.207 & F1 0.207 \\
 \bottomrule
 \end{tabular}
 \end{table}

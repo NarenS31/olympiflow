@@ -32,7 +32,7 @@
     },
     {
       "node_id": 415,
-      "node_name": "SW of the Loop (segment 444, 41.750, -87.688)",
+      "node_name": "Chicago Lawn / West Lawn (segment 444, 41.750, -87.688)",
       "importance": 0.8861,
       "current_speed_mph": 28.0
     },
@@ -44,7 +44,7 @@
     },
     {
       "node_id": 89,
-      "node_name": "NW of the Loop (segment 92, 41.947, -87.728)",
+      "node_name": "Irving Park / Albany Park (segment 92, 41.947, -87.728)",
       "importance": 0.8857,
       "current_speed_mph": 28.0
     },
@@ -56,7 +56,7 @@
     },
     {
       "node_id": 928,
-      "node_name": "SW of the Loop (segment 1211, 41.805, -87.645)",
+      "node_name": "Back of the Yards / New City (segment 1211, 41.805, -87.645)",
       "importance": 0.8831,
       "current_speed_mph": 23.0
     }

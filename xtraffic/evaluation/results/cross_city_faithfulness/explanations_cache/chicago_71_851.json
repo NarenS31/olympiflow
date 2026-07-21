@@ -44,19 +44,19 @@
     },
     {
       "node_id": 268,
-      "node_name": "SE of the Loop (segment 278, 41.737, -87.577)",
+      "node_name": "South Shore / South Chicago (segment 278, 41.737, -87.577)",
       "importance": 0.3576,
       "current_speed_mph": 32.0
     },
     {
       "node_id": 462,
-      "node_name": "SW of the Loop (segment 495, 41.796, -87.758)",
+      "node_name": "Garfield Ridge / Clearing (segment 495, 41.796, -87.758)",
       "importance": 0.3496,
       "current_speed_mph": 33.0
     },
     {
       "node_id": 703,
-      "node_name": "SE of the Loop (segment 811, 41.748, -87.586)",
+      "node_name": "South Shore / South Chicago (segment 811, 41.748, -87.586)",
       "importance": 0.3485,
       "current_speed_mph": 28.0
     }

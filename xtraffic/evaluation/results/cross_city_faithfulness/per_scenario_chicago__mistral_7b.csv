@@ -1,67 +1,166 @@
-city,model,sample_index,target_node,tod_band,congestion,condition,advisory_error,cause_precision,cause_recall,faithfulness_f1,hallucination_rate,quantitative_fidelity,n_cited_causes,n_topk
-chicago,mistral:7b,23,591,pm_rush,medium,A,,1.0,0.75,0.8571428571428571,0.0,0.2,2,8
-chicago,mistral:7b,23,591,pm_rush,medium,B,,0.0,0.0,0.0,1.0,0.0,1,8
-chicago,mistral:7b,27,847,pm_rush,medium,A,,1.0,1.0,1.0,0.0,0.42857142857142855,2,8
-chicago,mistral:7b,27,847,pm_rush,medium,B,,0.0,0.0,0.0,1.0,0.0,3,8
-chicago,mistral:7b,22,975,pm_rush,medium,A,,1.0,0.5,0.6666666666666666,0.0,,2,8
-chicago,mistral:7b,22,975,pm_rush,medium,B,,0.0,0.0,0.0,1.0,0.0,1,8
-chicago,mistral:7b,21,975,pm_rush,medium,A,,1.0,0.375,0.5454545454545454,0.0,1.0,2,8
-chicago,mistral:7b,21,975,pm_rush,medium,B,,0.0,0.0,0.0,1.0,0.3333333333333333,1,8
-chicago,mistral:7b,28,847,pm_rush,medium,A,,1.0,0.25,0.4,0.0,,2,8
-chicago,mistral:7b,28,847,pm_rush,medium,B,,0.0,0.0,0.0,1.0,0.0,3,8
-chicago,mistral:7b,26,591,pm_rush,medium,A,,1.0,0.5,0.6666666666666666,0.0,1.0,2,8
-chicago,mistral:7b,26,591,pm_rush,medium,B,,0.0,0.0,0.0,1.0,0.0,1,8
-chicago,mistral:7b,20,975,pm_rush,medium,A,,1.0,0.5,0.6666666666666666,0.0,,2,8
-chicago,mistral:7b,20,975,pm_rush,medium,B,,0.0,0.0,0.0,1.0,0.0,2,8
-chicago,mistral:7b,9,492,pm_rush,high,A,,1.0,0.5,0.6666666666666666,0.0,1.0,4,8
-chicago,mistral:7b,9,492,pm_rush,high,B,,0.0,0.0,0.0,1.0,0.2,1,8
-chicago,mistral:7b,12,492,pm_rush,high,A,,1.0,0.375,0.5454545454545454,0.0,0.0,2,8
-chicago,mistral:7b,12,492,pm_rush,high,B,,0.0,0.0,0.0,1.0,0.0,1,8
-chicago,mistral:7b,5,819,pm_rush,high,A,,1.0,0.625,0.7692307692307693,0.0,1.0,2,8
-chicago,mistral:7b,5,819,pm_rush,high,B,,0.0,0.0,0.0,1.0,0.0,1,8
-chicago,mistral:7b,35,755,pm_rush,high,A,,1.0,0.375,0.5454545454545454,0.0,1.0,2,8
-chicago,mistral:7b,35,755,pm_rush,high,B,,0.0,0.0,0.0,1.0,0.3333333333333333,1,8
-chicago,mistral:7b,29,819,pm_rush,high,A,,1.0,0.375,0.5454545454545454,0.0,1.0,2,8
-chicago,mistral:7b,29,819,pm_rush,high,B,,0.0,0.0,0.0,1.0,0.5,1,8
-chicago,mistral:7b,33,864,pm_rush,high,A,,1.0,0.5,0.6666666666666666,0.0,0.8571428571428571,4,8
-chicago,mistral:7b,33,864,pm_rush,high,B,,0.0,0.0,0.0,1.0,0.14285714285714285,2,8
-chicago,mistral:7b,4,819,pm_rush,high,A,,1.0,0.25,0.4,0.0,0.16666666666666666,1,8
-chicago,mistral:7b,4,819,pm_rush,high,B,,0.0,0.0,0.0,1.0,0.0,1,8
-chicago,mistral:7b,65,851,evening,low,A,,1.0,0.5,0.6666666666666666,0.0,1.0,4,8
-chicago,mistral:7b,65,851,evening,low,B,,0.0,0.0,0.0,1.0,0.0,3,8
-chicago,mistral:7b,68,851,evening,low,A,,1.0,1.0,1.0,0.0,0.25,5,8
-chicago,mistral:7b,68,851,evening,low,B,,0.0,0.0,0.0,1.0,0.0,1,8
-chicago,mistral:7b,72,851,evening,low,A,,1.0,0.625,0.7692307692307693,0.0,,3,8
-chicago,mistral:7b,72,851,evening,low,B,,0.0,0.0,0.0,1.0,0.0,1,8
-chicago,mistral:7b,69,487,evening,low,A,,1.0,1.0,1.0,0.0,1.0,2,8
-chicago,mistral:7b,69,487,evening,low,B,,0.0,0.0,0.0,1.0,0.6666666666666666,2,8
-chicago,mistral:7b,66,851,evening,low,A,,1.0,0.875,0.9333333333333333,0.0,0.5,6,8
-chicago,mistral:7b,66,851,evening,low,B,,0.0,0.0,0.0,1.0,0.0,1,8
-chicago,mistral:7b,71,851,evening,low,A,,1.0,1.0,1.0,0.0,1.0,7,8
-chicago,mistral:7b,71,851,evening,low,B,,0.0,0.0,0.0,1.0,0.0,4,8
-chicago,mistral:7b,67,851,evening,low,A,,1.0,0.75,0.8571428571428571,0.0,0.5,5,8
-chicago,mistral:7b,67,851,evening,low,B,,0.0,0.0,0.0,1.0,0.0,4,8
-chicago,mistral:7b,45,605,evening,medium,A,,1.0,1.0,1.0,0.0,0.2,2,8
-chicago,mistral:7b,45,605,evening,medium,B,,0.0,0.0,0.0,1.0,0.0,3,8
-chicago,mistral:7b,49,844,evening,medium,A,,1.0,0.25,0.4,0.0,,2,8
-chicago,mistral:7b,49,844,evening,medium,B,,0.0,0.0,0.0,1.0,0.0,3,8
-chicago,mistral:7b,47,605,evening,medium,A,,1.0,1.0,1.0,0.0,0.2727272727272727,3,8
-chicago,mistral:7b,47,605,evening,medium,B,,0.0,0.0,0.0,1.0,0.0,2,8
-chicago,mistral:7b,43,605,evening,medium,A,,1.0,1.0,1.0,0.0,0.2,2,8
-chicago,mistral:7b,43,605,evening,medium,B,,0.0,0.0,0.0,1.0,0.0,2,8
-chicago,mistral:7b,48,605,evening,medium,A,,1.0,1.0,1.0,0.0,0.0,8,8
-chicago,mistral:7b,48,605,evening,medium,B,,0.0,0.0,0.0,1.0,0.0,1,8
-chicago,mistral:7b,46,605,evening,medium,A,,1.0,0.875,0.9333333333333333,0.0,,6,8
-chicago,mistral:7b,46,605,evening,medium,B,,0.0,0.0,0.0,1.0,0.0,3,8
-chicago,mistral:7b,41,605,evening,medium,A,,1.0,1.0,1.0,0.0,1.0,2,8
-chicago,mistral:7b,41,605,evening,medium,B,,0.0,0.0,0.0,1.0,0.0,1,8
-chicago,mistral:7b,40,605,evening,high,A,,1.0,1.0,1.0,0.0,1.0,8,8
-chicago,mistral:7b,40,605,evening,high,B,,0.0,0.0,0.0,1.0,0.0,3,8
-chicago,mistral:7b,38,851,evening,high,A,,1.0,0.625,0.7692307692307693,0.0,0.5,5,8
-chicago,mistral:7b,38,851,evening,high,B,,0.0,0.0,0.0,1.0,0.0,1,8
-chicago,mistral:7b,37,851,evening,high,A,,1.0,0.375,0.5454545454545454,0.0,0.6,2,8
-chicago,mistral:7b,37,851,evening,high,B,,0.0,0.0,0.0,1.0,0.0,2,8
-chicago,mistral:7b,39,605,evening,high,A,,1.0,1.0,1.0,0.0,1.0,8,8
-chicago,mistral:7b,39,605,evening,high,B,,0.0,0.0,0.0,1.0,0.16666666666666666,1,8
-chicago,mistral:7b,36,755,evening,high,A,,1.0,0.5,0.6666666666666666,0.0,0.3333333333333333,3,8
-chicago,mistral:7b,36,755,evening,high,B,,0.0,0.0,0.0,1.0,0.0,1,8
+city,model,sample_index,target_node,tod_band,congestion,condition,advisory_error,cited_locations,resolution_methods,resolved_set_sizes,cause_precision,cause_recall,faithfulness_f1,hallucination_rate,quantitative_fidelity,n_cited_causes,n_topk
+chicago,mistral:7b,23,591,pm_rush,medium,A,,"['SW of the Loop', 'SW of the Loop']","['exact_region', 'exact_region']","[41, 41]",1.0,0.25,0.4,0.0,0.75,2,8
+chicago,mistral:7b,23,591,pm_rush,medium,B,,['I-290 (Eisenhower Expy)'],['unresolved'],[0],0.0,0.0,0.0,1.0,0.0,1,8
+chicago,mistral:7b,27,847,pm_rush,medium,A,,"['The Loop / Downtown (segment 1038, 41.888, -87.626)', 'Near North Side (segment 1297, 41.892, -87.628)']","['exact_sensor', 'exact_sensor']","[1, 1]",1.0,0.25,0.4,0.0,0.42857142857142855,2,8
+chicago,mistral:7b,27,847,pm_rush,medium,B,,"['I-90 Kennedy Expressway', 'I-94 Dan Ryan Expressway', 'I-55 Stevenson Expressway']","['unresolved', 'unresolved', 'unresolved']","[0, 0, 0]",0.0,0.0,0.0,1.0,0.0,3,8
+chicago,mistral:7b,22,975,pm_rush,medium,A,,"['Near North Side (node_id 940)', 'Near West Side (node_id 974)']","['exact_region', 'exact_region']","[55, 37]",1.0,0.5,0.6666666666666666,0.0,,2,8
+chicago,mistral:7b,22,975,pm_rush,medium,B,,"['DuSable Lake Shore Drive corridor', 'Soldier Field and North Ave Beach']","['unresolved', 'unresolved']","[0, 0]",0.0,0.0,0.0,1.0,0.0,2,8
+chicago,mistral:7b,21,975,pm_rush,medium,A,,"['Near North Side (segment 1289, 41.896, -87.640)', 'Near North Side (segment 1223, 41.894, -87.647)']","['exact_sensor', 'exact_sensor']","[1, 1]",1.0,0.25,0.4,0.0,1.0,2,8
+chicago,mistral:7b,21,975,pm_rush,medium,B,,['DuSable Lake Shore Drive'],['unresolved'],[0],0.0,0.0,0.0,1.0,0.0,1,8
+chicago,mistral:7b,28,847,pm_rush,medium,A,,"['Near North Side', 'Ashburn/Auburn Gresham']","['exact_region', 'fuzzy']","[55, 23]",1.0,0.25,0.4,0.0,,2,8
+chicago,mistral:7b,28,847,pm_rush,medium,B,,"['I-90 Kennedy Expressway', 'I-94 Dan Ryan Expressway', 'I-55 Stevenson Expressway']","['unresolved', 'unresolved', 'unresolved']","[0, 0, 0]",0.0,0.0,0.0,1.0,0.0,3,8
+chicago,mistral:7b,26,591,pm_rush,medium,A,,"['SW of the Loop (segment 1132, 41.829, -87.744)', 'Garfield Ridge / Clearing (segment 571, 41.818, -87.743)', 'SW of the Loop (segment 1125, 41.829, -87.743)']","['exact_sensor', 'exact_sensor', 'exact_sensor']","[1, 1, 1]",1.0,0.375,0.5454545454545454,0.0,0.0,3,8
+chicago,mistral:7b,26,591,pm_rush,medium,B,,['I-290 (Eisenhower Expy)'],['unresolved'],[0],0.0,0.0,0.0,1.0,0.0,1,8
+chicago,mistral:7b,20,975,pm_rush,medium,A,,"['Near West Side', 'Far South Side']","['exact_region', 'exact_region']","[37, 129]",1.0,0.5,0.6666666666666666,0.0,0.16666666666666666,2,8
+chicago,mistral:7b,20,975,pm_rush,medium,B,,"['DuSable Lake Shore Drive', 'Soldier Field and North Ave Beach']","['unresolved', 'unresolved']","[0, 0]",0.0,0.0,0.0,1.0,0.0,2,8
+chicago,mistral:7b,9,492,pm_rush,high,A,,"[""Northwest Side / O'Hare corridor (segment 526, 41.993, -87.758) (node_id 489)"", ""Northwest Side / O'Hare corridor (segment 530, 41.993, -87.758) (node_id 493)"", ""Northwest Side / O'Hare corridor (segment 528, 42.001, -87.774) (node_id 491)"", ""Northwest Side / O'Hare corridor (segment 525, 41.997, -87.766) (node_id 488)""]","['exact_sensor', 'exact_sensor', 'exact_sensor', 'exact_sensor']","[1, 1, 1, 1]",1.0,0.5,0.6666666666666666,0.0,1.0,4,8
+chicago,mistral:7b,9,492,pm_rush,high,B,,['Circle Interchange'],['unresolved'],[0],0.0,0.0,0.0,1.0,0.0,1,8
+chicago,mistral:7b,12,492,pm_rush,high,A,,"[""Northwest Side / O'Hare corridor (segment 526, 41.993, -87.758) (node_id 489)"", ""Northwest Side / O'Hare corridor (segment 530, 41.993, -87.758) (node_id 493)"", ""Northwest Side / O'Hare corridor (segment 528, 42.001, -87.774) (node_id 491)""]","['exact_sensor', 'exact_sensor', 'exact_sensor']","[1, 1, 1]",1.0,0.375,0.5454545454545454,0.0,0.0,3,8
+chicago,mistral:7b,12,492,pm_rush,high,B,,['Circle Interchange'],['unresolved'],[0],0.0,0.0,0.0,1.0,0.0,1,8
+chicago,mistral:7b,5,819,pm_rush,high,A,,"['Far South Side', 'West Side / Garfield Park']","['exact_region', 'exact_region']","[129, 38]",1.0,0.625,0.7692307692307693,0.0,1.0,2,8
+chicago,mistral:7b,5,819,pm_rush,high,B,,['DuSable Lake Shore Drive'],['unresolved'],[0],0.0,0.0,0.0,1.0,0.0,1,8
+chicago,mistral:7b,35,755,pm_rush,high,A,,"['Far South Side', 'West Side / Garfield Park']","['exact_region', 'exact_region']","[129, 38]",1.0,0.375,0.5454545454545454,0.0,1.0,2,8
+chicago,mistral:7b,35,755,pm_rush,high,B,,['DuSable Lake Shore Drive'],['unresolved'],[0],0.0,0.0,0.0,1.0,0.3333333333333333,1,8
+chicago,mistral:7b,29,819,pm_rush,high,A,,"['West Side / Garfield Park', 'Ashburn / Auburn Gresham']","['exact_region', 'exact_region']","[38, 23]",1.0,0.25,0.4,0.0,1.0,2,8
+chicago,mistral:7b,29,819,pm_rush,high,B,,['DuSable Lake Shore Drive'],['unresolved'],[0],0.0,0.0,0.0,1.0,0.5,1,8
+chicago,mistral:7b,33,864,pm_rush,high,A,,"['West Side / Garfield Park', 'Far South Side']","['exact_region', 'exact_region']","[38, 129]",1.0,0.375,0.5454545454545454,0.0,0.6666666666666666,2,8
+chicago,mistral:7b,33,864,pm_rush,high,B,,"['Circle Interchange (I-90/94/290)', 'I-90 Kennedy Expressway', 'I-94 Dan Ryan Expressway', 'I-290 Eisenhower Expressway', 'I-55 Stevenson Expressway']","['unresolved', 'unresolved', 'unresolved', 'unresolved', 'unresolved']","[0, 0, 0, 0, 0]",0.0,0.0,0.0,1.0,0.0,5,8
+chicago,mistral:7b,4,819,pm_rush,high,A,,"['Far South Side', 'Near North Side']","['exact_region', 'exact_region']","[129, 55]",1.0,0.5,0.6666666666666666,0.0,0.2857142857142857,2,8
+chicago,mistral:7b,4,819,pm_rush,high,B,,['DuSable Lake Shore Drive'],['unresolved'],[0],0.0,0.0,0.0,1.0,0.0,1,8
+chicago,mistral:7b,65,851,evening,low,A,,"['Southwest Side/Midway', 'Far South Side', 'Bronzeville/South Side', 'Chicago Lawn/West Lawn', 'West Side/Garfield Park', ""Northwest Side/O'Hare corridor""]","['fuzzy', 'exact_region', 'fuzzy', 'fuzzy', 'fuzzy', 'fuzzy']","[60, 129, 20, 16, 38, 72]",1.0,0.75,0.8571428571428571,0.0,1.0,6,8
+chicago,mistral:7b,65,851,evening,low,B,,['Circle Interchange'],['unresolved'],[0],0.0,0.0,0.0,1.0,0.0,1,8
+chicago,mistral:7b,68,851,evening,low,A,,"['Far South Side', 'Back of the Yards', 'South Shore / South Chicago', 'Bridgeport / McKinley Park']","['exact_region', 'geographic', 'exact_region', 'exact_region']","[129, 28, 31, 49]",1.0,0.625,0.7692307692307693,0.0,,4,8
+chicago,mistral:7b,68,851,evening,low,B,,"['Circle Interchange (node_id 851)', 'I-90 Kennedy Expressway Ohio St feeder ramps']","['unresolved', 'unresolved']","[0, 0]",0.0,0.0,0.0,1.0,0.0,2,8
+chicago,mistral:7b,72,851,evening,low,A,,"['Far South Side', 'West Side / Garfield Park', 'Hermosa / Belmont Cragin', 'Ashburn / Auburn Gresham', 'Far South Side']","['exact_region', 'exact_region', 'exact_region', 'exact_region', 'exact_region']","[129, 38, 20, 23, 129]",1.0,0.625,0.7692307692307693,0.0,0.5,5,8
+chicago,mistral:7b,72,851,evening,low,B,,['Circle Interchange (node_id 851)'],['unresolved'],[0],0.0,0.0,0.0,1.0,0.0,1,8
+chicago,mistral:7b,69,487,evening,low,A,,"['Lincoln Park / North Side', 'Garfield Ridge / Clearing']","['exact_region', 'exact_region']","[37, 24]",1.0,0.25,0.4,0.0,1.0,2,8
+chicago,mistral:7b,69,487,evening,low,B,,"['DuSable Lake Shore Drive', 'I-290 (Eisenhower Expy)']","['unresolved', 'unresolved']","[0, 0]",0.0,0.0,0.0,1.0,0.5,2,8
+chicago,mistral:7b,66,851,evening,low,A,,"['The Loop/Downtown (node_id 850)', 'The Loop/Downtown (node_id 852)', 'Bronzeville/South Side (node_id 541)', 'SE of the Loop (node_id 540)', 'South Loop (node_id 542)', 'Near North Side (node_id 186)']","['fuzzy', 'fuzzy', 'fuzzy', 'exact_region', 'exact_region', 'exact_region']","[51, 51, 20, 10, 30, 55]",1.0,0.875,0.9333333333333333,0.0,0.5,6,8
+chicago,mistral:7b,66,851,evening,low,B,,"['I-90/94 Dan Ryan Expressway corridor', 'I-90 Kennedy Expressway corridor', 'I-290 Eisenhower Expressway corridor']","['unresolved', 'unresolved', 'unresolved']","[0, 0, 0]",0.0,0.0,0.0,1.0,0.16666666666666666,3,8
+chicago,mistral:7b,71,851,evening,low,A,,"['The Loop / Downtown', 'The Loop / Downtown', 'The Loop / Downtown', 'The Loop / Downtown', 'The Loop / Downtown', 'South Shore / South Chicago', 'Garfield Ridge / Clearing']","['exact_region', 'exact_region', 'exact_region', 'exact_region', 'exact_region', 'exact_region', 'exact_region']","[51, 51, 51, 51, 51, 31, 24]",1.0,1.0,1.0,0.0,1.0,7,8
+chicago,mistral:7b,71,851,evening,low,B,,"['I-90 Kennedy Expressway', 'I-94 Dan Ryan Expressway', 'I-55 Stevenson Expressway']","['unresolved', 'unresolved', 'unresolved']","[0, 0, 0]",0.0,0.0,0.0,1.0,0.0,3,8
+chicago,mistral:7b,67,851,evening,low,A,,"['Ashburn / Auburn Gresham', 'South Shore / South Chicago', 'Bridgeport / McKinley Park', 'South Shore / South Chicago', 'Far South Side', 'Lincoln Park / North Side']","['exact_region', 'exact_region', 'exact_region', 'exact_region', 'exact_region', 'exact_region']","[23, 31, 49, 31, 129, 37]",1.0,0.875,0.9333333333333333,0.0,0.0,6,8
+chicago,mistral:7b,67,851,evening,low,B,,"['Circle Interchange (node_id 851)', 'I-90 Kennedy Expressway Ohio St feeder ramps']","['unresolved', 'unresolved']","[0, 0]",0.0,0.0,0.0,1.0,0.0,2,8
+chicago,mistral:7b,45,605,evening,medium,A,,"['The Loop / Downtown (segment 1293, 41.872, -87.628)', 'The Loop / Downtown (segment 660, 41.876, -87.626)']","['exact_sensor', 'exact_sensor']","[1, 1]",1.0,0.25,0.4,0.0,0.5,2,8
+chicago,mistral:7b,45,605,evening,medium,B,,"['Circle Interchange (I-90/94/290)', 'I-90 Kennedy Expressway corridor', 'I-94 Dan Ryan Expressway corridor', 'I-290 Eisenhower Expressway corridor', 'I-55 Stevenson Expressway corridor']","['unresolved', 'unresolved', 'unresolved', 'unresolved', 'unresolved']","[0, 0, 0, 0, 0]",0.0,0.0,0.0,1.0,0.0,5,8
+chicago,mistral:7b,49,844,evening,medium,A,,"['The Loop / Downtown (segment 1034, 41.884, -87.637) (node_id 850)', 'The Loop / Downtown (segment 1036, 41.887, -87.634) (node_id 852)', 'The Loop / Downtown (segment 1035, 41.886, -87.636) (node_id 851)', 'Garfield Ridge / Clearing (segment 245, 41.792, -87.797) (node_id 235)']","['exact_sensor', 'exact_sensor', 'exact_sensor', 'exact_sensor']","[1, 1, 1, 1]",1.0,0.5,0.6666666666666666,0.0,1.0,4,8
+chicago,mistral:7b,49,844,evening,medium,B,,"['I-90 Kennedy Expressway', 'I-94 Dan Ryan Expressway', 'I-290 Eisenhower Expressway']","['unresolved', 'unresolved', 'unresolved']","[0, 0, 0]",0.0,0.0,0.0,1.0,0.0,3,8
+chicago,mistral:7b,47,605,evening,medium,A,,"['The Loop / Downtown (segment 1003)', 'The Loop / Downtown (segment 784)', 'The Loop / Downtown (segment 776)', 'The Loop / Downtown (segment 1002)', 'The Loop / Downtown (segment 606)', 'The Loop / Downtown (segment 1005)', 'The Loop / Downtown (segment 777)', 'The Loop / Downtown (segment 785)']","['exact_sensor', 'exact_sensor', 'exact_sensor', 'exact_region', 'exact_sensor', 'exact_region', 'exact_sensor', 'exact_sensor']","[1, 1, 1, 51, 1, 51, 1, 1]",0.25,1.0,0.4,0.75,,8,8
+chicago,mistral:7b,47,605,evening,medium,B,,"['Circle Interchange (I-90/94/290)', 'I-90 Kennedy Expressway', 'I-94 Dan Ryan Expressway', 'I-290 Eisenhower Expressway', 'I-55 Stevenson Expressway']","['unresolved', 'unresolved', 'unresolved', 'unresolved', 'unresolved']","[0, 0, 0, 0, 0]",0.0,0.0,0.0,1.0,0.0,5,8
+chicago,mistral:7b,43,605,evening,medium,A,,"['The Loop / Downtown (segment 1293, 41.872, -87.628)', 'The Loop / Downtown (segment 1292, 41.872, -87.627)']","['exact_sensor', 'exact_sensor']","[1, 1]",1.0,0.25,0.4,0.0,0.2,2,8
+chicago,mistral:7b,43,605,evening,medium,B,,"['Circle Interchange (I-90/94/290)', 'I-90 Kennedy Expressway reversible express lanes']","['unresolved', 'unresolved']","[0, 0]",0.0,0.0,0.0,1.0,0.0,2,8
+chicago,mistral:7b,48,605,evening,medium,A,,"['The Loop / Downtown (segment 1003)', 'The Loop / Downtown (segment 776)', 'The Loop / Downtown (segment 1002)', 'The Loop / Downtown (segment 784)', 'The Loop / Downtown (segment 777)', 'The Loop / Downtown (segment 1004)', 'The Loop / Downtown (segment 606)', 'The Loop / Downtown (segment 785)']","['exact_sensor', 'exact_sensor', 'exact_region', 'exact_sensor', 'exact_sensor', 'exact_region', 'exact_sensor', 'exact_sensor']","[1, 1, 51, 1, 1, 51, 1, 1]",0.25,1.0,0.4,0.75,0.3333333333333333,8,8
+chicago,mistral:7b,48,605,evening,medium,B,,['Circle Interchange (node_id 605)'],['unresolved'],[0],0.0,0.0,0.0,1.0,0.0,1,8
+chicago,mistral:7b,46,605,evening,medium,A,,"['The Loop / Downtown (segment 1293, 41.872, -87.628) (node_id 1003)', 'The Loop / Downtown (segment 1292, 41.872, -87.627) (node_id 1002)', 'The Loop / Downtown (segment 907, 41.880, -87.624) (node_id 777)', 'The Loop / Downtown (segment 921, 41.880, -87.625) (node_id 785)', 'The Loop / Downtown (segment 1294, 41.881, -87.628) (node_id 1004)']","['exact_sensor', 'exact_sensor', 'exact_sensor', 'exact_sensor', 'exact_sensor']","[1, 1, 1, 1, 1]",1.0,0.625,0.7692307692307693,0.0,0.0,5,8
+chicago,mistral:7b,46,605,evening,medium,B,,"['Circle Interchange (I-90/94/290)', 'I-90 Kennedy Expressway', 'I-94 Dan Ryan Expressway', 'I-290 Eisenhower Expressway', 'I-55 Stevenson Expressway']","['unresolved', 'unresolved', 'unresolved', 'unresolved', 'unresolved']","[0, 0, 0, 0, 0]",0.0,0.0,0.0,1.0,0.0,5,8
+chicago,mistral:7b,41,605,evening,medium,A,,"['The Loop / Downtown (segment 1292, 41.872, -87.627)', 'The Loop / Downtown (segment 660, 41.876, -87.626)']","['exact_sensor', 'exact_sensor']","[1, 1]",1.0,0.25,0.4,0.0,0.375,2,8
+chicago,mistral:7b,41,605,evening,medium,B,,"['Circle Interchange (I-90/94/290)', 'State St and Martin Luther King Jr Dr']","['unresolved', 'unresolved']","[0, 0]",0.0,0.0,0.0,1.0,0.0,2,8
+chicago,mistral:7b,40,605,evening,high,A,,"['The Loop / Downtown (segment 1293)', 'The Loop / Downtown (segment 904)', 'The Loop / Downtown (segment 918)', 'The Loop / Downtown (segment 1292)', 'The Loop / Downtown (segment 907)', 'The Loop / Downtown (segment 1295)', 'The Loop / Downtown (segment 921)', 'The Loop / Downtown (segment 1294)']","['exact_sensor', 'exact_sensor', 'exact_sensor', 'exact_sensor', 'exact_sensor', 'exact_sensor', 'exact_sensor', 'exact_sensor']","[1, 1, 1, 1, 1, 1, 1, 1]",1.0,1.0,1.0,0.0,0.75,8,8
+chicago,mistral:7b,40,605,evening,high,B,,"['Circle Interchange (I-90/94/290)', 'I-90 Kennedy Expressway', 'I-94 Dan Ryan Expressway', 'I-290 Eisenhower Expressway']","['unresolved', 'unresolved', 'unresolved', 'unresolved']","[0, 0, 0, 0]",0.0,0.0,0.0,1.0,0.0,4,8
+chicago,mistral:7b,38,851,evening,high,A,,"['Far South Side', 'The Loop / Downtown (segment 1034, 41.884, -87.637)', 'The Loop / Downtown (segment 1035, 41.886, -87.636)', 'The Loop / Downtown (segment 1036, 41.887, -87.634)', 'The Loop / Downtown (segment 1027, 41.887, -87.634)', 'The Loop / Downtown (segment 1026, 41.886, -87.636)']","['exact_region', 'exact_sensor', 'exact_sensor', 'exact_sensor', 'exact_sensor', 'exact_sensor']","[129, 1, 1, 1, 1, 1]",0.8333333333333334,0.625,0.7142857142857143,0.16666666666666663,1.0,6,8
+chicago,mistral:7b,38,851,evening,high,B,,['Circle Interchange'],['unresolved'],[0],0.0,0.0,0.0,1.0,0.0,1,8
+chicago,mistral:7b,37,851,evening,high,A,,"['Far South Side', 'West Side / Garfield Park']","['exact_region', 'exact_region']","[129, 38]",1.0,0.375,0.5454545454545454,0.0,1.0,2,8
+chicago,mistral:7b,37,851,evening,high,B,,['Circle Interchange'],['unresolved'],[0],0.0,0.0,0.0,1.0,0.0,1,8
+chicago,mistral:7b,39,605,evening,high,A,,"['The Loop / Downtown (segment 907)', 'The Loop / Downtown (segment 1295)', 'The Loop / Downtown (segment 918)', 'The Loop / Downtown (segment 921)', 'The Loop / Downtown (segment 1292)', 'The Loop / Downtown (segment 1293)', 'The Loop / Downtown (segment 1294)', 'The Loop / Downtown (segment 660)']","['exact_sensor', 'exact_sensor', 'exact_sensor', 'exact_sensor', 'exact_sensor', 'exact_sensor', 'exact_sensor', 'exact_sensor']","[1, 1, 1, 1, 1, 1, 1, 1]",1.0,1.0,1.0,0.0,,8,8
+chicago,mistral:7b,39,605,evening,high,B,,['Circle Interchange (I-90/94/290)'],['unresolved'],[0],0.0,0.0,0.0,1.0,0.0,1,8
+chicago,mistral:7b,36,755,evening,high,A,,"['Near North Side (segment 873, 41.900, -87.633) (node_id 749)', 'Near North Side (segment 872, 41.894, -87.632) (node_id 748)']","['exact_sensor', 'exact_sensor']","[1, 1]",1.0,0.25,0.4,0.0,,2,8
+chicago,mistral:7b,36,755,evening,high,B,,['DuSable Lake Shore Drive'],['unresolved'],[0],0.0,0.0,0.0,1.0,0.0,1,8
+chicago,mistral:7b,23,591,pm_rush,medium,RANDOM_node,,[],[],[],0.0075,0.00375,0.004999999999999999,0.9925,,4,8
+chicago,mistral:7b,27,847,pm_rush,medium,RANDOM_node,,[],[],[],0.01,0.005,0.006666666666666666,0.99,,4,8
+chicago,mistral:7b,22,975,pm_rush,medium,RANDOM_node,,[],[],[],0.01,0.005,0.006666666666666666,0.99,,4,8
+chicago,mistral:7b,21,975,pm_rush,medium,RANDOM_node,,[],[],[],0.0075,0.00375,0.004999999999999999,0.9925,,4,8
+chicago,mistral:7b,28,847,pm_rush,medium,RANDOM_node,,[],[],[],0.0125,0.00625,0.008333333333333333,0.9875,,4,8
+chicago,mistral:7b,26,591,pm_rush,medium,RANDOM_node,,[],[],[],0.005,0.0025,0.003333333333333333,0.995,,4,8
+chicago,mistral:7b,20,975,pm_rush,medium,RANDOM_node,,[],[],[],0.0075,0.00375,0.004999999999999999,0.9925,,4,8
+chicago,mistral:7b,9,492,pm_rush,high,RANDOM_node,,[],[],[],0.0075,0.00375,0.004999999999999999,0.9925,,4,8
+chicago,mistral:7b,12,492,pm_rush,high,RANDOM_node,,[],[],[],0.0075,0.00375,0.004999999999999999,0.9925,,4,8
+chicago,mistral:7b,5,819,pm_rush,high,RANDOM_node,,[],[],[],0.0025,0.00125,0.0016666666666666666,0.9975,,4,8
+chicago,mistral:7b,35,755,pm_rush,high,RANDOM_node,,[],[],[],0.00625,0.003125,0.004166666666666667,0.99375,,4,8
+chicago,mistral:7b,29,819,pm_rush,high,RANDOM_node,,[],[],[],0.0075,0.00375,0.004999999999999999,0.9925,,4,8
+chicago,mistral:7b,33,864,pm_rush,high,RANDOM_node,,[],[],[],0.0125,0.00625,0.008333333333333333,0.9875,,4,8
+chicago,mistral:7b,4,819,pm_rush,high,RANDOM_node,,[],[],[],0.0125,0.00625,0.008333333333333333,0.9875,,4,8
+chicago,mistral:7b,65,851,evening,low,RANDOM_node,,[],[],[],0.00875,0.004375,0.005833333333333333,0.99125,,4,8
+chicago,mistral:7b,68,851,evening,low,RANDOM_node,,[],[],[],0.01,0.005,0.006666666666666666,0.99,,4,8
+chicago,mistral:7b,72,851,evening,low,RANDOM_node,,[],[],[],0.0075,0.00375,0.004999999999999999,0.9925,,4,8
+chicago,mistral:7b,69,487,evening,low,RANDOM_node,,[],[],[],0.00875,0.004375,0.005833333333333333,0.99125,,4,8
+chicago,mistral:7b,66,851,evening,low,RANDOM_node,,[],[],[],0.0025,0.00125,0.0016666666666666666,0.9975,,4,8
+chicago,mistral:7b,71,851,evening,low,RANDOM_node,,[],[],[],0.005,0.0025,0.003333333333333333,0.995,,4,8
+chicago,mistral:7b,67,851,evening,low,RANDOM_node,,[],[],[],0.0075,0.00375,0.004999999999999999,0.9925,,4,8
+chicago,mistral:7b,45,605,evening,medium,RANDOM_node,,[],[],[],0.01125,0.005625,0.0075,0.98875,,4,8
+chicago,mistral:7b,49,844,evening,medium,RANDOM_node,,[],[],[],0.01125,0.005625,0.0075,0.98875,,4,8
+chicago,mistral:7b,47,605,evening,medium,RANDOM_node,,[],[],[],0.0025,0.00125,0.0016666666666666666,0.9975,,4,8
+chicago,mistral:7b,43,605,evening,medium,RANDOM_node,,[],[],[],0.005,0.0025,0.003333333333333333,0.995,,4,8
+chicago,mistral:7b,48,605,evening,medium,RANDOM_node,,[],[],[],0.0025,0.00125,0.0016666666666666666,0.9975,,4,8
+chicago,mistral:7b,46,605,evening,medium,RANDOM_node,,[],[],[],0.0075,0.00375,0.004999999999999999,0.9925,,4,8
+chicago,mistral:7b,41,605,evening,medium,RANDOM_node,,[],[],[],0.01,0.005,0.006666666666666666,0.99,,4,8
+chicago,mistral:7b,40,605,evening,high,RANDOM_node,,[],[],[],0.00875,0.004375,0.005833333333333333,0.99125,,4,8
+chicago,mistral:7b,38,851,evening,high,RANDOM_node,,[],[],[],0.0025,0.00125,0.0016666666666666666,0.9975,,4,8
+chicago,mistral:7b,37,851,evening,high,RANDOM_node,,[],[],[],0.005,0.0025,0.003333333333333333,0.995,,4,8
+chicago,mistral:7b,39,605,evening,high,RANDOM_node,,[],[],[],0.0075,0.00375,0.004999999999999999,0.9925,,4,8
+chicago,mistral:7b,36,755,evening,high,RANDOM_node,,[],[],[],0.00375,0.001875,0.0025,0.99625,,4,8
+chicago,mistral:7b,23,591,pm_rush,medium,RANDOM_region,,[],[],[],0.15875,0.13,0.13523448773448782,0.84125,,4,8
+chicago,mistral:7b,27,847,pm_rush,medium,RANDOM_region,,[],[],[],0.06,0.09875,0.07029166666666667,0.94,,4,8
+chicago,mistral:7b,22,975,pm_rush,medium,RANDOM_region,,[],[],[],0.2,0.1175,0.14016666666666672,0.8,,4,8
+chicago,mistral:7b,21,975,pm_rush,medium,RANDOM_region,,[],[],[],0.115,0.114375,0.11132539682539688,0.885,,4,8
+chicago,mistral:7b,28,847,pm_rush,medium,RANDOM_region,,[],[],[],0.245,0.131875,0.16851893939393942,0.755,,4,8
+chicago,mistral:7b,26,591,pm_rush,medium,RANDOM_region,,[],[],[],0.19,0.121875,0.1444294871794872,0.81,,4,8
+chicago,mistral:7b,20,975,pm_rush,medium,RANDOM_region,,[],[],[],0.1975,0.118125,0.14161742424242443,0.8025,,4,8
+chicago,mistral:7b,9,492,pm_rush,high,RANDOM_region,,[],[],[],0.125,0.12625,0.11701501276501279,0.875,,4,8
+chicago,mistral:7b,12,492,pm_rush,high,RANDOM_region,,[],[],[],0.18,0.12875,0.1435833333333334,0.82,,4,8
+chicago,mistral:7b,5,819,pm_rush,high,RANDOM_region,,[],[],[],0.14125,0.13375,0.12686507936507938,0.85875,,4,8
+chicago,mistral:7b,35,755,pm_rush,high,RANDOM_region,,[],[],[],0.2075,0.134375,0.15872023809523808,0.7925,,4,8
+chicago,mistral:7b,29,819,pm_rush,high,RANDOM_region,,[],[],[],0.20125,0.110625,0.13934523809523816,0.79875,,4,8
+chicago,mistral:7b,33,864,pm_rush,high,RANDOM_region,,[],[],[],0.23125,0.130625,0.1639285714285714,0.76875,,4,8
+chicago,mistral:7b,4,819,pm_rush,high,RANDOM_region,,[],[],[],0.17375,0.11125,0.13288690476190482,0.82625,,4,8
+chicago,mistral:7b,65,851,evening,low,RANDOM_region,,[],[],[],0.255,0.118125,0.16007142857142864,0.745,,4,8
+chicago,mistral:7b,68,851,evening,low,RANDOM_region,,[],[],[],0.19625,0.12875,0.15202380952380953,0.80375,,4,8
+chicago,mistral:7b,72,851,evening,low,RANDOM_region,,[],[],[],0.1925,0.12,0.14331547619047622,0.8075,,4,8
+chicago,mistral:7b,69,487,evening,low,RANDOM_region,,[],[],[],0.10125,0.116875,0.08907521645021647,0.89875,,4,8
+chicago,mistral:7b,66,851,evening,low,RANDOM_region,,[],[],[],0.1875,0.120625,0.14241071428571433,0.8125,,4,8
+chicago,mistral:7b,71,851,evening,low,RANDOM_region,,[],[],[],0.08375,0.111875,0.08723340548340548,0.91625,,4,8
+chicago,mistral:7b,67,851,evening,low,RANDOM_region,,[],[],[],0.2275,0.148125,0.17455448717948718,0.7725,,4,8
+chicago,mistral:7b,45,605,evening,medium,RANDOM_region,,[],[],[],0.0325,0.125,0.05133333333333335,0.9675,,4,8
+chicago,mistral:7b,49,844,evening,medium,RANDOM_region,,[],[],[],0.15125,0.116875,0.11965277777777782,0.84875,,4,8
+chicago,mistral:7b,47,605,evening,medium,RANDOM_region,,[],[],[],0.0275,0.11,0.04400000000000001,0.9725,,4,8
+chicago,mistral:7b,43,605,evening,medium,RANDOM_region,,[],[],[],0.03625,0.14,0.05733333333333336,0.96375,,4,8
+chicago,mistral:7b,48,605,evening,medium,RANDOM_region,,[],[],[],0.035,0.13,0.05466666666666668,0.965,,4,8
+chicago,mistral:7b,46,605,evening,medium,RANDOM_region,,[],[],[],0.08375,0.08375,0.06984848484848478,0.91625,,4,8
+chicago,mistral:7b,41,605,evening,medium,RANDOM_region,,[],[],[],0.0375,0.14,0.058666666666666686,0.9625,,4,8
+chicago,mistral:7b,40,605,evening,high,RANDOM_region,,[],[],[],0.035,0.14,0.05600000000000002,0.965,,4,8
+chicago,mistral:7b,38,851,evening,high,RANDOM_region,,[],[],[],0.13,0.14875,0.12341819291819299,0.87,,4,8
+chicago,mistral:7b,37,851,evening,high,RANDOM_region,,[],[],[],0.17875,0.11,0.13252472527472536,0.82125,,4,8
+chicago,mistral:7b,39,605,evening,high,RANDOM_region,,[],[],[],0.04125,0.155,0.0646666666666667,0.95875,,4,8
+chicago,mistral:7b,36,755,evening,high,RANDOM_region,,[],[],[],0.185,0.11625,0.136409090909091,0.815,,4,8
+chicago,mistral:7b,23,591,pm_rush,medium,RANDOM_target_region,,[],[],[],1.0,0.375,0.5454545454545454,0.0,,4,8
+chicago,mistral:7b,27,847,pm_rush,medium,RANDOM_target_region,,[],[],[],1.0,0.75,0.8571428571428571,0.0,,4,8
+chicago,mistral:7b,22,975,pm_rush,medium,RANDOM_target_region,,[],[],[],1.0,0.375,0.5454545454545454,0.0,,4,8
+chicago,mistral:7b,21,975,pm_rush,medium,RANDOM_target_region,,[],[],[],1.0,0.375,0.5454545454545454,0.0,,4,8
+chicago,mistral:7b,28,847,pm_rush,medium,RANDOM_target_region,,[],[],[],1.0,0.25,0.4,0.0,,4,8
+chicago,mistral:7b,26,591,pm_rush,medium,RANDOM_target_region,,[],[],[],1.0,0.25,0.4,0.0,,4,8
+chicago,mistral:7b,20,975,pm_rush,medium,RANDOM_target_region,,[],[],[],0.0,0.0,0.0,1.0,,4,8
+chicago,mistral:7b,9,492,pm_rush,high,RANDOM_target_region,,[],[],[],1.0,0.5,0.6666666666666666,0.0,,4,8
+chicago,mistral:7b,12,492,pm_rush,high,RANDOM_target_region,,[],[],[],1.0,0.375,0.5454545454545454,0.0,,4,8
+chicago,mistral:7b,5,819,pm_rush,high,RANDOM_target_region,,[],[],[],1.0,0.125,0.2222222222222222,0.0,,4,8
+chicago,mistral:7b,35,755,pm_rush,high,RANDOM_target_region,,[],[],[],1.0,0.25,0.4,0.0,,4,8
+chicago,mistral:7b,29,819,pm_rush,high,RANDOM_target_region,,[],[],[],0.0,0.0,0.0,1.0,,4,8
+chicago,mistral:7b,33,864,pm_rush,high,RANDOM_target_region,,[],[],[],1.0,0.125,0.2222222222222222,0.0,,4,8
+chicago,mistral:7b,4,819,pm_rush,high,RANDOM_target_region,,[],[],[],1.0,0.25,0.4,0.0,,4,8
+chicago,mistral:7b,65,851,evening,low,RANDOM_target_region,,[],[],[],0.0,0.0,0.0,1.0,,4,8
+chicago,mistral:7b,68,851,evening,low,RANDOM_target_region,,[],[],[],1.0,0.125,0.2222222222222222,0.0,,4,8
+chicago,mistral:7b,72,851,evening,low,RANDOM_target_region,,[],[],[],1.0,0.25,0.4,0.0,,4,8
+chicago,mistral:7b,69,487,evening,low,RANDOM_target_region,,[],[],[],1.0,0.75,0.8571428571428571,0.0,,4,8
+chicago,mistral:7b,66,851,evening,low,RANDOM_target_region,,[],[],[],1.0,0.25,0.4,0.0,,4,8
+chicago,mistral:7b,71,851,evening,low,RANDOM_target_region,,[],[],[],1.0,0.625,0.7692307692307693,0.0,,4,8
+chicago,mistral:7b,67,851,evening,low,RANDOM_target_region,,[],[],[],0.0,0.0,0.0,1.0,,4,8
+chicago,mistral:7b,45,605,evening,medium,RANDOM_target_region,,[],[],[],1.0,1.0,1.0,0.0,,4,8
+chicago,mistral:7b,49,844,evening,medium,RANDOM_target_region,,[],[],[],1.0,0.5,0.6666666666666666,0.0,,4,8
+chicago,mistral:7b,47,605,evening,medium,RANDOM_target_region,,[],[],[],1.0,1.0,1.0,0.0,,4,8
+chicago,mistral:7b,43,605,evening,medium,RANDOM_target_region,,[],[],[],1.0,1.0,1.0,0.0,,4,8
+chicago,mistral:7b,48,605,evening,medium,RANDOM_target_region,,[],[],[],1.0,1.0,1.0,0.0,,4,8
+chicago,mistral:7b,46,605,evening,medium,RANDOM_target_region,,[],[],[],1.0,0.75,0.8571428571428571,0.0,,4,8
+chicago,mistral:7b,41,605,evening,medium,RANDOM_target_region,,[],[],[],1.0,1.0,1.0,0.0,,4,8
+chicago,mistral:7b,40,605,evening,high,RANDOM_target_region,,[],[],[],1.0,1.0,1.0,0.0,,4,8
+chicago,mistral:7b,38,851,evening,high,RANDOM_target_region,,[],[],[],1.0,0.625,0.7692307692307693,0.0,,4,8
+chicago,mistral:7b,37,851,evening,high,RANDOM_target_region,,[],[],[],1.0,0.25,0.4,0.0,,4,8
+chicago,mistral:7b,39,605,evening,high,RANDOM_target_region,,[],[],[],1.0,1.0,1.0,0.0,,4,8
+chicago,mistral:7b,36,755,evening,high,RANDOM_target_region,,[],[],[],1.0,0.375,0.5454545454545454,0.0,,4,8

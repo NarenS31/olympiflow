@@ -1,0 +1,43 @@
+{
+  "_note": "Hand-labeled resolver ground truth for CHICAGO. Added in the Phase-11 correction, when _CHICAGO_REGIONS gained 15 community-area boxes covering the 44.5% of segments that previously fell to the compass fallback. Chicago had NO label set before this, so its resolver was never gated. `expected` is one of: a region label exactly as _CHICAGO_REGIONS emits it, lowercased; 'sensor:<id>' meaning 'resolves to exactly that segment' (the validator's prefix is domain-neutral; Chicago nodes are road SEGMENTS); or null meaning 'must NOT resolve'. Labeled from Chicago community-area geography BEFORE measuring.",
+  "_why_the_nulls_matter": "The refusals encode the failure modes this correction found. (a) DIRECTIONS ARE NOT PLACES: 'northwest of the Loop' is a bearing, not a community area, and must not collapse onto a real region — the collapse that let a citation of the target's own sector score as a causal hit. Note 'NW of the Loop' IS a legitimate label for the 8.4% of segments still on the compass fallback, so it resolves; the spelled-out bearing does not. (b) OUT-OF-CITY: Chicago's footprint stops at the city limits, so suburbs and other cities' landmarks must not resolve. (c) EXPRESSWAYS are linear facilities spanning many community areas, not nodes.",
+  "city": "chicago",
+  "cases": [
+    {"location": "segment 1", "expected": "sensor:1"},
+    {"location": "The Loop / Downtown (segment 656, 41.876, -87.626)", "expected": "sensor:656"},
+    {"location": "segment 842", "expected": "sensor:842"},
+
+    {"location": "The Loop / Downtown", "expected": "the loop / downtown"},
+    {"location": "South Loop", "expected": "south loop"},
+    {"location": "Near West Side", "expected": "near west side"},
+    {"location": "Hyde Park / Woodlawn", "expected": "hyde park / woodlawn"},
+    {"location": "Bronzeville / South Side", "expected": "bronzeville / south side"},
+    {"location": "Logan Square / Avondale", "expected": "logan square / avondale"},
+    {"location": "Bridgeport / McKinley Park", "expected": "bridgeport / mckinley park"},
+    {"location": "Englewood / Washington Park", "expected": "englewood / washington park"},
+    {"location": "South Shore / South Chicago", "expected": "south shore / south chicago"},
+    {"location": "Rogers Park / Edgewater", "expected": "rogers park / edgewater"},
+
+    {"location": "Hyde Park", "expected": "hyde park / woodlawn"},
+    {"location": "Logan Square", "expected": "logan square / avondale"},
+    {"location": "Bridgeport", "expected": "bridgeport / mckinley park"},
+    {"location": "Englewood", "expected": "englewood / washington park"},
+    {"location": "Little Village", "expected": "north lawndale / little village"},
+    {"location": "Garfield Ridge", "expected": "garfield ridge / clearing"},
+    {"location": "the Edgewater area", "expected": "rogers park / edgewater"},
+
+    {"location": "NW of the Loop", "expected": "nw of the loop"},
+
+    {"location": "northwest of the Loop", "expected": null},
+    {"location": "south of the Loop", "expected": null},
+    {"location": "Evanston", "expected": null},
+    {"location": "Naperville", "expected": null},
+    {"location": "Oak Park", "expected": null},
+    {"location": "Gary, Indiana", "expected": null},
+    {"location": "the Dan Ryan Expressway", "expected": null},
+    {"location": "I-90/94 Kennedy", "expected": null},
+    {"location": "Downtown LA", "expected": null},
+    {"location": "segment 99999", "expected": null},
+    {"location": "an unspecified arterial", "expected": null}
+  ]
+}

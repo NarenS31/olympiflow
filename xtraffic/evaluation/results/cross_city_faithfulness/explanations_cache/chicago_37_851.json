@@ -32,13 +32,13 @@
     },
     {
       "node_id": 59,
-      "node_name": "SW of the Loop (segment 62, 41.717, -87.721)",
+      "node_name": "Ashburn / Auburn Gresham (segment 62, 41.717, -87.721)",
       "importance": 0.1574,
       "current_speed_mph": 0.0
     },
     {
       "node_id": 538,
-      "node_name": "NW of the Loop (segment 577, 41.906, -87.746)",
+      "node_name": "Hermosa / Belmont Cragin (segment 577, 41.906, -87.746)",
       "importance": 0.1572,
       "current_speed_mph": 26.0
     },
@@ -50,7 +50,7 @@
     },
     {
       "node_id": 909,
-      "node_name": "NW of the Loop (segment 1188, 41.988, -87.670)",
+      "node_name": "Rogers Park / Edgewater (segment 1188, 41.988, -87.670)",
       "importance": 0.1548,
       "current_speed_mph": 19.0
     },

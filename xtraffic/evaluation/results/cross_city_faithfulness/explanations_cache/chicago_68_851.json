@@ -14,7 +14,7 @@
   "top_nodes": [
     {
       "node_id": 4,
-      "node_name": "SW of the Loop (segment 5, 41.794, -87.679)",
+      "node_name": "Back of the Yards / New City (segment 5, 41.794, -87.679)",
       "importance": 0.718,
       "current_speed_mph": 0.0
     },
@@ -32,7 +32,7 @@
     },
     {
       "node_id": 711,
-      "node_name": "SE of the Loop (segment 822, 41.705, -87.559)",
+      "node_name": "South Shore / South Chicago (segment 822, 41.705, -87.559)",
       "importance": 0.6599,
       "current_speed_mph": 0.0
     },
@@ -44,19 +44,19 @@
     },
     {
       "node_id": 413,
-      "node_name": "SW of the Loop (segment 442, 41.750, -87.707)",
+      "node_name": "Chicago Lawn / West Lawn (segment 442, 41.750, -87.707)",
       "importance": 0.647,
       "current_speed_mph": 0.0
     },
     {
       "node_id": 414,
-      "node_name": "SW of the Loop (segment 443, 41.750, -87.698)",
+      "node_name": "Chicago Lawn / West Lawn (segment 443, 41.750, -87.698)",
       "importance": 0.6467,
       "current_speed_mph": 0.0
     },
     {
       "node_id": 503,
-      "node_name": "SW of the Loop (segment 540, 41.852, -87.661)",
+      "node_name": "Bridgeport / McKinley Park (segment 540, 41.852, -87.661)",
       "importance": 0.6434,
       "current_speed_mph": 0.0
     }

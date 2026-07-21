@@ -224,6 +224,59 @@ _GEO_ALIASES: List[Tuple[str, str]] = [
     ("cupertino", "cupertino / i-280 corridor"),
     ("campbell", "campbell / los gatos sr-17"),
     ("los gatos", "campbell / los gatos sr-17"),
+    # --- Phase 11 correction: the new Chicago community areas ----------------
+    # Same safety property as the Bay aliases above: each maps to a region that
+    # exists only in _CHICAGO_REGIONS, and rung 4 fires only when the mapped
+    # region is present in THIS city's table, so none can affect METR-LA or
+    # PEMS-BAY. Deliberately omitted: bare "the loop" / "downtown" for Chicago —
+    # "The Loop / Downtown" is already an exact region label, and a bare
+    # "downtown" is claimed by LA in this shared list.
+    # The ORIGINAL 12 Chicago regions never had gazetteer entries at all, so
+    # Chicago citations were resolved more strictly than METR-LA's. Same parity
+    # argument as the Bay aliases. "west garfield park" is listed longer than
+    # "garfield park" on purpose: rung 4 sorts by descending alias length, so the
+    # more specific area wins and the two Garfield Parks never cross-resolve.
+    ("the loop", "the loop / downtown"),
+    ("south loop", "south loop"),
+    ("near north side", "near north side"),
+    ("near west side", "near west side"),
+    ("lincoln park", "lincoln park / north side"),
+    ("lakeview", "lakeview / uptown"),
+    ("uptown", "lakeview / uptown"),
+    ("west garfield park", "austin / west garfield park"),
+    ("garfield park", "west side / garfield park"),
+    ("bronzeville", "bronzeville / south side"),
+    ("hyde park", "hyde park / woodlawn"),
+    ("woodlawn", "hyde park / woodlawn"),
+    ("midway", "southwest side / midway"),
+    ("o hare", "northwest side / o'hare corridor"),
+    ("far south side", "far south side"),
+    ("rogers park", "rogers park / edgewater"),
+    ("edgewater", "rogers park / edgewater"),
+    ("west ridge", "west ridge / lincoln square"),
+    ("lincoln square", "west ridge / lincoln square"),
+    ("irving park", "irving park / albany park"),
+    ("albany park", "irving park / albany park"),
+    ("logan square", "logan square / avondale"),
+    ("avondale", "logan square / avondale"),
+    ("hermosa", "hermosa / belmont cragin"),
+    ("belmont cragin", "hermosa / belmont cragin"),
+    ("austin", "austin / west garfield park"),
+    ("north lawndale", "north lawndale / little village"),
+    ("little village", "north lawndale / little village"),
+    ("bridgeport", "bridgeport / mckinley park"),
+    ("mckinley park", "bridgeport / mckinley park"),
+    ("brighton park", "brighton park / gage park"),
+    ("gage park", "brighton park / gage park"),
+    ("back of the yards", "back of the yards / new city"),
+    ("garfield ridge", "garfield ridge / clearing"),
+    ("chicago lawn", "chicago lawn / west lawn"),
+    ("englewood", "englewood / washington park"),
+    ("washington park", "englewood / washington park"),
+    ("auburn gresham", "ashburn / auburn gresham"),
+    ("ashburn", "ashburn / auburn gresham"),
+    ("south shore", "south shore / south chicago"),
+    ("south chicago", "south shore / south chicago"),
 ]
 
 
@@ -377,7 +430,15 @@ def resolve_location(location: str, table: NodeTable) -> Resolution:
     # labels ("NE of Downtown LA" holds 26 sensors): those match rung 2 EXACTLY and
     # have already returned above. Only short compass tokens are matched, so a
     # spelled-out "northeast of Downtown LA" still reaches the fuzzy rung.
-    is_directional = re.match(r"^(?:n|s|e|w|ne|nw|se|sw|central)\s+of\s+", norm)
+    # Both the abbreviated compass tokens the fallback emits ("NW of the Loop")
+    # and the spelled-out bearings an LLM writes ("northwest of the Loop"). The
+    # trailing "\s+of\s+" is what makes this safe: real region labels that merely
+    # BEGIN with a direction ("South Loop", "Northwest Side / O'Hare corridor",
+    # "South Shore / South Chicago", "East LA") never contain it, and in any case
+    # they match rung 2 exactly and have already returned above.
+    is_directional = re.match(
+        r"^(?:n|s|e|w|ne|nw|se|sw|central|north|south|east|west|"
+        r"northeast|northwest|southeast|southwest)\s+of\s+", norm)
 
     # Rung 3 — fuzzy match against region labels. Handles "glendale burbank" vs
     # "glendale / burbank", "san fernando" vs "san fernando valley", etc.

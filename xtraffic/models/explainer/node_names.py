@@ -57,6 +57,30 @@ _CHICAGO_REGIONS: List[Tuple[str, float, float, float, float]] = [
     ("Southwest Side / Midway",          41.760, 41.810, -87.755, -87.680),
     ("Northwest Side / O'Hare corridor", 41.935, 42.010, -87.870, -87.745),
     ("Far South Side",                   41.660, 41.775, -87.685, -87.590),
+    # --- Phase-11 correction (FLAGGED — CHANGES committed Chicago numbers) ----
+    # The 12 boxes above covered only 55.5% of the 1020 segments; the other 454
+    # (44.5%) fell to the _compass() fallback, the same defect that made PEMS-BAY
+    # unmeasurable. Its largest sector held 228 segments (22.4% of the graph), so a
+    # single coarse citation bought region-level credit over a fifth of the city.
+    # These 15 boxes are real Chicago community areas covering that gap. They are
+    # APPENDED, and region_for() is first-match-wins, so all 12 boxes above keep
+    # EXACTLY the segments they had — verified: 0 nodes changed label.
+    # Result: compass fallback 44.5% -> 8.4%, largest region 22.4% -> 12.6%.
+    ("Rogers Park / Edgewater",          41.980, 42.025, -87.715, -87.640),
+    ("West Ridge / Lincoln Square",      41.955, 42.012, -87.730, -87.680),
+    ("Irving Park / Albany Park",        41.938, 41.980, -87.745, -87.680),
+    ("Logan Square / Avondale",          41.910, 41.952, -87.735, -87.680),
+    ("Hermosa / Belmont Cragin",         41.900, 41.955, -87.800, -87.735),
+    ("Austin / West Garfield Park",      41.868, 41.912, -87.800, -87.735),
+    ("North Lawndale / Little Village",  41.832, 41.872, -87.745, -87.685),
+    ("Bridgeport / McKinley Park",       41.818, 41.855, -87.688, -87.625),
+    ("Brighton Park / Gage Park",        41.795, 41.835, -87.735, -87.670),
+    ("Back of the Yards / New City",     41.785, 41.822, -87.688, -87.625),
+    ("Garfield Ridge / Clearing",        41.765, 41.820, -87.820, -87.735),
+    ("Chicago Lawn / West Lawn",         41.745, 41.800, -87.740, -87.680),
+    ("Englewood / Washington Park",      41.755, 41.800, -87.680, -87.600),
+    ("Ashburn / Auburn Gresham",         41.715, 41.762, -87.745, -87.640),
+    ("South Shore / South Chicago",      41.700, 41.780, -87.615, -87.530),
 ]
 
 # PEMS-BAY regions (public Santa Clara Valley geography). Reference = Downtown

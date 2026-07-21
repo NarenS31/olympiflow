@@ -6,7 +6,7 @@
   },
   "prediction": {
     "node_id": 591,
-    "node_name": "SW of the Loop (segment 640, 41.818, -87.744)",
+    "node_name": "Garfield Ridge / Clearing (segment 640, 41.818, -87.744)",
     "predicted_speed_mph": 7.93,
     "horizon_minutes": 30,
     "current_speed_mph": 0.0
@@ -20,7 +20,7 @@
     },
     {
       "node_id": 532,
-      "node_name": "SW of the Loop (segment 571, 41.818, -87.743)",
+      "node_name": "Garfield Ridge / Clearing (segment 571, 41.818, -87.743)",
       "importance": 0.2351,
       "current_speed_mph": 0.0
     },
@@ -32,7 +32,7 @@
     },
     {
       "node_id": 590,
-      "node_name": "SW of the Loop (segment 639, 41.811, -87.743)",
+      "node_name": "Garfield Ridge / Clearing (segment 639, 41.811, -87.743)",
       "importance": 0.1966,
       "current_speed_mph": 0.0
     },
@@ -50,13 +50,13 @@
     },
     {
       "node_id": 538,
-      "node_name": "NW of the Loop (segment 577, 41.906, -87.746)",
+      "node_name": "Hermosa / Belmont Cragin (segment 577, 41.906, -87.746)",
       "importance": 0.1589,
       "current_speed_mph": 0.0
     },
     {
       "node_id": 909,
-      "node_name": "NW of the Loop (segment 1188, 41.988, -87.670)",
+      "node_name": "Rogers Park / Edgewater (segment 1188, 41.988, -87.670)",
       "importance": 0.1572,
       "current_speed_mph": 0.0
     }

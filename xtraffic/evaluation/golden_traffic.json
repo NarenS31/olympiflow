@@ -6,16 +6,34 @@
  },
  "_resolver_chicago": {
   "Hyde Park": {
-   "ids": [],
-   "matched": null,
-   "method": "unresolved",
-   "n": 0
+   "ids": [
+    562,
+    563,
+    696,
+    697,
+    698,
+    707,
+    708,
+    709
+   ],
+   "matched": "hyde park->hyde park / woodlawn",
+   "method": "geographic",
+   "n": 12
   },
   "The Loop": {
-   "ids": [],
-   "matched": null,
-   "method": "unresolved",
-   "n": 0
+   "ids": [
+    545,
+    546,
+    547,
+    570,
+    571,
+    605,
+    606,
+    747
+   ],
+   "matched": "the loop->the loop / downtown",
+   "method": "geographic",
+   "n": 51
   },
   "The Loop / Downtown (segment 1, 41.880, -87.630)": {
    "ids": [
