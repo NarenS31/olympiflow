@@ -1,0 +1,75 @@
+{
+  "prompt_n_chars": 2750,
+  "prompt_n_words": 385,
+  "n_draws": 4,
+  "model": "llama3.1:8b",
+  "legacy_pre_phase1": {
+    "n_draws": 4,
+    "n_successful": 4,
+    "n_identical_to_first": 1,
+    "reproducibility_rate": 0.25,
+    "distinct_outputs": 4,
+    "byte_identical": false,
+    "seed": null,
+    "omitted_options": [
+      "seed",
+      "top_p",
+      "top_k",
+      "repeat_penalty",
+      "num_predict",
+      "num_ctx"
+    ],
+    "hashes": [
+      "8f52c2a76c33eb89c547ebefa584151610f3884d58432638e05b10a4c71a8bab",
+      "6eaf7bf8a16870ea868f677608e7b566119ed3226e1fe1f13e90fba4afd73956",
+      "ddea6e8d14b4fd963faaa99332cb42f8ec85ab239ba479dec9bb5081a81e40ed",
+      "1d1cb57049ccecc25f01bb65609c1809c502dddbb1241b6fcb34a0c34d6e00fb"
+    ],
+    "n_chars": [
+      1665,
+      1605,
+      1529,
+      1555
+    ],
+    "latency_ms": [
+      26186.75,
+      29728.07,
+      26471.41,
+      25987.68
+    ]
+  },
+  "phase1_seeded": {
+    "n_draws": 4,
+    "n_successful": 4,
+    "n_identical_to_first": 4,
+    "reproducibility_rate": 1.0,
+    "distinct_outputs": 1,
+    "byte_identical": true,
+    "seed": 42,
+    "omitted_options": null,
+    "hashes": [
+      "5a81c0ea1bb09f3c8e29577470ac4a2dabd7ba308f6e0a25862b27a68e7dc7d4",
+      "5a81c0ea1bb09f3c8e29577470ac4a2dabd7ba308f6e0a25862b27a68e7dc7d4",
+      "5a81c0ea1bb09f3c8e29577470ac4a2dabd7ba308f6e0a25862b27a68e7dc7d4",
+      "5a81c0ea1bb09f3c8e29577470ac4a2dabd7ba308f6e0a25862b27a68e7dc7d4"
+    ],
+    "n_chars": [
+      1567,
+      1567,
+      1567,
+      1567
+    ],
+    "latency_ms": [
+      34096.87,
+      24552.05,
+      25224.18,
+      24251.85
+    ]
+  },
+  "verdict": {
+    "legacy_deterministic": false,
+    "phase1_deterministic": true,
+    "legacy_distinct_outputs": 4,
+    "phase1_distinct_outputs": 1
+  }
+}

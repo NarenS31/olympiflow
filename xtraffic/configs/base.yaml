@@ -1,0 +1,202 @@
+# XTraffic — Phase 1 BASE experiment configuration.
+#
+# Every knob an experiment needs, in one place, with the reason it has the value
+# it has. Experiment-specific configs OVERLAY this file rather than restating it,
+# so a change to (say) the LLM seed happens once and is picked up everywhere.
+#
+# The pre-Phase-1 configs (advisor.yaml, sim_eval.yaml, ...) are UNCHANGED and
+# still work standalone. This file is additive: it is what the new
+# scripts/run_experiment.py reads.
+#
+# Usage:
+#   python -m xtraffic.scripts.run_experiment --config configs/base.yaml \
+#          --experiment smoke --dry-run
+
+# ---------------------------------------------------------------------------
+# EXPERIMENT IDENTITY
+# ---------------------------------------------------------------------------
+experiment:
+  name: "base"
+  # exploratory | confirmatory. Phase 14 freezes a protocol and only then may a
+  # run be labelled confirmatory. EVERY result produced before that freeze is
+  # exploratory, including all currently committed ones — see
+  # docs/REPOSITORY_AUDIT.md §7.9. Mislabelling here is the single easiest way
+  # to make the paper indefensible, so it is required, not optional.
+  mode: "exploratory"
+  notes: ""
+
+# ---------------------------------------------------------------------------
+# SEEDS
+# ---------------------------------------------------------------------------
+seeds:
+  # Master seed for Python / NumPy / torch / CUDA. 42 matches every committed
+  # study, so sampling reproduces the same scenario sets.
+  master: 42
+  # Independent seeds for repeated LLM DRAWS on the same (scenario, condition).
+  # THIS IS NOT OPTIONAL. Measured single-draw noise on this project is ~0.08 F1
+  # (Phase 20's round-0 |diff|), which is the same order as several reported
+  # effects. One draw per cell cannot separate a real effect from sampling
+  # noise. Five is the minimum that gives a usable per-cell variance estimate.
+  llm_draws: [1001, 1002, 1003, 1004, 1005]
+  # strict=True asks torch for deterministic algorithms and disables cuDNN
+  # autotuning. Some ops then RAISE instead of silently running a
+  # nondeterministic kernel — correct for a confirmatory run, off by default so
+  # it cannot silently break exploratory work.
+  strict_determinism: false
+
+# ---------------------------------------------------------------------------
+# DATASET
+# ---------------------------------------------------------------------------
+dataset:
+  name: "metr_la"           # metr_la | pems_bay | chicago | power_grid | synthetic
+  split: "test"             # which split scenarios are drawn from
+  # Sampling for the scenario set. Stratification matches the committed studies
+  # (5 time-of-day bands x 3 congestion terciles) so results stay comparable.
+  n_scenarios: 93
+  stratify: ["tod_band", "congestion"]
+  # Held-out domains are UNREADABLE until the confirmatory run. Phase 7 needs
+  # this to be enforced by code, not by discipline: a held-out domain used to
+  # tune a prompt is no longer held out.
+  held_out_domains: []
+
+# ---------------------------------------------------------------------------
+# MODEL (the ST-GNN being explained)
+# ---------------------------------------------------------------------------
+model:
+  checkpoint: "models/gnn/checkpoints/metr_la_best.pt"
+  # Content addressing. Leave null to accept whatever is at the path AND record
+  # its hash; set it to pin, and the run ABORTS on mismatch.
+  #
+  # WHY THIS FIELD EXISTS: `metr_la_best.pt` has been three different models
+  # (3-epoch placeholder -> epoch 34 -> epoch 54). Every committed Phase
+  # 3/5/10/11/12/13/16/17/18 number was produced on epoch 34; the file now holds
+  # epoch 54. Nothing in any artifact records which. See audit §5.5.
+  expect_sha256: null
+  device: "cpu"             # explainer is small; CPU is the reproducible choice
+
+# ---------------------------------------------------------------------------
+# EXPLAINER
+# ---------------------------------------------------------------------------
+explainer:
+  method: "gnnexplainer"    # gnnexplainer | shap | integrated_gradients |
+                            # saliency | perturbation | random_subgraph |
+                            # uniform_feature
+  top_k: 8                  # NOTE: k/N is not comparable across graphs. k=8 of
+                            # 207 METR-LA sensors is 3.9%; k=4 of 14 buses is
+                            # 31%. Any cross-domain comparison MUST report the
+                            # chance floor alongside (audit §4.4).
+  epochs: 200
+  lr: 0.01
+  confidence_runs: 5
+  # Evidence budget: how many items of each kind reach the prompt. Held EQUAL
+  # across ablation conditions so "more structure" is never confounded with
+  # "more information" — the central confound the hypothesis must rule out.
+  evidence_budget:
+    max_nodes: 8
+    max_edges: 8
+    max_path_length: 6
+    max_features: 5
+
+# ---------------------------------------------------------------------------
+# LLM
+# ---------------------------------------------------------------------------
+llm:
+  host: "http://localhost:11434"
+  model: "llama3.1:8b"
+  # Resolved from /api/tags at run start and written to the manifest. A tag is a
+  # MUTABLE pointer; the digest is not. Leave null to record, set to pin.
+  expect_digest: null
+
+  sampling:
+    seed: 42                # overridden per draw by seeds.llm_draws
+    temperature: 0.1        # matches committed advisor.yaml
+    top_p: 0.9              # llama.cpp default, PINNED so it cannot drift
+    top_k: 40               # llama.cpp default, PINNED
+    repeat_penalty: 1.1     # llama.cpp default, PINNED
+    num_predict: 1024       # HARD output cap = the token budget. Truncation is
+                            # recorded, never silent: unequal truncation across
+                            # conditions would confound a length-matched design.
+    num_ctx: 8192           # input window, PINNED so a long-context adversarial
+                            # condition truncates identically to a short one
+
+  force_json: true
+  timeout_seconds: 180
+  max_retries: 2            # malformed-JSON self-correction, as Phase 4
+
+  # Repeated draws per (scenario, condition). See seeds.llm_draws.
+  n_draws: 5
+
+  # Phase-1 gate: measure achieved reproducibility rather than assuming it.
+  determinism_check:
+    enabled: true
+    n_draws: 5
+
+# ---------------------------------------------------------------------------
+# PROMPT CONDITION
+# ---------------------------------------------------------------------------
+prompt:
+  # Committed conditions: A (full) | B (no explanation) | C (no city context) |
+  # C_RICH | D_CONTRA. Phase 5 of the plan adds the matched matrix A..N.
+  condition: "A"
+  # Enforced matching across conditions. run_ablation_matrix REFUSES to run when
+  # a declared constraint is violated, and the ACHIEVED match is reported so a
+  # reviewer can check it rather than take it on trust.
+  matching:
+    match_model: true
+    match_sampling: true
+    match_n_attempts: true
+    match_evidence_count: true
+    # Prompt lengths cannot be made equal — prose and JSON encodings of the same
+    # facts differ intrinsically. So we bound the difference and REPORT it,
+    # rather than claiming a match that does not exist.
+    prompt_length_tolerance_pct: 25
+
+# ---------------------------------------------------------------------------
+# EVALUATION
+# ---------------------------------------------------------------------------
+evaluation:
+  # DECISION 1 (docs/EXPERIMENT_PLAN.md §1): score against BOTH references and
+  # report them separately.
+  #   alignment    — vs the explainer's top-k = what the LLM was SHOWN.
+  #                  This is the pre-Phase-1 metric. It measures transcription
+  #                  fidelity, NOT correctness: Phase 12 found two near-disjoint
+  #                  explanations (Jaccard 0.022) both scoring 0.982 precision.
+  #   ground_truth — vs the generator's true causal structure. Synthetic only.
+  reference: ["alignment", "ground_truth"]
+
+  # DECISION 2: a refusal is its own outcome, not a maximal hallucination.
+  # The pre-Phase-1 metric returns hallucination 1.0 when cited_causes is empty
+  # (faithfulness.py:540), which makes the planned no-answer control (condition
+  # N) unscoreable and conflates "declined" with "fabricated" in condition B.
+  refusal:
+    treat_as: "separate"    # separate | hallucination (legacy) | correct
+    # Any headline number MUST be reported next to its refusal rate, so
+    # abstention can never be laundered as accuracy.
+    report_rate_alongside: true
+
+  claim_types:
+    - node_existence
+    - edge_existence
+    - edge_direction
+    - path_existence
+    - feature_attribution
+    - temporal
+    - confidence
+    - prediction
+    - counterfactual
+    - domain_terminology
+
+  # Unparsed sentences are COUNTED and REPORTED, never dropped. A verifier that
+  # silently ignores what it cannot parse flatters every condition, and would
+  # flatter prose conditions most — precisely where the hypothesis is tested.
+  report_unparsed_rate: true
+
+  chance_controls: ["random_region", "random_target_region"]
+
+# ---------------------------------------------------------------------------
+# OUTPUT
+# ---------------------------------------------------------------------------
+output:
+  raw_root: "evaluation/results/raw"
+  processed_root: "evaluation/results/processed"
+  log_llm_calls: true       # non-negotiable for any study; see audit §5.3

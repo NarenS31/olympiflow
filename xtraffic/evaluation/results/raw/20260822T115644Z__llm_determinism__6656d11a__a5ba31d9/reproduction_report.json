@@ -1,0 +1,55 @@
+{
+  "original_run_id": "20260822T115644Z__llm_determinism__6656d11a__a5ba31d9",
+  "original_status": "completed",
+  "original_experiment": "llm_determinism",
+  "original_mode": "exploratory",
+  "new_run_id": null,
+  "verdict": "NOT_REPRODUCIBLE",
+  "verdict_explanation": "At least one input, config, prompt, or model differs. The two runs are not the same experiment.",
+  "counts": {
+    "CRITICAL": 5,
+    "WARNING": 0,
+    "INFO": 0
+  },
+  "outputs": {
+    "compared": false,
+    "note": "no re-execution requested (--execute omitted)"
+  },
+  "diffs": [
+    {
+      "field": "artifact.config_advisor.sha256",
+      "before": null,
+      "after": "ccefcd4db1e0a209927c56f87095260e54f89d73b24851c63662342c72202531",
+      "severity": "CRITICAL",
+      "why": "input file CONTENT changed. If this is the checkpoint, the two runs used different models under the same filename \u2014 the exact failure that made epoch-34 and epoch-54 results indistinguishable (audit \u00a75.5)."
+    },
+    {
+      "field": "artifact.config_advisor.exists",
+      "before": null,
+      "after": true,
+      "severity": "CRITICAL",
+      "why": "input file appeared or disappeared"
+    },
+    {
+      "field": "prompt_template.SYSTEM",
+      "before": null,
+      "after": "7b5e634cfc0d472c802477a3ac281bf01cd7f97220a7cfce325bb0304b559a3e",
+      "severity": "CRITICAL",
+      "why": "a prompt template changed; conditions are not comparable"
+    },
+    {
+      "field": "prompt_template.TASK",
+      "before": null,
+      "after": "12d7a9d93a1263a6c986756f7c9ab7120f038656889acd31f6685f958c1e1ba8",
+      "severity": "CRITICAL",
+      "why": "a prompt template changed; conditions are not comparable"
+    },
+    {
+      "field": "prompt_template.TASK_NO_EXPLANATION",
+      "before": null,
+      "after": "5547d8b12020a958cae77899bb64d846e83af0d8adefee0d6444bac1f5945050",
+      "severity": "CRITICAL",
+      "why": "a prompt template changed; conditions are not comparable"
+    }
+  ]
+}

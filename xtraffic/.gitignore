@@ -8,3 +8,8 @@ xtraffic/evaluation/results/human_study/responses.jsonl
 xtraffic/evaluation/results/human_study/analysis_report.json
 xtraffic/evaluation/results/human_study/analysis_per_condition.csv
 xtraffic/evaluation/results/human_study/figures/
+
+# Phase 1: raw run directories are experiment OUTPUT (often large, LLM logs
+# especially). Manifests + summaries are what get committed deliberately, per
+# run, not the whole tree. Processed tables/figures ARE committed.
+xtraffic/evaluation/results/raw/

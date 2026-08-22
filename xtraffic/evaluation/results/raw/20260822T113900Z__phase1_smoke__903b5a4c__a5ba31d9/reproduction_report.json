@@ -1,0 +1,19 @@
+{
+  "original_run_id": "20260822T113900Z__phase1_smoke__903b5a4c__a5ba31d9",
+  "original_status": "completed",
+  "original_experiment": "phase1_smoke",
+  "original_mode": "exploratory",
+  "new_run_id": null,
+  "verdict": "REPRODUCIBLE",
+  "verdict_explanation": "Environment, inputs, and outputs all match.",
+  "counts": {
+    "CRITICAL": 0,
+    "WARNING": 0,
+    "INFO": 0
+  },
+  "outputs": {
+    "compared": false,
+    "note": "no re-execution requested (--execute omitted)"
+  },
+  "diffs": []
+}

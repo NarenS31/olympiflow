@@ -611,9 +611,39 @@ class Advisor:
     """Wraps a local Ollama model. Reusable across many explanations (loads the
     KB + config once)."""
 
-    def __init__(self, city: str, cfg: Optional[Dict[str, Any]] = None):
+    def __init__(self, city: str, cfg: Optional[Dict[str, Any]] = None,
+                 call_fn: Optional[Any] = None,
+                 sampling: Optional[Dict[str, Any]] = None):
+        """
+        Phase 1 (FLAGGED, default-preserving): two NEW optional parameters.
+
+        call_fn:  a callable(prompt, retry_index=int) -> record dict, normally
+                  produced by reproducibility.llm_log.make_logged_caller(). When
+                  supplied, EVERY call this Advisor makes is persisted in full
+                  (prompt, raw response, parsed object, sampling options, model
+                  digest, timings) and the seeded sampling parameters are used.
+        sampling: sampling overrides applied ONLY when `call_fn` is None, i.e.
+                  when using the original inline request path.
+
+        DEFAULT BEHAVIOUR IS UNCHANGED. With both omitted, `_call_ollama` runs
+        exactly the pre-Phase-1 code and the prompt bytes are identical.
+
+        HONESTY NOTE — this is not byte-identical on OUTPUT. Supplying `call_fn`
+        adds a seed and pins top_p / top_k / num_predict / num_ctx, which the old
+        path left to the server default. That CHANGES generated text. It is the
+        whole point (see docs/REPOSITORY_AUDIT.md §5.2), but it means committed
+        pre-Phase-1 numbers are not comparable to logged-path numbers, and
+        evaluation/verify_traffic_unchanged.py must be re-baselined with a
+        documented reason before the logged path is used for a headline study.
+        """
         self.cfg = cfg if cfg is not None else load_advisor_config()
         self.city = city
+        # Phase 1: the logging seam. None => original inline request path.
+        self._call_fn = call_fn
+        self._sampling = sampling
+        # Every call record this Advisor made, in order. Lets a study attach the
+        # raw text to its own per-scenario row without re-reading the JSONL.
+        self.last_call_records: List[Dict[str, Any]] = []
         self.kb: KnowledgeBase = load_kb_for_city(city, self.cfg)
         # Phase 19 (FLAGGED, default-preserving): the advisor speaks the domain's
         # vocabulary. Every traffic city maps to TRAFFIC — whose strings are the
@@ -641,17 +671,38 @@ class Advisor:
                                       self.max_context_chars * 2))
 
     # --- the raw Ollama call ------------------------------------------------
-    def _call_ollama(self, prompt: str) -> str:
+    def _call_ollama(self, prompt: str, retry_index: int = 0) -> str:
         """POST to Ollama /api/generate and return the raw response text.
 
         Raises RuntimeError with a friendly message if Ollama is unreachable or
         the model isn't pulled — those are the two things that actually go wrong
-        on a fresh machine, and a clear message beats a stack trace."""
+        on a fresh machine, and a clear message beats a stack trace.
+
+        Phase 1 (FLAGGED): if a `call_fn` was supplied to __init__, the call goes
+        through it so it is fully logged and seeded. Otherwise the original
+        inline path below runs unchanged."""
+        if self._call_fn is not None:
+            rec = self._call_fn(prompt, retry_index=retry_index)
+            self.last_call_records.append(rec)
+            if not rec.get("ok"):
+                # Preserve the original failure semantics: a transport error is
+                # a RuntimeError with an actionable message, not a silent "".
+                raise RuntimeError(
+                    "Ollama call failed ({}): {}. Check `ollama serve` is "
+                    "running at {} and `ollama pull {}` has been done."
+                    .format(rec.get("error_type"), rec.get("error"),
+                            self.host, self.model))
+            return (rec.get("raw_response") or "").strip()
+
         payload: Dict[str, Any] = {
             "model": self.model,
             "prompt": prompt,
             "stream": False,
-            "options": {"temperature": self.temperature},
+            # Phase 1 (FLAGGED): `self._sampling` is None unless a caller
+            # explicitly asked for overrides, so with a stock Advisor this dict
+            # is EXACTLY {"temperature": self.temperature} as before.
+            "options": (dict({"temperature": self.temperature}, **self._sampling)
+                        if self._sampling else {"temperature": self.temperature}),
         }
         if self.force_json:
             payload["format"] = "json"  # Ollama constrains decoding to valid JSON
@@ -680,7 +731,9 @@ class Advisor:
         current = prompt
         last_problems: List[str] = []
         for attempt in range(self.max_retries + 1):
-            raw = self._call_ollama(current)
+            # Phase 1 (FLAGGED): pass the attempt number through so each retry is
+            # its own log record instead of overwriting the previous one.
+            raw = self._call_ollama(current, retry_index=attempt)
             raws.append(raw)
             try:
                 adv = json.loads(raw)
