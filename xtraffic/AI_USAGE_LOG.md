@@ -144,6 +144,47 @@ above are the only files created.
 
 ---
 
+### 2026-08-22 — Phases 1 and 3 (reproducibility infrastructure + claim verifier)
+
+| Field | Detail |
+|---|---|
+| **Tool** | Claude Opus 5 (`claude-opus-5[1m]`) via Claude Code, VS Code extension |
+| **Contribution type** | Code · Analysis · Documentation |
+| **Scope given by human** | "alright go ahead" — approval following the Phase-0 audit, whose recommendation was to approve Phases 1 + 3 only (~5 days engineering, near-zero compute, both additive). |
+| **Decisions taken under that approval** | The three escalated decisions were resolved using the recommended options and stated explicitly to the user: 1C (report alignment and ground-truth references separately), 2B (refusal as its own outcome category), 3A (keep the existing directory layout). All three are config-flagged or additive and reversible. |
+
+**Files created** — Phase 1: `xtraffic/reproducibility/{__init__,provenance,seeds,run_dir,llm_log}.py`, `configs/base.yaml`, `scripts/{run_experiment,reproduce_run,measure_llm_determinism}.py`, `docs/REPRODUCIBILITY.md`. Phase 3: `evaluation/{claim_types,claim_parser,graph_claim_verifier,counterfactual_verifier,claim_metrics}.py`, `tests/{test_claim_verifier,mutation_check}.py`, `scripts/analyze_committed_results.py`, `docs/CLAIM_VERIFICATION.md`.
+
+**Files modified** — `models/advisor/advisor.py` (two optional parameters, flagged in-file, default-preserving; `verify_traffic_unchanged` PASSES), `.gitignore`.
+
+**Experiments run** — `measure_llm_determinism` (2 regimes × 4 draws, real prompt), `analyze_committed_results` (3 analyses, no new LLM calls), unit tests, mutation check, traffic regression gate, 4 resolver gates. No training, no study rerun.
+
+**Substantive results reported**
+
+1. **Measured, not asserted:** the pre-Phase-1 Ollama payload produced **4 distinct outputs from 4 identical requests**; the seeded payload is byte-identical. Confirms audit §5.2. Claim scoped to same server + digest + session.
+2. `requirements.txt` does not describe the environment — **10 mismatches**; `torch-geometric` and `rapidfuzz` absent.
+3. **Analysis A refuted a concern the AI itself had raised.** The audit suggested the 82.8%/83.9% ungrounded rate might partly be abstention. It is not: all 72 condition-B advisories scoring 1.000 made real citations that all missed; none was empty. Reported as a correction in the project's favour.
+4. **Analysis C likewise came back negative:** the resolver backend changes the resolved node set in **0 of 1,212** logged citations.
+5. Analysis B: 38.7% of the claim surface was never examined by the old metric; on the 6 surviving full-text advisories the multi-type rate (0.068) is comparable to the old (~0.083). Heavily caveated at n=6.
+
+**Errors the AI made and corrected, on the record**
+
+- **A determinism test that produced a false positive.** The first version expressed "unseeded" as `sampling={"seed": None}`, but `build_options` treats `None` as "use the default", so it silently sent `seed=42` and the legacy path looked deterministic. Caught by a follow-up asking whether the seed did anything at all. `omit=` was added; the episode is documented in `measure_llm_determinism.py` and `docs/REPRODUCIBILITY.md`.
+- **A biased verdict rule in the new verifier.** Recommendation sites that resolve to no sensor ("Sunset Blvd and Santa Monica Blvd") were scored `CONTRADICTED`, which would inflate the unsupported rate for any condition eliciting more recommendations. Fixed to `UNVERIFIABLE`; the headline moved 0.220 → 0.068.
+- **A test suite that passed for the wrong reasons.** Mutation testing showed the reversal-detection test was satisfied by a fallback branch, the unparsed test was vacuous, and — chasing a third survivor — that the self-attribution rule contradicted the documented Phase-13 definition. All three fixed; 9/9 mutants now killed.
+
+**Human verification** *(to be completed)*
+
+- [ ] Confirm the determinism before/after by rerunning `measure_llm_determinism`
+- [ ] Spot-check analysis A against `faithfulness_per_scenario.csv`
+- [ ] Review the three Phase-3 decisions as implemented
+- [ ] Decide whether to `pip install rapidfuzz==3.6.1` and re-confirm analysis C
+
+**Accepted?** Pending human review. Committed to branch
+`phase-1-3-reproducibility-and-verifier`, not merged.
+
+---
+
 ## 3. Standing boundaries for AI assistance on this project
 
 Agreed at the start of the Phase-0 session and in force for all subsequent work.
