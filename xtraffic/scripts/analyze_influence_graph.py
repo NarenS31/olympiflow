@@ -302,9 +302,10 @@ HOP_COLOR = {"1": CB["green"], "2": CB["sky"], "3": CB["blue"],
 def fig_influence_map(edge_sets: Dict[str, Set[Tuple[int, int]]], geo: ig.Geometry,
                       out: str) -> None:
     """Sensor scatter, adjacency edges grey, off-adjacency effective edges
-    coloured by hop bucket. One panel per regime."""
+    coloured by hop bucket. One panel per key of `edge_sets` (regimes here; the
+    learned-graph analysis passes its own panel names)."""
     plt = _style()
-    regs = [r for r in ig.REGIMES if r in edge_sets]
+    regs = list(edge_sets.keys())
     fig, axes = plt.subplots(1, max(len(regs), 1), figsize=(3.5 * max(len(regs), 1), 3.4),
                              squeeze=False)
     lat, lon = geo.latlon[:, 0], geo.latlon[:, 1]

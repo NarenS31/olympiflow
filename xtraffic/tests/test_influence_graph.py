@@ -271,3 +271,73 @@ class TestEdgeRows:
         W[1, 0], W[1, 2] = 0.2, 0.8
         rows = ig.edge_rows({(0, 1), (2, 1)}, W, g, "congested")
         assert [r["source"] for r in rows] == [2, 0]
+
+
+# ---------------------------------------------------------------------------
+# Stage 0b — extracting the learned semantic graph from a checkpoint.
+# ---------------------------------------------------------------------------
+class TestLearnedSemanticGraph:
+    """The extraction must reproduce stgnn._semantic_support's own arithmetic,
+    and the [source,target] -> [target,source] transpose must be right. Both are
+    silent-wrong-answer failure modes."""
+
+    def _state(self, n=6, d=3, seed=0):
+        import torch
+        torch.manual_seed(seed)
+        return {"sem_embed": torch.randn(n, d) * 0.5,
+                "alpha_logit": torch.tensor([0.25]),
+                "nodevec1": torch.randn(n, d) * 0.5,
+                "nodevec2": torch.randn(n, d) * 0.5}
+
+    def test_matches_stgnn_semantic_support(self):
+        """Same formula the model uses at forward time, not a lookalike."""
+        import torch
+
+        from xtraffic.scripts.analyze_learned_graph import semantic_graph
+        st = self._state()
+        S, E, alpha = semantic_graph(st)
+        ref = torch.softmax(torch.relu(st["sem_embed"] @ st["sem_embed"].t()),
+                            dim=1).numpy()
+        assert np.allclose(S, ref)
+        assert alpha == pytest.approx(float(torch.sigmoid(st["alpha_logit"]).item()))
+
+    def test_rows_sum_to_one_sources_not_targets(self):
+        from xtraffic.scripts.analyze_learned_graph import semantic_graph
+        S, _, _ = semantic_graph(self._state())
+        assert np.allclose(S.sum(axis=1), 1.0), "softmax(dim=1) normalises rows"
+        assert not np.allclose(S.sum(axis=0), 1.0), "columns must NOT be normalised"
+
+    def test_W_learned_is_the_transpose(self):
+        """A_sem[s,t] is source->target; W is [target,source]. If this transpose
+        is dropped the whole comparison silently measures the reverse graph."""
+        from xtraffic.scripts.analyze_learned_graph import semantic_graph
+        S, _, _ = semantic_graph(self._state())
+        W = S.T
+        assert W[2, 4] == pytest.approx(S[4, 2])
+
+    def test_relu_floor_is_detected(self):
+        """Every non-positive similarity collapses to one shared softmax value —
+        the graph cannot distinguish those pairs. The measurement must see it."""
+        from xtraffic.scripts.analyze_learned_graph import describe_parameterisation
+        S, E, _ = semantic_from(self._state())
+        geo = _chain_geometry(S.shape[0])
+        d = describe_parameterisation(S, E, geo)
+        pre = E @ E.T
+        expect = float((pre[~np.eye(len(pre), dtype=bool)] <= 0).mean())
+        assert d["effective_sparsity"]["relu_floor_share_of_offdiag_pairs"] == \
+            pytest.approx(expect, abs=1e-4)
+        assert d["structural_sparsity"]["share_positive"] == pytest.approx(1.0)
+        assert d["seeded_from_kernel_adjacency"] is False
+        assert d["directed"] is True
+
+    def test_low_rank_bound_is_reported(self):
+        from xtraffic.scripts.analyze_learned_graph import describe_parameterisation
+        S, E, _ = semantic_from(self._state(n=8, d=2))
+        d = describe_parameterisation(S, E, _chain_geometry(8))
+        assert d["rank_bound_of_pre_softmax"] == 2
+        assert d["measured_rank_of_pre_softmax"] <= 2
+
+
+def semantic_from(state):
+    from xtraffic.scripts.analyze_learned_graph import semantic_graph
+    return semantic_graph(state)

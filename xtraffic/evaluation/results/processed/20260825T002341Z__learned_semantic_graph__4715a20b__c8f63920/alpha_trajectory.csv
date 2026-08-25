@@ -1,0 +1,4 @@
+checkpoint,epoch,val_mae,run_name,sigmoid_alpha
+metr_la_best.pt,54,2.8746519088745117,,0.2968
+metr_la_best_epoch34_ARCHIVE.pt,34,2.9026505947113037,,0.3366
+metr_la_fusion_best.pt,39,2.880716323852539,metr_la_fusion,0.2788

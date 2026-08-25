@@ -83,6 +83,26 @@ use models/gnn/colab_train.ipynb on a free T4 for the full 100-epoch run.
 Phase 2 gate PASSED: 30-min TEST MAE 3.52 on METR-LA (3-epoch placeholder ckpt),
 beats HistAvg 5.15 / LinReg 5.05 clearly; alpha drift 0.49->0.39 logged to CSV.
 Full 100-epoch training now RUNNING on Colab T4 (numbers to be refreshed on completion).
+
+CORRECTION 2026-08-24 (alpha). The two lines above ("drifted 0.49->0.39 in 3
+epochs", "alpha drift 0.49->0.39 logged to CSV") are LEFT AS WRITTEN and are not
+wrong for what they describe — they are the 3-epoch PLACEHOLDER checkpoint, which
+no longer exists on disk (overwritten; audit 5.5) and whose per-epoch CSV lives
+Colab-side (audit 8.3). They are, however, the only alpha numbers anywhere in
+this file, and they are three epochs old. Read straight out of every N=207
+checkpoint that DOES exist (run 20260825T002341Z__learned_semantic_graph, no
+solves, no LLM, exactly reproducible from the .pt files):
+    checkpoint                        epoch   sigmoid(alpha)   weight on LEARNED graph
+    metr_la_best_epoch34_ARCHIVE.pt     34        0.3366             0.6634
+    metr_la_best.pt                     54        0.2968            *0.7032*
+    metr_la_fusion_best.pt (own run)    39        0.2788             0.7212
+Initialisation is sigmoid(0) = 0.5. So the direction in the original line holds
+and continues: the model weights the GIVEN kernel adjacency at 0.30 and its own
+learned semantic graph at 0.70 on the headline checkpoint. Quote 0.297, not 0.39,
+for metr_la_best.pt. NOTE these are three checkpoints, not a trajectory — two
+epochs of the traffic-only run plus one separate fusion run — so this shows the
+endpoint, not the path. See evaluation/results/processed/
+20260825T002341Z__learned_semantic_graph__4715a20b__c8f63920/report.md.
 Phase 3 COMPLETE and gate PASSED (on the 3-epoch placeholder ckpt; re-run gate on full model later).
 DEVIATION (flagged): implemented the GNNExplainer algorithm (Ying et al. 2019)
 faithfully in pure PyTorch instead of wrapping torch_geometric.explain — our model

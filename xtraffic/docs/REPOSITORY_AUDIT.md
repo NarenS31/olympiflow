@@ -777,3 +777,49 @@ Phase 11 (analysis plan) → everything else. Rationale and alternatives in
 `docs/EXPERIMENT_PLAN.md`.
 
 **Nothing in this repository was modified during this audit.**
+
+---
+
+## 11. Addenda — findings logged after the audit was written
+
+Sections 0–10 above are the 2026-08-21 audit as delivered and are unchanged.
+Findings that surface later are appended here, dated, rather than edited into the
+original text, so the audit's own record stays intact.
+
+### 11.1 MEDIUM — `verify_traffic_unchanged.py` selects its inputs by filename sort order
+
+*Logged 2026-08-24, during the explanation-network analysis. Not fixed.*
+
+`evaluation/verify_traffic_unchanged.py:67-72`:
+
+```python
+def _explanation_files(limit: int = 6) -> List[str]:
+    files: List[str] = []
+    for pat in ("evaluation/results/faithfulness/explanations_cache/*.json",
+                "evaluation/results/explanations/*.json"):
+        files += sorted(glob.glob(os.path.join(PKG_ROOT, pat)))[:limit]
+    return files
+```
+
+The gate's 12 golden inputs are whatever the first six lexically-sorted files in
+each directory happen to be. `explanations_cache/` currently holds 93 files named
+`metr_la_<window>_<target>.json`, so the selection is decided by string ordering
+of the window index — the current first entry is `metr_la_1154_197.json`.
+
+**Why it matters:** any future study that writes an explanation into
+`explanations_cache/` with a lower-sorting name (`metr_la_1000_*.json`, or
+anything beginning with a digit below `1154`) silently changes *which* artifacts
+the regression gate compares, without changing the gate's code or its golden
+file. The gate would then either fail for a reason unrelated to the change under
+test, or — worse — pass while no longer covering the artifacts it was baselined
+on. This is the same failure mode §5.6 already records for this file: its probe
+list once contained only bare region names and bare ids, so it passed throughout
+the period the parenthetical resolver bug was live.
+
+**Fix (not applied):** pin the 12 filenames explicitly in the module, or store
+them in the golden JSON alongside the hashes, so the gate's input set is data
+rather than an accident of directory listing order.
+
+**Current exposure:** none. The explanation-network analysis writes only into its
+own run directory and never into `explanations_cache/`; the gate was confirmed
+PASSING before and after that work.
