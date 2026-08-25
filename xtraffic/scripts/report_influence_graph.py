@@ -114,6 +114,44 @@ def render(res: Dict, geo: ig.Geometry, mass_tables: Dict[str, pd.DataFrame],
     A("\"how road-aligned is the learned structure\" remains a real question.")
     A("")
 
+    # -------------------------------------------------- headline: flatness
+    A("## Headline: the explainer's mask is flat, not peaked")
+    A("")
+    A("Before any comparison to the road network, the most consequential property of")
+    A("the explainer's output is how much of the graph it needs in order to account for")
+    A("a prediction. Sources required to cover {:.0%} of a target's off-self importance".format(
+        s["mass_frac"]))
+    A("mass, out of {} available:".format(g["n_nodes"] - 1))
+    A("")
+    any_flat = False
+    for regime in ig.REGIMES:
+        r = res["per_regime"].get(regime) or {}
+        sf = r.get("sources_for_mass_frac")
+        if not sf:
+            continue
+        any_flat = True
+        p5 = sf["percentiles"]
+        A("**{}** — mean **{}** +/- {}, median **{}**, range {}-{};".format(
+            regime.replace("_", " "), sf["mean"], sf["std"], p5["50"],
+            sf["min"], sf["max"]))
+        A("percentiles p5 {} / p25 {} / p50 {} / p75 {} / p95 {}.".format(
+            p5["5"], p5["25"], p5["50"], p5["75"], p5["95"]))
+        A("")
+    if any_flat:
+        A("A peaked explanation would need a handful of sources. This one needs most of")
+        A("the network, and the spread across targets is narrow — flatness is a property")
+        A("of the method here, not a few pathological targets. It is why the two")
+        A("threshold rules below disagree so sharply: `top-k` imposes a peak the mask")
+        A("does not have, while the cumulative-mass rule reports how little structure")
+        A("there is to find. The committed explanation JSONs keep `top_nodes` = 8 of")
+        A("{}, so every downstream consumer in this repository has been reading the".format(g["n_nodes"]))
+        A("first 8 entries of a nearly flat ranking.")
+        A("")
+        A("Per-target values are in `metrics.json` under")
+        A("`per_regime.<regime>.sources_for_mass_frac.per_target`; the distribution is")
+        A("plotted in `fig4_mask_flatness.pdf`.")
+        A("")
+
     # -------------------------------------------------- step 1
     A("## Step 1 — learned influence vs the given adjacency")
     A("")
@@ -261,6 +299,39 @@ def render(res: Dict, geo: ig.Geometry, mass_tables: Dict[str, pd.DataFrame],
     A("- `off_adjacency_edges.csv` — the off-adjacency subset.")
     A("- `beyond_k_edges.csv` — the beyond-{}/unreachable subset.".format(s["k_hops"]))
     A("- `hop_strata.csv`, `baselines.csv`, `per_target_mass.csv`.")
+    A("")
+
+    # ------------------------------- explainer W vs the learned semantic graph
+    A("## The explainer's W against the model's own learned graph")
+    A("")
+    A("Both objects were produced by the same checkpoint and both get read as \"which")
+    A("sensors matter here\", but they are not the same kind of thing: `W` is a")
+    A("behavioural attribution for specific predictions, `A_sem` is a static parameter")
+    A("that enters only through the `(1 - alpha)` term of one of two supports.")
+    A("Agreement is not required and disagreement is not an error.")
+    A("")
+    shown = False
+    for regime in ig.REGIMES:
+        v = (res["per_regime"].get(regime) or {}).get("vs_learned_semantic_graph")
+        if not v or "error" in v:
+            continue
+        if not shown:
+            A("| Regime | targets | Spearman mean | Spearman median | top-8 J mean | top-8 J median | targets with zero top-8 overlap |")
+            A("|---|---|---|---|---|---|---|")
+            shown = True
+        A("| {} | {} | {} | {} | {} | {} | {} |".format(
+            regime.replace("_", " "), v["n_targets"],
+            _fmt(v["spearman"]["mean"], 4), _fmt(v["spearman"]["median"], 4),
+            _fmt(v["top_k_jaccard"]["mean"], 4), _fmt(v["top_k_jaccard"]["median"], 4),
+            v["top_k_jaccard"]["n_targets_with_zero_overlap"]))
+    if shown:
+        A("")
+        A("Per-target values in `metrics.json` under")
+        A("`per_regime.<regime>.vs_learned_semantic_graph.per_target`. The learned")
+        A("graph's own properties are reported separately in the Stage-0b run")
+        A("(`learned_semantic_graph`), which needed no solves.")
+    else:
+        A("*(not computed — no regime produced active targets)*")
     A("")
 
     # -------------------------------------------------- step 2

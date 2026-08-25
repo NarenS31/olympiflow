@@ -99,6 +99,34 @@ def analyse_regime(regime: str, node_imp, regimes, geo: ig.Geometry,
         "chance_1_over_N": round(1.0 / geo.n, 4),
     }
 
+    # --- how flat is the learned mask? ---------------------------------------
+    # The headline property of the explainer's output, and the reason the two
+    # threshold rules disagree so hard: a peaked mask needs a handful of sources
+    # to reach MASS_FRAC, a flat one needs most of the graph. Reported as a
+    # DISTRIBUTION, not a mean, because a mean hides whether flatness is uniform
+    # across targets or driven by a subset.
+    need = []
+    for t in tg:
+        v = W[t].copy()
+        v[t] = 0.0
+        tot = v.sum()
+        if tot <= 0:
+            continue
+        c = np.cumsum(np.sort(v)[::-1])
+        need.append(int(np.searchsorted(c, MASS_FRAC * tot) + 1))
+    if need:
+        need_a = np.asarray(need)
+        out["sources_for_mass_frac"] = {
+            "mass_frac": MASS_FRAC,
+            "of_available": geo.n - 1,
+            "mean": round(float(need_a.mean()), 1),
+            "std": round(float(need_a.std()), 1),
+            "min": int(need_a.min()), "max": int(need_a.max()),
+            "percentiles": {str(p): int(np.percentile(need_a, p))
+                            for p in (5, 25, 50, 75, 95)},
+            "per_target": {int(t): int(n) for t, n in zip(tg, need)},
+        }
+
     # --- effective edge sets --------------------------------------------------
     e_top = ig.edges_top_k(W, tg, k=TOP_K)
     e_mass = ig.edges_cumulative_mass(W, tg, frac=MASS_FRAC)
@@ -196,6 +224,58 @@ def split_half(node_imp, regimes, regime: str, geo: ig.Geometry,
 # ---------------------------------------------------------------------------
 # Step 3 — per-sensor mass concentration + metadata / raw-data cross-check
 # ---------------------------------------------------------------------------
+def compare_to_learned(W: np.ndarray, targets: Sequence[int], geo: ig.Geometry,
+                       checkpoint: str) -> Dict[str, object]:
+    """Per-target agreement between the EXPLAINER's W and the model's own learned
+    semantic graph A_sem.
+
+    These are different objects — one is a behavioural attribution for a specific
+    prediction, the other is a static parameter — so agreement is not required and
+    disagreement is not an error. It is reported because both were produced by the
+    same checkpoint and both are read as "which sensors matter for this one".
+
+    Imported lazily: analyze_learned_graph imports from this module, so a
+    top-level import would be circular.
+    """
+    import torch
+
+    from .analyze_learned_graph import semantic_graph
+
+    ck = torch.load(os.path.join(PKG_ROOT, checkpoint), map_location="cpu",
+                    weights_only=False)
+    S, _, alpha = semantic_graph(ck["model_state"])
+    WL = S.T                                       # [source,target] -> [target,source]
+    spear, jac = [], []
+    for t in targets:
+        a, b = W[t].copy(), WL[t].copy()
+        a[t] = b[t] = -np.inf                      # exclude self from both
+        ra = np.argsort(np.argsort(-a))
+        rb = np.argsort(np.argsort(-b))
+        ok = np.isfinite(a) & np.isfinite(b)
+        spear.append(float(np.corrcoef(ra[ok], rb[ok])[0, 1]))
+        sa = set(int(i) for i in np.argsort(-a)[:TOP_K])
+        sb = set(int(i) for i in np.argsort(-b)[:TOP_K])
+        jac.append(len(sa & sb) / len(sa | sb))
+    sp, jc = np.asarray(spear), np.asarray(jac)
+    return {
+        "checkpoint": checkpoint,
+        "sigmoid_alpha": round(alpha, 4),
+        "n_targets": len(targets),
+        "spearman": {"mean": round(float(sp.mean()), 4),
+                     "median": round(float(np.median(sp)), 4),
+                     "min": round(float(sp.min()), 4),
+                     "max": round(float(sp.max()), 4)},
+        "top_k_jaccard": {"k": TOP_K, "mean": round(float(jc.mean()), 4),
+                          "median": round(float(np.median(jc)), 4),
+                          "min": round(float(jc.min()), 4),
+                          "max": round(float(jc.max()), 4),
+                          "n_targets_with_zero_overlap": int((jc == 0).sum())},
+        "per_target": {int(t): {"spearman": round(float(s), 4),
+                                "top_k_jaccard": round(float(j), 4)}
+                       for t, s, j in zip(targets, spear, jac)},
+    }
+
+
 def mass_decomposition(W: np.ndarray, targets: Sequence[int], geo: ig.Geometry
                        ) -> pd.DataFrame:
     """Split each target's OFF-SELF importance mass three ways.
@@ -358,6 +438,36 @@ def fig_hop_strata(per_regime: Dict[str, dict], out: str) -> None:
     plt.close(fig)
 
 
+def fig_mask_flatness(per_regime: Dict[str, dict], n_nodes: int, out: str) -> None:
+    """Distribution of sources-needed-for-MASS_FRAC, per regime. The headline
+    property of the explainer's output, shown as a distribution because a mean
+    would hide whether flatness is uniform or driven by a subset of targets."""
+    plt = _style()
+    fig, ax = plt.subplots(figsize=(4.2, 2.6))
+    colors = {ig.REGIME_CONGESTED: CB["vermillion"], ig.REGIME_FREEFLOW: CB["blue"]}
+    any_data = False
+    for reg in ig.REGIMES:
+        sf = (per_regime.get(reg) or {}).get("sources_for_mass_frac")
+        if not sf:
+            continue
+        vals = np.asarray(list(sf["per_target"].values()))
+        ax.hist(vals, bins=30, alpha=0.6, color=colors.get(reg, CB["grey"]),
+                label="{} (median {})".format(reg.replace("_", " "),
+                                              sf["percentiles"]["50"]))
+        any_data = True
+    if not any_data:
+        plt.close(fig)
+        return
+    ax.axvline(TOP_K, color="#000000", lw=1.0, ls="--",
+               label="top-k = {} (what the JSON keeps)".format(TOP_K))
+    ax.set_xlim(0, n_nodes)
+    ax.set_xlabel("sources needed to cover {:.0%} of off-self mass".format(MASS_FRAC))
+    ax.set_ylabel("targets")
+    ax.legend(loc="upper left", framealpha=0.9)
+    fig.savefig(out)
+    plt.close(fig)
+
+
 def fig_sensor_rank(md: pd.DataFrame, out: str) -> None:
     """Step 3: every sensor's off-adjacency mass share, ranked, with the
     no-road-path component separated out."""
@@ -458,6 +568,8 @@ def main(argv: Optional[List[str]] = None) -> int:
     all_edge_rows: List[Dict[str, object]] = []
     edge_sets: Dict[str, Set[Tuple[int, int]]] = {}
     mass_tables: Dict[str, pd.DataFrame] = {}
+    cfg_ckpt = (data["manifest"].get("config") or {}).get(
+        "checkpoint", "models/gnn/checkpoints/metr_la_best.pt")
 
     for regime in ig.REGIMES:
         r = analyse_regime(regime, node_imp, regs, geo, strata, args.seed)
@@ -470,6 +582,12 @@ def main(argv: Optional[List[str]] = None) -> int:
         edge_sets[regime] = e
         all_edge_rows.extend(ig.edge_rows(e, W, geo, regime, K_HOPS))
         mass_tables[regime] = mass_decomposition(W, tg, geo)
+        try:
+            r["vs_learned_semantic_graph"] = compare_to_learned(
+                W, tg, geo, cfg_ckpt)
+        except Exception as exc:                       # noqa: BLE001
+            r["vs_learned_semantic_graph"] = {"error": "{}: {}".format(
+                type(exc).__name__, exc)}
         print("[{}] active targets {}  edges {}  off-adjacency {}  split-half J {}"
               .format(regime, len(tg), len(e),
                       r["edges"]["top_k"]["n_off_adjacency"],
@@ -532,6 +650,8 @@ def main(argv: Optional[List[str]] = None) -> int:
     if edge_sets:
         fig_influence_map(edge_sets, geo, os.path.join(out_dir, "fig1_influence_map.pdf"))
         fig_hop_strata(res["per_regime"], os.path.join(out_dir, "fig2_hop_strata.pdf"))
+        fig_mask_flatness(res["per_regime"], geo.n,
+                          os.path.join(out_dir, "fig4_mask_flatness.pdf"))
     if len(md_df):
         fig_sensor_rank(md_df.groupby("target", as_index=False).mean(numeric_only=True),
                         os.path.join(out_dir, "fig3_sensor_mass_rank.pdf"))
