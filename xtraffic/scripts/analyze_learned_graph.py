@@ -145,6 +145,70 @@ def describe_parameterisation(S: np.ndarray, E: np.ndarray, geo: ig.Geometry
     }
 
 
+def density_report(state: Dict[str, "object"], geo: ig.Geometry) -> Dict[str, object]:
+    """Is the graph the model ACTUALLY diffuses over dense — structurally, and
+    effectively?
+
+    Structural density (share of strictly positive entries) is the weaker claim:
+    a softmax makes it 100% trivially. The claim that matters is EFFECTIVE
+    density — whether the mass is genuinely spread — measured as row perplexity
+    exp(entropy), the effective number of nodes a row distributes over.
+
+    Reported for the MIXED support A_final that the blocks receive, not just for
+    A_sem, because A_final is what sets the receptive field.
+    """
+    import torch
+
+    E = state["sem_embed"].detach().cpu()
+    a = torch.sigmoid(state["alpha_logit"].detach().cpu())
+    A_sem = torch.softmax(torch.relu(E @ E.t()), dim=1)
+    phys = torch.from_numpy(_row_normalised_physical(geo)).float()
+    A_final = (a * phys + (1 - a) * A_sem).numpy().astype(np.float64)
+    ada = adaptive_graph(state)
+
+    out: Dict[str, object] = {}
+    for name, M in (("physical_adj_row_normalised", phys.numpy().astype(np.float64)),
+                    ("A_final_mixed_support", A_final),
+                    ("A_sem_learned_semantic", A_sem.numpy().astype(np.float64)),
+                    ("adaptive_support", ada)):
+        pos = M > 0
+        with np.errstate(divide="ignore", invalid="ignore"):
+            ent = -(M * np.log(np.where(M > 0, M, 1.0))).sum(axis=1)
+        perp = np.exp(ent)
+        out[name] = {
+            "strictly_positive_entries": int(pos.sum()),
+            "total_entries": int(M.size),
+            "structural_density": round(float(pos.mean()), 5),
+            "row_perplexity_mean": round(float(perp.mean()), 2),
+            "row_perplexity_median": round(float(np.median(perp)), 2),
+            "row_perplexity_as_share_of_uniform": round(
+                float(perp.mean() / M.shape[0]), 4),
+        }
+    out["effectively_dense"] = bool(
+        out["A_final_mixed_support"]["structural_density"] > 0.99
+        and out["A_final_mixed_support"]["row_perplexity_as_share_of_uniform"] > 0.25)
+    out["receptive_field_conclusion"] = (
+        "A_final is the support every STBlock diffuses over. It is structurally "
+        "dense ({:.0%} of entries positive) and effectively dense (each row "
+        "spreads over {:.0f} of {} nodes, {:.0%} of uniform), so the model's "
+        "spatial receptive field is the FULL GRAPH IN ONE HOP. gcn_order x "
+        "n_blocks bounds diffusion over the PHYSICAL component only. Any stratum "
+        "defined by hop distance in the kernel adjacency is therefore a "
+        "geometric description, not an architectural limit, and influence "
+        "falling outside it is not surprising.".format(
+            out["A_final_mixed_support"]["structural_density"],
+            out["A_final_mixed_support"]["row_perplexity_mean"], geo.n,
+            out["A_final_mixed_support"]["row_perplexity_as_share_of_uniform"]))
+    return out
+
+
+def _row_normalised_physical(geo: ig.Geometry) -> np.ndarray:
+    """Reproduce stgnn.py:228-231 — self-loops added, then row-normalised."""
+    A = geo.A.astype(np.float64).copy()
+    A = A + np.eye(A.shape[0])
+    return A / np.clip(A.sum(axis=1, keepdims=True), 1e-6, None)
+
+
 def road_alignment(S: np.ndarray, geo: ig.Geometry) -> Dict[str, object]:
     """How much of the off-diagonal mass lands on adjacency edges, vs chance."""
     off, adj = geo.off, geo.adj
@@ -282,8 +346,16 @@ def main(argv: Optional[List[str]] = None) -> int:
             "weight_on_learned_semantic": round(1 - alpha, 4),
         }
         res["parameterisation"] = describe_parameterisation(S, E, geo)
+        res["density"] = density_report(st, geo)
         res["road_alignment_semantic"] = road_alignment(S, geo)
         res["road_alignment_adaptive"] = road_alignment(adaptive_graph(st), geo)
+        res["beyond_k_stratum"] = {
+            "label": ig.beyond_k_label(geo, K_HOPS),
+            "base_rate_over_all_pairs": round(
+                ig.beyond_k_base_rate(geo, list(range(geo.n)), K_HOPS), 4),
+            "note": ("share of ordered pairs already in the stratum; an edge set "
+                     "with no spatial preference would show this rate"),
+        }
         per_ckpt[name] = res
         print("  {:38s} alpha={:.4f}  precision={:.4f}  lift={:.2f}x".format(
             name, alpha, res["edges"]["top_k"]["precision"],

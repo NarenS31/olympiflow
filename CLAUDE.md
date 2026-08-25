@@ -1282,6 +1282,65 @@ OWED: rerun on a second LLM (mistral:7b) — Phase 11's cross-model axis was not
 repeated here, so "domain-agnostic" currently rests on one model; and the engaged-n
 is small enough that a larger stressed-scenario sweep would tighten it.
 
+EXPLANATION-NETWORK ANALYSIS COMPLETE (2026-08-25) — the first study here that
+asks about the ROAD NETWORK rather than about the LLM. No LLM calls anywhere; no
+Ollama. Exploratory. Two runs, both routed through the Phase-1 run_dir
+infrastructure, both seeded and provenance-stamped.
+
+STAGE 0b (20260825T093132Z__learned_semantic_graph, no solves, seconds to run):
+A_sem = softmax(relu(E @ E.T)), E = sem_embed [207,10]. NOT seeded from the kernel
+adjacency (init randn*0.01), low-rank (measured rank 10), and its directedness is
+an artefact of the row-softmax — E @ E.T is symmetric by construction. 19.9% of
+off-diagonal pairs sit on the ReLU floor sharing one identical weight. The MIXED
+support A_final is structurally dense (42,849/42,849) AND effectively dense (row
+perplexity 107.1 of 207 = 51.7% of uniform), so THE MODEL'S SPATIAL RECEPTIVE
+FIELD IS THE FULL GRAPH IN ONE HOP; gcn_order x n_blocks = 8 bounds only the
+PHYSICAL component. Cross-checkpoint top-8 Jaccard 0.153-0.216 vs 0.016 for two
+random draws, with per-target Spearman 0.62-0.78. See the alpha CORRECTION above.
+
+STAGE 1/2 (20260824T235016Z__influence_graph_solves): 207 targets x 24 shared
+windows = 4,968 GNNExplainer solves, CPU, 8.4 h. Congested < 45 mph, free-flow
+>= 55 mph, dead band between; window floor 4 per regime.
+- THE MASK IS NEARLY FLAT: 147 (congested) / 154 (free-flow) of 206 sources are
+  needed to cover 80% of a target's off-self importance mass, sd 4.7 / 2.9. The
+  committed explanation JSONs keep top_nodes = 8 of 207, so EVERY downstream
+  consumer in this project — the whole faithfulness line included — has been
+  reading the first 8 entries of a nearly flat ranking. State this in the paper.
+- The aggregate is nonetheless well above chance: precision vs the kernel
+  adjacency 0.286 free-flow / 0.140 congested against 0.033/0.037 uniform and
+  0.034/0.055 degree-matched (8.7x / 3.8x). A nearest-by-road-distance baseline
+  scores 0.756/0.809 — far higher, as it must, since the adjacency IS a 3.9 km
+  road-distance threshold.
+- The far stratum (>8 chained kernel radii, or unreachable) is DEPLETED, not
+  enriched: 0.57x base rate free-flow, 0.92x congested.
+- Explainer W vs the model's own A_sem: per-target Spearman +0.062 free-flow,
+  -0.115 congested; top-8 Jaccard 0.087/0.174; 84 of 200 free-flow targets share
+  nothing at all in their top 8.
+- Split-half over windows: J 0.226 free-flow / 0.140 congested vs 0.017 for two
+  independent random draws.
+- Far edges surviving BOTH halves: 52 (free-flow). 15.4% sit in A_sem's top 8 vs
+  3.9% chance and 1.9% for a matched random draw from the same stratum — a real
+  but weak shift, so NOT recovery of the learned adjacency. All 52 listed with
+  geometry. Congested has 15 survivors but only 28 targets in both halves, below
+  the pre-set floor of 40, so NO regime-level claim is made for it.
+- CONVERGING FINDING WORTH THE PAPER: "which nodes are important" is not a
+  well-determined object in this model. Three independent probes agree — CPU vs
+  MPS at the same seed (Spearman 0.578, top-8 J 0.399), ep34 vs ep54 (0.780 /
+  0.216), and split-half over windows (0.226 vs 0.017 random). Ranks are stable;
+  top-k identity is not, under float noise, under 20 epochs of training, and
+  under window resampling.
+- STEP 2 (implied propagation speed) NOT RUN and NOT substituted: the node mask
+  has no time dimension, so there is no per-lag importance to weight.
+  propagation_lag_minutes is one scalar per explanation from input-window
+  cross-correlation — a property of the data, not the model.
+- LIMITATION TO CARRY: "off-adjacency" means ">3.9 km by road" (sigma 2584.5 m,
+  kappa 0.1 -> cutoff 3921.8 m; adjacency rebuilt from the raw CSV matches the
+  committed file to 3e-8), and 75.6% of non-adjacent pairs have NO road distance
+  in distances_la_2012.csv at all. Haversine is reported in its own column and
+  nothing is derived from it.
+Gates after: traffic regression PASS, resolvers 29/30 + 32/32 + 32/32 + 22/22,
+76 unit tests, 9/9 mutants killed. Nothing committed was modified.
+
 ---
 
 # XTraffic — Claude Code Build Playbook

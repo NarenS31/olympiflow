@@ -25,6 +25,11 @@ from ..reproducibility import run_dir
 from ..utils.io_utils import PKG_ROOT
 
 
+def TOPK_CHANCE(n_nodes, k=8):
+    """Probability a uniformly drawn source lands in a target's top-k."""
+    return k / (n_nodes - 1)
+
+
 def _fmt(x, nd=3):
     if x is None:
         return "n/a"
@@ -102,16 +107,29 @@ def render(res: Dict, geo: ig.Geometry, mass_tables: Dict[str, pd.DataFrame],
         g["share_pairs_with_road_distance"], g["share_nonadjacent_pairs_with_road_distance"]))
     A("is carried in a separate column and nothing is derived from it.")
     A("")
-    A("**3. The model's spatial receptive field is the complete graph in one hop.**")
-    A("`XTrafficSTGNN` diffuses over two supports, both row-softmaxes, both 100% dense")
-    A("(42,849 / 42,849 strictly positive entries each). `gcn_order` x `n_blocks` =")
-    A("{} bounds diffusion at {} hops over the *physical* component only; through".format(
+    A("**3. The model's spatial receptive field is the FULL GRAPH IN ONE HOP.**")
+    sd = res.get("support_density") or {}
+    fin = sd.get("A_final_mixed_support")
+    if fin:
+        A("`A_final = sigmoid(alpha)*A_phys + (1-sigmoid(alpha))*A_sem` is the support")
+        A("every `STBlock` diffuses over. Measured on this checkpoint, it is")
+        A("**structurally dense** ({}/{} entries strictly positive, {:.0%}) *and*".format(
+            fin["strictly_positive_entries"], fin["total_entries"],
+            fin["structural_density"]))
+        A("**effectively dense** — each row spreads over {} of {} nodes by".format(
+            _fmt(fin["row_perplexity_mean"], 1), g["n_nodes"]))
+        A("perplexity, {:.0%} of uniform. The second (adaptive) support is denser".format(
+            fin["row_perplexity_as_share_of_uniform"]))
+        ada = sd.get("adaptive_support") or {}
+        if ada:
+            A("still, at {:.0%} of uniform.".format(
+                ada["row_perplexity_as_share_of_uniform"]))
+    A("`gcn_order` x `n_blocks` = {} bounds diffusion at {} hops over the *physical*".format(
         s["k_hops"], s["k_hops"]))
-    A("either learned support any node reaches any other immediately. **Hop distance is")
-    A("therefore a descriptive coordinate, not a reachability limit.** Influence at hop")
-    A("> {} or at an unreachable pair is expected by construction and is not, on its".format(s["k_hops"]))
-    A("own, anomalous. It is reported separately because it was asked for, and because")
-    A("\"how road-aligned is the learned structure\" remains a real question.")
+    A("component only. **So the far stratum below is NOT architecturally surprising:**")
+    A("every pair is one hop apart inside the network, and hop distance in the kernel")
+    A("adjacency is a geometric description of where influence sits, not a limit on")
+    A("where it could sit. The stratum is named accordingly rather than as \"beyond-K\".")
     A("")
 
     # -------------------------------------------------- headline: flatness
@@ -243,12 +261,21 @@ def render(res: Dict, geo: ig.Geometry, mass_tables: Dict[str, pd.DataFrame],
                 h["n_adjacency_edges_same_bucket"]))
         A("")
         bk = r["beyond_k"]
-        A("**Candidate set — beyond {} hops or unreachable:** {} edges ({} of the".format(
-            bk["k_hops"], bk["n_edges"], _fmt(bk["share_of_effective"])))
-        A("effective set), of which {} are unreachable in the adjacency graph.".format(
-            bk["n_unreachable"]))
-        A("Full listing in `beyond_k_edges.csv`. Per fact (3) this is not by itself")
-        A("anomalous — both learned supports connect every pair directly.")
+        A("**Far stratum — {}:**".format(bk.get("label", "beyond {} hops".format(
+            bk["k_hops"]))))
+        A("{} edges ({} of the effective set), of which {} are unreachable in the".format(
+            bk["n_edges"], _fmt(bk["share_of_effective"]), bk["n_unreachable"]))
+        A("adjacency graph. **Base rate for these targets: {}** — that share of all".format(
+            _fmt(bk.get("base_rate_for_these_targets"))))
+        A("candidate pairs is already in the stratum, so an edge set with no spatial")
+        A("preference would show it. Enrichment over base rate: **{}x**.".format(
+            _fmt(bk.get("enrichment_over_base_rate"), 2)))
+        A("")
+        A("Per fact (3) this stratum is **not architecturally surprising**: the mixed")
+        A("support the model diffuses over is dense, so every pair is one hop apart")
+        A("inside the network. The stratum is a geometric description of where the")
+        A("influence sits relative to the kernel adjacency, nothing more.")
+        A("Full listing in `beyond_k_edges.csv`.")
         A("")
         st = r["stability"]
         A("**Split-half stability** ({} vs {} windows, stratum-balanced, >= {} windows".format(
@@ -300,6 +327,99 @@ def render(res: Dict, geo: ig.Geometry, mass_tables: Dict[str, pd.DataFrame],
     A("- `beyond_k_edges.csv` — the beyond-{}/unreachable subset.".format(s["k_hops"]))
     A("- `hop_strata.csv`, `baselines.csv`, `per_target_mass.csv`.")
     A("")
+
+    # --------------------------- do the surviving far edges sit in A_learned?
+    A("## Do the far edges that survive both halves sit high in the learned graph?")
+    A("")
+    A("An edge that replicates across disjoint windows is the only kind worth asking")
+    A("about. The question is whether those survivors rank near the top of the model's")
+    A("own learned graph `A_sem` — if they do, the explainer is recovering the learned")
+    A("adjacency. Three matched groups, all drawn from the same targets: survivors")
+    A("(far edges in **both** halves), far edges in **one** half only, and far pairs")
+    A("**sampled uniformly** per target from the same stratum.")
+    A("")
+    A("Rank is the source's position among all {} non-self sources for that target,".format(
+        g["n_nodes"] - 1))
+    A("1 = strongest. Chance mean rank is {}; chance top-8 share is {}.".format(
+        103.5, _fmt(TOPK_CHANCE(g["n_nodes"]), 4)))
+    A("")
+    for regime in ig.REGIMES:
+        sv = (res["per_regime"].get(regime) or {}).get("beyond_k_survivors")
+        if not sv:
+            continue
+        ok = sv.get("regime_level_claims_permitted")
+        A("### {}".format(regime.replace("_", " ")))
+        A("")
+        A("Targets in both halves: **{}**. Far edges half A / half B: {} / {}.".format(
+            sv["n_targets_in_both_halves"], sv["n_beyond_k_half_a"],
+            sv["n_beyond_k_half_b"]))
+        A("**Survivors (in both): {}.** One-half-only: {}. Survival rate {}.".format(
+            sv["n_intersection"], sv["n_one_half_only"], _fmt(sv.get("survival_rate"))))
+        A("")
+        if not ok:
+            A("> **No regime-level claim is made for {}.** Only {} targets have both".format(
+                regime.replace("_", " "), sv["n_targets_in_both_halves"]))
+            A("> halves populated, below the pre-set floor of {}. The numbers below are".format(
+                sv["min_targets_for_regime_claim"]))
+            A("> printed for completeness and should not be read as a result.")
+            A("")
+        if not sv.get("n_intersection"):
+            A("No far edge survived both halves.")
+            A("")
+            continue
+        A("| Group | n | mean rank | median | top-8 | top-20 | top-half |")
+        A("|---|---|---|---|---|---|---|")
+        for key, lab in (("intersection", "**survivors (both halves)**"),
+                         ("one_half_only", "one half only"),
+                         ("random_beyond_k", "random from same stratum")):
+            v = sv.get(key) or {}
+            if not v.get("n"):
+                continue
+            rk = v["learned_rank_of_206"]
+            A("| {} | {} | {} | {} | {} | {} | {} |".format(
+                lab, v["n"], _fmt(rk["mean"], 1), rk["median"],
+                _fmt(rk["share_in_top_8"], 3), _fmt(rk["share_in_top_20"], 3),
+                _fmt(rk["share_in_top_half"], 3)))
+        A("| *chance* | — | 103.5 | 103 | {} | {} | 0.500 |".format(
+            _fmt(TOPK_CHANCE(g["n_nodes"]), 3), _fmt(20.0 / (g["n_nodes"] - 1), 3)))
+        A("")
+        if ok:
+            inter = sv["intersection"]["learned_rank_of_206"]
+            rnd = (sv.get("random_beyond_k") or {}).get("learned_rank_of_206")
+            top8 = inter["share_in_top_8"]
+            if top8 >= 0.5:
+                A("**The explainer recovers the learned adjacency** on this stratum:")
+                A("{:.0%} of survivors are in the learned graph's top 8.".format(top8))
+            else:
+                A("**The survivors do not sit at high learned-graph rank.** {:.1%} are in".format(
+                    top8))
+                A("the learned graph's top 8 and the median survivor sits at rank {} of".format(
+                    inter["median"]))
+                A("{}. There is a real but weak shift — mean rank {} against {} for a".format(
+                    g["n_nodes"] - 1, _fmt(inter["mean"], 1),
+                    _fmt(rnd["mean"], 1) if rnd else "n/a"))
+                A("matched random draw from the same stratum, and a top-8 share {}x".format(
+                    _fmt(top8 / TOPK_CHANCE(g["n_nodes"]), 1)))
+                A("chance — but {:.0%} of surviving edges are NOT in the learned graph's".format(
+                    1 - top8))
+                A("top 8, so this is not recovery of the learned adjacency. Every")
+                A("surviving edge is therefore listed with its geometry below.")
+            A("")
+        A("All {} survivors, with geometry, ranked by learned-graph rank".format(
+            sv["n_intersection"]))
+        A("(`beyond_k_survivors_{}.csv`; road distance and haversine in separate".format(regime))
+        A("columns, nothing derived from haversine):")
+        A("")
+        A("| src | tgt | src sensor | tgt sensor | hops | learned rank | road m | haversine m | src lat,lon | tgt lat,lon |")
+        A("|---|---|---|---|---|---|---|---|---|---|")
+        for e in sv["intersection_edges"]:
+            A("| {} | {} | {} | {} | {} | {} | {} | {} | {:.4f}, {:.4f} | {:.4f}, {:.4f} |".format(
+                e["source"], e["target"], e["source_sensor_id"], e["target_sensor_id"],
+                "unreach" if e["unreachable"] else e["hops"], e["learned_rank_of_206"],
+                "—" if e["road_distance_m"] is None else e["road_distance_m"],
+                e["haversine_m_reference_only"], e["source_lat"], e["source_lon"],
+                e["target_lat"], e["target_lon"]))
+        A("")
 
     # ------------------------------- explainer W vs the learned semantic graph
     A("## The explainer's W against the model's own learned graph")

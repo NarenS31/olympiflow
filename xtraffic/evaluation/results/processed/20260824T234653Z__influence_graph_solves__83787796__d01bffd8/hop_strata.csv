@@ -1,0 +1,10 @@
+regime,bucket,n_effective_edges,share_of_effective,n_adjacency_edges_same_bucket
+free_flow,1,6,0.25,27
+free_flow,2,2,0.0833,0
+free_flow,3,4,0.1667,0
+free_flow,4,3,0.125,0
+free_flow,5,2,0.0833,0
+free_flow,6,2,0.0833,0
+free_flow,7,1,0.0417,0
+free_flow,>8,3,0.125,0
+free_flow,unreachable,1,0.0417,0

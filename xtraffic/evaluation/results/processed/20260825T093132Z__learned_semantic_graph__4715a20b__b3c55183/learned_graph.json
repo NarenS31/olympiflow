@@ -1,0 +1,758 @@
+{
+  "experiment": "learned_semantic_graph",
+  "geometry": {
+    "n_nodes": 207,
+    "n_adjacency_edges": 1515,
+    "adjacency_density": 0.03553,
+    "cutoff_m": 3921.7,
+    "sigma_m": 2584.5
+  },
+  "settings": {
+    "top_k": 8,
+    "mass_frac": 0.8,
+    "k_hops": 8
+  },
+  "per_checkpoint": {
+    "metr_la_best.pt": {
+      "label": "metr_la_best.pt",
+      "edges": {
+        "top_k": {
+          "n_effective": 1656,
+          "n_reference": 1515,
+          "n_true_positive": 191,
+          "precision": 0.11533816425120773,
+          "recall": 0.12607260726072608,
+          "jaccard": 0.06409395973154362,
+          "n_off_adjacency": 1465
+        },
+        "cumulative_mass": {
+          "n_effective": 29421,
+          "n_reference": 1515,
+          "n_true_positive": 1184,
+          "precision": 0.04024336358383468,
+          "recall": 0.7815181518151815,
+          "jaccard": 0.03979564399031998,
+          "n_off_adjacency": 28237
+        }
+      },
+      "sources_for_mass_frac": {
+        "mass_frac": 0.8,
+        "mean": 142.1,
+        "median": 144,
+        "min": 113,
+        "max": 157,
+        "of_available": 206
+      },
+      "self_mass": {
+        "mean": 0.00945,
+        "median": 0.00743,
+        "chance_1_over_N": 0.00483
+      },
+      "baselines": {
+        "uniform_random": {
+          "n_effective": 1656,
+          "n_reference": 1515,
+          "n_true_positive": 49,
+          "precision": 0.029589371980676328,
+          "recall": 0.03234323432343234,
+          "jaccard": 0.01569506726457399,
+          "n_off_adjacency": 1607
+        },
+        "degree_matched_random": {
+          "n_effective": 1656,
+          "n_reference": 1515,
+          "n_true_positive": 63,
+          "precision": 0.03804347826086957,
+          "recall": 0.041584158415841586,
+          "jaccard": 0.02027027027027027,
+          "n_off_adjacency": 1593
+        },
+        "nearest_by_road_distance": {
+          "n_effective": 1648,
+          "n_reference": 1515,
+          "n_true_positive": 1246,
+          "precision": 0.7560679611650486,
+          "recall": 0.8224422442244225,
+          "jaccard": 0.6499739175795514,
+          "n_off_adjacency": 402,
+          "targets_with_fewer_than_k_road_sources": 1
+        }
+      },
+      "overlap_with_nearest_road": 0.0644,
+      "hop_strata": [
+        {
+          "bucket": "1",
+          "n_effective_edges": 191,
+          "share_of_effective": 0.1153
+        },
+        {
+          "bucket": "2",
+          "n_effective_edges": 256,
+          "share_of_effective": 0.1546
+        },
+        {
+          "bucket": "3",
+          "n_effective_edges": 234,
+          "share_of_effective": 0.1413
+        },
+        {
+          "bucket": "4",
+          "n_effective_edges": 178,
+          "share_of_effective": 0.1075
+        },
+        {
+          "bucket": "5",
+          "n_effective_edges": 155,
+          "share_of_effective": 0.0936
+        },
+        {
+          "bucket": "6",
+          "n_effective_edges": 152,
+          "share_of_effective": 0.0918
+        },
+        {
+          "bucket": "7",
+          "n_effective_edges": 131,
+          "share_of_effective": 0.0791
+        },
+        {
+          "bucket": "8",
+          "n_effective_edges": 106,
+          "share_of_effective": 0.064
+        },
+        {
+          "bucket": ">8",
+          "n_effective_edges": 196,
+          "share_of_effective": 0.1184
+        },
+        {
+          "bucket": "unreachable",
+          "n_effective_edges": 57,
+          "share_of_effective": 0.0344
+        }
+      ],
+      "beyond_k": {
+        "k_hops": 8,
+        "n_edges": 253,
+        "share_of_effective": 0.1528,
+        "n_unreachable": 57
+      },
+      "checkpoint": {
+        "file": "metr_la_best.pt",
+        "sha256": "046b2a4ac20613acd7f183bcf1c1118967ce21d569ca4b9ddd793e9c9d989cfa",
+        "epoch": 54,
+        "val_mae": 2.8746519088745117,
+        "run_name": null,
+        "use_sidecars": null
+      },
+      "alpha": {
+        "sigmoid_alpha": 0.2968,
+        "weight_on_given_adjacency": 0.2968,
+        "weight_on_learned_semantic": 0.7032
+      },
+      "parameterisation": {
+        "parameterisation": "A_sem = softmax(relu(E @ E.T), dim=1) with E = sem_embed, a learned [N, d] parameter",
+        "embed_shape": [
+          207,
+          10
+        ],
+        "embed_dim": 10,
+        "rank_bound_of_pre_softmax": 10,
+        "measured_rank_of_pre_softmax": 10,
+        "initialisation": "torch.randn(N, embed_dim) * 0.01 (stgnn.py:239) -- random, NOT seeded from the kernel adjacency",
+        "seeded_from_kernel_adjacency": false,
+        "pre_softmax_symmetric": true,
+        "post_softmax_symmetric": false,
+        "directed": true,
+        "asymmetry_source": "E @ E.T is symmetric by construction; the row-wise softmax breaks the symmetry, so all directionality comes from normalisation, not from a learned asymmetric similarity",
+        "normalisation": "row-softmax over dim=1, i.e. per SOURCE outgoing mass",
+        "row_sums_min": 1.0,
+        "row_sums_max": 1.0,
+        "note_on_normalisation_axis": "rows are sources under the einsum('bcnt,nm->bcmt') convention, so each source's outgoing weights sum to 1 rather than each target's incoming weights. physical_adj is row-normalised the same way (stgnn.py:230), so the two supports are consistent.",
+        "structural_sparsity": {
+          "strictly_positive_entries": 42849,
+          "total_entries": 42849,
+          "share_positive": 1.0,
+          "comment": "softmax output: nothing is exactly zero, so structural sparsity is 0 by construction"
+        },
+        "effective_sparsity": {
+          "relu_floor_share_of_offdiag_pairs": 0.1993,
+          "relu_floor_comment": "share of off-diagonal pairs whose pre-softmax similarity is <= 0 and therefore enters the softmax at the identical value exp(0); these pairs are not distinguished from one another at all",
+          "perplexity_mean": 187.25,
+          "perplexity_median": 191.01,
+          "perplexity_min": 124.04,
+          "perplexity_max": 207.0,
+          "perplexity_uniform_reference": 207,
+          "top8_row_mass_mean": 0.0898,
+          "top8_row_mass_median": 0.0797,
+          "uniform_top8_mass_reference": 0.0386
+        }
+      },
+      "density": {
+        "physical_adj_row_normalised": {
+          "strictly_positive_entries": 1722,
+          "total_entries": 42849,
+          "structural_density": 0.04019,
+          "row_perplexity_mean": 5.79,
+          "row_perplexity_median": 5.5,
+          "row_perplexity_as_share_of_uniform": 0.028
+        },
+        "A_final_mixed_support": {
+          "strictly_positive_entries": 42849,
+          "total_entries": 42849,
+          "structural_density": 1.0,
+          "row_perplexity_mean": 107.1,
+          "row_perplexity_median": 108.7,
+          "row_perplexity_as_share_of_uniform": 0.5174
+        },
+        "A_sem_learned_semantic": {
+          "strictly_positive_entries": 42849,
+          "total_entries": 42849,
+          "structural_density": 1.0,
+          "row_perplexity_mean": 187.25,
+          "row_perplexity_median": 191.01,
+          "row_perplexity_as_share_of_uniform": 0.9046
+        },
+        "adaptive_support": {
+          "strictly_positive_entries": 42849,
+          "total_entries": 42849,
+          "structural_density": 1.0,
+          "row_perplexity_mean": 204.86,
+          "row_perplexity_median": 205.63,
+          "row_perplexity_as_share_of_uniform": 0.9897
+        },
+        "effectively_dense": true,
+        "receptive_field_conclusion": "A_final is the support every STBlock diffuses over. It is structurally dense (100% of entries positive) and effectively dense (each row spreads over 107 of 207 nodes, 52% of uniform), so the model's spatial receptive field is the FULL GRAPH IN ONE HOP. gcn_order x n_blocks bounds diffusion over the PHYSICAL component only. Any stratum defined by hop distance in the kernel adjacency is therefore a geometric description, not an architectural limit, and influence falling outside it is not surprising."
+      },
+      "road_alignment_semantic": {
+        "mass_on_adjacency_edges": 0.0445,
+        "adjacency_share_of_pairs": 0.03553,
+        "lift_over_chance": 1.252
+      },
+      "road_alignment_adaptive": {
+        "mass_on_adjacency_edges": 0.0351,
+        "adjacency_share_of_pairs": 0.03553,
+        "lift_over_chance": 0.987
+      },
+      "beyond_k_stratum": {
+        "label": "beyond 8 kernel radii (>8 chained hops of <= 3.9 km), or unreachable",
+        "base_rate_over_all_pairs": 0.2218,
+        "note": "share of ordered pairs already in the stratum; an edge set with no spatial preference would show this rate"
+      }
+    },
+    "metr_la_best_epoch34_ARCHIVE.pt": {
+      "label": "metr_la_best_epoch34_ARCHIVE.pt",
+      "edges": {
+        "top_k": {
+          "n_effective": 1656,
+          "n_reference": 1515,
+          "n_true_positive": 126,
+          "precision": 0.07608695652173914,
+          "recall": 0.08316831683168317,
+          "jaccard": 0.041379310344827586,
+          "n_off_adjacency": 1530
+        },
+        "cumulative_mass": {
+          "n_effective": 30035,
+          "n_reference": 1515,
+          "n_true_positive": 1145,
+          "precision": 0.03812219077742634,
+          "recall": 0.7557755775577558,
+          "jaccard": 0.037658279888176285,
+          "n_off_adjacency": 28890
+        }
+      },
+      "sources_for_mass_frac": {
+        "mass_frac": 0.8,
+        "mean": 145.1,
+        "median": 145,
+        "min": 121,
+        "max": 160,
+        "of_available": 206
+      },
+      "self_mass": {
+        "mean": 0.00878,
+        "median": 0.0069,
+        "chance_1_over_N": 0.00483
+      },
+      "baselines": {
+        "uniform_random": {
+          "n_effective": 1656,
+          "n_reference": 1515,
+          "n_true_positive": 49,
+          "precision": 0.029589371980676328,
+          "recall": 0.03234323432343234,
+          "jaccard": 0.01569506726457399,
+          "n_off_adjacency": 1607
+        },
+        "degree_matched_random": {
+          "n_effective": 1656,
+          "n_reference": 1515,
+          "n_true_positive": 63,
+          "precision": 0.03804347826086957,
+          "recall": 0.041584158415841586,
+          "jaccard": 0.02027027027027027,
+          "n_off_adjacency": 1593
+        },
+        "nearest_by_road_distance": {
+          "n_effective": 1648,
+          "n_reference": 1515,
+          "n_true_positive": 1246,
+          "precision": 0.7560679611650486,
+          "recall": 0.8224422442244225,
+          "jaccard": 0.6499739175795514,
+          "n_off_adjacency": 402,
+          "targets_with_fewer_than_k_road_sources": 1
+        }
+      },
+      "overlap_with_nearest_road": 0.041,
+      "hop_strata": [
+        {
+          "bucket": "1",
+          "n_effective_edges": 126,
+          "share_of_effective": 0.0761
+        },
+        {
+          "bucket": "2",
+          "n_effective_edges": 173,
+          "share_of_effective": 0.1045
+        },
+        {
+          "bucket": "3",
+          "n_effective_edges": 204,
+          "share_of_effective": 0.1232
+        },
+        {
+          "bucket": "4",
+          "n_effective_edges": 179,
+          "share_of_effective": 0.1081
+        },
+        {
+          "bucket": "5",
+          "n_effective_edges": 208,
+          "share_of_effective": 0.1256
+        },
+        {
+          "bucket": "6",
+          "n_effective_edges": 216,
+          "share_of_effective": 0.1304
+        },
+        {
+          "bucket": "7",
+          "n_effective_edges": 172,
+          "share_of_effective": 0.1039
+        },
+        {
+          "bucket": "8",
+          "n_effective_edges": 116,
+          "share_of_effective": 0.07
+        },
+        {
+          "bucket": ">8",
+          "n_effective_edges": 184,
+          "share_of_effective": 0.1111
+        },
+        {
+          "bucket": "unreachable",
+          "n_effective_edges": 78,
+          "share_of_effective": 0.0471
+        }
+      ],
+      "beyond_k": {
+        "k_hops": 8,
+        "n_edges": 262,
+        "share_of_effective": 0.1582,
+        "n_unreachable": 78
+      },
+      "checkpoint": {
+        "file": "metr_la_best_epoch34_ARCHIVE.pt",
+        "sha256": "4781693eb3e39c8ffb5f6369a017c29bb05fb15f843e49080ced73b1ae2d73bf",
+        "epoch": 34,
+        "val_mae": 2.9026505947113037,
+        "run_name": null,
+        "use_sidecars": null
+      },
+      "alpha": {
+        "sigmoid_alpha": 0.3366,
+        "weight_on_given_adjacency": 0.3366,
+        "weight_on_learned_semantic": 0.6634
+      },
+      "parameterisation": {
+        "parameterisation": "A_sem = softmax(relu(E @ E.T), dim=1) with E = sem_embed, a learned [N, d] parameter",
+        "embed_shape": [
+          207,
+          10
+        ],
+        "embed_dim": 10,
+        "rank_bound_of_pre_softmax": 10,
+        "measured_rank_of_pre_softmax": 10,
+        "initialisation": "torch.randn(N, embed_dim) * 0.01 (stgnn.py:239) -- random, NOT seeded from the kernel adjacency",
+        "seeded_from_kernel_adjacency": false,
+        "pre_softmax_symmetric": true,
+        "post_softmax_symmetric": false,
+        "directed": true,
+        "asymmetry_source": "E @ E.T is symmetric by construction; the row-wise softmax breaks the symmetry, so all directionality comes from normalisation, not from a learned asymmetric similarity",
+        "normalisation": "row-softmax over dim=1, i.e. per SOURCE outgoing mass",
+        "row_sums_min": 0.999999,
+        "row_sums_max": 1.000001,
+        "note_on_normalisation_axis": "rows are sources under the einsum('bcnt,nm->bcmt') convention, so each source's outgoing weights sum to 1 rather than each target's incoming weights. physical_adj is row-normalised the same way (stgnn.py:230), so the two supports are consistent.",
+        "structural_sparsity": {
+          "strictly_positive_entries": 42849,
+          "total_entries": 42849,
+          "share_positive": 1.0,
+          "comment": "softmax output: nothing is exactly zero, so structural sparsity is 0 by construction"
+        },
+        "effective_sparsity": {
+          "relu_floor_share_of_offdiag_pairs": 0.2743,
+          "relu_floor_comment": "share of off-diagonal pairs whose pre-softmax similarity is <= 0 and therefore enters the softmax at the identical value exp(0); these pairs are not distinguished from one another at all",
+          "perplexity_mean": 190.54,
+          "perplexity_median": 192.8,
+          "perplexity_min": 150.87,
+          "perplexity_max": 207.0,
+          "perplexity_uniform_reference": 207,
+          "top8_row_mass_mean": 0.083,
+          "top8_row_mass_median": 0.0756,
+          "uniform_top8_mass_reference": 0.0386
+        }
+      },
+      "density": {
+        "physical_adj_row_normalised": {
+          "strictly_positive_entries": 1722,
+          "total_entries": 42849,
+          "structural_density": 0.04019,
+          "row_perplexity_mean": 5.79,
+          "row_perplexity_median": 5.5,
+          "row_perplexity_as_share_of_uniform": 0.028
+        },
+        "A_final_mixed_support": {
+          "strictly_positive_entries": 42849,
+          "total_entries": 42849,
+          "structural_density": 1.0,
+          "row_perplexity_mean": 97.69,
+          "row_perplexity_median": 98.98,
+          "row_perplexity_as_share_of_uniform": 0.4719
+        },
+        "A_sem_learned_semantic": {
+          "strictly_positive_entries": 42849,
+          "total_entries": 42849,
+          "structural_density": 1.0,
+          "row_perplexity_mean": 190.54,
+          "row_perplexity_median": 192.8,
+          "row_perplexity_as_share_of_uniform": 0.9205
+        },
+        "adaptive_support": {
+          "strictly_positive_entries": 42849,
+          "total_entries": 42849,
+          "structural_density": 1.0,
+          "row_perplexity_mean": 204.67,
+          "row_perplexity_median": 205.28,
+          "row_perplexity_as_share_of_uniform": 0.9888
+        },
+        "effectively_dense": true,
+        "receptive_field_conclusion": "A_final is the support every STBlock diffuses over. It is structurally dense (100% of entries positive) and effectively dense (each row spreads over 98 of 207 nodes, 47% of uniform), so the model's spatial receptive field is the FULL GRAPH IN ONE HOP. gcn_order x n_blocks bounds diffusion over the PHYSICAL component only. Any stratum defined by hop distance in the kernel adjacency is therefore a geometric description, not an architectural limit, and influence falling outside it is not surprising."
+      },
+      "road_alignment_semantic": {
+        "mass_on_adjacency_edges": 0.0396,
+        "adjacency_share_of_pairs": 0.03553,
+        "lift_over_chance": 1.114
+      },
+      "road_alignment_adaptive": {
+        "mass_on_adjacency_edges": 0.0349,
+        "adjacency_share_of_pairs": 0.03553,
+        "lift_over_chance": 0.981
+      },
+      "beyond_k_stratum": {
+        "label": "beyond 8 kernel radii (>8 chained hops of <= 3.9 km), or unreachable",
+        "base_rate_over_all_pairs": 0.2218,
+        "note": "share of ordered pairs already in the stratum; an edge set with no spatial preference would show this rate"
+      }
+    },
+    "metr_la_fusion_best.pt": {
+      "label": "metr_la_fusion_best.pt",
+      "edges": {
+        "top_k": {
+          "n_effective": 1656,
+          "n_reference": 1515,
+          "n_true_positive": 233,
+          "precision": 0.14070048309178743,
+          "recall": 0.1537953795379538,
+          "jaccard": 0.07930565010211028,
+          "n_off_adjacency": 1423
+        },
+        "cumulative_mass": {
+          "n_effective": 27759,
+          "n_reference": 1515,
+          "n_true_positive": 1135,
+          "precision": 0.040887640044670194,
+          "recall": 0.7491749174917491,
+          "jaccard": 0.04033547745122428,
+          "n_off_adjacency": 26624
+        }
+      },
+      "sources_for_mass_frac": {
+        "mass_frac": 0.8,
+        "mean": 134.1,
+        "median": 136,
+        "min": 88,
+        "max": 153,
+        "of_available": 206
+      },
+      "self_mass": {
+        "mean": 0.01217,
+        "median": 0.00869,
+        "chance_1_over_N": 0.00483
+      },
+      "baselines": {
+        "uniform_random": {
+          "n_effective": 1656,
+          "n_reference": 1515,
+          "n_true_positive": 49,
+          "precision": 0.029589371980676328,
+          "recall": 0.03234323432343234,
+          "jaccard": 0.01569506726457399,
+          "n_off_adjacency": 1607
+        },
+        "degree_matched_random": {
+          "n_effective": 1656,
+          "n_reference": 1515,
+          "n_true_positive": 63,
+          "precision": 0.03804347826086957,
+          "recall": 0.041584158415841586,
+          "jaccard": 0.02027027027027027,
+          "n_off_adjacency": 1593
+        },
+        "nearest_by_road_distance": {
+          "n_effective": 1648,
+          "n_reference": 1515,
+          "n_true_positive": 1246,
+          "precision": 0.7560679611650486,
+          "recall": 0.8224422442244225,
+          "jaccard": 0.6499739175795514,
+          "n_off_adjacency": 402,
+          "targets_with_fewer_than_k_road_sources": 1
+        }
+      },
+      "overlap_with_nearest_road": 0.0861,
+      "hop_strata": [
+        {
+          "bucket": "1",
+          "n_effective_edges": 233,
+          "share_of_effective": 0.1407
+        },
+        {
+          "bucket": "2",
+          "n_effective_edges": 295,
+          "share_of_effective": 0.1781
+        },
+        {
+          "bucket": "3",
+          "n_effective_edges": 215,
+          "share_of_effective": 0.1298
+        },
+        {
+          "bucket": "4",
+          "n_effective_edges": 190,
+          "share_of_effective": 0.1147
+        },
+        {
+          "bucket": "5",
+          "n_effective_edges": 184,
+          "share_of_effective": 0.1111
+        },
+        {
+          "bucket": "6",
+          "n_effective_edges": 175,
+          "share_of_effective": 0.1057
+        },
+        {
+          "bucket": "7",
+          "n_effective_edges": 102,
+          "share_of_effective": 0.0616
+        },
+        {
+          "bucket": "8",
+          "n_effective_edges": 53,
+          "share_of_effective": 0.032
+        },
+        {
+          "bucket": ">8",
+          "n_effective_edges": 152,
+          "share_of_effective": 0.0918
+        },
+        {
+          "bucket": "unreachable",
+          "n_effective_edges": 57,
+          "share_of_effective": 0.0344
+        }
+      ],
+      "beyond_k": {
+        "k_hops": 8,
+        "n_edges": 209,
+        "share_of_effective": 0.1262,
+        "n_unreachable": 57
+      },
+      "checkpoint": {
+        "file": "metr_la_fusion_best.pt",
+        "sha256": "5a0306f0bdd7d305b2109471e9da352a2f051fe58342a93626e41f6b05e203b5",
+        "epoch": 39,
+        "val_mae": 2.880716323852539,
+        "run_name": "metr_la_fusion",
+        "use_sidecars": true
+      },
+      "alpha": {
+        "sigmoid_alpha": 0.2788,
+        "weight_on_given_adjacency": 0.2788,
+        "weight_on_learned_semantic": 0.7212
+      },
+      "parameterisation": {
+        "parameterisation": "A_sem = softmax(relu(E @ E.T), dim=1) with E = sem_embed, a learned [N, d] parameter",
+        "embed_shape": [
+          207,
+          10
+        ],
+        "embed_dim": 10,
+        "rank_bound_of_pre_softmax": 10,
+        "measured_rank_of_pre_softmax": 10,
+        "initialisation": "torch.randn(N, embed_dim) * 0.01 (stgnn.py:239) -- random, NOT seeded from the kernel adjacency",
+        "seeded_from_kernel_adjacency": false,
+        "pre_softmax_symmetric": true,
+        "post_softmax_symmetric": false,
+        "directed": true,
+        "asymmetry_source": "E @ E.T is symmetric by construction; the row-wise softmax breaks the symmetry, so all directionality comes from normalisation, not from a learned asymmetric similarity",
+        "normalisation": "row-softmax over dim=1, i.e. per SOURCE outgoing mass",
+        "row_sums_min": 1.0,
+        "row_sums_max": 1.000001,
+        "note_on_normalisation_axis": "rows are sources under the einsum('bcnt,nm->bcmt') convention, so each source's outgoing weights sum to 1 rather than each target's incoming weights. physical_adj is row-normalised the same way (stgnn.py:230), so the two supports are consistent.",
+        "structural_sparsity": {
+          "strictly_positive_entries": 42849,
+          "total_entries": 42849,
+          "share_positive": 1.0,
+          "comment": "softmax output: nothing is exactly zero, so structural sparsity is 0 by construction"
+        },
+        "effective_sparsity": {
+          "relu_floor_share_of_offdiag_pairs": 0.406,
+          "relu_floor_comment": "share of off-diagonal pairs whose pre-softmax similarity is <= 0 and therefore enters the softmax at the identical value exp(0); these pairs are not distinguished from one another at all",
+          "perplexity_mean": 177.64,
+          "perplexity_median": 184.15,
+          "perplexity_min": 84.41,
+          "perplexity_max": 206.84,
+          "perplexity_uniform_reference": 207,
+          "top8_row_mass_mean": 0.1126,
+          "top8_row_mass_median": 0.0964,
+          "uniform_top8_mass_reference": 0.0386
+        }
+      },
+      "density": {
+        "physical_adj_row_normalised": {
+          "strictly_positive_entries": 1722,
+          "total_entries": 42849,
+          "structural_density": 0.04019,
+          "row_perplexity_mean": 5.79,
+          "row_perplexity_median": 5.5,
+          "row_perplexity_as_share_of_uniform": 0.028
+        },
+        "A_final_mixed_support": {
+          "strictly_positive_entries": 42849,
+          "total_entries": 42849,
+          "structural_density": 1.0,
+          "row_perplexity_mean": 106.79,
+          "row_perplexity_median": 108.42,
+          "row_perplexity_as_share_of_uniform": 0.5159
+        },
+        "A_sem_learned_semantic": {
+          "strictly_positive_entries": 42849,
+          "total_entries": 42849,
+          "structural_density": 1.0,
+          "row_perplexity_mean": 177.64,
+          "row_perplexity_median": 184.15,
+          "row_perplexity_as_share_of_uniform": 0.8582
+        },
+        "adaptive_support": {
+          "strictly_positive_entries": 42849,
+          "total_entries": 42849,
+          "structural_density": 1.0,
+          "row_perplexity_mean": 205.48,
+          "row_perplexity_median": 205.9,
+          "row_perplexity_as_share_of_uniform": 0.9927
+        },
+        "effectively_dense": true,
+        "receptive_field_conclusion": "A_final is the support every STBlock diffuses over. It is structurally dense (100% of entries positive) and effectively dense (each row spreads over 107 of 207 nodes, 52% of uniform), so the model's spatial receptive field is the FULL GRAPH IN ONE HOP. gcn_order x n_blocks bounds diffusion over the PHYSICAL component only. Any stratum defined by hop distance in the kernel adjacency is therefore a geometric description, not an architectural limit, and influence falling outside it is not surprising."
+      },
+      "road_alignment_semantic": {
+        "mass_on_adjacency_edges": 0.051,
+        "adjacency_share_of_pairs": 0.03553,
+        "lift_over_chance": 1.436
+      },
+      "road_alignment_adaptive": {
+        "mass_on_adjacency_edges": 0.0357,
+        "adjacency_share_of_pairs": 0.03553,
+        "lift_over_chance": 1.005
+      },
+      "beyond_k_stratum": {
+        "label": "beyond 8 kernel radii (>8 chained hops of <= 3.9 km), or unreachable",
+        "base_rate_over_all_pairs": 0.2218,
+        "note": "share of ordered pairs already in the stratum; an edge set with no spatial preference would show this rate"
+      }
+    }
+  },
+  "cross_checkpoint_stability": {
+    "pairwise_topk_jaccard": [
+      {
+        "a": "metr_la_best.pt",
+        "b": "metr_la_best_epoch34_ARCHIVE.pt",
+        "topk_jaccard": 0.2163,
+        "spearman_mean": 0.7795,
+        "spearman_median": 0.8369
+      },
+      {
+        "a": "metr_la_best.pt",
+        "b": "metr_la_fusion_best.pt",
+        "topk_jaccard": 0.1532,
+        "spearman_mean": 0.627,
+        "spearman_median": 0.7142
+      },
+      {
+        "a": "metr_la_best_epoch34_ARCHIVE.pt",
+        "b": "metr_la_fusion_best.pt",
+        "topk_jaccard": 0.1589,
+        "spearman_mean": 0.6155,
+        "spearman_median": 0.701
+      }
+    ],
+    "note": "Replaces split-half: A_sem is a stored parameter and does not vary by window, so the meaningful stability question is whether different training states agree. Note these checkpoints are NOT all the same run -- metr_la_fusion_best.pt is a separate fusion training run, so a comparison involving it measures run-to-run variation, not epoch drift.",
+    "two_random_draws_reference": 0.0163
+  },
+  "alpha_trajectory": [
+    {
+      "checkpoint": "metr_la_best.pt",
+      "epoch": 54,
+      "val_mae": 2.8746519088745117,
+      "run_name": null,
+      "sigmoid_alpha": 0.2968
+    },
+    {
+      "checkpoint": "metr_la_best_epoch34_ARCHIVE.pt",
+      "epoch": 34,
+      "val_mae": 2.9026505947113037,
+      "run_name": null,
+      "sigmoid_alpha": 0.3366
+    },
+    {
+      "checkpoint": "metr_la_fusion_best.pt",
+      "epoch": 39,
+      "val_mae": 2.880716323852539,
+      "run_name": "metr_la_fusion",
+      "sigmoid_alpha": 0.2788
+    }
+  ],
+  "checkpoints_excluded": {
+    "reason": "different N, so sem_embed is re-initialised at the target size and its semantic graph is random init, not learned on that city",
+    "files": [
+      "pems_bay_zero_shot.pt (N=325)",
+      "chicago_zero_shot.pt (N=1020)",
+      "chicago_fine_tuned.pt (N=1020)",
+      "power_grid_best.pt (N=14)",
+      "power_grid_smoke.pt (N=14)"
+    ]
+  }
+}

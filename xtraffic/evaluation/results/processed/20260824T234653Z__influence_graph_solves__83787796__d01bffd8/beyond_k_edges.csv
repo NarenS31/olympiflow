@@ -1,0 +1,5 @@
+regime,source,target,source_sensor_id,target_sensor_id,importance,in_adjacency,hops,hop_bucket,road_distance_m,has_road_distance,haversine_m_reference_only,source_lat,source_lon,target_lat,target_lon
+free_flow,148,2,717504,767542,0.494467,False,9,>8,,False,23949.6,34.16519,-118.49166,34.11641,-118.23819
+free_flow,180,1,717510,767541,0.469991,False,11,>8,,False,26644.1,34.17128,-118.51976,34.11621,-118.23799
+free_flow,181,0,717513,773869,0.448624,False,-1,unreachable,,False,20208.3,34.17339,-118.5368,34.15497,-118.31829
+free_flow,150,1,717508,767541,0.368024,False,10,>8,,False,26494.9,34.17112,-118.51814,34.11621,-118.23799

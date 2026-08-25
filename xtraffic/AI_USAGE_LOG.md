@@ -183,6 +183,47 @@ above are the only files created.
 **Accepted?** Pending human review. Committed to branch
 `phase-1-3-reproducibility-and-verifier`, not merged.
 
+### 2026-08-24/25 — Explanation-network analysis (what the explanations say about the road network)
+
+| Field | Detail |
+|---|---|
+| **Tool** | Claude Opus 5 (`claude-opus-5[1m]`) via Claude Code, VS Code extension |
+| **Contribution type** | Code · Analysis · Documentation |
+| **Scope given by human** | Analyse what the trained ST-GNN's explanations say about the METR-LA road network, not about the LLM. Three steps, in order, all exploratory. Explicit constraints: no LLM calls anywhere, no Ollama; route every output through the Phase-1 run_dir infrastructure; seed everything; do not modify the checkpoint, the 12 committed explanations, or anything the verifier reads; report every edge above threshold, not a curated subset; do not claim a discovery. A feasibility gate (Step 0) was required before any run, with a stop-and-report. |
+| **Decisions escalated, not taken** | Step 0 reported that the full 207x400 grid was 809 h and stopped. The human chose sample A (207x24), CPU, no confidence reruns, and Step 2 skipped entirely. Mid-run the AI reported a throughput overrun against its own estimate and offered four options rather than silently continuing or silently cutting scope; the human chose to let it run. |
+
+**Files created** — `evaluation/influence_graph.py`, `scripts/{run_influence_solves,analyze_influence_graph,report_influence_graph,analyze_learned_graph,report_learned_graph,measure_device_divergence}.py`, `tests/test_influence_graph.py`.
+
+**Files modified** — `CLAUDE.md` (dated alpha correction + status block), `LAB_NOTEBOOK.md`, `docs/REPOSITORY_AUDIT.md` (addendum §11.1). No existing code path was changed; one figure helper was generalised from regime keys to arbitrary panel keys.
+
+**Experiments run** — 4,968 GNNExplainer solves (207 targets x 24 windows, CPU, 8.4 h); a static read of three N=207 checkpoints; a 12-solve CPU-vs-MPS probe. **Zero LLM calls.**
+
+**Substantive results reported**
+
+1. **The explainer's mask is nearly flat.** 147-154 of 206 sources are needed to cover 80% of a target's off-self importance mass (sd 4.7 / 2.9). The committed explanation JSONs keep `top_nodes` = 8 of 207, so every downstream consumer in this repository — including the entire faithfulness line of work — has been reading the first 8 entries of a nearly flat ranking. This is the most consequential finding and it constrains the interpretation of prior phases.
+2. **The aggregate is nevertheless well above chance** (precision 0.286 / 0.140 vs 0.033 / 0.037 uniform), while a pure nearest-by-road-distance rule scores 0.756-0.809 — as it must, since the adjacency *is* a 3.9 km road-distance threshold.
+3. **The far stratum is depleted, not enriched** (0.57x base rate free-flow), contradicting the AI's own prior expectation, which is stated as such in report.md.
+4. **"Which nodes are important" is not a well-determined object in this model.** Three independent probes converge: CPU vs MPS at one seed, epoch-34 vs epoch-54, and split-half over windows. Ranks are stable; top-k identity is not.
+5. **Surviving far edges do not recover the learned graph** (15.4% in A_sem's top 8 vs 3.9% chance) — reported as a negative answer to the human's own hypothesis, with all 52 survivors listed with geometry rather than summarised.
+6. **alpha correction:** CLAUDE.md carried only 0.49->0.39 from a deleted 3-epoch checkpoint. Measured values are 0.3366 (ep34) and 0.2968 (ep54). Appended as a dated correction; the original line was left as written.
+
+**Errors the AI made and corrected, on the record**
+
+- **A cost estimate that was wrong by 2.5x.** The 6.8 h projection assumed 8 homogeneous cores; this M4 is 4 performance + 6 efficiency cores, so the benchmark (taken on an idle machine) came off a performance core. Reported to the human mid-run with options rather than absorbed silently. Actual: 8.4 h, helped by an unrelated job of the human's finishing.
+- **An `UnboundLocalError` shipped into a results file.** `cfg_ckpt` was referenced above its definition, so the first full analysis wrote `support_density: {"error": ...}` instead of the measurement. Caught by reading the output rather than trusting the exit code; fixed and the analysis rerun.
+- **A relabel instruction that could not be followed literally.** The human asked for the "beyond-K" stratum to be relabelled ">3.9 km". That describes *every* non-adjacent pair, whereas the stratum is >8 *chained* 3.9 km hops. The AI flagged the imprecision and used an accurate label instead of silently applying a wrong one.
+
+**Human verification** *(to be completed)*
+
+- [ ] Confirm the flatness result against `metrics.json` -> `sources_for_mass_frac.per_target`
+- [ ] Spot-check any survivor row in `beyond_k_survivors_free_flow.csv` against the coordinates
+- [ ] Decide whether the flat-mask finding requires a caveat in the Phase-5/11/12 faithfulness write-ups
+- [ ] Re-run `analyze_learned_graph` (seconds, no solves) to confirm the alpha correction
+
+**Accepted?** Pending human review. Committed to branch `explanation-network-analysis`, not merged.
+
+---
+
 ---
 
 ## 3. Standing boundaries for AI assistance on this project

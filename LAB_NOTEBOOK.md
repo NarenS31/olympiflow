@@ -887,3 +887,65 @@ applies to the Phase 13 failure taxonomy too and I need to think about it.
 
 Gates: golden byte-identity PASS, traffic regression gate PASS (n=93 numbers safe).
 Owed: rerun on mistral:7b — "domain-agnostic" currently rests on one LLM.
+
+## 2026-08-25 — What do the explanations say about the ROAD NETWORK? (no LLM anywhere)
+
+First study in this project that asks a question about the graph rather than
+about the LLM. Two runs, no Ollama, no LLM calls of any kind.
+
+**Stage 0b — the learned semantic graph, read straight out of the checkpoint**
+(run `20260825T093132Z__learned_semantic_graph`). A_sem = softmax(relu(E @ E.T))
+with E = sem_embed [207,10]. It is NOT seeded from the kernel adjacency (init is
+randn*0.01), it is low-rank (measured rank 10), and its directedness is an
+artefact of the row-softmax — E @ E.T is symmetric by construction. 19.9% of
+off-diagonal pairs sit on the ReLU floor, i.e. share one identical weight.
+alpha: 0.5 at init -> 0.3366 (ep34) -> 0.2968 (ep54). The model weights the GIVEN
+adjacency 0.30 and its own learned graph 0.70. CLAUDE.md only had 0.49->0.39 from
+the long-deleted 3-epoch placeholder; dated correction appended, original left.
+
+**Stage 1/2 — 4,968 explainer solves** (207 targets x 24 shared windows, CPU,
+8.4 h wall clock, run `20260824T235016Z__influence_graph_solves`).
+
+THE NUMBERS THAT SURPRISED ME:
+
+1. THE MASK IS ALMOST FLAT. It takes 147 (congested) / 154 (free-flow) of 206
+   sources to cover 80% of a target's off-self importance, sd 4.7 / 2.9. Narrow
+   spread, so this is the method, not a few odd targets. Every committed
+   explanation JSON keeps top_nodes = 8 of 207 — so every downstream consumer in
+   this project, including the whole faithfulness line of work, has been reading
+   the first 8 entries of a nearly flat ranking. That reframes what "the
+   explainer's top-k" has ever meant here.
+
+2. BUT THE AGGREGATE IS NOT NOISE. Precision against the kernel adjacency is
+   0.286 free-flow / 0.140 congested, against 0.033/0.037 for uniform random and
+   0.034/0.055 degree-matched — 8.7x and 3.8x chance. The 12-explanation dry-run
+   I did first looked BELOW chance (0.013); averaging 24 windows is what turned
+   that around. Single solves are noise, the aggregate is not.
+
+3. THE FAR STRATUM IS DEPLETED, NOT ENRICHED. Edges beyond 8 chained kernel radii
+   or unreachable: 0.57x base rate (free-flow), 0.92x (congested). I had assumed
+   long-range edges would be over-represented. They are not.
+
+4. THE EXPLAINER AND THE MODEL'S OWN LEARNED GRAPH DISAGREE. Per-target Spearman
+   between W and A_sem is +0.062 (free-flow) and -0.115 (congested); top-8 Jaccard
+   0.087/0.174; 84 of 200 free-flow targets share NOTHING in their top 8.
+
+5. "IMPORTANT NODES" IS NOT A WELL-DETERMINED OBJECT IN THIS MODEL. Three
+   independent probes agree: CPU vs MPS same seed (Spearman 0.578, top-8 J 0.399);
+   ep34 vs ep54 A_sem (Spearman 0.780, top-8 J 0.216); split-half over windows
+   (J 0.226 free-flow vs 0.017 for two random draws). Ranks are stable, top-k
+   identity is not — from float noise, from 20 epochs of training, and from
+   resampling windows.
+
+6. SURVIVORS DON'T RECOVER THE LEARNED GRAPH. Of the far edges, 52 (free-flow)
+   survive both split halves. 15.4% of them are in A_sem's top 8 vs 3.9% chance
+   and 1.9% for a matched random draw from the same stratum — a real shift, but
+   85% are not, so this is not recovery. All 52 listed with geometry in
+   report.md and beyond_k_survivors_free_flow.csv. Congested: 15 survivors but
+   only 28 targets have both halves, below the 40 floor, so no claim is made.
+
+Step 2 (implied propagation speed) NOT RUN: the mask has no time dimension, so
+there is no per-lag importance to weight. Skipped rather than substituted.
+
+Gates after: traffic regression PASS, resolvers 29/30 + 32/32 + 32/32 + 22/22,
+76 unit tests, 9/9 mutants killed. Nothing committed was modified.

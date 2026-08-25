@@ -1,0 +1,17 @@
+{
+  "seed": 42,
+  "strict": false,
+  "enforced": [
+    "python.random",
+    "PYTHONHASHSEED (child processes only)",
+    "numpy.random (legacy global)",
+    "torch.manual_seed"
+  ],
+  "not_enforceable": [
+    "cuda (no CUDA device on this host)",
+    "mps: no deterministic-algorithm guarantee; einsum falls back to CPU, so MPS<->CUDA<->CPU results differ in float reduction order",
+    "LLM sampling: Ollama runs out-of-process; see reproducibility/llm_log.py",
+    "float reduction order across devices (CPU/MPS/CUDA) is not identical"
+  ],
+  "warnings": []
+}

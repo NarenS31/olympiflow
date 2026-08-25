@@ -498,12 +498,52 @@ def stratify_by_hop(edges: Set[Tuple[int, int]], geo: Geometry, k_hops: int = 8
     return collections.OrderedDict((b, by[b]) for b in order if b in by)
 
 
+# The label for the hop->k / unreachable stratum.
+#
+# It was originally "beyond-K", which implied a limit of the architecture. It is
+# not one: the mixed support the model actually diffuses over is dense (measured
+# below), so every pair is reachable in a single hop and nothing in this stratum
+# is architecturally surprising.
+#
+# The replacement names what the set geometrically IS. Note it is NOT simply
+# ">3.9 km by road" — that describes every non-adjacent pair, including hop-2
+# ones. An adjacency hop is a step of <= the kernel radius, so hop > k means more
+# than k CHAINED steps of that size.
+BEYOND_K_LABEL = "beyond {k} kernel radii (>{k} chained hops of <= {r:.1f} km), or unreachable"
+
+
+def beyond_k_label(geo: "Geometry", k_hops: int = 8) -> str:
+    return BEYOND_K_LABEL.format(k=k_hops, r=geo.cutoff_m / 1000.0)
+
+
 def beyond_k_set(edges: Set[Tuple[int, int]], geo: Geometry, k_hops: int = 8
                  ) -> Set[Tuple[int, int]]:
-    """The candidate set: sources beyond the physical-diffusion bound, or with no
-    directed road path to the target at all."""
+    """Sources more than `k_hops` chained kernel-radius steps from the target in
+    the adjacency graph, or with no directed path to it at all.
+
+    NOT an architectural limit — see BEYOND_K_LABEL. Reported because "where does
+    influence sit relative to the road graph" is still a real question.
+    """
     return {(s, t) for (s, t) in edges
             if geo.hops[s, t] == Geometry.UNREACHABLE or geo.hops[s, t] > k_hops}
+
+
+def beyond_k_base_rate(geo: Geometry, targets: Sequence[int], k_hops: int = 8
+                       ) -> float:
+    """Share of all candidate (source, target) pairs for these targets that fall
+    in the stratum — the rate an edge set with no spatial preference would show.
+
+    Without this the stratum's share of an edge set is uninterpretable: 22% of
+    METR-LA's ordered pairs are already in it.
+    """
+    n = tot = 0
+    for t in targets:
+        h = geo.hops[:, t]
+        cand = np.ones(geo.n, dtype=bool)
+        cand[t] = False
+        tot += int(cand.sum())
+        n += int(((h == Geometry.UNREACHABLE) | (h > k_hops))[cand].sum())
+    return n / tot if tot else float("nan")
 
 
 # ---------------------------------------------------------------------------

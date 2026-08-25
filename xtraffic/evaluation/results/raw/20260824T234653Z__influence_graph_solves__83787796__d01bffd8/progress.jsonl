@@ -1,0 +1,4 @@
+{"target": 1, "seconds": 145.06, "n_windows": 4, "mean_importance": 0.214755, "self_importance": 0.659325}
+{"target": 2, "seconds": 145.18, "n_windows": 4, "mean_importance": 0.310602, "self_importance": 0.507597}
+{"target": 0, "seconds": 145.23, "n_windows": 4, "mean_importance": 0.243235, "self_importance": 0.74202}
+{"target": 3, "seconds": 145.94, "n_windows": 4, "mean_importance": 0.214438, "self_importance": 0.582716}

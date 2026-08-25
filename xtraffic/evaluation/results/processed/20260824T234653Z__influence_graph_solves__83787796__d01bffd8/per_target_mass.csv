@@ -1,0 +1,4 @@
+regime,target,sensor_id,lat,lon,in_degree,self_mass_share,mass_on_adjacent,mass_on_far_road,mass_on_no_road_path,mass_off_adjacency
+free_flow,1,767541,34.11621,-118.23799,10,0.0148,0.0533,0.4548,0.4919,0.9467
+free_flow,2,767542,34.11641,-118.23819,8,0.0079,0.0595,0.3347,0.6058,0.9405
+free_flow,0,773869,34.15497,-118.31829,9,0.0147,0.0604,0.2925,0.6472,0.9396

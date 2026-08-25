@@ -1,0 +1,456 @@
+{
+  "stage1_run_id": "20260824T234653Z__influence_graph_solves__83787796__d01bffd8",
+  "stage1_manifest": {
+    "captured_utc": "2026-08-24T23:46:53.278409+00:00",
+    "repo_root": "/Users/narensara/Desktop/OlympiFlow",
+    "git": {
+      "available": true,
+      "commit": "d01bffd8e7cfb9d4edb008b051fc5b12af1023d0",
+      "commit_short": "d01bffd8e7cf",
+      "branch": "explanation-network-analysis",
+      "dirty": true,
+      "commit_utc": "2026-08-22T08:20:12-04:00",
+      "subject": "Phase 3: deterministic claim verifier (10 claim types, 5 verdicts, test-first)",
+      "dirty_files": [
+        "xtraffic/evaluation/influence_graph.py",
+        "xtraffic/scripts/run_influence_solves.py",
+        "xtraffic/tests/test_influence_graph.py"
+      ],
+      "diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "warning": "working tree was DIRTY: this run is not reproducible from the commit alone"
+    },
+    "interpreter": {
+      "python_version": "3.9.6",
+      "python_full": "3.9.6 (default, May 22 2026, 11:13:45)  [Clang 21.0.0 (clang-2100.1.1.101)]",
+      "implementation": "CPython",
+      "executable": "/Applications/Xcode.app/Contents/Developer/usr/bin/python3"
+    },
+    "platform": {
+      "system": "Darwin",
+      "release": "25.4.0",
+      "machine": "arm64",
+      "processor": "arm",
+      "node": "narens-MacBook-Pro.local",
+      "torch_version": "2.8.0",
+      "cuda_available": false,
+      "mps_available": true
+    },
+    "packages": {
+      "requirements_path": "/Users/narensara/Desktop/OlympiFlow/xtraffic/requirements.txt",
+      "requirements_sha256": "160fb94b92858443acaaa98302c4d719b35ad8325fb78497a16b29dacffb3f02",
+      "pinned": {
+        "torch": "2.2.2",
+        "torch-geometric": "2.5.3",
+        "numpy": "1.26.4",
+        "pandas": "2.1.4",
+        "scipy": "1.11.4",
+        "rapidfuzz": "3.6.1",
+        "pandapower": "2.14.11",
+        "shap": "0.44.1",
+        "pyyaml": "6.0.1",
+        "requests": "2.31.0",
+        "matplotlib": "3.8.2",
+        "fastapi": "0.110.0",
+        "uvicorn": "0.29.0",
+        "python-multipart": "0.0.9"
+      },
+      "installed": {
+        "torch": "2.8.0",
+        "torch-geometric": null,
+        "numpy": "1.26.4",
+        "pandas": "2.2.3",
+        "scipy": "1.11.4",
+        "rapidfuzz": null,
+        "pandapower": "2.14.11",
+        "shap": "0.44.1",
+        "pyyaml": "6.0.3",
+        "requests": "2.32.5",
+        "matplotlib": "3.9.4",
+        "fastapi": "0.115.6",
+        "uvicorn": "0.32.1",
+        "python-multipart": "0.0.20"
+      },
+      "mismatches": [
+        {
+          "package": "fastapi",
+          "pinned": "0.110.0",
+          "installed": "0.115.6",
+          "status": "MISMATCH"
+        },
+        {
+          "package": "matplotlib",
+          "pinned": "3.8.2",
+          "installed": "3.9.4",
+          "status": "MISMATCH"
+        },
+        {
+          "package": "pandas",
+          "pinned": "2.1.4",
+          "installed": "2.2.3",
+          "status": "MISMATCH"
+        },
+        {
+          "package": "python-multipart",
+          "pinned": "0.0.9",
+          "installed": "0.0.20",
+          "status": "MISMATCH"
+        },
+        {
+          "package": "pyyaml",
+          "pinned": "6.0.1",
+          "installed": "6.0.3",
+          "status": "MISMATCH"
+        },
+        {
+          "package": "rapidfuzz",
+          "pinned": "3.6.1",
+          "installed": null,
+          "status": "MISSING"
+        },
+        {
+          "package": "requests",
+          "pinned": "2.31.0",
+          "installed": "2.32.5",
+          "status": "MISMATCH"
+        },
+        {
+          "package": "torch",
+          "pinned": "2.2.2",
+          "installed": "2.8.0",
+          "status": "MISMATCH"
+        },
+        {
+          "package": "torch-geometric",
+          "pinned": "2.5.3",
+          "installed": null,
+          "status": "MISSING"
+        },
+        {
+          "package": "uvicorn",
+          "pinned": "0.29.0",
+          "installed": "0.32.1",
+          "status": "MISMATCH"
+        }
+      ],
+      "n_mismatches": 10,
+      "environment_matches_requirements": false
+    },
+    "metric": {
+      "fuzzy_backend": "difflib.SequenceMatcher",
+      "fuzzy_threshold": 82.0,
+      "numeric_tolerance": 0.1,
+      "rapidfuzz_installed": false,
+      "warning": "rapidfuzz is NOT installed; the resolver is running on the difflib fallback, which is a DIFFERENT similarity function against the same threshold. Results are not comparable to a rapidfuzz run."
+    },
+    "config_sha256": "83787796d5dd56c7a7470c330370161a5cdb410c41fc83571f03306d9be73f9e",
+    "config": {
+      "experiment": "influence_graph_solves",
+      "dataset": "metr_la",
+      "checkpoint": "models/gnn/checkpoints/metr_la_best.pt",
+      "horizon_step": 6,
+      "horizon_minutes": 30,
+      "n_targets": 4,
+      "n_windows": 4,
+      "n_tod_bands": 2,
+      "n_congestion_strata": 1,
+      "explainer_epochs": 200,
+      "explainer_seed": 0,
+      "confidence_runs": 0,
+      "sampling_seed": 42,
+      "device": "cpu",
+      "workers": 4,
+      "torch_threads_per_worker": 1,
+      "congested_max_mph": 45.0,
+      "freeflow_min_mph": 55.0,
+      "missing_max_mph": 1.0
+    },
+    "artifacts": {
+      "adjacency": {
+        "path": "/Users/narensara/Desktop/OlympiFlow/xtraffic/data/processed/metr_la/adjacency.npy",
+        "exists": true,
+        "size_bytes": 171524,
+        "mtime_utc": "2026-07-02T04:47:49.964628+00:00",
+        "sha256": "9b2fbb36da4c4c69c19e3a5244f81ada409e851b0b859744c983138ccb59262b"
+      },
+      "checkpoint": {
+        "path": "/Users/narensara/Desktop/OlympiFlow/xtraffic/models/gnn/checkpoints/metr_la_best.pt",
+        "exists": true,
+        "size_bytes": 1796558,
+        "mtime_utc": "2026-07-19T23:00:03.332713+00:00",
+        "sha256": "046b2a4ac20613acd7f183bcf1c1118967ce21d569ca4b9ddd793e9c9d989cfa"
+      },
+      "node_meta": {
+        "path": "/Users/narensara/Desktop/OlympiFlow/xtraffic/data/processed/metr_la/node_meta.json",
+        "exists": true,
+        "size_bytes": 12057,
+        "mtime_utc": "2026-07-02T04:47:49.969825+00:00",
+        "sha256": "c2c0ada97e8108fe957451e46dd8e3726e3d5db6f61570ffb9060d9fc03a89b1"
+      },
+      "test_split": {
+        "path": "/Users/narensara/Desktop/OlympiFlow/xtraffic/data/processed/metr_la/test.npz",
+        "exists": true,
+        "size_bytes": 7951766,
+        "mtime_utc": "2026-07-02T04:47:49.963428+00:00",
+        "sha256": "fdf81a343801b56dd2674305d89364709500edfe91736040c4308691ce0bc5b8"
+      }
+    },
+    "warnings": [
+      "git working tree was dirty",
+      "10 package(s) differ from requirements.txt",
+      "rapidfuzz is NOT installed; the resolver is running on the difflib fallback, which is a DIFFERENT similarity function against the same threshold. Results are not comparable to a rapidfuzz run."
+    ]
+  },
+  "stage1_config": {
+    "experiment": "influence_graph_solves",
+    "dataset": "metr_la",
+    "checkpoint": "models/gnn/checkpoints/metr_la_best.pt",
+    "horizon_step": 6,
+    "horizon_minutes": 30,
+    "n_targets": 4,
+    "n_windows": 4,
+    "n_tod_bands": 2,
+    "n_congestion_strata": 1,
+    "explainer_epochs": 200,
+    "explainer_seed": 0,
+    "confidence_runs": 0,
+    "sampling_seed": 42,
+    "device": "cpu",
+    "workers": 4,
+    "torch_threads_per_worker": 1,
+    "congested_max_mph": 45.0,
+    "freeflow_min_mph": 55.0,
+    "missing_max_mph": 1.0
+  },
+  "n_targets_solved": 4,
+  "n_windows": 4,
+  "settings": {
+    "top_k": 8,
+    "mass_frac": 0.8,
+    "min_windows_full": 4,
+    "min_windows_half": 2,
+    "k_hops": 8
+  },
+  "geometry": {
+    "n_nodes": 207,
+    "n_adjacency_edges": 1515,
+    "adjacency_density": 0.03553,
+    "sigma_m": 2584.5,
+    "kappa": 0.1,
+    "cutoff_m": 3921.7,
+    "ordered_pairs_with_road_distance": 11546,
+    "share_pairs_with_road_distance": 0.2708,
+    "share_nonadjacent_pairs_with_road_distance": 0.2439
+  },
+  "per_regime": {
+    "congested": {
+      "regime": "congested",
+      "n_targets_active": 0,
+      "n_targets_below_window_floor": 4,
+      "min_windows_required": 4,
+      "windows_per_active_target": {
+        "mean": null,
+        "min": null,
+        "max": null
+      }
+    },
+    "free_flow": {
+      "regime": "free_flow",
+      "n_targets_active": 3,
+      "n_targets_below_window_floor": 1,
+      "min_windows_required": 4,
+      "windows_per_active_target": {
+        "mean": 4.0,
+        "min": 4,
+        "max": 4
+      },
+      "self_mass": {
+        "mean": 0.0125,
+        "median": 0.0147,
+        "min": 0.0079,
+        "max": 0.0148,
+        "chance_1_over_N": 0.0048
+      },
+      "sources_for_mass_frac": {
+        "mass_frac": 0.8,
+        "of_available": 206,
+        "mean": 148.3,
+        "std": 2.9,
+        "min": 145,
+        "max": 152,
+        "percentiles": {
+          "5": 145,
+          "25": 146,
+          "50": 148,
+          "75": 150,
+          "95": 151
+        },
+        "per_target": {
+          "0": 148,
+          "1": 152,
+          "2": 145
+        }
+      },
+      "edges": {
+        "top_k": {
+          "n_effective": 24,
+          "n_reference": 27,
+          "n_true_positive": 6,
+          "precision": 0.25,
+          "recall": 0.2222222222222222,
+          "jaccard": 0.13333333333333333,
+          "n_off_adjacency": 18
+        },
+        "cumulative_mass": {
+          "n_effective": 445,
+          "n_reference": 27,
+          "n_true_positive": 26,
+          "precision": 0.058426966292134834,
+          "recall": 0.9629629629629629,
+          "jaccard": 0.05829596412556054,
+          "n_off_adjacency": 419,
+          "sources_per_target_mean": 148.33
+        }
+      },
+      "baselines": {
+        "uniform_random": {
+          "n_effective": 24,
+          "n_reference": 27,
+          "n_true_positive": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "jaccard": 0.0,
+          "n_off_adjacency": 24
+        },
+        "degree_matched_random": {
+          "n_effective": 24,
+          "n_reference": 27,
+          "n_true_positive": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "jaccard": 0.0,
+          "n_off_adjacency": 24
+        },
+        "nearest_by_road_distance": {
+          "n_effective": 24,
+          "n_reference": 27,
+          "n_true_positive": 24,
+          "precision": 1.0,
+          "recall": 0.8888888888888888,
+          "jaccard": 0.8888888888888888,
+          "n_off_adjacency": 0,
+          "targets_with_fewer_than_k_road_sources": 0
+        },
+        "overlap_effective_vs_nearest_road": 0.1429
+      },
+      "hop_strata": [
+        {
+          "bucket": "1",
+          "n_effective_edges": 6,
+          "share_of_effective": 0.25,
+          "n_adjacency_edges_same_bucket": 27
+        },
+        {
+          "bucket": "2",
+          "n_effective_edges": 2,
+          "share_of_effective": 0.0833,
+          "n_adjacency_edges_same_bucket": 0
+        },
+        {
+          "bucket": "3",
+          "n_effective_edges": 4,
+          "share_of_effective": 0.1667,
+          "n_adjacency_edges_same_bucket": 0
+        },
+        {
+          "bucket": "4",
+          "n_effective_edges": 3,
+          "share_of_effective": 0.125,
+          "n_adjacency_edges_same_bucket": 0
+        },
+        {
+          "bucket": "5",
+          "n_effective_edges": 2,
+          "share_of_effective": 0.0833,
+          "n_adjacency_edges_same_bucket": 0
+        },
+        {
+          "bucket": "6",
+          "n_effective_edges": 2,
+          "share_of_effective": 0.0833,
+          "n_adjacency_edges_same_bucket": 0
+        },
+        {
+          "bucket": "7",
+          "n_effective_edges": 1,
+          "share_of_effective": 0.0417,
+          "n_adjacency_edges_same_bucket": 0
+        },
+        {
+          "bucket": ">8",
+          "n_effective_edges": 3,
+          "share_of_effective": 0.125,
+          "n_adjacency_edges_same_bucket": 0
+        },
+        {
+          "bucket": "unreachable",
+          "n_effective_edges": 1,
+          "share_of_effective": 0.0417,
+          "n_adjacency_edges_same_bucket": 0
+        }
+      ],
+      "beyond_k": {
+        "k_hops": 8,
+        "n_edges": 4,
+        "share_of_effective": 0.1667,
+        "n_unreachable": 1
+      },
+      "stability": {
+        "half_a_windows": 2,
+        "half_b_windows": 2,
+        "n_targets_in_both_halves": 3,
+        "min_windows_per_half": 2,
+        "jaccard_all_edges": 0.0909,
+        "jaccard_beyond_k": 0.0,
+        "n_beyond_k_half_a": 3,
+        "n_beyond_k_half_b": 3,
+        "jaccard_off_adjacency": 0.0513,
+        "n_off_adjacency_half_a": 20,
+        "n_off_adjacency_half_b": 21,
+        "jaccard_two_random_draws_reference": 0.0435
+      },
+      "vs_learned_semantic_graph": {
+        "checkpoint": "models/gnn/checkpoints/metr_la_best.pt",
+        "sigmoid_alpha": 0.2968,
+        "n_targets": 3,
+        "spearman": {
+          "mean": 0.0007,
+          "median": -0.0735,
+          "min": -0.1156,
+          "max": 0.1912
+        },
+        "top_k_jaccard": {
+          "k": 8,
+          "mean": 0.0444,
+          "median": 0.0667,
+          "min": 0.0,
+          "max": 0.0667,
+          "n_targets_with_zero_overlap": 1
+        },
+        "per_target": {
+          "0": {
+            "spearman": 0.1912,
+            "top_k_jaccard": 0.0
+          },
+          "1": {
+            "spearman": -0.0735,
+            "top_k_jaccard": 0.0667
+          },
+          "2": {
+            "spearman": -0.1156,
+            "top_k_jaccard": 0.0667
+          }
+        }
+      }
+    }
+  }
+}

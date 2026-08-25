@@ -1,0 +1,228 @@
+{
+  "run_id": "20260825T002341Z__learned_semantic_graph__4715a20b__c8f63920",
+  "experiment": "learned_semantic_graph",
+  "status": "completed",
+  "created_utc": "2026-08-25T00:23:41.351838+00:00",
+  "notes": "Learned semantic graph A_sem read straight from the checkpoints. No GNN solves, no explainer, no LLM.",
+  "config": {
+    "experiment": "learned_semantic_graph",
+    "checkpoints": [
+      "metr_la_best.pt",
+      "metr_la_best_epoch34_ARCHIVE.pt",
+      "metr_la_fusion_best.pt"
+    ],
+    "top_k": 8,
+    "mass_frac": 0.8,
+    "k_hops": 8,
+    "seed": 42
+  },
+  "provenance": {
+    "captured_utc": "2026-08-25T00:23:40.795351+00:00",
+    "repo_root": "/Users/narensara/Desktop/OlympiFlow",
+    "git": {
+      "available": true,
+      "commit": "c8f63920129bb719c7094e4d8db4d9c1662aca9c",
+      "commit_short": "c8f63920129b",
+      "branch": "explanation-network-analysis",
+      "dirty": true,
+      "commit_utc": "2026-08-24T20:10:03-04:00",
+      "subject": "Explanation-network analysis, Stage 2: aggregation, report renderer, device probe",
+      "dirty_files": [
+        "traffic/docs/REPOSITORY_AUDIT.md",
+        "xtraffic/scripts/analyze_influence_graph.py",
+        "xtraffic/tests/test_influence_graph.py",
+        "xtraffic/evaluation/results/processed/20260824T234653Z__influence_graph_solves__83787796__d01bffd8/",
+        "xtraffic/evaluation/results/raw/20260824T234653Z__influence_graph_solves__83787796__d01bffd8/",
+        "xtraffic/evaluation/results/raw/20260824T235016Z__influence_graph_solves__73e75966__ee9a7944/",
+        "xtraffic/evaluation/results/raw/20260824T235643Z__device_divergence__58efae64__ee9a7944/",
+        "xtraffic/scripts/analyze_learned_graph.py",
+        "xtraffic/scripts/report_learned_graph.py"
+      ],
+      "diff_sha256": "b0c5eeafa47e9aca54f142575a3e8656c23890531e52d6a100ba1d002e6ae31e",
+      "warning": "working tree was DIRTY: this run is not reproducible from the commit alone"
+    },
+    "interpreter": {
+      "python_version": "3.9.6",
+      "python_full": "3.9.6 (default, May 22 2026, 11:13:45)  [Clang 21.0.0 (clang-2100.1.1.101)]",
+      "implementation": "CPython",
+      "executable": "/Applications/Xcode.app/Contents/Developer/usr/bin/python3"
+    },
+    "platform": {
+      "system": "Darwin",
+      "release": "25.4.0",
+      "machine": "arm64",
+      "processor": "arm",
+      "node": "narens-MacBook-Pro.local",
+      "torch_version": "2.8.0",
+      "cuda_available": false,
+      "mps_available": true
+    },
+    "packages": {
+      "requirements_path": "/Users/narensara/Desktop/OlympiFlow/xtraffic/requirements.txt",
+      "requirements_sha256": "160fb94b92858443acaaa98302c4d719b35ad8325fb78497a16b29dacffb3f02",
+      "pinned": {
+        "torch": "2.2.2",
+        "torch-geometric": "2.5.3",
+        "numpy": "1.26.4",
+        "pandas": "2.1.4",
+        "scipy": "1.11.4",
+        "rapidfuzz": "3.6.1",
+        "pandapower": "2.14.11",
+        "shap": "0.44.1",
+        "pyyaml": "6.0.1",
+        "requests": "2.31.0",
+        "matplotlib": "3.8.2",
+        "fastapi": "0.110.0",
+        "uvicorn": "0.29.0",
+        "python-multipart": "0.0.9"
+      },
+      "installed": {
+        "torch": "2.8.0",
+        "torch-geometric": null,
+        "numpy": "1.26.4",
+        "pandas": "2.2.3",
+        "scipy": "1.11.4",
+        "rapidfuzz": null,
+        "pandapower": "2.14.11",
+        "shap": "0.44.1",
+        "pyyaml": "6.0.3",
+        "requests": "2.32.5",
+        "matplotlib": "3.9.4",
+        "fastapi": "0.115.6",
+        "uvicorn": "0.32.1",
+        "python-multipart": "0.0.20"
+      },
+      "mismatches": [
+        {
+          "package": "fastapi",
+          "pinned": "0.110.0",
+          "installed": "0.115.6",
+          "status": "MISMATCH"
+        },
+        {
+          "package": "matplotlib",
+          "pinned": "3.8.2",
+          "installed": "3.9.4",
+          "status": "MISMATCH"
+        },
+        {
+          "package": "pandas",
+          "pinned": "2.1.4",
+          "installed": "2.2.3",
+          "status": "MISMATCH"
+        },
+        {
+          "package": "python-multipart",
+          "pinned": "0.0.9",
+          "installed": "0.0.20",
+          "status": "MISMATCH"
+        },
+        {
+          "package": "pyyaml",
+          "pinned": "6.0.1",
+          "installed": "6.0.3",
+          "status": "MISMATCH"
+        },
+        {
+          "package": "rapidfuzz",
+          "pinned": "3.6.1",
+          "installed": null,
+          "status": "MISSING"
+        },
+        {
+          "package": "requests",
+          "pinned": "2.31.0",
+          "installed": "2.32.5",
+          "status": "MISMATCH"
+        },
+        {
+          "package": "torch",
+          "pinned": "2.2.2",
+          "installed": "2.8.0",
+          "status": "MISMATCH"
+        },
+        {
+          "package": "torch-geometric",
+          "pinned": "2.5.3",
+          "installed": null,
+          "status": "MISSING"
+        },
+        {
+          "package": "uvicorn",
+          "pinned": "0.29.0",
+          "installed": "0.32.1",
+          "status": "MISMATCH"
+        }
+      ],
+      "n_mismatches": 10,
+      "environment_matches_requirements": false
+    },
+    "metric": {
+      "fuzzy_backend": "difflib.SequenceMatcher",
+      "fuzzy_threshold": 82.0,
+      "numeric_tolerance": 0.1,
+      "rapidfuzz_installed": false,
+      "warning": "rapidfuzz is NOT installed; the resolver is running on the difflib fallback, which is a DIFFERENT similarity function against the same threshold. Results are not comparable to a rapidfuzz run."
+    },
+    "config_sha256": "4715a20b782404d39ec8607a16d30afc93d418e44261a78f9fb383999401461b",
+    "config": {
+      "experiment": "learned_semantic_graph",
+      "checkpoints": [
+        "metr_la_best.pt",
+        "metr_la_best_epoch34_ARCHIVE.pt",
+        "metr_la_fusion_best.pt"
+      ],
+      "top_k": 8,
+      "mass_frac": 0.8,
+      "k_hops": 8,
+      "seed": 42
+    },
+    "artifacts": {
+      "metr_la_best.pt": {
+        "path": "/Users/narensara/Desktop/OlympiFlow/xtraffic/models/gnn/checkpoints/metr_la_best.pt",
+        "exists": true,
+        "size_bytes": 1796558,
+        "mtime_utc": "2026-07-19T23:00:03.332713+00:00",
+        "sha256": "046b2a4ac20613acd7f183bcf1c1118967ce21d569ca4b9ddd793e9c9d989cfa"
+      },
+      "metr_la_best_epoch34_ARCHIVE.pt": {
+        "path": "/Users/narensara/Desktop/OlympiFlow/xtraffic/models/gnn/checkpoints/metr_la_best_epoch34_ARCHIVE.pt",
+        "exists": true,
+        "size_bytes": 1796558,
+        "mtime_utc": "2026-07-19T23:00:03.321021+00:00",
+        "sha256": "4781693eb3e39c8ffb5f6369a017c29bb05fb15f843e49080ced73b1ae2d73bf"
+      },
+      "metr_la_fusion_best.pt": {
+        "path": "/Users/narensara/Desktop/OlympiFlow/xtraffic/models/gnn/checkpoints/metr_la_fusion_best.pt",
+        "exists": true,
+        "size_bytes": 1797525,
+        "mtime_utc": "2026-07-19T23:00:03.340003+00:00",
+        "sha256": "5a0306f0bdd7d305b2109471e9da352a2f051fe58342a93626e41f6b05e203b5"
+      }
+    },
+    "warnings": [
+      "git working tree was dirty",
+      "10 package(s) differ from requirements.txt",
+      "rapidfuzz is NOT installed; the resolver is running on the difflib fallback, which is a DIFFERENT similarity function against the same threshold. Results are not comparable to a rapidfuzz run."
+    ]
+  },
+  "started_utc": "2026-08-25T00:23:41.352711+00:00",
+  "updated_utc": "2026-08-25T00:24:16.702308+00:00",
+  "finished_utc": "2026-08-25T00:24:16.701320+00:00",
+  "summary": {
+    "n_checkpoints": 3,
+    "primary_precision": 0.11533816425120773
+  },
+  "outputs": [
+    {
+      "file": "learned_graph.json",
+      "size_bytes": 21223,
+      "sha256": "bbb42c9b4d3fd4e3548d6173af1606c8051bdf44fe7b256c7e309972633f4db2"
+    },
+    {
+      "file": "seeds.json",
+      "size_bytes": 561,
+      "sha256": "c30c225a461fa7c1c42fdc1b73d6b4143092f53db18f1b7d1d14d254636b13da"
+    }
+  ]
+}

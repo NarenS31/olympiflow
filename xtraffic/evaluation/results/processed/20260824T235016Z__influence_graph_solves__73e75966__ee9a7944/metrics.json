@@ -1,0 +1,3040 @@
+{
+  "stage1_run_id": "20260824T235016Z__influence_graph_solves__73e75966__ee9a7944",
+  "stage1_manifest": {
+    "captured_utc": "2026-08-24T23:50:15.729574+00:00",
+    "repo_root": "/Users/narensara/Desktop/OlympiFlow",
+    "git": {
+      "available": true,
+      "commit": "ee9a79442b3af1e9c4d975470795d7b1cda8866e",
+      "commit_short": "ee9a79442b3a",
+      "branch": "explanation-network-analysis",
+      "dirty": true,
+      "commit_utc": "2026-08-24T19:50:02-04:00",
+      "subject": "Explanation-network analysis, Stage 1: influence-graph library + solve runner",
+      "dirty_files": [
+        "xtraffic/evaluation/results/raw/20260824T234653Z__influence_graph_solves__83787796__d01bffd8/"
+      ],
+      "diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "warning": "working tree was DIRTY: this run is not reproducible from the commit alone"
+    },
+    "interpreter": {
+      "python_version": "3.9.6",
+      "python_full": "3.9.6 (default, May 22 2026, 11:13:45)  [Clang 21.0.0 (clang-2100.1.1.101)]",
+      "implementation": "CPython",
+      "executable": "/Applications/Xcode.app/Contents/Developer/usr/bin/python3"
+    },
+    "platform": {
+      "system": "Darwin",
+      "release": "25.4.0",
+      "machine": "arm64",
+      "processor": "arm",
+      "node": "narens-MacBook-Pro.local",
+      "torch_version": "2.8.0",
+      "cuda_available": false,
+      "mps_available": true
+    },
+    "packages": {
+      "requirements_path": "/Users/narensara/Desktop/OlympiFlow/xtraffic/requirements.txt",
+      "requirements_sha256": "160fb94b92858443acaaa98302c4d719b35ad8325fb78497a16b29dacffb3f02",
+      "pinned": {
+        "torch": "2.2.2",
+        "torch-geometric": "2.5.3",
+        "numpy": "1.26.4",
+        "pandas": "2.1.4",
+        "scipy": "1.11.4",
+        "rapidfuzz": "3.6.1",
+        "pandapower": "2.14.11",
+        "shap": "0.44.1",
+        "pyyaml": "6.0.1",
+        "requests": "2.31.0",
+        "matplotlib": "3.8.2",
+        "fastapi": "0.110.0",
+        "uvicorn": "0.29.0",
+        "python-multipart": "0.0.9"
+      },
+      "installed": {
+        "torch": "2.8.0",
+        "torch-geometric": null,
+        "numpy": "1.26.4",
+        "pandas": "2.2.3",
+        "scipy": "1.11.4",
+        "rapidfuzz": null,
+        "pandapower": "2.14.11",
+        "shap": "0.44.1",
+        "pyyaml": "6.0.3",
+        "requests": "2.32.5",
+        "matplotlib": "3.9.4",
+        "fastapi": "0.115.6",
+        "uvicorn": "0.32.1",
+        "python-multipart": "0.0.20"
+      },
+      "mismatches": [
+        {
+          "package": "fastapi",
+          "pinned": "0.110.0",
+          "installed": "0.115.6",
+          "status": "MISMATCH"
+        },
+        {
+          "package": "matplotlib",
+          "pinned": "3.8.2",
+          "installed": "3.9.4",
+          "status": "MISMATCH"
+        },
+        {
+          "package": "pandas",
+          "pinned": "2.1.4",
+          "installed": "2.2.3",
+          "status": "MISMATCH"
+        },
+        {
+          "package": "python-multipart",
+          "pinned": "0.0.9",
+          "installed": "0.0.20",
+          "status": "MISMATCH"
+        },
+        {
+          "package": "pyyaml",
+          "pinned": "6.0.1",
+          "installed": "6.0.3",
+          "status": "MISMATCH"
+        },
+        {
+          "package": "rapidfuzz",
+          "pinned": "3.6.1",
+          "installed": null,
+          "status": "MISSING"
+        },
+        {
+          "package": "requests",
+          "pinned": "2.31.0",
+          "installed": "2.32.5",
+          "status": "MISMATCH"
+        },
+        {
+          "package": "torch",
+          "pinned": "2.2.2",
+          "installed": "2.8.0",
+          "status": "MISMATCH"
+        },
+        {
+          "package": "torch-geometric",
+          "pinned": "2.5.3",
+          "installed": null,
+          "status": "MISSING"
+        },
+        {
+          "package": "uvicorn",
+          "pinned": "0.29.0",
+          "installed": "0.32.1",
+          "status": "MISMATCH"
+        }
+      ],
+      "n_mismatches": 10,
+      "environment_matches_requirements": false
+    },
+    "metric": {
+      "fuzzy_backend": "difflib.SequenceMatcher",
+      "fuzzy_threshold": 82.0,
+      "numeric_tolerance": 0.1,
+      "rapidfuzz_installed": false,
+      "warning": "rapidfuzz is NOT installed; the resolver is running on the difflib fallback, which is a DIFFERENT similarity function against the same threshold. Results are not comparable to a rapidfuzz run."
+    },
+    "config_sha256": "73e75966a1613774c6ee74efc06aa8ed9ad443d61e961380432b95f6238eba7e",
+    "config": {
+      "experiment": "influence_graph_solves",
+      "dataset": "metr_la",
+      "checkpoint": "models/gnn/checkpoints/metr_la_best.pt",
+      "horizon_step": 6,
+      "horizon_minutes": 30,
+      "n_targets": 207,
+      "n_windows": 24,
+      "n_tod_bands": 6,
+      "n_congestion_strata": 2,
+      "explainer_epochs": 200,
+      "explainer_seed": 0,
+      "confidence_runs": 0,
+      "sampling_seed": 42,
+      "device": "cpu",
+      "workers": 8,
+      "torch_threads_per_worker": 1,
+      "congested_max_mph": 45.0,
+      "freeflow_min_mph": 55.0,
+      "missing_max_mph": 1.0
+    },
+    "artifacts": {
+      "adjacency": {
+        "path": "/Users/narensara/Desktop/OlympiFlow/xtraffic/data/processed/metr_la/adjacency.npy",
+        "exists": true,
+        "size_bytes": 171524,
+        "mtime_utc": "2026-07-02T04:47:49.964628+00:00",
+        "sha256": "9b2fbb36da4c4c69c19e3a5244f81ada409e851b0b859744c983138ccb59262b"
+      },
+      "checkpoint": {
+        "path": "/Users/narensara/Desktop/OlympiFlow/xtraffic/models/gnn/checkpoints/metr_la_best.pt",
+        "exists": true,
+        "size_bytes": 1796558,
+        "mtime_utc": "2026-07-19T23:00:03.332713+00:00",
+        "sha256": "046b2a4ac20613acd7f183bcf1c1118967ce21d569ca4b9ddd793e9c9d989cfa"
+      },
+      "node_meta": {
+        "path": "/Users/narensara/Desktop/OlympiFlow/xtraffic/data/processed/metr_la/node_meta.json",
+        "exists": true,
+        "size_bytes": 12057,
+        "mtime_utc": "2026-07-02T04:47:49.969825+00:00",
+        "sha256": "c2c0ada97e8108fe957451e46dd8e3726e3d5db6f61570ffb9060d9fc03a89b1"
+      },
+      "test_split": {
+        "path": "/Users/narensara/Desktop/OlympiFlow/xtraffic/data/processed/metr_la/test.npz",
+        "exists": true,
+        "size_bytes": 7951766,
+        "mtime_utc": "2026-07-02T04:47:49.963428+00:00",
+        "sha256": "fdf81a343801b56dd2674305d89364709500edfe91736040c4308691ce0bc5b8"
+      }
+    },
+    "warnings": [
+      "git working tree was dirty",
+      "10 package(s) differ from requirements.txt",
+      "rapidfuzz is NOT installed; the resolver is running on the difflib fallback, which is a DIFFERENT similarity function against the same threshold. Results are not comparable to a rapidfuzz run."
+    ]
+  },
+  "stage1_config": {
+    "experiment": "influence_graph_solves",
+    "dataset": "metr_la",
+    "checkpoint": "models/gnn/checkpoints/metr_la_best.pt",
+    "horizon_step": 6,
+    "horizon_minutes": 30,
+    "n_targets": 207,
+    "n_windows": 24,
+    "n_tod_bands": 6,
+    "n_congestion_strata": 2,
+    "explainer_epochs": 200,
+    "explainer_seed": 0,
+    "confidence_runs": 0,
+    "sampling_seed": 42,
+    "device": "cpu",
+    "workers": 8,
+    "torch_threads_per_worker": 1,
+    "congested_max_mph": 45.0,
+    "freeflow_min_mph": 55.0,
+    "missing_max_mph": 1.0
+  },
+  "n_targets_solved": 207,
+  "n_windows": 24,
+  "settings": {
+    "top_k": 8,
+    "mass_frac": 0.8,
+    "min_windows_full": 4,
+    "min_windows_half": 2,
+    "k_hops": 8
+  },
+  "geometry": {
+    "n_nodes": 207,
+    "n_adjacency_edges": 1515,
+    "adjacency_density": 0.03553,
+    "sigma_m": 2584.5,
+    "kappa": 0.1,
+    "cutoff_m": 3921.7,
+    "ordered_pairs_with_road_distance": 11546,
+    "share_pairs_with_road_distance": 0.2708,
+    "share_nonadjacent_pairs_with_road_distance": 0.2439
+  },
+  "per_regime": {
+    "congested": {
+      "regime": "congested",
+      "n_targets_active": 34,
+      "n_targets_below_window_floor": 173,
+      "min_windows_required": 4,
+      "windows_per_active_target": {
+        "mean": 7.06,
+        "min": 4,
+        "max": 16
+      },
+      "self_mass": {
+        "mean": 0.008,
+        "median": 0.0075,
+        "min": 0.0048,
+        "max": 0.0143,
+        "chance_1_over_N": 0.0048
+      },
+      "sources_for_mass_frac": {
+        "mass_frac": 0.8,
+        "of_available": 206,
+        "mean": 146.6,
+        "std": 4.7,
+        "min": 136,
+        "max": 155,
+        "percentiles": {
+          "5": 137,
+          "25": 143,
+          "50": 148,
+          "75": 150,
+          "95": 153
+        },
+        "per_target": {
+          "4": 149,
+          "9": 150,
+          "12": 143,
+          "15": 149,
+          "16": 138,
+          "29": 143,
+          "38": 148,
+          "47": 150,
+          "48": 150,
+          "51": 136,
+          "52": 147,
+          "56": 137,
+          "73": 150,
+          "76": 142,
+          "77": 153,
+          "84": 149,
+          "88": 149,
+          "91": 146,
+          "100": 147,
+          "126": 143,
+          "127": 155,
+          "141": 145,
+          "144": 148,
+          "148": 153,
+          "155": 149,
+          "159": 151,
+          "160": 152,
+          "163": 151,
+          "172": 142,
+          "187": 145,
+          "191": 148,
+          "193": 144,
+          "196": 138,
+          "197": 146
+        }
+      },
+      "edges": {
+        "top_k": {
+          "n_effective": 272,
+          "n_reference": 296,
+          "n_true_positive": 38,
+          "precision": 0.13970588235294118,
+          "recall": 0.12837837837837837,
+          "jaccard": 0.07169811320754717,
+          "n_off_adjacency": 234
+        },
+        "cumulative_mass": {
+          "n_effective": 4986,
+          "n_reference": 296,
+          "n_true_positive": 248,
+          "precision": 0.04973926995587646,
+          "recall": 0.8378378378378378,
+          "jaccard": 0.04926499801350814,
+          "n_off_adjacency": 4738,
+          "sources_per_target_mean": 146.65
+        }
+      },
+      "baselines": {
+        "uniform_random": {
+          "n_effective": 272,
+          "n_reference": 296,
+          "n_true_positive": 10,
+          "precision": 0.03676470588235294,
+          "recall": 0.033783783783783786,
+          "jaccard": 0.017921146953405017,
+          "n_off_adjacency": 262
+        },
+        "degree_matched_random": {
+          "n_effective": 272,
+          "n_reference": 296,
+          "n_true_positive": 15,
+          "precision": 0.05514705882352941,
+          "recall": 0.05067567567567568,
+          "jaccard": 0.027124773960216998,
+          "n_off_adjacency": 257
+        },
+        "nearest_by_road_distance": {
+          "n_effective": 272,
+          "n_reference": 296,
+          "n_true_positive": 220,
+          "precision": 0.8088235294117647,
+          "recall": 0.7432432432432432,
+          "jaccard": 0.632183908045977,
+          "n_off_adjacency": 52,
+          "targets_with_fewer_than_k_road_sources": 0
+        },
+        "overlap_effective_vs_nearest_road": 0.0667
+      },
+      "hop_strata": [
+        {
+          "bucket": "1",
+          "n_effective_edges": 38,
+          "share_of_effective": 0.1397,
+          "n_adjacency_edges_same_bucket": 296
+        },
+        {
+          "bucket": "2",
+          "n_effective_edges": 35,
+          "share_of_effective": 0.1287,
+          "n_adjacency_edges_same_bucket": 0
+        },
+        {
+          "bucket": "3",
+          "n_effective_edges": 21,
+          "share_of_effective": 0.0772,
+          "n_adjacency_edges_same_bucket": 0
+        },
+        {
+          "bucket": "4",
+          "n_effective_edges": 15,
+          "share_of_effective": 0.0551,
+          "n_adjacency_edges_same_bucket": 0
+        },
+        {
+          "bucket": "5",
+          "n_effective_edges": 24,
+          "share_of_effective": 0.0882,
+          "n_adjacency_edges_same_bucket": 0
+        },
+        {
+          "bucket": "6",
+          "n_effective_edges": 37,
+          "share_of_effective": 0.136,
+          "n_adjacency_edges_same_bucket": 0
+        },
+        {
+          "bucket": "7",
+          "n_effective_edges": 28,
+          "share_of_effective": 0.1029,
+          "n_adjacency_edges_same_bucket": 0
+        },
+        {
+          "bucket": "8",
+          "n_effective_edges": 14,
+          "share_of_effective": 0.0515,
+          "n_adjacency_edges_same_bucket": 0
+        },
+        {
+          "bucket": ">8",
+          "n_effective_edges": 54,
+          "share_of_effective": 0.1985,
+          "n_adjacency_edges_same_bucket": 0
+        },
+        {
+          "bucket": "unreachable",
+          "n_effective_edges": 6,
+          "share_of_effective": 0.0221,
+          "n_adjacency_edges_same_bucket": 0
+        }
+      ],
+      "beyond_k": {
+        "k_hops": 8,
+        "label": "beyond 8 kernel radii (>8 chained hops of <= 3.9 km), or unreachable",
+        "n_edges": 60,
+        "share_of_effective": 0.2206,
+        "base_rate_for_these_targets": 0.239,
+        "enrichment_over_base_rate": 0.923,
+        "n_unreachable": 6
+      },
+      "stability": {
+        "half_a_windows": 12,
+        "half_b_windows": 12,
+        "n_targets_in_both_halves": 28,
+        "min_windows_per_half": 2,
+        "jaccard_all_edges": 0.1399,
+        "jaccard_beyond_k": 0.1765,
+        "n_beyond_k_half_a": 48,
+        "n_beyond_k_half_b": 52,
+        "jaccard_off_adjacency": 0.1224,
+        "n_off_adjacency_half_a": 200,
+        "n_off_adjacency_half_b": 176,
+        "jaccard_two_random_draws_reference": 0.0182
+      },
+      "vs_learned_semantic_graph": {
+        "checkpoint": "models/gnn/checkpoints/metr_la_best.pt",
+        "sigmoid_alpha": 0.2968,
+        "n_targets": 34,
+        "spearman": {
+          "mean": -0.115,
+          "median": -0.1406,
+          "min": -0.5231,
+          "max": 0.4779
+        },
+        "top_k_jaccard": {
+          "k": 8,
+          "mean": 0.1743,
+          "median": 0.0333,
+          "min": 0.0,
+          "max": 0.6,
+          "n_targets_with_zero_overlap": 17
+        },
+        "per_target": {
+          "4": {
+            "spearman": 0.0484,
+            "top_k_jaccard": 0.6
+          },
+          "9": {
+            "spearman": -0.2062,
+            "top_k_jaccard": 0.0
+          },
+          "12": {
+            "spearman": -0.1606,
+            "top_k_jaccard": 0.2308
+          },
+          "15": {
+            "spearman": -0.1072,
+            "top_k_jaccard": 0.6
+          },
+          "16": {
+            "spearman": -0.4735,
+            "top_k_jaccard": 0.0
+          },
+          "29": {
+            "spearman": -0.2729,
+            "top_k_jaccard": 0.0
+          },
+          "38": {
+            "spearman": -0.1124,
+            "top_k_jaccard": 0.0
+          },
+          "47": {
+            "spearman": -0.0607,
+            "top_k_jaccard": 0.0
+          },
+          "48": {
+            "spearman": -0.1483,
+            "top_k_jaccard": 0.0
+          },
+          "51": {
+            "spearman": 0.2002,
+            "top_k_jaccard": 0.0667
+          },
+          "52": {
+            "spearman": -0.2121,
+            "top_k_jaccard": 0.0667
+          },
+          "56": {
+            "spearman": -0.5231,
+            "top_k_jaccard": 0.0
+          },
+          "73": {
+            "spearman": 0.2003,
+            "top_k_jaccard": 0.0
+          },
+          "76": {
+            "spearman": -0.3567,
+            "top_k_jaccard": 0.0667
+          },
+          "77": {
+            "spearman": -0.2335,
+            "top_k_jaccard": 0.0
+          },
+          "84": {
+            "spearman": 0.0281,
+            "top_k_jaccard": 0.0
+          },
+          "88": {
+            "spearman": -0.411,
+            "top_k_jaccard": 0.0
+          },
+          "91": {
+            "spearman": -0.2636,
+            "top_k_jaccard": 0.0667
+          },
+          "100": {
+            "spearman": -0.3036,
+            "top_k_jaccard": 0.0
+          },
+          "126": {
+            "spearman": 0.3489,
+            "top_k_jaccard": 0.3333
+          },
+          "127": {
+            "spearman": 0.3867,
+            "top_k_jaccard": 0.3333
+          },
+          "141": {
+            "spearman": -0.471,
+            "top_k_jaccard": 0.0
+          },
+          "144": {
+            "spearman": -0.1329,
+            "top_k_jaccard": 0.4545
+          },
+          "148": {
+            "spearman": -0.3318,
+            "top_k_jaccard": 0.0
+          },
+          "155": {
+            "spearman": 0.2805,
+            "top_k_jaccard": 0.3333
+          },
+          "159": {
+            "spearman": 0.0049,
+            "top_k_jaccard": 0.6
+          },
+          "160": {
+            "spearman": 0.0402,
+            "top_k_jaccard": 0.3333
+          },
+          "163": {
+            "spearman": 0.0118,
+            "top_k_jaccard": 0.6
+          },
+          "172": {
+            "spearman": 0.4779,
+            "top_k_jaccard": 0.3333
+          },
+          "187": {
+            "spearman": -0.1554,
+            "top_k_jaccard": 0.4545
+          },
+          "191": {
+            "spearman": -0.0489,
+            "top_k_jaccard": 0.4545
+          },
+          "193": {
+            "spearman": -0.1225,
+            "top_k_jaccard": 0.0
+          },
+          "196": {
+            "spearman": -0.5085,
+            "top_k_jaccard": 0.0
+          },
+          "197": {
+            "spearman": -0.3229,
+            "top_k_jaccard": 0.0
+          }
+        }
+      },
+      "beyond_k_survivors": {
+        "regime": "congested",
+        "n_targets_in_both_halves": 28,
+        "n_beyond_k_half_a": 84,
+        "n_beyond_k_half_b": 73,
+        "n_intersection": 15,
+        "n_one_half_only": 127,
+        "survival_rate": 0.1056,
+        "intersection": {
+          "n": 15,
+          "learned_weight": {
+            "mean": 0.0027124779842173058,
+            "median": 0.0028019542805850506
+          },
+          "learned_rank_of_206": {
+            "mean": 131.8,
+            "median": 155,
+            "min": 16,
+            "max": 206,
+            "share_in_top_8": 0.0,
+            "share_in_top_20": 0.0667,
+            "share_in_top_half": 0.4
+          }
+        },
+        "one_half_only": {
+          "n": 127,
+          "learned_weight": {
+            "mean": 0.004084881658181842,
+            "median": 0.002986158477142453
+          },
+          "learned_rank_of_206": {
+            "mean": 112.7,
+            "median": 115,
+            "min": 1,
+            "max": 206,
+            "share_in_top_8": 0.0787,
+            "share_in_top_20": 0.1575,
+            "share_in_top_half": 0.4567
+          }
+        },
+        "random_beyond_k": {
+          "n": 15,
+          "learned_weight": {
+            "mean": 0.002914722015460332,
+            "median": 0.0029376985039561987
+          },
+          "learned_rank_of_206": {
+            "mean": 115.5,
+            "median": 114,
+            "min": 19,
+            "max": 196,
+            "share_in_top_8": 0.0,
+            "share_in_top_20": 0.0667,
+            "share_in_top_half": 0.4667
+          }
+        },
+        "chance_rank_reference": {
+          "uniform_mean_rank": 103.5,
+          "share_in_top_8_if_random": 0.0388
+        },
+        "sigmoid_alpha": 0.2968,
+        "intersection_edges": [
+          {
+            "source": 183,
+            "target": 77,
+            "source_sensor_id": 767495,
+            "target_sensor_id": 765171,
+            "hops": 11,
+            "unreachable": false,
+            "learned_rank_of_206": 16,
+            "learned_weight": 0.004930423106998205,
+            "road_distance_m": null,
+            "haversine_m_reference_only": 21383.4,
+            "source_lat": 34.10377,
+            "source_lon": -118.24992,
+            "target_lat": 34.16789,
+            "target_lon": -118.46896
+          },
+          {
+            "source": 183,
+            "target": 84,
+            "source_sensor_id": 767495,
+            "target_sensor_id": 767053,
+            "hops": 12,
+            "unreachable": false,
+            "learned_rank_of_206": 33,
+            "learned_weight": 0.00398050295189023,
+            "road_distance_m": null,
+            "haversine_m_reference_only": 21393.0,
+            "source_lat": 34.10377,
+            "source_lon": -118.24992,
+            "target_lat": 34.17091,
+            "target_lon": -118.46775
+          },
+          {
+            "source": 132,
+            "target": 77,
+            "source_sensor_id": 762329,
+            "target_sensor_id": 765171,
+            "hops": 10,
+            "unreachable": false,
+            "learned_rank_of_206": 33,
+            "learned_weight": 0.004267919342964888,
+            "road_distance_m": null,
+            "haversine_m_reference_only": 22347.0,
+            "source_lat": 34.13904,
+            "source_lon": -118.22862,
+            "target_lat": 34.16789,
+            "target_lon": -118.46896
+          },
+          {
+            "source": 203,
+            "target": 84,
+            "source_sensor_id": 717595,
+            "target_sensor_id": 767053,
+            "hops": null,
+            "unreachable": true,
+            "learned_rank_of_206": 79,
+            "learned_weight": 0.0034449335653334856,
+            "road_distance_m": null,
+            "haversine_m_reference_only": 26411.9,
+            "source_lat": 34.14163,
+            "source_lon": -118.1829,
+            "target_lat": 34.17091,
+            "target_lon": -118.46775
+          },
+          {
+            "source": 44,
+            "target": 77,
+            "source_sensor_id": 774012,
+            "target_sensor_id": 765171,
+            "hops": 9,
+            "unreachable": false,
+            "learned_rank_of_206": 90,
+            "learned_weight": 0.0031357656698673964,
+            "road_distance_m": null,
+            "haversine_m_reference_only": 24724.0,
+            "source_lat": 34.14769,
+            "source_lon": -118.20137,
+            "target_lat": 34.16789,
+            "target_lon": -118.46896
+          },
+          {
+            "source": 30,
+            "target": 88,
+            "source_sensor_id": 773013,
+            "target_sensor_id": 767350,
+            "hops": 12,
+            "unreachable": false,
+            "learned_rank_of_206": 101,
+            "learned_weight": 0.0031744334846735,
+            "road_distance_m": null,
+            "haversine_m_reference_only": 25357.3,
+            "source_lat": 34.08374,
+            "source_lon": -118.22076,
+            "target_lat": 34.18011,
+            "target_lon": -118.47045
+          },
+          {
+            "source": 66,
+            "target": 84,
+            "source_sensor_id": 767610,
+            "target_sensor_id": 767053,
+            "hops": 11,
+            "unreachable": false,
+            "learned_rank_of_206": 110,
+            "learned_weight": 0.0031795899849385023,
+            "road_distance_m": null,
+            "haversine_m_reference_only": 23063.5,
+            "source_lat": 34.18555,
+            "source_lon": -118.21766,
+            "target_lat": 34.17091,
+            "target_lon": -118.46775
+          },
+          {
+            "source": 105,
+            "target": 88,
+            "source_sensor_id": 718076,
+            "target_sensor_id": 767350,
+            "hops": 10,
+            "unreachable": false,
+            "learned_rank_of_206": 155,
+            "learned_weight": 0.0028019542805850506,
+            "road_distance_m": null,
+            "haversine_m_reference_only": 22629.8,
+            "source_lat": 34.16339,
+            "source_lon": -118.2253,
+            "target_lat": 34.18011,
+            "target_lon": -118.47045
+          },
+          {
+            "source": 89,
+            "target": 196,
+            "source_sensor_id": 767351,
+            "target_sensor_id": 771673,
+            "hops": 10,
+            "unreachable": false,
+            "learned_rank_of_206": 185,
+            "learned_weight": 0.001992859411984682,
+            "road_distance_m": null,
+            "haversine_m_reference_only": 24973.6,
+            "source_lat": 34.18022,
+            "source_lon": -118.47022,
+            "target_lat": 34.07787,
+            "target_lon": -118.22871
+          },
+          {
+            "source": 89,
+            "target": 29,
+            "source_sensor_id": 767351,
+            "target_sensor_id": 773012,
+            "hops": 12,
+            "unreachable": false,
+            "learned_rank_of_206": 189,
+            "learned_weight": 0.0018390066688880324,
+            "road_distance_m": null,
+            "haversine_m_reference_only": 25327.4,
+            "source_lat": 34.18022,
+            "source_lon": -118.47022,
+            "target_lat": 34.0839,
+            "target_lon": -118.22086
+          },
+          {
+            "source": 34,
+            "target": 16,
+            "source_sensor_id": 717819,
+            "target_sensor_id": 771667,
+            "hops": 11,
+            "unreachable": false,
+            "learned_rank_of_206": 190,
+            "learned_weight": 0.0017489821184426546,
+            "road_distance_m": null,
+            "haversine_m_reference_only": 25522.9,
+            "source_lat": 34.18784,
+            "source_lon": -118.47407,
+            "target_lat": 34.07314,
+            "target_lon": -118.23388
+          },
+          {
+            "source": 89,
+            "target": 16,
+            "source_sensor_id": 767351,
+            "target_sensor_id": 771667,
+            "hops": 10,
+            "unreachable": false,
+            "learned_rank_of_206": 191,
+            "learned_weight": 0.001746104215271771,
+            "road_distance_m": null,
+            "haversine_m_reference_only": 24799.7,
+            "source_lat": 34.18022,
+            "source_lon": -118.47022,
+            "target_lat": 34.07314,
+            "target_lon": -118.23388
+          },
+          {
+            "source": 104,
+            "target": 16,
+            "source_sensor_id": 717818,
+            "target_sensor_id": 771667,
+            "hops": 10,
+            "unreachable": false,
+            "learned_rank_of_206": 196,
+            "learned_weight": 0.0016361933667212725,
+            "road_distance_m": null,
+            "haversine_m_reference_only": 24164.3,
+            "source_lat": 34.1722,
+            "source_lon": -118.46753,
+            "target_lat": 34.07314,
+            "target_lon": -118.23388
+          },
+          {
+            "source": 149,
+            "target": 196,
+            "source_sensor_id": 763995,
+            "target_sensor_id": 771673,
+            "hops": 9,
+            "unreachable": false,
+            "learned_rank_of_206": 203,
+            "learned_weight": 0.0015509981894865632,
+            "road_distance_m": null,
+            "haversine_m_reference_only": 22918.0,
+            "source_lat": 34.21979,
+            "source_lon": -118.40931,
+            "target_lat": 34.07787,
+            "target_lon": -118.22871
+          },
+          {
+            "source": 149,
+            "target": 29,
+            "source_sensor_id": 763995,
+            "target_sensor_id": 773012,
+            "hops": 10,
+            "unreachable": false,
+            "learned_rank_of_206": 206,
+            "learned_weight": 0.001257503405213356,
+            "road_distance_m": null,
+            "haversine_m_reference_only": 23000.7,
+            "source_lat": 34.21979,
+            "source_lon": -118.40931,
+            "target_lat": 34.0839,
+            "target_lon": -118.22086
+          }
+        ],
+        "regime_level_claims_permitted": false,
+        "min_targets_for_regime_claim": 40
+      }
+    },
+    "free_flow": {
+      "regime": "free_flow",
+      "n_targets_active": 200,
+      "n_targets_below_window_floor": 7,
+      "min_windows_required": 4,
+      "windows_per_active_target": {
+        "mean": 16.27,
+        "min": 6,
+        "max": 20
+      },
+      "self_mass": {
+        "mean": 0.0133,
+        "median": 0.0136,
+        "min": 0.0063,
+        "max": 0.0179,
+        "chance_1_over_N": 0.0048
+      },
+      "sources_for_mass_frac": {
+        "mass_frac": 0.8,
+        "of_available": 206,
+        "mean": 154.0,
+        "std": 2.9,
+        "min": 138,
+        "max": 160,
+        "percentiles": {
+          "5": 149,
+          "25": 152,
+          "50": 154,
+          "75": 156,
+          "95": 158
+        },
+        "per_target": {
+          "0": 154,
+          "1": 156,
+          "2": 151,
+          "3": 155,
+          "4": 152,
+          "5": 150,
+          "6": 153,
+          "7": 157,
+          "8": 153,
+          "9": 154,
+          "10": 157,
+          "11": 158,
+          "12": 151,
+          "13": 153,
+          "14": 148,
+          "15": 152,
+          "17": 156,
+          "18": 156,
+          "19": 156,
+          "20": 154,
+          "21": 153,
+          "23": 154,
+          "24": 153,
+          "25": 154,
+          "26": 149,
+          "27": 157,
+          "28": 156,
+          "30": 154,
+          "31": 155,
+          "32": 155,
+          "33": 155,
+          "34": 154,
+          "35": 151,
+          "36": 151,
+          "37": 152,
+          "38": 152,
+          "39": 157,
+          "40": 156,
+          "41": 156,
+          "42": 154,
+          "43": 152,
+          "44": 151,
+          "45": 153,
+          "46": 158,
+          "47": 159,
+          "48": 160,
+          "49": 154,
+          "50": 154,
+          "51": 154,
+          "52": 157,
+          "53": 148,
+          "54": 155,
+          "55": 158,
+          "57": 158,
+          "58": 156,
+          "59": 152,
+          "60": 158,
+          "61": 154,
+          "62": 156,
+          "63": 157,
+          "64": 154,
+          "65": 157,
+          "66": 154,
+          "67": 150,
+          "68": 151,
+          "69": 155,
+          "70": 155,
+          "71": 156,
+          "72": 157,
+          "73": 147,
+          "74": 152,
+          "75": 154,
+          "76": 156,
+          "77": 148,
+          "78": 152,
+          "79": 154,
+          "80": 156,
+          "81": 158,
+          "82": 154,
+          "83": 155,
+          "84": 146,
+          "85": 156,
+          "86": 156,
+          "87": 157,
+          "88": 159,
+          "89": 154,
+          "90": 150,
+          "92": 151,
+          "93": 157,
+          "94": 158,
+          "95": 152,
+          "96": 153,
+          "97": 153,
+          "98": 150,
+          "99": 150,
+          "100": 155,
+          "101": 157,
+          "102": 150,
+          "103": 152,
+          "104": 155,
+          "105": 138,
+          "106": 154,
+          "107": 149,
+          "108": 152,
+          "109": 155,
+          "110": 155,
+          "111": 154,
+          "112": 153,
+          "113": 156,
+          "114": 153,
+          "115": 154,
+          "116": 156,
+          "117": 154,
+          "118": 151,
+          "119": 152,
+          "120": 154,
+          "121": 154,
+          "122": 154,
+          "123": 149,
+          "124": 158,
+          "125": 158,
+          "126": 149,
+          "127": 150,
+          "128": 155,
+          "129": 157,
+          "130": 151,
+          "131": 157,
+          "132": 154,
+          "133": 155,
+          "134": 152,
+          "135": 157,
+          "136": 155,
+          "137": 156,
+          "138": 154,
+          "139": 154,
+          "140": 157,
+          "141": 156,
+          "142": 155,
+          "143": 156,
+          "144": 153,
+          "145": 152,
+          "146": 155,
+          "147": 154,
+          "148": 157,
+          "149": 152,
+          "150": 153,
+          "151": 156,
+          "152": 156,
+          "153": 158,
+          "154": 158,
+          "155": 151,
+          "156": 160,
+          "157": 157,
+          "158": 155,
+          "159": 152,
+          "160": 150,
+          "161": 154,
+          "162": 152,
+          "163": 148,
+          "164": 158,
+          "165": 151,
+          "166": 155,
+          "167": 150,
+          "168": 152,
+          "169": 151,
+          "170": 151,
+          "171": 150,
+          "172": 157,
+          "173": 154,
+          "174": 153,
+          "175": 152,
+          "176": 154,
+          "177": 158,
+          "178": 154,
+          "179": 159,
+          "180": 154,
+          "181": 157,
+          "182": 153,
+          "183": 154,
+          "184": 157,
+          "185": 157,
+          "186": 156,
+          "187": 152,
+          "188": 156,
+          "189": 155,
+          "190": 157,
+          "191": 152,
+          "192": 156,
+          "193": 152,
+          "194": 153,
+          "195": 153,
+          "198": 151,
+          "199": 155,
+          "200": 155,
+          "201": 155,
+          "202": 158,
+          "203": 151,
+          "204": 159,
+          "205": 152,
+          "206": 156
+        }
+      },
+      "edges": {
+        "top_k": {
+          "n_effective": 1600,
+          "n_reference": 1453,
+          "n_true_positive": 458,
+          "precision": 0.28625,
+          "recall": 0.3152099105299381,
+          "jaccard": 0.1764932562620424,
+          "n_off_adjacency": 1142
+        },
+        "cumulative_mass": {
+          "n_effective": 30805,
+          "n_reference": 1453,
+          "n_true_positive": 1340,
+          "precision": 0.04349943191040415,
+          "recall": 0.9222298692360633,
+          "jaccard": 0.04334044892942623,
+          "n_off_adjacency": 29465,
+          "sources_per_target_mean": 154.03
+        }
+      },
+      "baselines": {
+        "uniform_random": {
+          "n_effective": 1600,
+          "n_reference": 1453,
+          "n_true_positive": 53,
+          "precision": 0.033125,
+          "recall": 0.0364762560220234,
+          "jaccard": 0.017666666666666667,
+          "n_off_adjacency": 1547
+        },
+        "degree_matched_random": {
+          "n_effective": 1600,
+          "n_reference": 1453,
+          "n_true_positive": 55,
+          "precision": 0.034375,
+          "recall": 0.03785271851342051,
+          "jaccard": 0.018345563709139426,
+          "n_off_adjacency": 1545
+        },
+        "nearest_by_road_distance": {
+          "n_effective": 1592,
+          "n_reference": 1453,
+          "n_true_positive": 1203,
+          "precision": 0.7556532663316583,
+          "recall": 0.8279421885753613,
+          "jaccard": 0.6530944625407166,
+          "n_off_adjacency": 389,
+          "targets_with_fewer_than_k_road_sources": 1
+        },
+        "overlap_effective_vs_nearest_road": 0.1671
+      },
+      "hop_strata": [
+        {
+          "bucket": "1",
+          "n_effective_edges": 458,
+          "share_of_effective": 0.2863,
+          "n_adjacency_edges_same_bucket": 1453
+        },
+        {
+          "bucket": "2",
+          "n_effective_edges": 123,
+          "share_of_effective": 0.0769,
+          "n_adjacency_edges_same_bucket": 0
+        },
+        {
+          "bucket": "3",
+          "n_effective_edges": 115,
+          "share_of_effective": 0.0719,
+          "n_adjacency_edges_same_bucket": 0
+        },
+        {
+          "bucket": "4",
+          "n_effective_edges": 131,
+          "share_of_effective": 0.0819,
+          "n_adjacency_edges_same_bucket": 0
+        },
+        {
+          "bucket": "5",
+          "n_effective_edges": 155,
+          "share_of_effective": 0.0969,
+          "n_adjacency_edges_same_bucket": 0
+        },
+        {
+          "bucket": "6",
+          "n_effective_edges": 159,
+          "share_of_effective": 0.0994,
+          "n_adjacency_edges_same_bucket": 0
+        },
+        {
+          "bucket": "7",
+          "n_effective_edges": 133,
+          "share_of_effective": 0.0831,
+          "n_adjacency_edges_same_bucket": 0
+        },
+        {
+          "bucket": "8",
+          "n_effective_edges": 124,
+          "share_of_effective": 0.0775,
+          "n_adjacency_edges_same_bucket": 0
+        },
+        {
+          "bucket": ">8",
+          "n_effective_edges": 145,
+          "share_of_effective": 0.0906,
+          "n_adjacency_edges_same_bucket": 0
+        },
+        {
+          "bucket": "unreachable",
+          "n_effective_edges": 57,
+          "share_of_effective": 0.0356,
+          "n_adjacency_edges_same_bucket": 0
+        }
+      ],
+      "beyond_k": {
+        "k_hops": 8,
+        "label": "beyond 8 kernel radii (>8 chained hops of <= 3.9 km), or unreachable",
+        "n_edges": 202,
+        "share_of_effective": 0.1263,
+        "base_rate_for_these_targets": 0.2214,
+        "enrichment_over_base_rate": 0.57,
+        "n_unreachable": 57
+      },
+      "stability": {
+        "half_a_windows": 12,
+        "half_b_windows": 12,
+        "n_targets_in_both_halves": 200,
+        "min_windows_per_half": 2,
+        "jaccard_all_edges": 0.2256,
+        "jaccard_beyond_k": 0.1241,
+        "n_beyond_k_half_a": 242,
+        "n_beyond_k_half_b": 229,
+        "jaccard_off_adjacency": 0.1582,
+        "n_off_adjacency_half_a": 1197,
+        "n_off_adjacency_half_b": 1160,
+        "jaccard_two_random_draws_reference": 0.0165
+      },
+      "vs_learned_semantic_graph": {
+        "checkpoint": "models/gnn/checkpoints/metr_la_best.pt",
+        "sigmoid_alpha": 0.2968,
+        "n_targets": 200,
+        "spearman": {
+          "mean": 0.0618,
+          "median": 0.0874,
+          "min": -0.4891,
+          "max": 0.625
+        },
+        "top_k_jaccard": {
+          "k": 8,
+          "mean": 0.0873,
+          "median": 0.0667,
+          "min": 0.0,
+          "max": 0.6,
+          "n_targets_with_zero_overlap": 84
+        },
+        "per_target": {
+          "0": {
+            "spearman": 0.3116,
+            "top_k_jaccard": 0.0667
+          },
+          "1": {
+            "spearman": 0.1034,
+            "top_k_jaccard": 0.1429
+          },
+          "2": {
+            "spearman": -0.3028,
+            "top_k_jaccard": 0.0667
+          },
+          "3": {
+            "spearman": -0.038,
+            "top_k_jaccard": 0.0667
+          },
+          "4": {
+            "spearman": -0.1657,
+            "top_k_jaccard": 0.6
+          },
+          "5": {
+            "spearman": 0.2473,
+            "top_k_jaccard": 0.0667
+          },
+          "6": {
+            "spearman": 0.0168,
+            "top_k_jaccard": 0.0
+          },
+          "7": {
+            "spearman": 0.0332,
+            "top_k_jaccard": 0.0667
+          },
+          "8": {
+            "spearman": -0.4029,
+            "top_k_jaccard": 0.0
+          },
+          "9": {
+            "spearman": -0.3317,
+            "top_k_jaccard": 0.0
+          },
+          "10": {
+            "spearman": 0.2048,
+            "top_k_jaccard": 0.0667
+          },
+          "11": {
+            "spearman": -0.0707,
+            "top_k_jaccard": 0.0
+          },
+          "12": {
+            "spearman": -0.0588,
+            "top_k_jaccard": 0.2308
+          },
+          "13": {
+            "spearman": 0.2119,
+            "top_k_jaccard": 0.1429
+          },
+          "14": {
+            "spearman": -0.3304,
+            "top_k_jaccard": 0.0
+          },
+          "15": {
+            "spearman": -0.1507,
+            "top_k_jaccard": 0.4545
+          },
+          "17": {
+            "spearman": 0.0504,
+            "top_k_jaccard": 0.0
+          },
+          "18": {
+            "spearman": -0.2402,
+            "top_k_jaccard": 0.0
+          },
+          "19": {
+            "spearman": 0.2107,
+            "top_k_jaccard": 0.2308
+          },
+          "20": {
+            "spearman": 0.1376,
+            "top_k_jaccard": 0.0
+          },
+          "21": {
+            "spearman": -0.2977,
+            "top_k_jaccard": 0.0667
+          },
+          "23": {
+            "spearman": 0.027,
+            "top_k_jaccard": 0.0
+          },
+          "24": {
+            "spearman": -0.1016,
+            "top_k_jaccard": 0.0667
+          },
+          "25": {
+            "spearman": 0.1019,
+            "top_k_jaccard": 0.1429
+          },
+          "26": {
+            "spearman": 0.3374,
+            "top_k_jaccard": 0.0667
+          },
+          "27": {
+            "spearman": -0.048,
+            "top_k_jaccard": 0.0
+          },
+          "28": {
+            "spearman": -0.0667,
+            "top_k_jaccard": 0.1429
+          },
+          "30": {
+            "spearman": 0.1152,
+            "top_k_jaccard": 0.3333
+          },
+          "31": {
+            "spearman": 0.1611,
+            "top_k_jaccard": 0.0
+          },
+          "32": {
+            "spearman": 0.1915,
+            "top_k_jaccard": 0.0667
+          },
+          "33": {
+            "spearman": -0.063,
+            "top_k_jaccard": 0.0
+          },
+          "34": {
+            "spearman": -0.0281,
+            "top_k_jaccard": 0.0
+          },
+          "35": {
+            "spearman": -0.1221,
+            "top_k_jaccard": 0.0
+          },
+          "36": {
+            "spearman": 0.0137,
+            "top_k_jaccard": 0.0
+          },
+          "37": {
+            "spearman": 0.2476,
+            "top_k_jaccard": 0.1429
+          },
+          "38": {
+            "spearman": -0.0184,
+            "top_k_jaccard": 0.0
+          },
+          "39": {
+            "spearman": 0.1986,
+            "top_k_jaccard": 0.0
+          },
+          "40": {
+            "spearman": -0.1063,
+            "top_k_jaccard": 0.0
+          },
+          "41": {
+            "spearman": -0.0037,
+            "top_k_jaccard": 0.0
+          },
+          "42": {
+            "spearman": 0.2841,
+            "top_k_jaccard": 0.2308
+          },
+          "43": {
+            "spearman": 0.1616,
+            "top_k_jaccard": 0.0667
+          },
+          "44": {
+            "spearman": 0.4297,
+            "top_k_jaccard": 0.3333
+          },
+          "45": {
+            "spearman": 0.2708,
+            "top_k_jaccard": 0.1429
+          },
+          "46": {
+            "spearman": 0.2112,
+            "top_k_jaccard": 0.2308
+          },
+          "47": {
+            "spearman": 0.2479,
+            "top_k_jaccard": 0.1429
+          },
+          "48": {
+            "spearman": 0.2326,
+            "top_k_jaccard": 0.1429
+          },
+          "49": {
+            "spearman": -0.3226,
+            "top_k_jaccard": 0.0
+          },
+          "50": {
+            "spearman": -0.2989,
+            "top_k_jaccard": 0.0667
+          },
+          "51": {
+            "spearman": -0.0084,
+            "top_k_jaccard": 0.0
+          },
+          "52": {
+            "spearman": 0.1765,
+            "top_k_jaccard": 0.0667
+          },
+          "53": {
+            "spearman": -0.2375,
+            "top_k_jaccard": 0.0
+          },
+          "54": {
+            "spearman": 0.0901,
+            "top_k_jaccard": 0.0667
+          },
+          "55": {
+            "spearman": 0.1027,
+            "top_k_jaccard": 0.1429
+          },
+          "57": {
+            "spearman": 0.1704,
+            "top_k_jaccard": 0.0
+          },
+          "58": {
+            "spearman": -0.0178,
+            "top_k_jaccard": 0.0
+          },
+          "59": {
+            "spearman": -0.4088,
+            "top_k_jaccard": 0.0
+          },
+          "60": {
+            "spearman": -0.2234,
+            "top_k_jaccard": 0.0
+          },
+          "61": {
+            "spearman": 0.335,
+            "top_k_jaccard": 0.0
+          },
+          "62": {
+            "spearman": 0.005,
+            "top_k_jaccard": 0.0
+          },
+          "63": {
+            "spearman": 0.3842,
+            "top_k_jaccard": 0.0667
+          },
+          "64": {
+            "spearman": 0.1683,
+            "top_k_jaccard": 0.2308
+          },
+          "65": {
+            "spearman": -0.0562,
+            "top_k_jaccard": 0.1429
+          },
+          "66": {
+            "spearman": 0.2219,
+            "top_k_jaccard": 0.1429
+          },
+          "67": {
+            "spearman": 0.3289,
+            "top_k_jaccard": 0.4545
+          },
+          "68": {
+            "spearman": -0.1921,
+            "top_k_jaccard": 0.0
+          },
+          "69": {
+            "spearman": 0.3317,
+            "top_k_jaccard": 0.0667
+          },
+          "70": {
+            "spearman": -0.0603,
+            "top_k_jaccard": 0.0
+          },
+          "71": {
+            "spearman": -0.1023,
+            "top_k_jaccard": 0.0667
+          },
+          "72": {
+            "spearman": 0.1312,
+            "top_k_jaccard": 0.0667
+          },
+          "73": {
+            "spearman": 0.2213,
+            "top_k_jaccard": 0.0
+          },
+          "74": {
+            "spearman": 0.2274,
+            "top_k_jaccard": 0.1429
+          },
+          "75": {
+            "spearman": 0.05,
+            "top_k_jaccard": 0.0
+          },
+          "76": {
+            "spearman": 0.0471,
+            "top_k_jaccard": 0.0
+          },
+          "77": {
+            "spearman": -0.4108,
+            "top_k_jaccard": 0.0
+          },
+          "78": {
+            "spearman": -0.3035,
+            "top_k_jaccard": 0.0
+          },
+          "79": {
+            "spearman": -0.2307,
+            "top_k_jaccard": 0.0667
+          },
+          "80": {
+            "spearman": 0.1419,
+            "top_k_jaccard": 0.0
+          },
+          "81": {
+            "spearman": -0.0007,
+            "top_k_jaccard": 0.1429
+          },
+          "82": {
+            "spearman": 0.1992,
+            "top_k_jaccard": 0.0667
+          },
+          "83": {
+            "spearman": 0.0069,
+            "top_k_jaccard": 0.2308
+          },
+          "84": {
+            "spearman": -0.2408,
+            "top_k_jaccard": 0.0
+          },
+          "85": {
+            "spearman": 0.0592,
+            "top_k_jaccard": 0.0
+          },
+          "86": {
+            "spearman": 0.1732,
+            "top_k_jaccard": 0.2308
+          },
+          "87": {
+            "spearman": 0.1269,
+            "top_k_jaccard": 0.0667
+          },
+          "88": {
+            "spearman": -0.1651,
+            "top_k_jaccard": 0.0
+          },
+          "89": {
+            "spearman": -0.3012,
+            "top_k_jaccard": 0.0667
+          },
+          "90": {
+            "spearman": 0.3581,
+            "top_k_jaccard": 0.3333
+          },
+          "92": {
+            "spearman": 0.3072,
+            "top_k_jaccard": 0.2308
+          },
+          "93": {
+            "spearman": 0.1749,
+            "top_k_jaccard": 0.1429
+          },
+          "94": {
+            "spearman": 0.3709,
+            "top_k_jaccard": 0.1429
+          },
+          "95": {
+            "spearman": -0.079,
+            "top_k_jaccard": 0.0667
+          },
+          "96": {
+            "spearman": 0.1125,
+            "top_k_jaccard": 0.1429
+          },
+          "97": {
+            "spearman": 0.171,
+            "top_k_jaccard": 0.0667
+          },
+          "98": {
+            "spearman": -0.2563,
+            "top_k_jaccard": 0.0
+          },
+          "99": {
+            "spearman": 0.323,
+            "top_k_jaccard": 0.3333
+          },
+          "100": {
+            "spearman": -0.4891,
+            "top_k_jaccard": 0.0
+          },
+          "101": {
+            "spearman": 0.2124,
+            "top_k_jaccard": 0.1429
+          },
+          "102": {
+            "spearman": -0.3242,
+            "top_k_jaccard": 0.0
+          },
+          "103": {
+            "spearman": -0.0566,
+            "top_k_jaccard": 0.1429
+          },
+          "104": {
+            "spearman": -0.0018,
+            "top_k_jaccard": 0.0
+          },
+          "105": {
+            "spearman": 0.625,
+            "top_k_jaccard": 0.2308
+          },
+          "106": {
+            "spearman": 0.0757,
+            "top_k_jaccard": 0.3333
+          },
+          "107": {
+            "spearman": 0.3508,
+            "top_k_jaccard": 0.2308
+          },
+          "108": {
+            "spearman": 0.1408,
+            "top_k_jaccard": 0.1429
+          },
+          "109": {
+            "spearman": 0.0316,
+            "top_k_jaccard": 0.0
+          },
+          "110": {
+            "spearman": -0.0554,
+            "top_k_jaccard": 0.0667
+          },
+          "111": {
+            "spearman": 0.1675,
+            "top_k_jaccard": 0.1429
+          },
+          "112": {
+            "spearman": -0.237,
+            "top_k_jaccard": 0.0
+          },
+          "113": {
+            "spearman": 0.3865,
+            "top_k_jaccard": 0.2308
+          },
+          "114": {
+            "spearman": 0.116,
+            "top_k_jaccard": 0.0
+          },
+          "115": {
+            "spearman": 0.3164,
+            "top_k_jaccard": 0.1429
+          },
+          "116": {
+            "spearman": 0.192,
+            "top_k_jaccard": 0.0
+          },
+          "117": {
+            "spearman": 0.34,
+            "top_k_jaccard": 0.0667
+          },
+          "118": {
+            "spearman": 0.3685,
+            "top_k_jaccard": 0.3333
+          },
+          "119": {
+            "spearman": 0.2495,
+            "top_k_jaccard": 0.1429
+          },
+          "120": {
+            "spearman": -0.0415,
+            "top_k_jaccard": 0.2308
+          },
+          "121": {
+            "spearman": -0.0663,
+            "top_k_jaccard": 0.0667
+          },
+          "122": {
+            "spearman": -0.1729,
+            "top_k_jaccard": 0.0
+          },
+          "123": {
+            "spearman": 0.2819,
+            "top_k_jaccard": 0.1429
+          },
+          "124": {
+            "spearman": 0.12,
+            "top_k_jaccard": 0.0
+          },
+          "125": {
+            "spearman": -0.1337,
+            "top_k_jaccard": 0.0
+          },
+          "126": {
+            "spearman": -0.3254,
+            "top_k_jaccard": 0.0
+          },
+          "127": {
+            "spearman": 0.1527,
+            "top_k_jaccard": 0.0
+          },
+          "128": {
+            "spearman": 0.0899,
+            "top_k_jaccard": 0.1429
+          },
+          "129": {
+            "spearman": -0.1836,
+            "top_k_jaccard": 0.0667
+          },
+          "130": {
+            "spearman": -0.0303,
+            "top_k_jaccard": 0.0
+          },
+          "131": {
+            "spearman": 0.3227,
+            "top_k_jaccard": 0.0
+          },
+          "132": {
+            "spearman": -0.0126,
+            "top_k_jaccard": 0.0
+          },
+          "133": {
+            "spearman": 0.0963,
+            "top_k_jaccard": 0.1429
+          },
+          "134": {
+            "spearman": 0.1427,
+            "top_k_jaccard": 0.0
+          },
+          "135": {
+            "spearman": 0.0534,
+            "top_k_jaccard": 0.2308
+          },
+          "136": {
+            "spearman": 0.1208,
+            "top_k_jaccard": 0.0
+          },
+          "137": {
+            "spearman": 0.395,
+            "top_k_jaccard": 0.1429
+          },
+          "138": {
+            "spearman": 0.3892,
+            "top_k_jaccard": 0.0667
+          },
+          "139": {
+            "spearman": 0.0451,
+            "top_k_jaccard": 0.1429
+          },
+          "140": {
+            "spearman": 0.0606,
+            "top_k_jaccard": 0.0
+          },
+          "141": {
+            "spearman": 0.0229,
+            "top_k_jaccard": 0.0
+          },
+          "142": {
+            "spearman": 0.2761,
+            "top_k_jaccard": 0.0
+          },
+          "143": {
+            "spearman": 0.1498,
+            "top_k_jaccard": 0.0
+          },
+          "144": {
+            "spearman": -0.0956,
+            "top_k_jaccard": 0.0
+          },
+          "145": {
+            "spearman": 0.0395,
+            "top_k_jaccard": 0.0
+          },
+          "146": {
+            "spearman": 0.3384,
+            "top_k_jaccard": 0.0667
+          },
+          "147": {
+            "spearman": -0.2192,
+            "top_k_jaccard": 0.0
+          },
+          "148": {
+            "spearman": -0.0228,
+            "top_k_jaccard": 0.0667
+          },
+          "149": {
+            "spearman": -0.0772,
+            "top_k_jaccard": 0.0
+          },
+          "150": {
+            "spearman": -0.1814,
+            "top_k_jaccard": 0.0
+          },
+          "151": {
+            "spearman": -0.1142,
+            "top_k_jaccard": 0.0
+          },
+          "152": {
+            "spearman": -0.1123,
+            "top_k_jaccard": 0.0667
+          },
+          "153": {
+            "spearman": 0.0401,
+            "top_k_jaccard": 0.1429
+          },
+          "154": {
+            "spearman": 0.2196,
+            "top_k_jaccard": 0.1429
+          },
+          "155": {
+            "spearman": -0.0775,
+            "top_k_jaccard": 0.0
+          },
+          "156": {
+            "spearman": -0.0548,
+            "top_k_jaccard": 0.0
+          },
+          "157": {
+            "spearman": 0.2079,
+            "top_k_jaccard": 0.1429
+          },
+          "158": {
+            "spearman": 0.2181,
+            "top_k_jaccard": 0.2308
+          },
+          "159": {
+            "spearman": 0.1427,
+            "top_k_jaccard": 0.0
+          },
+          "160": {
+            "spearman": 0.082,
+            "top_k_jaccard": 0.2308
+          },
+          "161": {
+            "spearman": 0.2808,
+            "top_k_jaccard": 0.0667
+          },
+          "162": {
+            "spearman": 0.1587,
+            "top_k_jaccard": 0.0667
+          },
+          "163": {
+            "spearman": 0.1755,
+            "top_k_jaccard": 0.2308
+          },
+          "164": {
+            "spearman": 0.3505,
+            "top_k_jaccard": 0.3333
+          },
+          "165": {
+            "spearman": 0.1911,
+            "top_k_jaccard": 0.0667
+          },
+          "166": {
+            "spearman": 0.2294,
+            "top_k_jaccard": 0.1429
+          },
+          "167": {
+            "spearman": 0.1862,
+            "top_k_jaccard": 0.0
+          },
+          "168": {
+            "spearman": -0.1432,
+            "top_k_jaccard": 0.0667
+          },
+          "169": {
+            "spearman": -0.1274,
+            "top_k_jaccard": 0.0667
+          },
+          "170": {
+            "spearman": -0.0603,
+            "top_k_jaccard": 0.0667
+          },
+          "171": {
+            "spearman": 0.2978,
+            "top_k_jaccard": 0.0667
+          },
+          "172": {
+            "spearman": 0.2884,
+            "top_k_jaccard": 0.0667
+          },
+          "173": {
+            "spearman": 0.2229,
+            "top_k_jaccard": 0.1429
+          },
+          "174": {
+            "spearman": 0.1991,
+            "top_k_jaccard": 0.0
+          },
+          "175": {
+            "spearman": 0.3661,
+            "top_k_jaccard": 0.1429
+          },
+          "176": {
+            "spearman": -0.1841,
+            "top_k_jaccard": 0.0
+          },
+          "177": {
+            "spearman": -0.2193,
+            "top_k_jaccard": 0.0667
+          },
+          "178": {
+            "spearman": 0.1982,
+            "top_k_jaccard": 0.1429
+          },
+          "179": {
+            "spearman": 0.0268,
+            "top_k_jaccard": 0.0
+          },
+          "180": {
+            "spearman": 0.0863,
+            "top_k_jaccard": 0.0667
+          },
+          "181": {
+            "spearman": 0.0538,
+            "top_k_jaccard": 0.0
+          },
+          "182": {
+            "spearman": -0.0112,
+            "top_k_jaccard": 0.0667
+          },
+          "183": {
+            "spearman": 0.1275,
+            "top_k_jaccard": 0.0
+          },
+          "184": {
+            "spearman": 0.1176,
+            "top_k_jaccard": 0.0667
+          },
+          "185": {
+            "spearman": 0.0088,
+            "top_k_jaccard": 0.1429
+          },
+          "186": {
+            "spearman": 0.1749,
+            "top_k_jaccard": 0.0667
+          },
+          "187": {
+            "spearman": 0.123,
+            "top_k_jaccard": 0.3333
+          },
+          "188": {
+            "spearman": 0.1156,
+            "top_k_jaccard": 0.0
+          },
+          "189": {
+            "spearman": 0.0577,
+            "top_k_jaccard": 0.0667
+          },
+          "190": {
+            "spearman": 0.2763,
+            "top_k_jaccard": 0.0667
+          },
+          "191": {
+            "spearman": -0.0408,
+            "top_k_jaccard": 0.6
+          },
+          "192": {
+            "spearman": 0.078,
+            "top_k_jaccard": 0.0
+          },
+          "193": {
+            "spearman": 0.1316,
+            "top_k_jaccard": 0.4545
+          },
+          "194": {
+            "spearman": 0.0947,
+            "top_k_jaccard": 0.0667
+          },
+          "195": {
+            "spearman": 0.1469,
+            "top_k_jaccard": 0.0
+          },
+          "198": {
+            "spearman": 0.0788,
+            "top_k_jaccard": 0.0667
+          },
+          "199": {
+            "spearman": 0.2432,
+            "top_k_jaccard": 0.0
+          },
+          "200": {
+            "spearman": -0.0906,
+            "top_k_jaccard": 0.0667
+          },
+          "201": {
+            "spearman": -0.0857,
+            "top_k_jaccard": 0.0
+          },
+          "202": {
+            "spearman": -0.0989,
+            "top_k_jaccard": 0.0667
+          },
+          "203": {
+            "spearman": 0.2361,
+            "top_k_jaccard": 0.1429
+          },
+          "204": {
+            "spearman": 0.107,
+            "top_k_jaccard": 0.0
+          },
+          "205": {
+            "spearman": 0.0884,
+            "top_k_jaccard": 0.0
+          },
+          "206": {
+            "spearman": -0.0016,
+            "top_k_jaccard": 0.0
+          }
+        }
+      },
+      "beyond_k_survivors": {
+        "regime": "free_flow",
+        "n_targets_in_both_halves": 200,
+        "n_beyond_k_half_a": 246,
+        "n_beyond_k_half_b": 229,
+        "n_intersection": 52,
+        "n_one_half_only": 371,
+        "survival_rate": 0.1229,
+        "intersection": {
+          "n": 52,
+          "learned_weight": {
+            "mean": 0.0063071902214477844,
+            "median": 0.0046296254731714725
+          },
+          "learned_rank_of_206": {
+            "mean": 92.8,
+            "median": 90,
+            "min": 1,
+            "max": 206,
+            "share_in_top_8": 0.1538,
+            "share_in_top_20": 0.2692,
+            "share_in_top_half": 0.5192
+          }
+        },
+        "one_half_only": {
+          "n": 371,
+          "learned_weight": {
+            "mean": 0.004890263375557578,
+            "median": 0.0041669984348118305
+          },
+          "learned_rank_of_206": {
+            "mean": 107.8,
+            "median": 115,
+            "min": 1,
+            "max": 206,
+            "share_in_top_8": 0.0404,
+            "share_in_top_20": 0.097,
+            "share_in_top_half": 0.442
+          }
+        },
+        "random_beyond_k": {
+          "n": 52,
+          "learned_weight": {
+            "mean": 0.00452268960697648,
+            "median": 0.004021628061309457
+          },
+          "learned_rank_of_206": {
+            "mean": 106.1,
+            "median": 104,
+            "min": 4,
+            "max": 202,
+            "share_in_top_8": 0.0192,
+            "share_in_top_20": 0.0385,
+            "share_in_top_half": 0.5
+          }
+        },
+        "chance_rank_reference": {
+          "uniform_mean_rank": 103.5,
+          "share_in_top_8_if_random": 0.0388
+        },
+        "sigmoid_alpha": 0.2968,
+        "intersection_edges": [
+          {
+            "source": 106,
+            "target": 90,
+            "source_sensor_id": 718072,
+            "target_sensor_id": 716571,
+            "hops": 10,
+            "unreachable": false,
+            "learned_rank_of_206": 1,
+            "learned_weight": 0.01667662523686886,
+            "road_distance_m": null,
+            "haversine_m_reference_only": 17296.9,
+            "source_lat": 34.1491,
+            "source_lon": -118.2257,
+            "target_lat": 34.2,
+            "target_lon": -118.40337
+          },
+          {
+            "source": 81,
+            "target": 26,
+            "source_sensor_id": 769431,
+            "target_sensor_id": 717804,
+            "hops": null,
+            "unreachable": true,
+            "learned_rank_of_206": 2,
+            "learned_weight": 0.01586437039077282,
+            "road_distance_m": null,
+            "haversine_m_reference_only": 7299.6,
+            "source_lat": 34.15843,
+            "source_lon": -118.45664,
+            "target_lat": 34.09478,
+            "target_lon": -118.47605
+          },
+          {
+            "source": 105,
+            "target": 90,
+            "source_sensor_id": 718076,
+            "target_sensor_id": 716571,
+            "hops": 9,
+            "unreachable": false,
+            "learned_rank_of_206": 3,
+            "learned_weight": 0.014095047488808632,
+            "road_distance_m": null,
+            "haversine_m_reference_only": 16878.4,
+            "source_lat": 34.16339,
+            "source_lon": -118.2253,
+            "target_lat": 34.2,
+            "target_lon": -118.40337
+          },
+          {
+            "source": 59,
+            "target": 30,
+            "source_sensor_id": 767366,
+            "target_sensor_id": 773013,
+            "hops": 10,
+            "unreachable": false,
+            "learned_rank_of_206": 4,
+            "learned_weight": 0.012826136313378811,
+            "road_distance_m": null,
+            "haversine_m_reference_only": 27284.8,
+            "source_lat": 34.21216,
+            "source_lon": -118.47341,
+            "target_lat": 34.08374,
+            "target_lon": -118.22076
+          },
+          {
+            "source": 66,
+            "target": 90,
+            "source_sensor_id": 767610,
+            "target_sensor_id": 716571,
+            "hops": 10,
+            "unreachable": false,
+            "learned_rank_of_206": 4,
+            "learned_weight": 0.013756910338997841,
+            "road_distance_m": null,
+            "haversine_m_reference_only": 17156.1,
+            "source_lat": 34.18555,
+            "source_lon": -118.21766,
+            "target_lat": 34.2,
+            "target_lon": -118.40337
+          },
+          {
+            "source": 90,
+            "target": 105,
+            "source_sensor_id": 716571,
+            "target_sensor_id": 718076,
+            "hops": 12,
+            "unreachable": false,
+            "learned_rank_of_206": 4,
+            "learned_weight": 0.016248302534222603,
+            "road_distance_m": null,
+            "haversine_m_reference_only": 16878.4,
+            "source_lat": 34.2,
+            "source_lon": -118.40337,
+            "target_lat": 34.16339,
+            "target_lon": -118.2253
+          },
+          {
+            "source": 66,
+            "target": 44,
+            "source_sensor_id": 767610,
+            "target_sensor_id": 774012,
+            "hops": null,
+            "unreachable": true,
+            "learned_rank_of_206": 5,
+            "learned_weight": 0.011597085744142532,
+            "road_distance_m": 10826.6,
+            "haversine_m_reference_only": 4468.7,
+            "source_lat": 34.18555,
+            "source_lon": -118.21766,
+            "target_lat": 34.14769,
+            "target_lon": -118.20137
+          },
+          {
+            "source": 106,
+            "target": 44,
+            "source_sensor_id": 718072,
+            "target_sensor_id": 774012,
+            "hops": null,
+            "unreachable": true,
+            "learned_rank_of_206": 6,
+            "learned_weight": 0.011487484909594059,
+            "road_distance_m": 10092.9,
+            "haversine_m_reference_only": 2244.4,
+            "source_lat": 34.1491,
+            "source_lon": -118.2257,
+            "target_lat": 34.14769,
+            "target_lon": -118.20137
+          },
+          {
+            "source": 166,
+            "target": 149,
+            "source_sensor_id": 772669,
+            "target_sensor_id": 763995,
+            "hops": 9,
+            "unreachable": false,
+            "learned_rank_of_206": 9,
+            "learned_weight": 0.01742671988904476,
+            "road_distance_m": null,
+            "haversine_m_reference_only": 22911.4,
+            "source_lat": 34.07828,
+            "source_lon": -118.22834,
+            "target_lat": 34.21979,
+            "target_lon": -118.40931
+          },
+          {
+            "source": 149,
+            "target": 133,
+            "source_sensor_id": 763995,
+            "target_sensor_id": 716953,
+            "hops": 9,
+            "unreachable": false,
+            "learned_rank_of_206": 12,
+            "learned_weight": 0.006775409448891878,
+            "road_distance_m": null,
+            "haversine_m_reference_only": 20702.9,
+            "source_lat": 34.21979,
+            "source_lon": -118.40931,
+            "target_lat": 34.09458,
+            "target_lon": -118.24279
+          },
+          {
+            "source": 28,
+            "target": 90,
+            "source_sensor_id": 767573,
+            "target_sensor_id": 716571,
+            "hops": 9,
+            "unreachable": false,
+            "learned_rank_of_206": 12,
+            "learned_weight": 0.011112058535218239,
+            "road_distance_m": null,
+            "haversine_m_reference_only": 17848.2,
+            "source_lat": 34.12964,
+            "source_lon": -118.22901,
+            "target_lat": 34.2,
+            "target_lon": -118.40337
+          },
+          {
+            "source": 69,
+            "target": 26,
+            "source_sensor_id": 717497,
+            "target_sensor_id": 717804,
+            "hops": null,
+            "unreachable": true,
+            "learned_rank_of_206": 13,
+            "learned_weight": 0.01202262844890356,
+            "road_distance_m": null,
+            "haversine_m_reference_only": 8925.9,
+            "source_lat": 34.15685,
+            "source_lon": -118.41456,
+            "target_lat": 34.09478,
+            "target_lon": -118.47605
+          },
+          {
+            "source": 96,
+            "target": 182,
+            "source_sensor_id": 717481,
+            "target_sensor_id": 717825,
+            "hops": 9,
+            "unreachable": false,
+            "learned_rank_of_206": 15,
+            "learned_weight": 0.0065428512170910835,
+            "road_distance_m": null,
+            "haversine_m_reference_only": 18490.2,
+            "source_lat": 34.10634,
+            "source_lon": -118.32826,
+            "target_lat": 34.22164,
+            "target_lon": -118.47307
+          },
+          {
+            "source": 45,
+            "target": 70,
+            "source_sensor_id": 774011,
+            "target_sensor_id": 717490,
+            "hops": null,
+            "unreachable": true,
+            "learned_rank_of_206": 17,
+            "learned_weight": 0.004721079487353563,
+            "road_distance_m": null,
+            "haversine_m_reference_only": 15645.1,
+            "source_lat": 34.14747,
+            "source_lon": -118.20123,
+            "target_lat": 34.14745,
+            "target_lon": -118.37124
+          },
+          {
+            "source": 45,
+            "target": 24,
+            "source_sensor_id": 774011,
+            "target_sensor_id": 717578,
+            "hops": null,
+            "unreachable": true,
+            "learned_rank_of_206": 24,
+            "learned_weight": 0.0068442062474787235,
+            "road_distance_m": null,
+            "haversine_m_reference_only": 6449.6,
+            "source_lat": 34.14747,
+            "source_lon": -118.20123,
+            "target_lat": 34.15478,
+            "target_lon": -118.27076
+          },
+          {
+            "source": 183,
+            "target": 90,
+            "source_sensor_id": 767495,
+            "target_sensor_id": 716571,
+            "hops": 11,
+            "unreachable": false,
+            "learned_rank_of_206": 30,
+            "learned_weight": 0.00934934988617897,
+            "road_distance_m": null,
+            "haversine_m_reference_only": 17716.7,
+            "source_lat": 34.10377,
+            "source_lon": -118.24992,
+            "target_lat": 34.2,
+            "target_lon": -118.40337
+          },
+          {
+            "source": 59,
+            "target": 48,
+            "source_sensor_id": 767366,
+            "target_sensor_id": 760650,
+            "hops": 10,
+            "unreachable": false,
+            "learned_rank_of_206": 30,
+            "learned_weight": 0.004577745217829943,
+            "road_distance_m": null,
+            "haversine_m_reference_only": 26902.2,
+            "source_lat": 34.21216,
+            "source_lon": -118.47341,
+            "target_lat": 34.07505,
+            "target_lon": -118.23256
+          },
+          {
+            "source": 166,
+            "target": 158,
+            "source_sensor_id": 772669,
+            "target_sensor_id": 764794,
+            "hops": 9,
+            "unreachable": false,
+            "learned_rank_of_206": 32,
+            "learned_weight": 0.009180224500596523,
+            "road_distance_m": null,
+            "haversine_m_reference_only": 23878.7,
+            "source_lat": 34.07828,
+            "source_lon": -118.22834,
+            "target_lat": 34.16028,
+            "target_lon": -118.46808
+          },
+          {
+            "source": 122,
+            "target": 21,
+            "source_sensor_id": 717608,
+            "target_sensor_id": 769819,
+            "hops": 9,
+            "unreachable": false,
+            "learned_rank_of_206": 40,
+            "learned_weight": 0.006458506919443607,
+            "road_distance_m": null,
+            "haversine_m_reference_only": 17895.5,
+            "source_lat": 34.17154,
+            "source_lon": -118.38812,
+            "target_lat": 34.20584,
+            "target_lon": -118.19803
+          },
+          {
+            "source": 122,
+            "target": 121,
+            "source_sensor_id": 717608,
+            "target_sensor_id": 769847,
+            "hops": 9,
+            "unreachable": false,
+            "learned_rank_of_206": 42,
+            "learned_weight": 0.007437435444444418,
+            "road_distance_m": null,
+            "haversine_m_reference_only": 15727.6,
+            "source_lat": 34.17154,
+            "source_lon": -118.38812,
+            "target_lat": 34.20983,
+            "target_lon": -118.22351
+          },
+          {
+            "source": 134,
+            "target": 204,
+            "source_sensor_id": 716951,
+            "target_sensor_id": 772168,
+            "hops": 10,
+            "unreachable": false,
+            "learned_rank_of_206": 44,
+            "learned_weight": 0.004837035201489925,
+            "road_distance_m": null,
+            "haversine_m_reference_only": 24486.8,
+            "source_lat": 34.08581,
+            "source_lon": -118.23182,
+            "target_lat": 34.16542,
+            "target_lon": -118.47985
+          },
+          {
+            "source": 134,
+            "target": 172,
+            "source_sensor_id": 716951,
+            "target_sensor_id": 772178,
+            "hops": 10,
+            "unreachable": false,
+            "learned_rank_of_206": 46,
+            "learned_weight": 0.0072905742563307285,
+            "road_distance_m": null,
+            "haversine_m_reference_only": 26263.3,
+            "source_lat": 34.08581,
+            "source_lon": -118.23182,
+            "target_lat": 34.16903,
+            "target_lon": -118.49885
+          },
+          {
+            "source": 45,
+            "target": 77,
+            "source_sensor_id": 774011,
+            "target_sensor_id": 765171,
+            "hops": null,
+            "unreachable": true,
+            "learned_rank_of_206": 55,
+            "learned_weight": 0.00368694425560534,
+            "road_distance_m": null,
+            "haversine_m_reference_only": 24739.1,
+            "source_lat": 34.14747,
+            "source_lon": -118.20123,
+            "target_lat": 34.16789,
+            "target_lon": -118.46896
+          },
+          {
+            "source": 134,
+            "target": 41,
+            "source_sensor_id": 716951,
+            "target_sensor_id": 772140,
+            "hops": 10,
+            "unreachable": false,
+            "learned_rank_of_206": 57,
+            "learned_weight": 0.004473768174648285,
+            "road_distance_m": null,
+            "haversine_m_reference_only": 24047.2,
+            "source_lat": 34.08581,
+            "source_lon": -118.23182,
+            "target_lat": 34.16498,
+            "target_lon": -118.47493
+          },
+          {
+            "source": 134,
+            "target": 86,
+            "source_sensor_id": 716951,
+            "target_sensor_id": 772596,
+            "hops": 10,
+            "unreachable": false,
+            "learned_rank_of_206": 67,
+            "learned_weight": 0.005852516740560532,
+            "road_distance_m": null,
+            "haversine_m_reference_only": 26875.9,
+            "source_lat": 34.08581,
+            "source_lon": -118.23182,
+            "target_lat": 34.17126,
+            "target_lon": -118.50495
+          },
+          {
+            "source": 166,
+            "target": 180,
+            "source_sensor_id": 772669,
+            "target_sensor_id": 717510,
+            "hops": 11,
+            "unreachable": false,
+            "learned_rank_of_206": 77,
+            "learned_weight": 0.005007452331483364,
+            "road_distance_m": null,
+            "haversine_m_reference_only": 28749.2,
+            "source_lat": 34.07828,
+            "source_lon": -118.22834,
+            "target_lat": 34.17128,
+            "target_lon": -118.51976
+          },
+          {
+            "source": 160,
+            "target": 126,
+            "source_sensor_id": 717461,
+            "target_sensor_id": 769867,
+            "hops": 9,
+            "unreachable": false,
+            "learned_rank_of_206": 103,
+            "learned_weight": 0.003576860297471285,
+            "road_distance_m": null,
+            "haversine_m_reference_only": 15853.1,
+            "source_lat": 34.08558,
+            "source_lon": -118.30174,
+            "target_lat": 34.21846,
+            "target_lon": -118.23931
+          },
+          {
+            "source": 66,
+            "target": 70,
+            "source_sensor_id": 767610,
+            "target_sensor_id": 717490,
+            "hops": 9,
+            "unreachable": false,
+            "learned_rank_of_206": 106,
+            "learned_weight": 0.004321903456002474,
+            "road_distance_m": null,
+            "haversine_m_reference_only": 14751.4,
+            "source_lat": 34.18555,
+            "source_lon": -118.21766,
+            "target_lat": 34.14745,
+            "target_lon": -118.37124
+          },
+          {
+            "source": 182,
+            "target": 95,
+            "source_sensor_id": 717825,
+            "target_sensor_id": 718379,
+            "hops": null,
+            "unreachable": true,
+            "learned_rank_of_206": 106,
+            "learned_weight": 0.0033771416638046503,
+            "road_distance_m": null,
+            "haversine_m_reference_only": 19988.4,
+            "source_lat": 34.22164,
+            "source_lon": -118.47307,
+            "target_lat": 34.14224,
+            "target_lon": -118.27812
+          },
+          {
+            "source": 134,
+            "target": 181,
+            "source_sensor_id": 716951,
+            "target_sensor_id": 717513,
+            "hops": 11,
+            "unreachable": false,
+            "learned_rank_of_206": 112,
+            "learned_weight": 0.004419542383402586,
+            "road_distance_m": null,
+            "haversine_m_reference_only": 29712.8,
+            "source_lat": 34.08581,
+            "source_lon": -118.23182,
+            "target_lat": 34.17339,
+            "target_lon": -118.5368
+          },
+          {
+            "source": 149,
+            "target": 194,
+            "source_sensor_id": 763995,
+            "target_sensor_id": 759772,
+            "hops": 9,
+            "unreachable": false,
+            "learned_rank_of_206": 123,
+            "learned_weight": 0.004755308385938406,
+            "road_distance_m": null,
+            "haversine_m_reference_only": 10981.9,
+            "source_lat": 34.21979,
+            "source_lon": -118.40931,
+            "target_lat": 34.17115,
+            "target_lon": -118.30539
+          },
+          {
+            "source": 105,
+            "target": 186,
+            "source_sensor_id": 718076,
+            "target_sensor_id": 717823,
+            "hops": 10,
+            "unreachable": false,
+            "learned_rank_of_206": 133,
+            "learned_weight": 0.005372600629925728,
+            "road_distance_m": null,
+            "haversine_m_reference_only": 23222.6,
+            "source_lat": 34.16339,
+            "source_lon": -118.2253,
+            "target_lat": 34.20264,
+            "target_lon": -118.47326
+          },
+          {
+            "source": 134,
+            "target": 180,
+            "source_sensor_id": 716951,
+            "target_sensor_id": 717510,
+            "hops": 11,
+            "unreachable": false,
+            "learned_rank_of_206": 134,
+            "learned_weight": 0.004391478840261698,
+            "road_distance_m": null,
+            "haversine_m_reference_only": 28155.9,
+            "source_lat": 34.08581,
+            "source_lon": -118.23182,
+            "target_lat": 34.17128,
+            "target_lon": -118.51976
+          },
+          {
+            "source": 146,
+            "target": 144,
+            "source_sensor_id": 717502,
+            "target_sensor_id": 764853,
+            "hops": 9,
+            "unreachable": false,
+            "learned_rank_of_206": 134,
+            "learned_weight": 0.002227526158094406,
+            "road_distance_m": null,
+            "haversine_m_reference_only": 23445.5,
+            "source_lat": 34.16521,
+            "source_lon": -118.47484,
+            "target_lat": 34.06461,
+            "target_lon": -118.25102
+          },
+          {
+            "source": 87,
+            "target": 165,
+            "source_sensor_id": 772597,
+            "target_sensor_id": 716943,
+            "hops": 11,
+            "unreachable": false,
+            "learned_rank_of_206": 139,
+            "learned_weight": 0.004112893715500832,
+            "road_distance_m": null,
+            "haversine_m_reference_only": 29425.0,
+            "source_lat": 34.17109,
+            "source_lon": -118.50495,
+            "target_lat": 34.05987,
+            "target_lon": -118.21492
+          },
+          {
+            "source": 149,
+            "target": 170,
+            "source_sensor_id": 763995,
+            "target_sensor_id": 716949,
+            "hops": 9,
+            "unreachable": false,
+            "learned_rank_of_206": 139,
+            "learned_weight": 0.004681505728513002,
+            "road_distance_m": null,
+            "haversine_m_reference_only": 22379.1,
+            "source_lat": 34.21979,
+            "source_lon": -118.40931,
+            "target_lat": 34.08406,
+            "target_lon": -118.22974
+          },
+          {
+            "source": 45,
+            "target": 150,
+            "source_sensor_id": 774011,
+            "target_sensor_id": 717508,
+            "hops": null,
+            "unreachable": true,
+            "learned_rank_of_206": 150,
+            "learned_weight": 0.0026570677291601896,
+            "road_distance_m": null,
+            "haversine_m_reference_only": 29277.7,
+            "source_lat": 34.14747,
+            "source_lon": -118.20123,
+            "target_lat": 34.17112,
+            "target_lon": -118.51814
+          },
+          {
+            "source": 149,
+            "target": 109,
+            "source_sensor_id": 763995,
+            "target_sensor_id": 761599,
+            "hops": 9,
+            "unreachable": false,
+            "learned_rank_of_206": 161,
+            "learned_weight": 0.004475148860365152,
+            "road_distance_m": null,
+            "haversine_m_reference_only": 14850.3,
+            "source_lat": 34.21979,
+            "source_lon": -118.40931,
+            "target_lat": 34.14226,
+            "target_lon": -118.27786
+          },
+          {
+            "source": 182,
+            "target": 77,
+            "source_sensor_id": 717825,
+            "target_sensor_id": 765171,
+            "hops": null,
+            "unreachable": true,
+            "learned_rank_of_206": 164,
+            "learned_weight": 0.002123661572113633,
+            "road_distance_m": 9313.9,
+            "haversine_m_reference_only": 5988.7,
+            "source_lat": 34.22164,
+            "source_lon": -118.47307,
+            "target_lat": 34.16789,
+            "target_lon": -118.46896
+          },
+          {
+            "source": 96,
+            "target": 121,
+            "source_sensor_id": 717481,
+            "target_sensor_id": 769847,
+            "hops": 10,
+            "unreachable": false,
+            "learned_rank_of_206": 166,
+            "learned_weight": 0.002926840679720044,
+            "road_distance_m": null,
+            "haversine_m_reference_only": 15010.7,
+            "source_lat": 34.10634,
+            "source_lon": -118.32826,
+            "target_lat": 34.20983,
+            "target_lon": -118.22351
+          },
+          {
+            "source": 45,
+            "target": 100,
+            "source_sensor_id": 774011,
+            "target_sensor_id": 772151,
+            "hops": null,
+            "unreachable": true,
+            "learned_rank_of_206": 168,
+            "learned_weight": 0.0027763613034039736,
+            "road_distance_m": null,
+            "haversine_m_reference_only": 27480.0,
+            "source_lat": 34.14747,
+            "source_lon": -118.20123,
+            "target_lat": 34.16928,
+            "target_lon": -118.49872
+          },
+          {
+            "source": 149,
+            "target": 38,
+            "source_sensor_id": 763995,
+            "target_sensor_id": 718045,
+            "hops": 9,
+            "unreachable": false,
+            "learned_rank_of_206": 179,
+            "learned_weight": 0.0030325448606163263,
+            "road_distance_m": null,
+            "haversine_m_reference_only": 23059.6,
+            "source_lat": 34.21979,
+            "source_lon": -118.40931,
+            "target_lat": 34.06712,
+            "target_lon": -118.23973
+          },
+          {
+            "source": 134,
+            "target": 59,
+            "source_sensor_id": 716951,
+            "target_sensor_id": 767366,
+            "hops": 12,
+            "unreachable": false,
+            "learned_rank_of_206": 181,
+            "learned_weight": 0.002160540549084544,
+            "road_distance_m": null,
+            "haversine_m_reference_only": 26299.0,
+            "source_lat": 34.08581,
+            "source_lon": -118.23182,
+            "target_lat": 34.21216,
+            "target_lon": -118.47341
+          },
+          {
+            "source": 134,
+            "target": 152,
+            "source_sensor_id": 716951,
+            "target_sensor_id": 773996,
+            "hops": null,
+            "unreachable": true,
+            "learned_rank_of_206": 185,
+            "learned_weight": 0.002852133708074689,
+            "road_distance_m": null,
+            "haversine_m_reference_only": 6755.4,
+            "source_lat": 34.08581,
+            "source_lon": -118.23182,
+            "target_lat": 34.14511,
+            "target_lon": -118.21587
+          },
+          {
+            "source": 66,
+            "target": 40,
+            "source_sensor_id": 767610,
+            "target_sensor_id": 768066,
+            "hops": 9,
+            "unreachable": false,
+            "learned_rank_of_206": 190,
+            "learned_weight": 0.0034414143301546574,
+            "road_distance_m": null,
+            "haversine_m_reference_only": 14953.8,
+            "source_lat": 34.18555,
+            "source_lon": -118.21766,
+            "target_lat": 34.15118,
+            "target_lon": -118.3748
+          },
+          {
+            "source": 66,
+            "target": 100,
+            "source_sensor_id": 767610,
+            "target_sensor_id": 772151,
+            "hops": 11,
+            "unreachable": false,
+            "learned_rank_of_206": 192,
+            "learned_weight": 0.002342014340683818,
+            "road_distance_m": null,
+            "haversine_m_reference_only": 25918.4,
+            "source_lat": 34.18555,
+            "source_lon": -118.21766,
+            "target_lat": 34.16928,
+            "target_lon": -118.49872
+          },
+          {
+            "source": 69,
+            "target": 49,
+            "source_sensor_id": 717497,
+            "target_sensor_id": 716956,
+            "hops": 9,
+            "unreachable": false,
+            "learned_rank_of_206": 196,
+            "learned_weight": 0.002864197827875614,
+            "road_distance_m": null,
+            "haversine_m_reference_only": 15676.1,
+            "source_lat": 34.15685,
+            "source_lon": -118.41456,
+            "target_lat": 34.10658,
+            "target_lon": -118.25544
+          },
+          {
+            "source": 149,
+            "target": 18,
+            "source_sensor_id": 763995,
+            "target_sensor_id": 769953,
+            "hops": 11,
+            "unreachable": false,
+            "learned_rank_of_206": 197,
+            "learned_weight": 0.0020860510412603617,
+            "road_distance_m": null,
+            "haversine_m_reference_only": 19308.7,
+            "source_lat": 34.21979,
+            "source_lon": -118.40931,
+            "target_lat": 34.20672,
+            "target_lon": -118.19992
+          },
+          {
+            "source": 69,
+            "target": 152,
+            "source_sensor_id": 717497,
+            "target_sensor_id": 773996,
+            "hops": null,
+            "unreachable": true,
+            "learned_rank_of_206": 201,
+            "learned_weight": 0.0023454141337424517,
+            "road_distance_m": null,
+            "haversine_m_reference_only": 18330.1,
+            "source_lat": 34.15685,
+            "source_lon": -118.41456,
+            "target_lat": 34.14511,
+            "target_lon": -118.21587
+          },
+          {
+            "source": 149,
+            "target": 8,
+            "source_sensor_id": 763995,
+            "target_sensor_id": 737529,
+            "hops": 9,
+            "unreachable": false,
+            "learned_rank_of_206": 206,
+            "learned_weight": 0.001257503405213356,
+            "road_distance_m": 8507.5,
+            "haversine_m_reference_only": 6204.7,
+            "source_lat": 34.21979,
+            "source_lon": -118.40931,
+            "target_lat": 34.20264,
+            "target_lon": -118.47352
+          },
+          {
+            "source": 149,
+            "target": 185,
+            "source_sensor_id": 763995,
+            "target_sensor_id": 717821,
+            "hops": 9,
+            "unreachable": false,
+            "learned_rank_of_206": 206,
+            "learned_weight": 0.001257503405213356,
+            "road_distance_m": 8676.7,
+            "haversine_m_reference_only": 6266.6,
+            "source_lat": 34.21979,
+            "source_lon": -118.40931,
+            "target_lat": 34.20112,
+            "target_lon": -118.47361
+          },
+          {
+            "source": 105,
+            "target": 87,
+            "source_sensor_id": 718076,
+            "target_sensor_id": 772597,
+            "hops": 10,
+            "unreachable": false,
+            "learned_rank_of_206": 206,
+            "learned_weight": 0.0019902633503079414,
+            "road_distance_m": null,
+            "haversine_m_reference_only": 25742.8,
+            "source_lat": 34.16339,
+            "source_lon": -118.2253,
+            "target_lat": 34.17109,
+            "target_lon": -118.50495
+          }
+        ],
+        "regime_level_claims_permitted": true,
+        "min_targets_for_regime_claim": 40
+      }
+    }
+  },
+  "support_density": {
+    "physical_adj_row_normalised": {
+      "strictly_positive_entries": 1722,
+      "total_entries": 42849,
+      "structural_density": 0.04019,
+      "row_perplexity_mean": 5.79,
+      "row_perplexity_median": 5.5,
+      "row_perplexity_as_share_of_uniform": 0.028
+    },
+    "A_final_mixed_support": {
+      "strictly_positive_entries": 42849,
+      "total_entries": 42849,
+      "structural_density": 1.0,
+      "row_perplexity_mean": 107.1,
+      "row_perplexity_median": 108.7,
+      "row_perplexity_as_share_of_uniform": 0.5174
+    },
+    "A_sem_learned_semantic": {
+      "strictly_positive_entries": 42849,
+      "total_entries": 42849,
+      "structural_density": 1.0,
+      "row_perplexity_mean": 187.25,
+      "row_perplexity_median": 191.01,
+      "row_perplexity_as_share_of_uniform": 0.9046
+    },
+    "adaptive_support": {
+      "strictly_positive_entries": 42849,
+      "total_entries": 42849,
+      "structural_density": 1.0,
+      "row_perplexity_mean": 204.86,
+      "row_perplexity_median": 205.63,
+      "row_perplexity_as_share_of_uniform": 0.9897
+    },
+    "effectively_dense": true,
+    "receptive_field_conclusion": "A_final is the support every STBlock diffuses over. It is structurally dense (100% of entries positive) and effectively dense (each row spreads over 107 of 207 nodes, 52% of uniform), so the model's spatial receptive field is the FULL GRAPH IN ONE HOP. gcn_order x n_blocks bounds diffusion over the PHYSICAL component only. Any stratum defined by hop distance in the kernel adjacency is therefore a geometric description, not an architectural limit, and influence falling outside it is not surprising."
+  }
+}

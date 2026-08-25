@@ -162,12 +162,21 @@ def analyse_regime(regime: str, node_imp, regimes, geo: ig.Geometry,
         "n_adjacency_edges_same_bucket": int(ref_hops.get(b, 0)),
     } for b, es in by_hop.items()]
 
-    # --- the candidate set: beyond the physical bound, or unreachable ---------
+    # --- the far stratum: beyond K chained kernel radii, or unreachable -------
+    # NOT an architectural limit — the mixed support is dense (Stage 0b). The
+    # base rate is what makes the share interpretable: 22% of METR-LA's ordered
+    # pairs are already in this stratum.
     bk = ig.beyond_k_set(e_top, geo, K_HOPS)
+    base = ig.beyond_k_base_rate(geo, tg, K_HOPS)
+    share = len(bk) / len(e_top) if e_top else None
     out["beyond_k"] = {
         "k_hops": K_HOPS,
+        "label": ig.beyond_k_label(geo, K_HOPS),
         "n_edges": len(bk),
-        "share_of_effective": round(len(bk) / len(e_top), 4) if e_top else None,
+        "share_of_effective": round(share, 4) if share is not None else None,
+        "base_rate_for_these_targets": round(base, 4),
+        "enrichment_over_base_rate": round(share / base, 3)
+        if (share is not None and base) else None,
         "n_unreachable": int(sum(1 for (s, t) in bk
                                  if geo.hops[s, t] == ig.Geometry.UNREACHABLE)),
     }
@@ -176,6 +185,12 @@ def analyse_regime(regime: str, node_imp, regimes, geo: ig.Geometry,
     out["stability"] = split_half(node_imp, regimes, regime, geo, strata, seed)
 
     return out
+
+
+# Minimum targets present in BOTH split halves before a regime-level claim is
+# made about it. Set by instruction, enforced in code rather than in prose so a
+# thin cell cannot quietly acquire a conclusion.
+MIN_TARGETS_FOR_REGIME_CLAIM = 40
 
 
 def split_half(node_imp, regimes, regime: str, geo: ig.Geometry,
@@ -224,6 +239,129 @@ def split_half(node_imp, regimes, regime: str, geo: ig.Geometry,
 # ---------------------------------------------------------------------------
 # Step 3 — per-sensor mass concentration + metadata / raw-data cross-check
 # ---------------------------------------------------------------------------
+def _learned_W(checkpoint: str) -> Tuple[np.ndarray, float]:
+    """A_sem as [target, source], plus sigmoid(alpha). Lazy import: the
+    learned-graph module imports from this one."""
+    import torch
+
+    from .analyze_learned_graph import semantic_graph
+    ck = torch.load(os.path.join(PKG_ROOT, checkpoint), map_location="cpu",
+                    weights_only=False)
+    S, _, alpha = semantic_graph(ck["model_state"])
+    return S.T.copy(), alpha
+
+
+def _learned_rank(WL: np.ndarray, s: int, t: int) -> int:
+    """Rank of source s for target t among all non-self sources, 1 = strongest."""
+    v = WL[t].copy()
+    v[t] = -np.inf
+    order = np.argsort(-v)
+    return int(np.where(order == s)[0][0]) + 1
+
+
+def beyond_k_survivors(node_imp, regimes, regime: str, geo: ig.Geometry,
+                       strata: np.ndarray, checkpoint: str, seed: int = 42
+                       ) -> Dict[str, object]:
+    """Do the beyond-K edges that SURVIVE both split halves sit high in the
+    model's own learned graph?
+
+    THE QUESTION: an edge that replicates across disjoint windows is the only
+    kind worth asking about. If those survivors rank near the top of A_sem, the
+    explainer is recovering the model's learned adjacency. If they rank no better
+    than one-half-only edges or than random pairs from the same stratum, it is
+    not, and the survivors are then just a list of pairs to be described
+    geometrically.
+
+    Three groups, all drawn from the same targets so the comparison is matched:
+      intersection  - beyond-K in BOTH halves
+      one_half_only - beyond-K in exactly one half
+      random        - beyond-K pairs sampled uniformly per target, matched in
+                      count to the intersection
+    """
+    ha, hb = ig.split_halves(strata, seed=seed)
+    sets, actives = [], []
+    for half in (ha, hb):
+        ni = {t: v[half] for t, v in node_imp.items()}
+        rg = {t: v[half] for t, v in regimes.items()}
+        W, n_used = ig.build_W(ni, rg, regime, geo.n, min_windows=MIN_WINDOWS_HALF)
+        tg = ig.active_targets(n_used)
+        sets.append(ig.beyond_k_set(ig.edges_top_k(W, tg, k=TOP_K), geo, K_HOPS))
+        actives.append(set(tg.tolist()))
+    common = sorted(actives[0] & actives[1])
+    inter = sets[0] & sets[1]
+    one_only = (sets[0] | sets[1]) - inter
+
+    out: Dict[str, object] = {
+        "regime": regime,
+        "n_targets_in_both_halves": len(common),
+        "n_beyond_k_half_a": len(sets[0]),
+        "n_beyond_k_half_b": len(sets[1]),
+        "n_intersection": len(inter),
+        "n_one_half_only": len(one_only),
+        "survival_rate": round(len(inter) / len(sets[0] | sets[1]), 4)
+        if (sets[0] | sets[1]) else None,
+    }
+    if not inter:
+        out["note"] = "no beyond-K edge survived both halves"
+        return out
+
+    # matched random draw from the same stratum, same targets, same per-target count
+    rng = np.random.RandomState(seed)
+    per_t = collections.Counter(t for (_, t) in inter)
+    rnd: Set[Tuple[int, int]] = set()
+    for t, cnt in per_t.items():
+        h = geo.hops[:, t]
+        cand = np.where(((h == ig.Geometry.UNREACHABLE) | (h > K_HOPS))
+                        & (np.arange(geo.n) != t))[0]
+        if len(cand) == 0:
+            continue
+        pick = rng.choice(cand, size=min(cnt, len(cand)), replace=False)
+        rnd.update((int(s), int(t)) for s in pick)
+
+    WL, alpha = _learned_W(checkpoint)
+    for name, es in (("intersection", inter), ("one_half_only", one_only),
+                     ("random_beyond_k", rnd)):
+        if not es:
+            out[name] = {"n": 0}
+            continue
+        w = np.array([WL[t, s] for (s, t) in es])
+        r = np.array([_learned_rank(WL, s, t) for (s, t) in es])
+        out[name] = {
+            "n": len(es),
+            "learned_weight": {"mean": float(w.mean()), "median": float(np.median(w))},
+            "learned_rank_of_206": {
+                "mean": round(float(r.mean()), 1),
+                "median": int(np.median(r)),
+                "min": int(r.min()), "max": int(r.max()),
+                "share_in_top_8": round(float((r <= TOP_K).mean()), 4),
+                "share_in_top_20": round(float((r <= 20).mean()), 4),
+                "share_in_top_half": round(float((r <= 103).mean()), 4),
+            },
+        }
+    out["chance_rank_reference"] = {
+        "uniform_mean_rank": 103.5, "share_in_top_8_if_random": round(TOP_K / 206, 4)}
+    out["sigmoid_alpha"] = round(alpha, 4)
+    # every surviving edge, with geometry — listed whatever the verdict
+    out["intersection_edges"] = sorted(
+        [{"source": int(s), "target": int(t),
+          "source_sensor_id": geo.sensor_ids[s], "target_sensor_id": geo.sensor_ids[t],
+          "hops": (None if geo.hops[s, t] == ig.Geometry.UNREACHABLE
+                   else int(geo.hops[s, t])),
+          "unreachable": bool(geo.hops[s, t] == ig.Geometry.UNREACHABLE),
+          "learned_rank_of_206": _learned_rank(WL, s, t),
+          "learned_weight": float(WL[t, s]),
+          "road_distance_m": (round(float(geo.road_m[s, t]), 1)
+                              if np.isfinite(geo.road_m[s, t]) else None),
+          "haversine_m_reference_only": round(float(geo.hav_m[s, t]), 1),
+          "source_lat": round(float(geo.latlon[s, 0]), 5),
+          "source_lon": round(float(geo.latlon[s, 1]), 5),
+          "target_lat": round(float(geo.latlon[t, 0]), 5),
+          "target_lon": round(float(geo.latlon[t, 1]), 5)}
+         for (s, t) in inter],
+        key=lambda d: d["learned_rank_of_206"])
+    return out
+
+
 def compare_to_learned(W: np.ndarray, targets: Sequence[int], geo: ig.Geometry,
                        checkpoint: str) -> Dict[str, object]:
     """Per-target agreement between the EXPLAINER's W and the model's own learned
@@ -564,12 +702,23 @@ def main(argv: Optional[List[str]] = None) -> int:
         },
         "per_regime": {},
     }
+    cfg_ckpt = (data["manifest"].get("config") or {}).get(
+        "checkpoint", "models/gnn/checkpoints/metr_la_best.pt")
+    # Measured density of the support the model ACTUALLY diffuses over. Fact (3)
+    # in the report depends on this, so it is computed here rather than asserted.
+    try:
+        import torch
+
+        from .analyze_learned_graph import density_report
+        _ck = torch.load(os.path.join(PKG_ROOT, cfg_ckpt), map_location="cpu",
+                         weights_only=False)
+        res["support_density"] = density_report(_ck["model_state"], geo)
+    except Exception as exc:                           # noqa: BLE001
+        res["support_density"] = {"error": "{}: {}".format(type(exc).__name__, exc)}
 
     all_edge_rows: List[Dict[str, object]] = []
     edge_sets: Dict[str, Set[Tuple[int, int]]] = {}
     mass_tables: Dict[str, pd.DataFrame] = {}
-    cfg_ckpt = (data["manifest"].get("config") or {}).get(
-        "checkpoint", "models/gnn/checkpoints/metr_la_best.pt")
 
     for regime in ig.REGIMES:
         r = analyse_regime(regime, node_imp, regs, geo, strata, args.seed)
@@ -585,6 +734,12 @@ def main(argv: Optional[List[str]] = None) -> int:
         try:
             r["vs_learned_semantic_graph"] = compare_to_learned(
                 W, tg, geo, cfg_ckpt)
+            sv = beyond_k_survivors(node_imp, regs, regime, geo, strata,
+                                    cfg_ckpt, args.seed)
+            sv["regime_level_claims_permitted"] = bool(
+                sv["n_targets_in_both_halves"] >= MIN_TARGETS_FOR_REGIME_CLAIM)
+            sv["min_targets_for_regime_claim"] = MIN_TARGETS_FOR_REGIME_CLAIM
+            r["beyond_k_survivors"] = sv
         except Exception as exc:                       # noqa: BLE001
             r["vs_learned_semantic_graph"] = {"error": "{}: {}".format(
                 type(exc).__name__, exc)}
@@ -601,6 +756,13 @@ def main(argv: Optional[List[str]] = None) -> int:
             os.path.join(out_dir, "off_adjacency_edges.csv"), index=False)
         edf[edf.hop_bucket.isin([">{}".format(K_HOPS), "unreachable"])].to_csv(
             os.path.join(out_dir, "beyond_k_edges.csv"), index=False)
+
+    for rg, r in res["per_regime"].items():
+        sv = r.get("beyond_k_survivors") or {}
+        if sv.get("intersection_edges"):
+            pd.DataFrame(sv["intersection_edges"]).to_csv(
+                os.path.join(out_dir, "beyond_k_survivors_{}.csv".format(rg)),
+                index=False)
 
     hop_rows = [dict(regime=rg, **h)
                 for rg, r in res["per_regime"].items()
