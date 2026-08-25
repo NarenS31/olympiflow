@@ -58,8 +58,38 @@ def load_solves(path: str) -> Dict[str, object]:
         window_idx, strata = d["window_idx"], d["stratum"]
     with open(os.path.join(path, "manifest.json")) as fh:
         man = json.load(fh)
+    order = []
+    wpath = os.path.join(path, "windows.json")
+    if os.path.exists(wpath):
+        with open(wpath) as fh:
+            order = json.load(fh).get("target_order", [])
     return {"node_imp": node_imp, "target_speed": tgt_speed,
-            "window_idx": window_idx, "strata": strata, "manifest": man}
+            "window_idx": window_idx, "strata": strata, "manifest": man,
+            "target_order": order}
+
+
+def limit_to_prefix(data: Dict[str, object], n: int) -> Dict[str, object]:
+    """Keep only the first `n` targets of the run's SEEDED SHUFFLE ORDER.
+
+    Reconstructs what a partial run would have contained, exactly and
+    reproducibly. Stage 1 dispatches targets in `windows.json.target_order` — a
+    seeded permutation — precisely so that a prefix is an unbiased sample of the
+    graph rather than "the first n node indices", which in METR-LA correlate with
+    position in the sensor file and therefore with geography.
+
+    Used for sample-size sensitivity: does a conclusion drawn at n=207 also hold
+    at n=64? If it does not, the n=207 conclusion is the one to keep, but the
+    instability is worth knowing.
+    """
+    order = (data.get("target_order") or [])[:n]
+    if not order:
+        raise ValueError("run has no recorded target_order; cannot rebuild a prefix")
+    keep = set(int(t) for t in order)
+    out = dict(data)
+    out["node_imp"] = {t: v for t, v in data["node_imp"].items() if t in keep}
+    out["target_speed"] = {t: v for t, v in data["target_speed"].items() if t in keep}
+    out["prefix_n"] = len(out["node_imp"])
+    return out
 
 
 def regimes_for(tgt_speed: Dict[int, np.ndarray]) -> Dict[int, np.ndarray]:
@@ -642,11 +672,21 @@ def main(argv: Optional[List[str]] = None) -> int:
     ap.add_argument("--quick", action="store_true",
                     help="pooled split-half only; no figures, no report, no raw scan")
     ap.add_argument("--seed", type=int, default=42)
+    ap.add_argument("--sensitivity-prefix", type=int, default=64,
+                    help="also compute the survivor analysis on this many targets "
+                         "from the seeded shuffle order, as a sample-size check")
+    ap.add_argument("--limit-targets", type=int, default=None,
+                    help="restrict to the first N targets of the seeded shuffle "
+                         "order (sample-size sensitivity; does not re-solve)")
     args = ap.parse_args(argv)
 
     path = args.run if os.path.isabs(args.run) else os.path.join(
         PKG_ROOT, run_dir.RAW, args.run)
     data = load_solves(path)
+    if args.limit_targets:
+        data = limit_to_prefix(data, args.limit_targets)
+        print("restricted to first {} targets of the seeded shuffle order"
+              .format(data["prefix_n"]))
     node_imp, tgt_speed = data["node_imp"], data["target_speed"]
     regs = regimes_for(tgt_speed)
     geo = ig.load_geometry("metr_la")
@@ -747,6 +787,34 @@ def main(argv: Optional[List[str]] = None) -> int:
               .format(regime, len(tg), len(e),
                       r["edges"]["top_k"]["n_off_adjacency"],
                       r["stability"].get("jaccard_all_edges")))
+
+    # ------------------------------------- sample-size sensitivity on survivors
+    # Does the survivor conclusion hold at a smaller n? The prefix is the run's
+    # SEEDED SHUFFLE ORDER, so it is an unbiased subsample of the graph and the
+    # comparison isolates sample size rather than geography. Reported whatever it
+    # shows: a conclusion that only appears at full n is a weaker conclusion.
+    if args.sensitivity_prefix and not args.limit_targets \
+            and args.sensitivity_prefix < len(node_imp):
+        try:
+            sub = limit_to_prefix(data, args.sensitivity_prefix)
+            sub_rg = regimes_for(sub["target_speed"])
+            sens = {"prefix_n_targets": sub["prefix_n"], "full_n_targets": len(node_imp),
+                    "per_regime": {}}
+            for regime in ig.REGIMES:
+                sv = beyond_k_survivors(sub["node_imp"], sub_rg, regime, geo,
+                                        strata, cfg_ckpt, args.seed)
+                sv["regime_level_claims_permitted"] = bool(
+                    sv["n_targets_in_both_halves"] >= MIN_TARGETS_FOR_REGIME_CLAIM)
+                sv.pop("intersection_edges", None)     # full list lives at full n
+                sens["per_regime"][regime] = sv
+            res["survivor_sample_size_sensitivity"] = sens
+            for rg, v in sens["per_regime"].items():
+                i = (v.get("intersection") or {}).get("learned_rank_of_206") or {}
+                print("[sensitivity n={}] {}: survivors {} top-8 {}".format(
+                    sub["prefix_n"], rg, v["n_intersection"], i.get("share_in_top_8")))
+        except Exception as exc:                       # noqa: BLE001
+            res["survivor_sample_size_sensitivity"] = {
+                "error": "{}: {}".format(type(exc).__name__, exc)}
 
     # ------------------------------------------------------------------ tables
     edf = pd.DataFrame(all_edge_rows)

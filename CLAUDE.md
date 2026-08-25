@@ -1323,6 +1323,12 @@ windows = 4,968 GNNExplainer solves, CPU, 8.4 h. Congested < 45 mph, free-flow
   but weak shift, so NOT recovery of the learned adjacency. All 52 listed with
   geometry. Congested has 15 survivors but only 28 targets in both halves, below
   the pre-set floor of 40, so NO regime-level claim is made for it.
+- THE SURVIVOR ENRICHMENT IS SAMPLE-SIZE DEPENDENT (recorded because it weakens
+  the previous bullet): recomputed on the first 64 targets of the seeded shuffle
+  order, free-flow survivors hit A_sem's top 8 at 0.071 vs 0.154 at n=207, on a
+  0.039 chance rate, with only 14 survivors at the smaller n. Consistent with
+  either "n=64 underpowered" or "not robust"; either way the full-sample shift is
+  weak evidence not yet shown to replicate. Do not quote the 4.0x alone.
 - CONVERGING FINDING WORTH THE PAPER: "which nodes are important" is not a
   well-determined object in this model. Three independent probes agree — CPU vs
   MPS at the same seed (Spearman 0.578, top-8 J 0.399), ep34 vs ep54 (0.780 /

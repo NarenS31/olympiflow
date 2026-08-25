@@ -421,6 +421,55 @@ def render(res: Dict, geo: ig.Geometry, mass_tables: Dict[str, pd.DataFrame],
                 e["target_lat"], e["target_lon"]))
         A("")
 
+    # ------------------------------------------- survivor sample-size check
+    sens = res.get("survivor_sample_size_sensitivity")
+    if sens and "error" not in sens:
+        A("### Does the survivor result hold at a smaller sample?")
+        A("")
+        A("Recomputed on the first {} targets of the run's seeded shuffle order — an".format(
+            sens["prefix_n_targets"]))
+        A("unbiased subsample of the graph, so this isolates sample size rather than")
+        A("geography.")
+        A("")
+        A("| Regime | n targets | survivors | mean rank | top-8 | claims permitted |")
+        A("|---|---|---|---|---|---|")
+        for regime in ig.REGIMES:
+            for lab, blk in ((str(sens["prefix_n_targets"]),
+                              (sens["per_regime"].get(regime) or {})),
+                             (str(sens["full_n_targets"]),
+                              ((res["per_regime"].get(regime) or {}).get(
+                                  "beyond_k_survivors") or {}))):
+                if not blk:
+                    continue
+                rk = (blk.get("intersection") or {}).get("learned_rank_of_206") or {}
+                A("| {} | {} | {} | {} | {} | {} |".format(
+                    regime.replace("_", " "), lab, blk.get("n_intersection"),
+                    _fmt(rk.get("mean"), 1), _fmt(rk.get("share_in_top_8"), 3),
+                    "yes" if blk.get("regime_level_claims_permitted") else "no"))
+        A("")
+        ff_small = (sens["per_regime"].get(ig.REGIME_FREEFLOW) or {})
+        ff_full = ((res["per_regime"].get(ig.REGIME_FREEFLOW) or {}).get(
+            "beyond_k_survivors") or {})
+        a = ((ff_small.get("intersection") or {}).get("learned_rank_of_206") or {}).get(
+            "share_in_top_8")
+        b = ((ff_full.get("intersection") or {}).get("learned_rank_of_206") or {}).get(
+            "share_in_top_8")
+        if a is not None and b is not None:
+            A("**The enrichment is sample-size dependent and does not appear at the")
+            A("smaller n.** Free-flow survivors sit in the learned graph's top 8 at {}".format(
+                _fmt(b, 3)))
+            A("on {} targets but only {} on {} targets — against a {} chance rate. The".format(
+                sens["full_n_targets"], _fmt(a, 3), sens["prefix_n_targets"],
+                _fmt(TOPK_CHANCE(g["n_nodes"]), 3)))
+            A("smaller sample yields only {} survivors, which is too few to carry the".format(
+                ff_small.get("n_intersection")))
+            A("comparison, so this is as consistent with \"n={} was underpowered\" as with".format(
+                sens["prefix_n_targets"]))
+            A("\"the effect is not robust\". Either way the full-sample result should be")
+            A("read as weak evidence that has not been shown to replicate under")
+            A("resampling, not as an established shift.")
+            A("")
+
     # ------------------------------- explainer W vs the learned semantic graph
     A("## The explainer's W against the model's own learned graph")
     A("")

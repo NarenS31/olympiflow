@@ -944,6 +944,17 @@ THE NUMBERS THAT SURPRISED ME:
    report.md and beyond_k_survivors_free_flow.csv. Congested: 15 survivors but
    only 28 targets have both halves, below the 40 floor, so no claim is made.
 
+7. AND FINDING 6 IS SAMPLE-SIZE DEPENDENT. Reran the survivor analysis on the
+   first 64 targets of the seeded shuffle order (an unbiased subsample, so this
+   isolates n, not geography): free-flow survivors hit A_sem's top 8 at 0.071 on
+   64 targets vs 0.154 on 207, against 0.039 chance. Only 14 survivors exist at
+   n=64, too few to carry the comparison — so this is as consistent with "n=64
+   was underpowered" as with "the effect is not robust". Either reading means the
+   full-sample enrichment is weak evidence that has NOT been shown to replicate,
+   and I have written it that way rather than quoting the 4.0x headline alone.
+   Congested is worse than random at both n (158.2 then 131.8 vs random 104.8 /
+   115.5) but stays below the 40-target floor, so no claim either way.
+
 Step 2 (implied propagation speed) NOT RUN: the mask has no time dimension, so
 there is no per-lag importance to weight. Skipped rather than substituted.
 

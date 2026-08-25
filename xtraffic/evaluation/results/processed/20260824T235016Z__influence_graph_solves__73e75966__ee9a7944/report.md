@@ -368,6 +368,28 @@ columns, nothing derived from haversine):
 | 149 | 185 | 763995 | 717821 | 9 | 206 | 8676.7 | 6266.6 | 34.2198, -118.4093 | 34.2011, -118.4736 |
 | 105 | 87 | 718076 | 772597 | 10 | 206 | — | 25742.8 | 34.1634, -118.2253 | 34.1711, -118.5049 |
 
+### Does the survivor result hold at a smaller sample?
+
+Recomputed on the first 64 targets of the run's seeded shuffle order — an
+unbiased subsample of the graph, so this isolates sample size rather than
+geography.
+
+| Regime | n targets | survivors | mean rank | top-8 | claims permitted |
+|---|---|---|---|---|---|
+| congested | 64 | 10 | 158.2 | 0.000 | no |
+| congested | 207 | 15 | 131.8 | 0.000 | no |
+| free flow | 64 | 14 | 106.1 | 0.071 | yes |
+| free flow | 207 | 52 | 92.8 | 0.154 | yes |
+
+**The enrichment is sample-size dependent and does not appear at the
+smaller n.** Free-flow survivors sit in the learned graph's top 8 at 0.154
+on 207 targets but only 0.071 on 64 targets — against a 0.039 chance rate. The
+smaller sample yields only 14 survivors, which is too few to carry the
+comparison, so this is as consistent with "n=64 was underpowered" as with
+"the effect is not robust". Either way the full-sample result should be
+read as weak evidence that has not been shown to replicate under
+resampling, not as an established shift.
+
 ## The explainer's W against the model's own learned graph
 
 Both objects were produced by the same checkpoint and both get read as "which

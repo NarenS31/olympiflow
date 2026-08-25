@@ -3036,5 +3036,137 @@
     },
     "effectively_dense": true,
     "receptive_field_conclusion": "A_final is the support every STBlock diffuses over. It is structurally dense (100% of entries positive) and effectively dense (each row spreads over 107 of 207 nodes, 52% of uniform), so the model's spatial receptive field is the FULL GRAPH IN ONE HOP. gcn_order x n_blocks bounds diffusion over the PHYSICAL component only. Any stratum defined by hop distance in the kernel adjacency is therefore a geometric description, not an architectural limit, and influence falling outside it is not surprising."
+  },
+  "survivor_sample_size_sensitivity": {
+    "prefix_n_targets": 64,
+    "full_n_targets": 207,
+    "per_regime": {
+      "congested": {
+        "regime": "congested",
+        "n_targets_in_both_halves": 12,
+        "n_beyond_k_half_a": 32,
+        "n_beyond_k_half_b": 36,
+        "n_intersection": 10,
+        "n_one_half_only": 48,
+        "survival_rate": 0.1724,
+        "intersection": {
+          "n": 10,
+          "learned_weight": {
+            "mean": 0.002237667387817055,
+            "median": 0.0017939943936653435
+          },
+          "learned_rank_of_206": {
+            "mean": 158.2,
+            "median": 189,
+            "min": 33,
+            "max": 206,
+            "share_in_top_8": 0.0,
+            "share_in_top_20": 0.0,
+            "share_in_top_half": 0.2
+          }
+        },
+        "one_half_only": {
+          "n": 48,
+          "learned_weight": {
+            "mean": 0.0034786109269286194,
+            "median": 0.002581607084721327
+          },
+          "learned_rank_of_206": {
+            "mean": 122.5,
+            "median": 124,
+            "min": 1,
+            "max": 204,
+            "share_in_top_8": 0.0625,
+            "share_in_top_20": 0.125,
+            "share_in_top_half": 0.4167
+          }
+        },
+        "random_beyond_k": {
+          "n": 10,
+          "learned_weight": {
+            "mean": 0.0029291398357599975,
+            "median": 0.0029269782826304436
+          },
+          "learned_rank_of_206": {
+            "mean": 104.8,
+            "median": 127,
+            "min": 21,
+            "max": 148,
+            "share_in_top_8": 0.0,
+            "share_in_top_20": 0.0,
+            "share_in_top_half": 0.4
+          }
+        },
+        "chance_rank_reference": {
+          "uniform_mean_rank": 103.5,
+          "share_in_top_8_if_random": 0.0388
+        },
+        "sigmoid_alpha": 0.2968,
+        "regime_level_claims_permitted": false
+      },
+      "free_flow": {
+        "regime": "free_flow",
+        "n_targets_in_both_halves": 60,
+        "n_beyond_k_half_a": 75,
+        "n_beyond_k_half_b": 58,
+        "n_intersection": 14,
+        "n_one_half_only": 105,
+        "survival_rate": 0.1176,
+        "intersection": {
+          "n": 14,
+          "learned_weight": {
+            "mean": 0.005142141249962151,
+            "median": 0.004718407057225704
+          },
+          "learned_rank_of_206": {
+            "mean": 106.1,
+            "median": 114,
+            "min": 4,
+            "max": 197,
+            "share_in_top_8": 0.0714,
+            "share_in_top_20": 0.0714,
+            "share_in_top_half": 0.4286
+          }
+        },
+        "one_half_only": {
+          "n": 105,
+          "learned_weight": {
+            "mean": 0.004558711636456705,
+            "median": 0.0038187941536307335
+          },
+          "learned_rank_of_206": {
+            "mean": 107.4,
+            "median": 106,
+            "min": 1,
+            "max": 206,
+            "share_in_top_8": 0.0381,
+            "share_in_top_20": 0.1048,
+            "share_in_top_half": 0.4667
+          }
+        },
+        "random_beyond_k": {
+          "n": 14,
+          "learned_weight": {
+            "mean": 0.004116986362662699,
+            "median": 0.004076104145497084
+          },
+          "learned_rank_of_206": {
+            "mean": 120.8,
+            "median": 136,
+            "min": 14,
+            "max": 191,
+            "share_in_top_8": 0.0,
+            "share_in_top_20": 0.0714,
+            "share_in_top_half": 0.3571
+          }
+        },
+        "chance_rank_reference": {
+          "uniform_mean_rank": 103.5,
+          "share_in_top_8_if_random": 0.0388
+        },
+        "sigmoid_alpha": 0.2968,
+        "regime_level_claims_permitted": true
+      }
+    }
   }
 }
