@@ -1,0 +1,628 @@
+{
+  "part": 4,
+  "settings": [
+    {
+      "setting": "current",
+      "lambda_size": 0.15,
+      "n_targets": 40,
+      "n_windows": 24,
+      "entropy_of_mean_mean": 0.9975713166096455,
+      "entropy_of_mean_std": 0.0016248131589842243,
+      "mean_of_entropy_mean": 0.9861581784337001,
+      "mean_of_entropy_std": 0.0046009818053239235,
+      "sources_for_80pct_mean": 156.125,
+      "sources_for_80pct_std": 2.984857618044787,
+      "sources_for_80pct_per_window_mean": 144.45625,
+      "self_importance_mean": 0.5508468300492193,
+      "split_half_jaccard_mean": 0.2323082473082473,
+      "split_half_jaccard_std": 0.14614985360121585,
+      "precision_vs_adjacency": 0.253125,
+      "recall_vs_adjacency": 0.26557377049180325,
+      "n_effective_edges": 320,
+      "precision_uniform_baseline": 0.025,
+      "precision_degree_matched_baseline": 0.04375,
+      "precision_lift_vs_uniform": 10.124999999999998,
+      "n_targets_missing": 0,
+      "seed_repeat_jaccard_mean": 0.348011988011988,
+      "seed_repeat_jaccard_n": 10
+    },
+    {
+      "setting": "3x",
+      "lambda_size": 0.45,
+      "n_targets": 40,
+      "n_windows": 24,
+      "entropy_of_mean_mean": 0.9978894495127758,
+      "entropy_of_mean_std": 0.0021573468699972232,
+      "mean_of_entropy_mean": 0.9902057924331841,
+      "mean_of_entropy_std": 0.005254022725667092,
+      "sources_for_80pct_mean": 157.425,
+      "sources_for_80pct_std": 3.3903355291180253,
+      "sources_for_80pct_per_window_mean": 150.00729166666667,
+      "self_importance_mean": 0.5455369295241932,
+      "split_half_jaccard_mean": 0.23848873348873348,
+      "split_half_jaccard_std": 0.17389419968409844,
+      "precision_vs_adjacency": 0.26875,
+      "recall_vs_adjacency": 0.2819672131147541,
+      "n_effective_edges": 320,
+      "precision_uniform_baseline": 0.025,
+      "precision_degree_matched_baseline": 0.04375,
+      "precision_lift_vs_uniform": 10.749999999999998,
+      "n_targets_missing": 0,
+      "seed_repeat_jaccard_mean": 0.31488067488067484,
+      "seed_repeat_jaccard_n": 10
+    },
+    {
+      "setting": "10x",
+      "lambda_size": 1.5,
+      "n_targets": 40,
+      "n_windows": 24,
+      "entropy_of_mean_mean": 0.9987913056790877,
+      "entropy_of_mean_std": 0.0009693751021183138,
+      "mean_of_entropy_mean": 0.994500550979766,
+      "mean_of_entropy_std": 0.0037916663534139413,
+      "sources_for_80pct_mean": 159.625,
+      "sources_for_80pct_std": 1.8260271082325148,
+      "sources_for_80pct_per_window_mean": 155.31458333333333,
+      "self_importance_mean": 0.5263217888772488,
+      "split_half_jaccard_mean": 0.2286940836940837,
+      "split_half_jaccard_std": 0.18307975645289376,
+      "precision_vs_adjacency": 0.209375,
+      "recall_vs_adjacency": 0.21967213114754097,
+      "n_effective_edges": 320,
+      "precision_uniform_baseline": 0.025,
+      "precision_degree_matched_baseline": 0.04375,
+      "precision_lift_vs_uniform": 8.375,
+      "n_targets_missing": 0,
+      "seed_repeat_jaccard_mean": 0.30154734154734153,
+      "seed_repeat_jaccard_n": 10
+    }
+  ],
+  "supplementary_current_setting_all_targets": {
+    "what": "current setting only, all targets solved by the Stage-1 run; supplementary to the pre-registered pooled scatter",
+    "n_targets": 207,
+    "entropy_of_mean_mean": 0.9977017682150576,
+    "mean_of_entropy_mean": 0.9862222212999867,
+    "sources_for_80pct_mean": 156.42028985507247,
+    "split_half_jaccard_mean": 0.2489209126890286,
+    "spearman": {
+      "entropy_of_mean": {
+        "rho": -0.30542959088168214,
+        "p_value": 7.635416865655643e-06,
+        "n_points": 207,
+        "n_clusters": 207,
+        "n_boot": 10000,
+        "n_boot_used": 10000,
+        "ci_lo": -0.43441588690920013,
+        "ci_hi": -0.17071470032360506,
+        "excludes_zero": true,
+        "bootstrap_unit": "target (all of a target's settings move together)"
+      },
+      "mean_of_entropy": {
+        "rho": -0.12000584634787545,
+        "p_value": 0.0850046859030669,
+        "n_points": 207,
+        "n_clusters": 207,
+        "n_boot": 10000,
+        "n_boot_used": 10000,
+        "ci_lo": -0.24934605517096547,
+        "ci_hi": 0.018254950772012026,
+        "excludes_zero": false,
+        "bootstrap_unit": "target (all of a target's settings move together)"
+      }
+    }
+  },
+  "split_half_seed": 42,
+  "seed_repeat": [
+    {
+      "setting": "current",
+      "lambda_size": 0.15,
+      "target": 9,
+      "seed_repeat_jaccard": 0.45454545454545453,
+      "entropy_seed0": 0.9987371317315241,
+      "entropy_seed1": 0.9988069716862608
+    },
+    {
+      "setting": "current",
+      "lambda_size": 0.15,
+      "target": 15,
+      "seed_repeat_jaccard": 0.45454545454545453,
+      "entropy_seed0": 0.9968921594319085,
+      "entropy_seed1": 0.9965240602908778
+    },
+    {
+      "setting": "current",
+      "lambda_size": 0.15,
+      "target": 18,
+      "seed_repeat_jaccard": 0.23076923076923078,
+      "entropy_seed0": 0.9980826203049271,
+      "entropy_seed1": 0.9982045029352337
+    },
+    {
+      "setting": "current",
+      "lambda_size": 0.15,
+      "target": 73,
+      "seed_repeat_jaccard": 0.3333333333333333,
+      "entropy_seed0": 0.9971815914529712,
+      "entropy_seed1": 0.9971216753639568
+    },
+    {
+      "setting": "current",
+      "lambda_size": 0.15,
+      "target": 96,
+      "seed_repeat_jaccard": 0.6,
+      "entropy_seed0": 0.9976788515116932,
+      "entropy_seed1": 0.9970492434329151
+    },
+    {
+      "setting": "current",
+      "lambda_size": 0.15,
+      "target": 100,
+      "seed_repeat_jaccard": 0.14285714285714285,
+      "entropy_seed0": 0.9980056841396187,
+      "entropy_seed1": 0.9982455266124343
+    },
+    {
+      "setting": "current",
+      "lambda_size": 0.15,
+      "target": 135,
+      "seed_repeat_jaccard": 0.45454545454545453,
+      "entropy_seed0": 0.9981131290347799,
+      "entropy_seed1": 0.9981388639296411
+    },
+    {
+      "setting": "current",
+      "lambda_size": 0.15,
+      "target": 148,
+      "seed_repeat_jaccard": 0.14285714285714285,
+      "entropy_seed0": 0.9987346477173752,
+      "entropy_seed1": 0.9986040704276393
+    },
+    {
+      "setting": "current",
+      "lambda_size": 0.15,
+      "target": 161,
+      "seed_repeat_jaccard": 0.3333333333333333,
+      "entropy_seed0": 0.9985059054842187,
+      "entropy_seed1": 0.9984925657906133
+    },
+    {
+      "setting": "current",
+      "lambda_size": 0.15,
+      "target": 166,
+      "seed_repeat_jaccard": 0.3333333333333333,
+      "entropy_seed0": 0.9989284823823562,
+      "entropy_seed1": 0.9985890548904951
+    },
+    {
+      "setting": "3x",
+      "lambda_size": 0.45,
+      "target": 9,
+      "seed_repeat_jaccard": 0.3333333333333333,
+      "entropy_seed0": 0.9986194002189708,
+      "entropy_seed1": 0.9986615000092742
+    },
+    {
+      "setting": "3x",
+      "lambda_size": 0.45,
+      "target": 15,
+      "seed_repeat_jaccard": 0.7777777777777778,
+      "entropy_seed0": 0.9950273194006055,
+      "entropy_seed1": 0.9946488010286877
+    },
+    {
+      "setting": "3x",
+      "lambda_size": 0.45,
+      "target": 18,
+      "seed_repeat_jaccard": 0.45454545454545453,
+      "entropy_seed0": 0.9988348550794414,
+      "entropy_seed1": 0.9988682642347224
+    },
+    {
+      "setting": "3x",
+      "lambda_size": 0.45,
+      "target": 73,
+      "seed_repeat_jaccard": 0.3333333333333333,
+      "entropy_seed0": 0.9970434385677808,
+      "entropy_seed1": 0.9968223329920866
+    },
+    {
+      "setting": "3x",
+      "lambda_size": 0.45,
+      "target": 96,
+      "seed_repeat_jaccard": 0.23076923076923078,
+      "entropy_seed0": 0.9989704762838486,
+      "entropy_seed1": 0.9984085245402448
+    },
+    {
+      "setting": "3x",
+      "lambda_size": 0.45,
+      "target": 100,
+      "seed_repeat_jaccard": 0.14285714285714285,
+      "entropy_seed0": 0.9979376923372895,
+      "entropy_seed1": 0.9981578680151616
+    },
+    {
+      "setting": "3x",
+      "lambda_size": 0.45,
+      "target": 135,
+      "seed_repeat_jaccard": 0.06666666666666667,
+      "entropy_seed0": 0.9993330801208749,
+      "entropy_seed1": 0.9993340737039408
+    },
+    {
+      "setting": "3x",
+      "lambda_size": 0.45,
+      "target": 148,
+      "seed_repeat_jaccard": 0.06666666666666667,
+      "entropy_seed0": 0.9984823449613698,
+      "entropy_seed1": 0.9983451179734573
+    },
+    {
+      "setting": "3x",
+      "lambda_size": 0.45,
+      "target": 161,
+      "seed_repeat_jaccard": 0.6,
+      "entropy_seed0": 0.9984361537025376,
+      "entropy_seed1": 0.9987458253964229
+    },
+    {
+      "setting": "3x",
+      "lambda_size": 0.45,
+      "target": 166,
+      "seed_repeat_jaccard": 0.14285714285714285,
+      "entropy_seed0": 0.9988965865081304,
+      "entropy_seed1": 0.9986103865195493
+    },
+    {
+      "setting": "10x",
+      "lambda_size": 1.5,
+      "target": 9,
+      "seed_repeat_jaccard": 0.23076923076923078,
+      "entropy_seed0": 0.9986250004408983,
+      "entropy_seed1": 0.998353834578904
+    },
+    {
+      "setting": "10x",
+      "lambda_size": 1.5,
+      "target": 15,
+      "seed_repeat_jaccard": 0.7777777777777778,
+      "entropy_seed0": 0.9953709663419925,
+      "entropy_seed1": 0.9953913136523884
+    },
+    {
+      "setting": "10x",
+      "lambda_size": 1.5,
+      "target": 18,
+      "seed_repeat_jaccard": 0.14285714285714285,
+      "entropy_seed0": 0.9995121729174911,
+      "entropy_seed1": 0.9995534265028612
+    },
+    {
+      "setting": "10x",
+      "lambda_size": 1.5,
+      "target": 73,
+      "seed_repeat_jaccard": 0.45454545454545453,
+      "entropy_seed0": 0.9973588490931642,
+      "entropy_seed1": 0.9971386308660576
+    },
+    {
+      "setting": "10x",
+      "lambda_size": 1.5,
+      "target": 96,
+      "seed_repeat_jaccard": 0.0,
+      "entropy_seed0": 0.9995001236573696,
+      "entropy_seed1": 0.9994193926391051
+    },
+    {
+      "setting": "10x",
+      "lambda_size": 1.5,
+      "target": 100,
+      "seed_repeat_jaccard": 0.06666666666666667,
+      "entropy_seed0": 0.9977750387062123,
+      "entropy_seed1": 0.9980007391454175
+    },
+    {
+      "setting": "10x",
+      "lambda_size": 1.5,
+      "target": 135,
+      "seed_repeat_jaccard": 0.0,
+      "entropy_seed0": 0.9995088374115724,
+      "entropy_seed1": 0.999462890674052
+    },
+    {
+      "setting": "10x",
+      "lambda_size": 1.5,
+      "target": 148,
+      "seed_repeat_jaccard": 0.14285714285714285,
+      "entropy_seed0": 0.9984287009652502,
+      "entropy_seed1": 0.9983270260881092
+    },
+    {
+      "setting": "10x",
+      "lambda_size": 1.5,
+      "target": 161,
+      "seed_repeat_jaccard": 0.6,
+      "entropy_seed0": 0.9985546616050264,
+      "entropy_seed1": 0.998382965830105
+    },
+    {
+      "setting": "10x",
+      "lambda_size": 1.5,
+      "target": 166,
+      "seed_repeat_jaccard": 0.6,
+      "entropy_seed0": 0.9988826550366819,
+      "entropy_seed1": 0.9987096633540385
+    }
+  ],
+  "scatter_spearman": {
+    "entropy_of_mean": {
+      "rho": -0.20082258071867715,
+      "p_value": 0.027854333046797516,
+      "n_points": 120,
+      "n_clusters": 40,
+      "n_boot": 10000,
+      "n_boot_used": 10000,
+      "ci_lo": -0.42293422366885525,
+      "ci_hi": 0.04521392349407688,
+      "excludes_zero": false,
+      "bootstrap_unit": "target (all of a target's settings move together)"
+    },
+    "mean_of_entropy": {
+      "rho": -0.17317904391690264,
+      "p_value": 0.05855187862187519,
+      "n_points": 120,
+      "n_clusters": 40,
+      "n_boot": 10000,
+      "n_boot_used": 10000,
+      "ci_lo": -0.393806692444089,
+      "ci_hi": 0.05127385516462388,
+      "excludes_zero": false,
+      "bootstrap_unit": "target (all of a target's settings move together)"
+    }
+  },
+  "entropy_threshold": {
+    "entropy_of_mean": {
+      "threshold": 0.9984806274063798,
+      "youden_j": 0.25420875420875433,
+      "sensitivity": 0.6481481481481481,
+      "specificity": 0.6060606060606061,
+      "n_positive": 54,
+      "n_negative": 66,
+      "rule": "flag when score > threshold",
+      "unstable_defined_as": "split-half top-8 Jaccard < pooled median (0.2308)"
+    },
+    "mean_of_entropy": {
+      "threshold": 0.9873075818537486,
+      "youden_j": 0.2154882154882154,
+      "sensitivity": 0.8518518518518519,
+      "specificity": 0.36363636363636365,
+      "n_positive": 54,
+      "n_negative": 66,
+      "rule": "flag when score > threshold",
+      "unstable_defined_as": "split-half top-8 Jaccard < pooled median (0.2308)"
+    }
+  },
+  "committed_explanations": {
+    "note": "12 committed explanation FILES cover 11 distinct (target, window) pairs \u2014 high_congestion.json and rush_hour_pm.json are the same target and window.",
+    "per_explanation": [
+      {
+        "checkpoint": "ep34",
+        "sample_index": 1154,
+        "target": 197,
+        "entropy": 0.983419417405033,
+        "sources_for_80pct": 148,
+        "self_importance": 0.7282305955886841,
+        "flagged": false
+      },
+      {
+        "checkpoint": "ep34",
+        "sample_index": 1194,
+        "target": 56,
+        "entropy": 0.9797966886180316,
+        "sources_for_80pct": 137,
+        "self_importance": 0.7431308627128601,
+        "flagged": false
+      },
+      {
+        "checkpoint": "ep34",
+        "sample_index": 1225,
+        "target": 9,
+        "entropy": 0.9741099673376057,
+        "sources_for_80pct": 125,
+        "self_importance": 0.8102286458015442,
+        "flagged": false
+      },
+      {
+        "checkpoint": "ep34",
+        "sample_index": 1242,
+        "target": 12,
+        "entropy": 0.9722438060486135,
+        "sources_for_80pct": 118,
+        "self_importance": 0.7250829339027405,
+        "flagged": false
+      },
+      {
+        "checkpoint": "ep34",
+        "sample_index": 1344,
+        "target": 12,
+        "entropy": 0.9996672700837544,
+        "sources_for_80pct": 162,
+        "self_importance": 0.4989060163497925,
+        "flagged": true
+      },
+      {
+        "checkpoint": "ep34",
+        "sample_index": 1603,
+        "target": 206,
+        "entropy": 0.984890863685452,
+        "sources_for_80pct": 133,
+        "self_importance": 0.7584876418113708,
+        "flagged": false
+      },
+      {
+        "checkpoint": "ep34",
+        "sample_index": 2302,
+        "target": 106,
+        "entropy": 0.9827122080819336,
+        "sources_for_80pct": 131,
+        "self_importance": 0.4469413459300995,
+        "flagged": false
+      },
+      {
+        "checkpoint": "ep34",
+        "sample_index": 3046,
+        "target": 124,
+        "entropy": 0.9931722938455982,
+        "sources_for_80pct": 146,
+        "self_importance": 0.6489901542663574,
+        "flagged": true
+      },
+      {
+        "checkpoint": "ep34",
+        "sample_index": 3287,
+        "target": 23,
+        "entropy": 0.9887738984116088,
+        "sources_for_80pct": 139,
+        "self_importance": 0.7823589444160461,
+        "flagged": true
+      },
+      {
+        "checkpoint": "ep34",
+        "sample_index": 5823,
+        "target": 46,
+        "entropy": 0.9788295270154236,
+        "sources_for_80pct": 136,
+        "self_importance": 0.2856498062610626,
+        "flagged": false
+      },
+      {
+        "checkpoint": "ep34",
+        "sample_index": 635,
+        "target": 29,
+        "entropy": 0.9777165593595111,
+        "sources_for_80pct": 130,
+        "self_importance": 0.7514917850494385,
+        "flagged": false
+      },
+      {
+        "checkpoint": "ep54",
+        "sample_index": 1154,
+        "target": 197,
+        "entropy": 0.9587943513750075,
+        "sources_for_80pct": 135,
+        "self_importance": 0.7683483958244324,
+        "flagged": false
+      },
+      {
+        "checkpoint": "ep54",
+        "sample_index": 1194,
+        "target": 56,
+        "entropy": 0.9684611836962508,
+        "sources_for_80pct": 113,
+        "self_importance": 0.6983303427696228,
+        "flagged": false
+      },
+      {
+        "checkpoint": "ep54",
+        "sample_index": 1225,
+        "target": 9,
+        "entropy": 0.982063509177392,
+        "sources_for_80pct": 132,
+        "self_importance": 0.5863112807273865,
+        "flagged": false
+      },
+      {
+        "checkpoint": "ep54",
+        "sample_index": 1242,
+        "target": 12,
+        "entropy": 0.9713895717766813,
+        "sources_for_80pct": 115,
+        "self_importance": 0.7020453214645386,
+        "flagged": false
+      },
+      {
+        "checkpoint": "ep54",
+        "sample_index": 1344,
+        "target": 12,
+        "entropy": 0.9834822698516211,
+        "sources_for_80pct": 138,
+        "self_importance": 0.27044734358787537,
+        "flagged": false
+      },
+      {
+        "checkpoint": "ep54",
+        "sample_index": 1603,
+        "target": 206,
+        "entropy": 0.9877645565646258,
+        "sources_for_80pct": 142,
+        "self_importance": 0.7110459804534912,
+        "flagged": true
+      },
+      {
+        "checkpoint": "ep54",
+        "sample_index": 2302,
+        "target": 106,
+        "entropy": 0.9834742600385238,
+        "sources_for_80pct": 142,
+        "self_importance": 0.8241608738899231,
+        "flagged": false
+      },
+      {
+        "checkpoint": "ep54",
+        "sample_index": 3046,
+        "target": 124,
+        "entropy": 0.9889629895679679,
+        "sources_for_80pct": 142,
+        "self_importance": 0.6515789031982422,
+        "flagged": true
+      },
+      {
+        "checkpoint": "ep54",
+        "sample_index": 3287,
+        "target": 23,
+        "entropy": 0.9777164310657394,
+        "sources_for_80pct": 125,
+        "self_importance": 0.7197482585906982,
+        "flagged": false
+      },
+      {
+        "checkpoint": "ep54",
+        "sample_index": 5823,
+        "target": 46,
+        "entropy": 0.9918961768396107,
+        "sources_for_80pct": 150,
+        "self_importance": 0.7332978844642639,
+        "flagged": true
+      },
+      {
+        "checkpoint": "ep54",
+        "sample_index": 635,
+        "target": 29,
+        "entropy": 0.9881164028754144,
+        "sources_for_80pct": 141,
+        "self_importance": 0.5770078301429749,
+        "flagged": true
+      }
+    ],
+    "by_checkpoint": {
+      "ep34": {
+        "n": 11,
+        "n_flagged": 3,
+        "fraction_flagged": 0.2727272727272727,
+        "entropy_min": 0.9722438060486135,
+        "entropy_max": 0.9996672700837544,
+        "entropy_mean": 0.9832120454447787
+      },
+      "ep54": {
+        "n": 11,
+        "n_flagged": 4,
+        "fraction_flagged": 0.36363636363636365,
+        "entropy_min": 0.9587943513750075,
+        "entropy_max": 0.9918961768396107,
+        "entropy_mean": 0.9801928820753485
+      }
+    },
+    "checkpoint_ep34_is_the_committed_artifact": true
+  },
+  "n_pooled_points": 120
+}

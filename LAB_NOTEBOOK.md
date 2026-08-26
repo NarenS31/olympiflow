@@ -960,3 +960,155 @@ there is no per-lag importance to weight. Skipped rather than substituted.
 
 Gates after: traffic regression PASS, resolvers 29/30 + 32/32 + 32/32 + 22/22,
 76 unit tests, 9/9 mutants killed. Nothing committed was modified.
+
+## 2026-08-25/26 — Grounding without information (pre-registered, four parts)
+
+Run `20260825T201433Z__grounding_without_information__f193e764__a1b0fc36`.
+11.6 h wall clock. **P1 confirmed. P2, P3, P4 falsified.**
+
+The question: when the faithfulness metric says an advisory is grounded, what is
+it measuring? I wrote four predictions and their falsification criteria into
+`predictions.md` before any solve or scored LLM call, and recorded in that same
+file the nine LLM calls I had already made to measure throughput for the budget.
+They were not scored and none entered a condition, but leaving them out would
+have made the pre-registration a lie by selection.
+
+### The headline
+
+Two noise conditions, both built through the REAL builder rather than
+hand-assembled. `A_rand` = the committed artifact with node importances replaced
+by a seeded uniform draw (I swapped `GNNExplainer.explain_target` for a random
+draw and let `explain_prediction` run untouched on top, so the propagation path
+really is the BFS path to its own top source and the confidence really is the
+stability of its own random mask). `A_mismatch` = this scenario's prediction
+block with the evidence fields taken from a different, seeded-random target — a
+DERANGEMENT, not a shuffle, because a fixed point would silently be condition A.
+
+    condition      n    precision   recall     F1      hallucination
+    A (real)      93      0.995     0.593    0.725         0.005
+    B (no expl)   93      0.172     0.071    0.090         0.828
+    A_rand        93      0.995     0.565    0.701         0.005
+    A_mismatch    93      0.989     0.601    0.727         0.011
+
+Precision and hallucination on uniform noise are IDENTICAL to the real
+explanation at three decimals. `A_mismatch` — a real explanation belonging to a
+different sensor — scores 0.727 against A's 0.725. Every paired-difference CI
+spans zero. Prompt tokens were within 0.4% of A, so it is not a length effect.
+
+The B column is what makes this interpretable. Remove the explanation block
+entirely and the metric collapses (0.725 -> 0.090, hallucination 0.005 -> 0.828).
+So the metric is not broken — it responds to the PRESENCE of a structured,
+citable list of place names, and not at all to whether that list carries
+information about the model. That is a much narrower and more defensible claim
+than "explanations are useless", and it is the one the data supports.
+
+### The loop on noise (P2 falsified, and the one place something worked)
+
+Same loop, imported not reimplemented, same 0.70 threshold, same 3 max rounds:
+
+    round   F1(A_rand)  precision  reached      F1(A committed)  reached
+    0         0.687       0.984     41.9%           0.732         64.5%
+    3         0.890       0.999     98.9%           0.874        100.0%
+
+It converges on random evidence, to a slightly HIGHER final F1 than on real
+evidence, with precision 0.999. The loop cannot tell.
+
+But P2 is falsified, on the rounds clause: 0.70 mean correction rounds against my
+pre-registered 0.40 +/- 0.25. It needs more work to get there because round 0 is
+worse on noise — 41.9% grounded versus 64.5%. **That round-0 gap is the only
+place in the whole experiment where anything distinguished real evidence from
+random.** The loop then erases it. Worth following up: an ungrounded-at-round-0
+rate might be the discriminating signal the F1 is not.
+
+### Decisions (P3 falsified on a criterion that could not discriminate)
+
+n=150 of the 444, seeded stratum-preserving, 3 seeds, all arms re-aggregated on
+the same subset:
+
+    RANDOM         0.200 acc   14.15 delay
+    RAW            0.276       15.94
+    XTRAFFIC       0.278       21.00
+    XTRAFFIC_RAND  0.258       20.89
+
+Delay reduction — what the pipeline is sold on — is 21.00 vs 20.89. The entire
+advantage of showing the agent an explanation survives replacing it with noise.
+P3 failed only its "stay above RAW" clause, and on this subset RAW scored 0.276
+against 0.233 at n=444, so even the real arm (0.278) is not above it. That is a
+badly chosen criterion, not a result. Recorded as my error.
+
+### Entropy does not predict stability (P4 falsified, both clauses)
+
+    pooled n=120 over 40 targets:
+      entropy_of_mean   rho -0.201  CI [-0.423, +0.045]  spans 0
+      mean_of_entropy   rho -0.173  CI [-0.394, +0.051]  spans 0
+    committed explanations flagged: 3 of 11
+
+The n=40 single-setting version looked like it passed (-0.341, CI excluding
+zero). It did not replicate. This is the SECOND time a small-n effect has failed
+here — the first was the survivor enrichment. I should stop believing n=40.
+
+A free supplementary check on all 207 Stage-1 targets at the committed setting:
+`entropy_of_mean` rho -0.305 CI [-0.434, -0.171] holds, but `mean_of_entropy` —
+the only form computable from a SINGLE solve, and therefore the only form that
+would make this a cheap diagnostic — falls to -0.120 with a CI spanning zero. A
+proxy needing 24 solves to predict the stability of a 24-solve average is not a
+proxy. Dropped from the novelty claim rather than softened.
+
+**The thing I did not predict and should have:** the sparsity coefficient does
+not control sparsity. Ten times `lambda_size` gave entropy 0.9976 -> 0.9988 and
+sources-for-80%-mass 156.1 -> 159.6. The penalty made the mask FLATTER. So the
+near-flat mask recorded in the previous entry is not a tuning artefact that a
+bigger penalty would fix.
+
+### The provenance bug
+
+The 12 committed explanation JSONs say `model_checkpoint: "metr_la_best.pt"`.
+That path holds epoch 54 today. Re-solving `metr_la_1194_56` at seed 0 on epoch
+54 gives a top-8 with ZERO overlap and importance error 0.647. On
+`metr_la_best_epoch34_ARCHIVE.pt` it reproduces exactly — Jaccard 1.000, max
+difference 5e-5, i.e. 4-decimal rounding. Those artifacts are epoch-34 objects
+wearing an epoch-54 name, because the schema stores a FILENAME and a filename is
+not provenance once checkpoints get replaced in place. Part 4 solves them on both
+and says which is which. `schema.py` should store the checkpoint sha256.
+
+Current code reproduces the Stage-1 influence solves to `max abs diff 0.0`, so
+reusing them for the current sparsity setting is sound.
+
+### Four ways the machine wasted my time
+
+1. **BSD `nohup` adds +5 to nice**, and a niced process on this M4 gets scheduled
+   onto the 6 efficiency cores instead of the 4 performance ones. The sweep ran
+   at ~30% of a core per worker until I relaunched without it. Nothing said
+   anything was wrong.
+2. **Killing the parent is not killing the pool.** My first restart matched only
+   the parent's command line; the 6 workers were `spawn_main`, survived as
+   orphans, and competed with their 6 replacements. Twelve workers, ten cores.
+3. **A smoke run wrote into the real run's solve directory** — same filenames, 4
+   windows instead of 24, 15 epochs instead of 200 — and the resume logic checked
+   only that the file EXISTED. The sweep started "126 jobs (6 already done)" and
+   would have averaged smoke masks into the result. Caught on `node_imp.shape`.
+   Runner and analysis now validate stored `window_idx` against the geometry.
+4. **Ollama ignores `num_predict: 0`** on this build — asked for zero tokens it
+   generated 123, so the token counter was doing full generations at ~35 s each.
+   `num_predict: 1` gives what I wanted.
+
+And one I caused twice: piping a long-running job through `| head -20` wedged it
+for an hour, after I had spent all day carefully writing every other job's output
+to a file.
+
+Two bugs caught before they cost anything: `se.aggregate` iterates a module-level
+CONDITIONS list and would have silently DROPPED `XTRAFFIC_RAND` from the summary
+after a 4-hour run; and my logging call path had no transport retry where
+`sim_eval` has three, which is why Part 2 died at scenario 26 of 93 on one
+transient timeout. Both fixed; Part 2 resumed from cache and lost nothing.
+
+Gates: 76 unit tests, 9/9 mutants killed, traffic byte-identity PASS, resolver
+29/30 = 96.7% PASS. `git diff` empty — nothing committed was modified.
+
+Caveat carried: 498 LLM calls logged in full, but on the UNSEEDED inline path,
+because that is the path the committed A/B/XTRAFFIC numbers used and matching it
+was the price of comparing against them. LLM output here is auditable, not
+byte-reproducible. Everything non-LLM is seeded and byte-reproducible.
+
+Another Claude Code session was running pytest and a PEMS-BAY smoke in this repo
+throughout. I left its processes and files alone and staged only my own.

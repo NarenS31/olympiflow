@@ -1,0 +1,93 @@
+{
+  "part": 2,
+  "condition": "A_rand",
+  "dataset": "metr_la",
+  "model": "llama3.1:8b",
+  "explanation_checkpoint": "models/gnn/checkpoints/metr_la_best_epoch34_ARCHIVE.pt",
+  "most_missed_regions": [
+    [
+      "San Fernando Valley",
+      58
+    ],
+    [
+      "NE of Downtown LA",
+      58
+    ],
+    [
+      "Glendale / Burbank",
+      51
+    ],
+    [
+      "NW of Downtown LA",
+      44
+    ],
+    [
+      "Hollywood",
+      40
+    ],
+    [
+      "N of Downtown LA",
+      31
+    ],
+    [
+      "Downtown LA",
+      31
+    ],
+    [
+      "East LA",
+      10
+    ]
+  ],
+  "n_scenarios": 93,
+  "f1_threshold": 0.7,
+  "max_rounds": 3,
+  "per_round": [
+    {
+      "round": 0,
+      "mean_f1": 0.6868372965147151,
+      "std_f1": 0.16889599384915807,
+      "mean_recall": 0.5510752688172043,
+      "mean_precision": 0.9838709677419355,
+      "mean_hallucination": 0.016129032258064516,
+      "frac_reached_threshold": 0.41935483870967744,
+      "n_reached_threshold": 39
+    },
+    {
+      "round": 1,
+      "mean_f1": 0.8752179719921657,
+      "std_f1": 0.11168488072067062,
+      "mean_recall": 0.7956989247311828,
+      "mean_precision": 0.9978494623655914,
+      "mean_hallucination": 0.0021505376344086017,
+      "frac_reached_threshold": 0.9139784946236559,
+      "n_reached_threshold": 85
+    },
+    {
+      "round": 2,
+      "mean_f1": 0.8816101461262754,
+      "std_f1": 0.10707198983684703,
+      "mean_recall": 0.803763440860215,
+      "mean_precision": 1.0,
+      "mean_hallucination": 0.0,
+      "frac_reached_threshold": 0.967741935483871,
+      "n_reached_threshold": 90
+    },
+    {
+      "round": 3,
+      "mean_f1": 0.8903019023986767,
+      "std_f1": 0.09246186117010627,
+      "mean_recall": 0.8158602150537635,
+      "mean_precision": 0.9986559139784946,
+      "mean_hallucination": 0.0013440860215053765,
+      "frac_reached_threshold": 0.989247311827957,
+      "n_reached_threshold": 92
+    }
+  ],
+  "mean_f1_gain": 0.20346460588396073,
+  "mean_rounds_used": 0.6989247311827957,
+  "frac_reached_overall": 0.989247311827957,
+  "stop_reasons": {
+    "threshold_reached": 92,
+    "max_rounds": 1
+  }
+}

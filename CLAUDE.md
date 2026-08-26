@@ -1347,6 +1347,69 @@ windows = 4,968 GNNExplainer solves, CPU, 8.4 h. Congested < 45 mph, free-flow
 Gates after: traffic regression PASS, resolvers 29/30 + 32/32 + 32/32 + 22/22,
 76 unit tests, 9/9 mutants killed. Nothing committed was modified.
 
+GROUNDING WITHOUT INFORMATION — PRE-REGISTERED, 4 PARTS (2026-08-25/26). Run
+20260825T201433Z__grounding_without_information__f193e764__a1b0fc36, 11.6 h,
+llama3.1:8b, CPU only. Predictions + falsification criteria written BEFORE any
+solve or scored LLM call (predictions.md in the run dir, which also discloses 9
+earlier throughput-measurement calls that were never scored).
+**P1 CONFIRMED. P2, P3, P4 FALSIFIED.** Report:
+evaluation/results/processed/20260825T201433Z__grounding_without_information__*/report.md
+- THE RESULT (P1, n=93, same prompts/templates, prompt tokens within 0.4% of A):
+  cond          precision recall   F1     halluc
+  A (real)        0.995   0.593   0.725   0.005
+  B (no expl)     0.172   0.071   0.090   0.828
+  A_rand          0.995   0.565   0.701   0.005   <- uniform-random importances
+  A_mismatch      0.989   0.601   0.727   0.011   <- real evidence, wrong target
+  Every paired-difference CI spans zero. The faithfulness metric responds to the
+  PRESENCE of a citable list, not to whether the list carries information. It is
+  NOT simply broken: condition B (explanation removed) still collapses. State it
+  that narrowly. A_rand/A_mismatch are built through the real builder (patched
+  explain_target + untouched explain_prediction), so every derived field is
+  internally consistent; A_mismatch uses a seeded DERANGEMENT so no scenario is
+  silently condition A.
+- P2 (loop on noise) FALSIFIED on 1 of 3 clauses. It DOES converge on random
+  evidence: round0 F1 0.687 -> round3 0.890, precision 0.999, 98.9% reach the
+  0.70 threshold (real evidence: 0.732 -> 0.874, 100%). Failed clause = rounds
+  used, 0.70 vs pre-registered 0.40 +/- 0.25. Cause: round-0 grounding is worse
+  on noise, 41.9% vs 64.5%. THAT ROUND-0 GAP IS THE ONLY SIGNAL ANYWHERE IN THIS
+  EXPERIMENT THAT DISTINGUISHED REAL EVIDENCE FROM RANDOM — and the loop erases
+  it. Follow this up.
+- P3 (decisions, n=150 of 444, 3 seeds, all arms re-aggregated on the same
+  subset) FALSIFIED on a clause that could not discriminate. Delay reduction
+  XTRAFFIC 21.00 vs XTRAFFIC_RAND 20.89 vs RAW 15.94 — the whole advantage of
+  showing an explanation survives replacing it with noise. Failed only "stay
+  above RAW" on accuracy (0.258 vs 0.276), but RAW scored 0.276 here vs 0.233 at
+  n=444, so the real arm (0.278) is not above it either. Bad criterion, my error.
+- P4 (entropy predicts stability) FALSIFIED on both clauses. Pooled n=120 over 40
+  targets: rho -0.201 CI [-0.423,+0.045] and -0.173 CI [-0.394,+0.051], both span
+  zero; 3 of 11 committed explanations flagged, not all. The n=40 single-setting
+  version DID pass (-0.341) and did not replicate — second small-n failure in this
+  project after the survivor enrichment. Free supplementary on all 207 Stage-1
+  targets: entropy-of-mean-mask rho -0.305 CI [-0.434,-0.171] holds, but the
+  per-window entropy (the ONLY form obtainable from a single solve, hence the only
+  one that would be a cheap diagnostic) is -0.120 with CI spanning zero.
+- UNPREDICTED AND IMPORTANT: THE SPARSITY COEFFICIENT DOES NOT CONTROL SPARSITY.
+  lambda_size x10 gave entropy 0.9976 -> 0.9988 and sources-for-80%-mass
+  156.1 -> 159.6 (FLATTER, not sparser); split-half J 0.232/0.238/0.229 unchanged.
+  The near-flat mask is not a tuning artefact a bigger penalty would fix.
+- PROVENANCE BUG IN COMMITTED ARTIFACTS (fix schema.py): the 12 committed
+  explanation JSONs say model_checkpoint "metr_la_best.pt", but that path now
+  holds EPOCH 54, which does not reproduce them (top-8 Jaccard 0.000, importance
+  error 0.647). metr_la_best_epoch34_ARCHIVE.pt reproduces them exactly (Jaccard
+  1.000, max diff 5e-5 = 4-dp rounding). They are epoch-34 artifacts wearing an
+  epoch-54 name because the schema stores a FILENAME, not a hash. Part 4 solves
+  them on both checkpoints and labels which is which.
+- REPRODUCIBILITY CAVEAT: 498 LLM calls logged in full (llm_calls.jsonl) but on
+  the UNSEEDED inline path, because that is the path the committed A/B/XTRAFFIC
+  numbers used and matching it was the price of comparability. LLM output is
+  auditable, NOT byte-reproducible. Everything non-LLM is seeded and byte-
+  reproducible; current code reproduces the Stage-1 solves to max abs diff 0.0.
+- Gates after: 76 unit tests, 9/9 mutants killed, traffic byte-identity PASS,
+  resolver 29/30 PASS. Nothing committed was modified (git diff empty).
+- NOVELTY CLAIM is written narrowly in the run dir's literature.md and FLAGGED
+  for the human author's decision. The entropy half was REMOVED from it after the
+  replication failure rather than softened.
+
 ---
 
 # XTraffic — Claude Code Build Playbook

@@ -1,0 +1,175 @@
+{
+  "part": 3,
+  "n_scenarios": 150,
+  "n_scenarios_full_study": 444,
+  "subsample_seed": 42,
+  "decision_seeds": [
+    0,
+    1,
+    2
+  ],
+  "model": "llama3.1:8b",
+  "explanation_checkpoint": "models/gnn/checkpoints/metr_la_best_epoch34_ARCHIVE.pt",
+  "new_condition": "XTRAFFIC_RAND",
+  "conditions": [
+    {
+      "condition": "RANDOM",
+      "n_seeds": 200,
+      "accuracy_mean": 0.2000666666666665,
+      "accuracy_std": 0.03311253539069457,
+      "delay_reduction_mean": 14.148954633333336,
+      "delay_reduction_std": 1.1923294287921717,
+      "consistency_mean": 0.36576666666666674,
+      "consistency_std": 0.023138976257004604,
+      "per_seed": []
+    },
+    {
+      "condition": "RAW",
+      "n_seeds": 3,
+      "accuracy_mean": 0.27555555555555555,
+      "accuracy_std": 0.003142696805273565,
+      "delay_reduction_mean": 15.936524444444446,
+      "delay_reduction_std": 0.046647048680673917,
+      "consistency_mean": 0.9977777777777778,
+      "consistency_std": 0.003142696805273565,
+      "per_seed": [
+        {
+          "accuracy": 0.2733333333333333,
+          "delay_reduction": 15.903540000000003,
+          "consistency": 1.0
+        },
+        {
+          "accuracy": 0.2733333333333333,
+          "delay_reduction": 15.903540000000003,
+          "consistency": 1.0
+        },
+        {
+          "accuracy": 0.28,
+          "delay_reduction": 16.002493333333334,
+          "consistency": 0.9933333333333333
+        }
+      ]
+    },
+    {
+      "condition": "XTRAFFIC",
+      "n_seeds": 3,
+      "accuracy_mean": 0.27777777777777785,
+      "accuracy_std": 0.03541639433446495,
+      "delay_reduction_mean": 21.00471777777778,
+      "delay_reduction_std": 0.4002800430562778,
+      "consistency_mean": 0.68,
+      "consistency_std": 0.010886621079036372,
+      "per_seed": [
+        {
+          "accuracy": 0.28,
+          "delay_reduction": 21.250806666666666,
+          "consistency": 0.68
+        },
+        {
+          "accuracy": 0.23333333333333334,
+          "delay_reduction": 20.44018,
+          "consistency": 0.6933333333333334
+        },
+        {
+          "accuracy": 0.32,
+          "delay_reduction": 21.32316666666667,
+          "consistency": 0.6666666666666666
+        }
+      ]
+    },
+    {
+      "condition": "XTRAFFIC_RAND",
+      "n_seeds": 3,
+      "accuracy_mean": 0.25777777777777783,
+      "accuracy_std": 0.021998877636914813,
+      "delay_reduction_mean": 20.889464444444446,
+      "delay_reduction_std": 0.7813940008743788,
+      "consistency_mean": 0.6444444444444445,
+      "consistency_std": 0.03281071791162977,
+      "per_seed": [
+        {
+          "accuracy": 0.23333333333333334,
+          "delay_reduction": 20.156613333333336,
+          "consistency": 0.64
+        },
+        {
+          "accuracy": 0.2866666666666667,
+          "delay_reduction": 21.972173333333334,
+          "consistency": 0.6866666666666666
+        },
+        {
+          "accuracy": 0.25333333333333335,
+          "delay_reduction": 20.539606666666664,
+          "consistency": 0.6066666666666667
+        }
+      ]
+    }
+  ],
+  "committed_full_study_n444": [
+    {
+      "condition": "RANDOM",
+      "n_seeds": 200,
+      "accuracy_mean": 0.20042792792792796,
+      "accuracy_std": 0.01884502676257933,
+      "delay_reduction_mean": 13.270881610360364,
+      "delay_reduction_std": 0.6682983212971649,
+      "consistency_mean": 0.294222972972973,
+      "consistency_std": 0.012383655252687606,
+      "per_seed": []
+    },
+    {
+      "condition": "RAW",
+      "n_seeds": 3,
+      "accuracy_mean": 0.23273273273273273,
+      "accuracy_std": 0.001061721893673497,
+      "delay_reduction_mean": 15.720060810810812,
+      "delay_reduction_std": 0.016323974115228578,
+      "consistency_mean": 0.9984984984984985,
+      "consistency_std": 0.002123443787346968,
+      "per_seed": [
+        {
+          "accuracy": 0.23198198198198197,
+          "delay_reduction": 15.708518018018019,
+          "consistency": 1.0
+        },
+        {
+          "accuracy": 0.23198198198198197,
+          "delay_reduction": 15.708518018018019,
+          "consistency": 1.0
+        },
+        {
+          "accuracy": 0.23423423423423423,
+          "delay_reduction": 15.743146396396394,
+          "consistency": 0.9954954954954955
+        }
+      ]
+    },
+    {
+      "condition": "XTRAFFIC",
+      "n_seeds": 3,
+      "accuracy_mean": 0.26576576576576577,
+      "accuracy_std": 0.012058842645802552,
+      "delay_reduction_mean": 19.73437312312312,
+      "delay_reduction_std": 0.21512864332510287,
+      "consistency_mean": 0.6186186186186187,
+      "consistency_std": 0.04513254764321061,
+      "per_seed": [
+        {
+          "accuracy": 0.268018018018018,
+          "delay_reduction": 19.74877252252252,
+          "consistency": 0.6148648648648649
+        },
+        {
+          "accuracy": 0.25,
+          "delay_reduction": 19.990355855855853,
+          "consistency": 0.6756756756756757
+        },
+        {
+          "accuracy": 0.27927927927927926,
+          "delay_reduction": 19.46399099099099,
+          "consistency": 0.5653153153153153
+        }
+      ]
+    }
+  ]
+}

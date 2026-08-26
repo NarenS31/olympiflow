@@ -265,3 +265,72 @@ decides.
 **Files created:** <paths>
 **Files modified:** <paths>
 ```
+
+---
+
+### 2026-08-25/26 — Grounding without information (pre-registered, four parts)
+
+| Field | Detail |
+|---|---|
+| **Tool** | Claude Opus 5 (`claude-opus-5[1m]`) via Claude Code, VS Code extension |
+| **Contribution type** | Code · Analysis · Documentation |
+| **Scope given by human** | One experiment, four parts, pre-registered, on branch `explanation-network-analysis`. Budget ~14 h compute; estimate each part first and say if it does not fit. Part 1: faithfulness under A / B / A_rand / A_mismatch on the same 93 scenarios, token counts within 5% of A. Part 2: the existing active grounding loop on A_rand. Part 3: the existing decision simulation on A_rand. Part 4: sparsity sweep, entropy vs stability, threshold applied to the 12 committed explanations. Write predictions.md before any LLM call or solve. Literature check before report.md. Seeded, byte-reproducible, run_dir only, no MPS, nothing written into explanations_cache. |
+
+**What the AI produced**
+
+- `evaluation/noise_conditions.py` — `A_rand` / `A_mismatch` artifact builders.
+  `A_rand` patches `GNNExplainer.explain_target` for a seeded uniform draw and
+  lets the real `explain_prediction` run on top, so every derived field is
+  internally consistent. `A_mismatch` uses a seeded derangement.
+- `evaluation/mask_entropy.py` — normalised entropy, 80%-mass count, top-k
+  Jaccard, Youden threshold, Spearman with a target-clustered bootstrap.
+- `scripts/`: `init_grounding_noise_run.py`, `noise_run.py`,
+  `run_grounding_without_information.py`, `run_loop_on_noise.py`,
+  `run_decisions_on_noise.py`, `run_sparsity_sweep.py`,
+  `analyze_sparsity_sweep.py`, `report_grounding_without_information.py`.
+- Run dir `20260825T201433Z__grounding_without_information__f193e764__a1b0fc36`
+  with `predictions.md`, `literature.md`, `report.md`, `verdicts.json`, 4 tables
+  (md + LaTeX), 3 figures, per-scenario CSVs. Committed copy under
+  `evaluation/results/processed/<run_id>/`.
+
+**Experiments run:** 498 logged LLM calls (llama3.1:8b) across Parts 1–3, plus
+2,662 CPU explainer solves for Part 4. 11.6 h wall clock. Full command list and
+per-call log in the run dir.
+
+**Budget estimate given BEFORE starting, as instructed:** measured 34.9 s/advisory,
+11.2 s/decision, 6.04 s/solve, and reported that the brief did not fit in 14 h
+(16.4–18.7 h serial). The human chose the reductions: Part 3 subsampled to n=150,
+`A_mismatch` defined as sources-swapped, and the unseeded LLM path kept for
+comparability. Those three decisions are the human's, not the AI's.
+
+**Substantive findings reported**
+
+1. **P1 CONFIRMED.** `A_rand` (uniform-random importances) scores F1 0.701 /
+   precision 0.995 / hallucination 0.005 against real A's 0.725 / 0.995 / 0.005;
+   `A_mismatch` scores 0.727. All paired-difference CIs span zero. Condition B
+   (explanation removed) still collapses to 0.090 / 0.828 — so the metric is not
+   broken, it is measuring citation compliance rather than evidential content.
+2. **P2, P3, P4 FALSIFIED**, each on stated criteria, with the failing clause
+   named and not reinterpreted. P3's failing clause was a badly chosen criterion
+   (it assumed a RAW-vs-XTRAFFIC accuracy gap that does not exist at n=150) and
+   is recorded as an error in the pre-registration, not a result.
+3. **The sparsity coefficient does not control sparsity** — `lambda_size` x10
+   made the mask flatter (entropy 0.9976 -> 0.9988). Not predicted.
+4. **Provenance bug in committed artifacts**: the 12 committed explanation JSONs
+   name a checkpoint that no longer reproduces them; they are epoch-34 objects
+   and the schema stores a filename rather than a hash.
+
+**Human verification:** OWED. The human author has not yet reviewed this run.
+Specifically owed: (a) the novelty claim in `literature.md`, which is flagged for
+the human's decision and must not be used until reviewed; (b) the "LOGIC" paper
+named in the brief, which the AI could not identify and recorded as NOT CHECKED
+rather than silently dropping; (c) two near-neighbour papers assessed from
+abstracts only and labelled as such.
+
+**Accepted?** PENDING REVIEW. Committed so the numbers are on the record, not
+because they have been accepted.
+
+**Files created:** the modules and run dir listed above.
+**Files modified:** `LAB_NOTEBOOK.md`, `CLAUDE.md`, this file — all append-only.
+No committed code, config, result or explanation artifact was modified;
+`git diff` over tracked files was empty before staging.

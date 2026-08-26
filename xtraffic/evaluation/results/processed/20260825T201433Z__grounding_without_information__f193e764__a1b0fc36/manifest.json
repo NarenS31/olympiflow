@@ -1,0 +1,376 @@
+{
+  "run_id": "20260825T201433Z__grounding_without_information__f193e764__a1b0fc36",
+  "experiment": "grounding_without_information",
+  "status": "running",
+  "created_utc": "2026-08-25T20:14:33.332952+00:00",
+  "notes": "One experiment, four parts, pre-registered. Does the faithfulness metric / the grounding loop / the decision agent distinguish real explainer evidence from noise, and does mask entropy predict explainer stability? CPU only, no MPS.",
+  "config": {
+    "experiment": "grounding_without_information",
+    "dataset": "metr_la",
+    "checkpoint": "models/gnn/checkpoints/metr_la_best.pt",
+    "horizon_step": 6,
+    "seed": 42,
+    "device": "cpu",
+    "llm": {
+      "model": "llama3.1:8b",
+      "temperature": 0.1,
+      "call_path": "advisor_inline_unseeded",
+      "why": "the committed A / B / XTRAFFIC numbers were produced on this path; the seeded logging path pins top_p/top_k/num_ctx and therefore changes generated text (REPOSITORY_AUDIT 5.2), which would break the comparison these four parts exist to make"
+    },
+    "part1": {
+      "n_scenarios": 93,
+      "per_stratum": 7,
+      "conditions_reused": [
+        "A",
+        "B"
+      ],
+      "conditions_new": [
+        "A_rand",
+        "A_mismatch"
+      ],
+      "a_rand_seed": 20260825,
+      "a_mismatch_seed": 20260826,
+      "token_parity_tolerance": 0.05,
+      "bootstrap_iters": 10000,
+      "bootstrap_seed": 42
+    },
+    "part2": {
+      "f1_threshold": 0.7,
+      "max_rounds": 3,
+      "source_condition": "A_rand",
+      "baseline": "committed active_grounding run on A (n=93)"
+    },
+    "part3": {
+      "n_scenarios": 150,
+      "subsample_of": 444,
+      "subsample_seed": 42,
+      "subsample_rule": "stratum-preserving proportional, seeded shuffle per cell",
+      "decision_seeds": [
+        0,
+        1,
+        2
+      ],
+      "new_condition": "XTRAFFIC_RAND",
+      "reaggregated_on_same_subsample": [
+        "RANDOM",
+        "RAW",
+        "XTRAFFIC"
+      ]
+    },
+    "part4": {
+      "lambda_size_settings": [
+        0.15,
+        0.45,
+        1.5
+      ],
+      "lambda_size_labels": [
+        "current",
+        "3x",
+        "10x"
+      ],
+      "lambda_ent": 0.05,
+      "n_targets": 40,
+      "n_windows": 24,
+      "target_order_source": "windows.json target_order of run 20260824T235016Z__influence_graph_solves",
+      "reuse_existing_solves_for": "current",
+      "seed_repeat_targets": 10,
+      "seed_repeat_seeds": [
+        0,
+        1
+      ],
+      "top_k": 8,
+      "explainer_epochs": 200,
+      "entropy": "normalised Shannon entropy of off-self node_imp / log(N-1)",
+      "threshold_rule": "Youden-J on the sweep pool only; see predictions.md P4",
+      "spearman_bootstrap_iters": 10000,
+      "spearman_bootstrap_seed": 42,
+      "spearman_bootstrap_unit": "target (clustered: a target carries all its settings)"
+    },
+    "budget_hours": 14
+  },
+  "provenance": {
+    "captured_utc": "2026-08-25T20:14:32.949743+00:00",
+    "repo_root": "/Users/narensara/Desktop/OlympiFlow",
+    "git": {
+      "available": true,
+      "commit": "a1b0fc36d84416ab7f13caa6994e0863e2b3fefa",
+      "commit_short": "a1b0fc36d844",
+      "branch": "explanation-network-analysis",
+      "dirty": true,
+      "commit_utc": "2026-08-25T15:15:47-04:00",
+      "subject": "Survivor result is sample-size dependent: report it, do not quote 4.0x alone",
+      "dirty_files": [
+        "xtraffic/scripts/init_grounding_noise_run.py"
+      ],
+      "diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "warning": "working tree was DIRTY: this run is not reproducible from the commit alone"
+    },
+    "interpreter": {
+      "python_version": "3.9.6",
+      "python_full": "3.9.6 (default, May 22 2026, 11:13:45)  [Clang 21.0.0 (clang-2100.1.1.101)]",
+      "implementation": "CPython",
+      "executable": "/Applications/Xcode.app/Contents/Developer/usr/bin/python3"
+    },
+    "platform": {
+      "system": "Darwin",
+      "release": "25.4.0",
+      "machine": "arm64",
+      "processor": "arm",
+      "node": "narens-MacBook-Pro.local",
+      "torch_version": "2.8.0",
+      "cuda_available": false,
+      "mps_available": true
+    },
+    "packages": {
+      "requirements_path": "/Users/narensara/Desktop/OlympiFlow/xtraffic/requirements.txt",
+      "requirements_sha256": "160fb94b92858443acaaa98302c4d719b35ad8325fb78497a16b29dacffb3f02",
+      "pinned": {
+        "torch": "2.2.2",
+        "torch-geometric": "2.5.3",
+        "numpy": "1.26.4",
+        "pandas": "2.1.4",
+        "scipy": "1.11.4",
+        "rapidfuzz": "3.6.1",
+        "pandapower": "2.14.11",
+        "shap": "0.44.1",
+        "pyyaml": "6.0.1",
+        "requests": "2.31.0",
+        "matplotlib": "3.8.2",
+        "fastapi": "0.110.0",
+        "uvicorn": "0.29.0",
+        "python-multipart": "0.0.9"
+      },
+      "installed": {
+        "torch": "2.8.0",
+        "torch-geometric": null,
+        "numpy": "1.26.4",
+        "pandas": "2.2.3",
+        "scipy": "1.11.4",
+        "rapidfuzz": null,
+        "pandapower": "2.14.11",
+        "shap": "0.44.1",
+        "pyyaml": "6.0.3",
+        "requests": "2.32.5",
+        "matplotlib": "3.9.4",
+        "fastapi": "0.115.6",
+        "uvicorn": "0.32.1",
+        "python-multipart": "0.0.20"
+      },
+      "mismatches": [
+        {
+          "package": "fastapi",
+          "pinned": "0.110.0",
+          "installed": "0.115.6",
+          "status": "MISMATCH"
+        },
+        {
+          "package": "matplotlib",
+          "pinned": "3.8.2",
+          "installed": "3.9.4",
+          "status": "MISMATCH"
+        },
+        {
+          "package": "pandas",
+          "pinned": "2.1.4",
+          "installed": "2.2.3",
+          "status": "MISMATCH"
+        },
+        {
+          "package": "python-multipart",
+          "pinned": "0.0.9",
+          "installed": "0.0.20",
+          "status": "MISMATCH"
+        },
+        {
+          "package": "pyyaml",
+          "pinned": "6.0.1",
+          "installed": "6.0.3",
+          "status": "MISMATCH"
+        },
+        {
+          "package": "rapidfuzz",
+          "pinned": "3.6.1",
+          "installed": null,
+          "status": "MISSING"
+        },
+        {
+          "package": "requests",
+          "pinned": "2.31.0",
+          "installed": "2.32.5",
+          "status": "MISMATCH"
+        },
+        {
+          "package": "torch",
+          "pinned": "2.2.2",
+          "installed": "2.8.0",
+          "status": "MISMATCH"
+        },
+        {
+          "package": "torch-geometric",
+          "pinned": "2.5.3",
+          "installed": null,
+          "status": "MISSING"
+        },
+        {
+          "package": "uvicorn",
+          "pinned": "0.29.0",
+          "installed": "0.32.1",
+          "status": "MISMATCH"
+        }
+      ],
+      "n_mismatches": 10,
+      "environment_matches_requirements": false
+    },
+    "metric": {
+      "fuzzy_backend": "difflib.SequenceMatcher",
+      "fuzzy_threshold": 82.0,
+      "numeric_tolerance": 0.1,
+      "rapidfuzz_installed": false,
+      "warning": "rapidfuzz is NOT installed; the resolver is running on the difflib fallback, which is a DIFFERENT similarity function against the same threshold. Results are not comparable to a rapidfuzz run."
+    },
+    "config_sha256": "f193e764368fdbc643c96552a9e83cdc4b5562b5ce3769e0619f8171912ddc11",
+    "config": {
+      "experiment": "grounding_without_information",
+      "dataset": "metr_la",
+      "checkpoint": "models/gnn/checkpoints/metr_la_best.pt",
+      "horizon_step": 6,
+      "seed": 42,
+      "device": "cpu",
+      "llm": {
+        "model": "llama3.1:8b",
+        "temperature": 0.1,
+        "call_path": "advisor_inline_unseeded",
+        "why": "the committed A / B / XTRAFFIC numbers were produced on this path; the seeded logging path pins top_p/top_k/num_ctx and therefore changes generated text (REPOSITORY_AUDIT 5.2), which would break the comparison these four parts exist to make"
+      },
+      "part1": {
+        "n_scenarios": 93,
+        "per_stratum": 7,
+        "conditions_reused": [
+          "A",
+          "B"
+        ],
+        "conditions_new": [
+          "A_rand",
+          "A_mismatch"
+        ],
+        "a_rand_seed": 20260825,
+        "a_mismatch_seed": 20260826,
+        "token_parity_tolerance": 0.05,
+        "bootstrap_iters": 10000,
+        "bootstrap_seed": 42
+      },
+      "part2": {
+        "f1_threshold": 0.7,
+        "max_rounds": 3,
+        "source_condition": "A_rand",
+        "baseline": "committed active_grounding run on A (n=93)"
+      },
+      "part3": {
+        "n_scenarios": 150,
+        "subsample_of": 444,
+        "subsample_seed": 42,
+        "subsample_rule": "stratum-preserving proportional, seeded shuffle per cell",
+        "decision_seeds": [
+          0,
+          1,
+          2
+        ],
+        "new_condition": "XTRAFFIC_RAND",
+        "reaggregated_on_same_subsample": [
+          "RANDOM",
+          "RAW",
+          "XTRAFFIC"
+        ]
+      },
+      "part4": {
+        "lambda_size_settings": [
+          0.15,
+          0.45,
+          1.5
+        ],
+        "lambda_size_labels": [
+          "current",
+          "3x",
+          "10x"
+        ],
+        "lambda_ent": 0.05,
+        "n_targets": 40,
+        "n_windows": 24,
+        "target_order_source": "windows.json target_order of run 20260824T235016Z__influence_graph_solves",
+        "reuse_existing_solves_for": "current",
+        "seed_repeat_targets": 10,
+        "seed_repeat_seeds": [
+          0,
+          1
+        ],
+        "top_k": 8,
+        "explainer_epochs": 200,
+        "entropy": "normalised Shannon entropy of off-self node_imp / log(N-1)",
+        "threshold_rule": "Youden-J on the sweep pool only; see predictions.md P4",
+        "spearman_bootstrap_iters": 10000,
+        "spearman_bootstrap_seed": 42,
+        "spearman_bootstrap_unit": "target (clustered: a target carries all its settings)"
+      },
+      "budget_hours": 14
+    },
+    "artifacts": {
+      "adjacency": {
+        "path": "/Users/narensara/Desktop/OlympiFlow/xtraffic/data/processed/metr_la/adjacency.npy",
+        "exists": true,
+        "size_bytes": 171524,
+        "mtime_utc": "2026-07-02T04:47:49.964628+00:00",
+        "sha256": "9b2fbb36da4c4c69c19e3a5244f81ada409e851b0b859744c983138ccb59262b"
+      },
+      "checkpoint": {
+        "path": "/Users/narensara/Desktop/OlympiFlow/xtraffic/models/gnn/checkpoints/metr_la_best.pt",
+        "exists": true,
+        "size_bytes": 1796558,
+        "mtime_utc": "2026-07-19T23:00:03.332713+00:00",
+        "sha256": "046b2a4ac20613acd7f183bcf1c1118967ce21d569ca4b9ddd793e9c9d989cfa"
+      },
+      "node_meta": {
+        "path": "/Users/narensara/Desktop/OlympiFlow/xtraffic/data/processed/metr_la/node_meta.json",
+        "exists": true,
+        "size_bytes": 12057,
+        "mtime_utc": "2026-07-02T04:47:49.969825+00:00",
+        "sha256": "c2c0ada97e8108fe957451e46dd8e3726e3d5db6f61570ffb9060d9fc03a89b1"
+      },
+      "test_split": {
+        "path": "/Users/narensara/Desktop/OlympiFlow/xtraffic/data/processed/metr_la/test.npz",
+        "exists": true,
+        "size_bytes": 7951766,
+        "mtime_utc": "2026-07-02T04:47:49.963428+00:00",
+        "sha256": "fdf81a343801b56dd2674305d89364709500edfe91736040c4308691ce0bc5b8"
+      }
+    },
+    "llm": {
+      "host": "http://localhost:11434",
+      "requested_model": "llama3.1:8b",
+      "server_version": "0.30.11",
+      "available_models": [
+        "aria_distilled:latest",
+        "gemma2:9b",
+        "llama3.1:8b",
+        "llama3.2:3b",
+        "llama3.2:latest",
+        "llama3:latest",
+        "mistral:7b",
+        "phi3:medium"
+      ],
+      "model_present": true,
+      "model_digest": "46e0c10c039e019119339687c3c1757cc81b9da49709a3b3924863ba87ca666e",
+      "model_size_bytes": 4920753328,
+      "model_modified_at": "2026-06-18T15:47:10.320721447-04:00",
+      "model_family": "llama",
+      "model_parameter_size": "8.0B",
+      "model_quantization": "Q4_K_M"
+    },
+    "warnings": [
+      "git working tree was dirty",
+      "10 package(s) differ from requirements.txt",
+      "rapidfuzz is NOT installed; the resolver is running on the difflib fallback, which is a DIFFERENT similarity function against the same threshold. Results are not comparable to a rapidfuzz run."
+    ]
+  },
+  "started_utc": "2026-08-25T20:14:33.334548+00:00",
+  "updated_utc": "2026-08-25T20:14:33.334747+00:00"
+}

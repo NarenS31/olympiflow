@@ -1,0 +1,332 @@
+{
+  "base_run": "20260824T235016Z__influence_graph_solves__73e75966__ee9a7944",
+  "window_idx": [
+    2831,
+    3439,
+    5714,
+    6328,
+    4326,
+    4335,
+    3196,
+    6652,
+    1505,
+    5835,
+    2639,
+    6385,
+    967,
+    1860,
+    4437,
+    6455,
+    3931,
+    5934,
+    156,
+    4496,
+    790,
+    4539,
+    5381,
+    5684
+  ],
+  "stratum": [
+    0,
+    0,
+    1,
+    1,
+    2,
+    2,
+    3,
+    3,
+    4,
+    4,
+    5,
+    5,
+    6,
+    6,
+    7,
+    7,
+    8,
+    8,
+    9,
+    9,
+    10,
+    10,
+    11,
+    11
+  ],
+  "targets": [
+    161,
+    15,
+    73,
+    96,
+    166,
+    9,
+    100,
+    135,
+    18,
+    148,
+    171,
+    30,
+    155,
+    205,
+    125,
+    196,
+    164,
+    189,
+    84,
+    75,
+    124,
+    170,
+    104,
+    101,
+    69,
+    25,
+    95,
+    16,
+    141,
+    184,
+    154,
+    68,
+    66,
+    120,
+    147,
+    98,
+    138,
+    167,
+    45,
+    113
+  ],
+  "seed_repeat_targets": [
+    161,
+    15,
+    73,
+    96,
+    166,
+    9,
+    100,
+    135,
+    18,
+    148
+  ],
+  "settings": [
+    {
+      "label": "current",
+      "lambda_size": 0.15
+    },
+    {
+      "label": "3x",
+      "lambda_size": 0.45
+    },
+    {
+      "label": "10x",
+      "lambda_size": 1.5
+    }
+  ],
+  "lambda_ent": 0.05,
+  "explainer_epochs": 200,
+  "horizon_step": 6,
+  "device": "cpu",
+  "committed_jobs": [
+    {
+      "key": "committed_ep34__idx635_node29",
+      "target": 29,
+      "window": 635,
+      "sources": [
+        "rush_hour_am"
+      ],
+      "checkpoint_tag": "ep34"
+    },
+    {
+      "key": "committed_ep54__idx635_node29",
+      "target": 29,
+      "window": 635,
+      "sources": [
+        "rush_hour_am"
+      ],
+      "checkpoint_tag": "ep54"
+    },
+    {
+      "key": "committed_ep34__idx1154_node197",
+      "target": 197,
+      "window": 1154,
+      "sources": [
+        "metr_la_1154_197"
+      ],
+      "checkpoint_tag": "ep34"
+    },
+    {
+      "key": "committed_ep54__idx1154_node197",
+      "target": 197,
+      "window": 1154,
+      "sources": [
+        "metr_la_1154_197"
+      ],
+      "checkpoint_tag": "ep54"
+    },
+    {
+      "key": "committed_ep34__idx1194_node56",
+      "target": 56,
+      "window": 1194,
+      "sources": [
+        "metr_la_1194_56"
+      ],
+      "checkpoint_tag": "ep34"
+    },
+    {
+      "key": "committed_ep54__idx1194_node56",
+      "target": 56,
+      "window": 1194,
+      "sources": [
+        "metr_la_1194_56"
+      ],
+      "checkpoint_tag": "ep54"
+    },
+    {
+      "key": "committed_ep34__idx1225_node9",
+      "target": 9,
+      "window": 1225,
+      "sources": [
+        "metr_la_1225_9"
+      ],
+      "checkpoint_tag": "ep34"
+    },
+    {
+      "key": "committed_ep54__idx1225_node9",
+      "target": 9,
+      "window": 1225,
+      "sources": [
+        "metr_la_1225_9"
+      ],
+      "checkpoint_tag": "ep54"
+    },
+    {
+      "key": "committed_ep34__idx1242_node12",
+      "target": 12,
+      "window": 1242,
+      "sources": [
+        "metr_la_1242_12"
+      ],
+      "checkpoint_tag": "ep34"
+    },
+    {
+      "key": "committed_ep54__idx1242_node12",
+      "target": 12,
+      "window": 1242,
+      "sources": [
+        "metr_la_1242_12"
+      ],
+      "checkpoint_tag": "ep54"
+    },
+    {
+      "key": "committed_ep34__idx1344_node12",
+      "target": 12,
+      "window": 1344,
+      "sources": [
+        "metr_la_1344_12"
+      ],
+      "checkpoint_tag": "ep34"
+    },
+    {
+      "key": "committed_ep54__idx1344_node12",
+      "target": 12,
+      "window": 1344,
+      "sources": [
+        "metr_la_1344_12"
+      ],
+      "checkpoint_tag": "ep54"
+    },
+    {
+      "key": "committed_ep34__idx1603_node206",
+      "target": 206,
+      "window": 1603,
+      "sources": [
+        "metr_la_1603_206"
+      ],
+      "checkpoint_tag": "ep34"
+    },
+    {
+      "key": "committed_ep54__idx1603_node206",
+      "target": 206,
+      "window": 1603,
+      "sources": [
+        "metr_la_1603_206"
+      ],
+      "checkpoint_tag": "ep54"
+    },
+    {
+      "key": "committed_ep34__idx2302_node106",
+      "target": 106,
+      "window": 2302,
+      "sources": [
+        "night"
+      ],
+      "checkpoint_tag": "ep34"
+    },
+    {
+      "key": "committed_ep54__idx2302_node106",
+      "target": 106,
+      "window": 2302,
+      "sources": [
+        "night"
+      ],
+      "checkpoint_tag": "ep54"
+    },
+    {
+      "key": "committed_ep34__idx3046_node124",
+      "target": 124,
+      "window": 3046,
+      "sources": [
+        "high_congestion",
+        "rush_hour_pm"
+      ],
+      "checkpoint_tag": "ep34"
+    },
+    {
+      "key": "committed_ep54__idx3046_node124",
+      "target": 124,
+      "window": 3046,
+      "sources": [
+        "high_congestion",
+        "rush_hour_pm"
+      ],
+      "checkpoint_tag": "ep54"
+    },
+    {
+      "key": "committed_ep34__idx3287_node23",
+      "target": 23,
+      "window": 3287,
+      "sources": [
+        "midday"
+      ],
+      "checkpoint_tag": "ep34"
+    },
+    {
+      "key": "committed_ep54__idx3287_node23",
+      "target": 23,
+      "window": 3287,
+      "sources": [
+        "midday"
+      ],
+      "checkpoint_tag": "ep54"
+    },
+    {
+      "key": "committed_ep34__idx5823_node46",
+      "target": 46,
+      "window": 5823,
+      "sources": [
+        "weekend_proxy"
+      ],
+      "checkpoint_tag": "ep34"
+    },
+    {
+      "key": "committed_ep54__idx5823_node46",
+      "target": 46,
+      "window": 5823,
+      "sources": [
+        "weekend_proxy"
+      ],
+      "checkpoint_tag": "ep54"
+    }
+  ],
+  "checkpoint_sweep": "models/gnn/checkpoints/metr_la_best.pt",
+  "checkpoint_committed_artifacts": "models/gnn/checkpoints/metr_la_best_epoch34_ARCHIVE.pt",
+  "checkpoint_note": "the 12 committed explanations are epoch-34 artifacts despite their JSONs naming metr_la_best.pt; see CKPT_COMMITTED in run_sparsity_sweep.py"
+}
