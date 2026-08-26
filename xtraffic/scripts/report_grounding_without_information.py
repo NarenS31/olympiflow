@@ -760,18 +760,27 @@ def main(argv: Optional[List[str]] = None) -> int:
     if p4:
         tables["table4_sparsity_sweep"] = table4(p4)
 
+    # Audit §11.2.6 fix 3: every table states the checkpoint EPOCH it rests on.
+    # `metr_la_best.pt` was epoch 34 until 2026-07-19 and epoch 54 after, this
+    # project's results are split across both, and a caption that names neither
+    # invites the reader to assume one model produced all of them.
+    EP34 = "Checkpoint: epoch 34 (metr\\_la\\_best\\_epoch34\\_ARCHIVE.pt, sha 4781693e)."
+    EP54 = "Checkpoint: epoch 54 (metr\\_la\\_best.pt, sha 046b2a4a)."
     captions = {
         "table1_faithfulness": ("Faithfulness under four conditions on the same "
                                 "93 stratified METR-LA scenarios. A and B reused "
                                 "from the committed Phase-5 run; A\\_rand and "
-                                "A\\_mismatch new. 10k bootstrap CIs."),
+                                "A\\_mismatch new. 10k bootstrap CIs. " + EP34),
         "table2_loop_on_noise": ("The active grounding loop run on random "
                                  "evidence (A\\_rand), beside the committed run "
-                                 "on real evidence (A)."),
+                                 "on real evidence (A). " + EP34),
         "table3_decisions": ("Decision quality when the agent is shown a random "
-                             "explanation instead of the real one."),
+                             "explanation instead of the real one. " + EP34),
         "table4_sparsity_sweep": ("Explainer behaviour at three sparsity "
-                                  "coefficients: 40 targets x 24 windows each."),
+                                  "coefficients: 40 targets x 24 windows each. "
+                                  + EP54 + " NOTE: this table is on a DIFFERENT "
+                                  "checkpoint from Tables 1-3 -- see audit "
+                                  "\\S11.2."),
     }
     for name, (hdr, rows) in tables.items():
         with open(os.path.join(rp, name + ".md"), "w") as fh:

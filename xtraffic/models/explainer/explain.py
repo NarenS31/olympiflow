@@ -255,6 +255,37 @@ def _propagation_lag(X: torch.Tensor, src: int, dst: int) -> float:
     return float(best_lag * 5)                        # steps -> minutes
 
 
+def _checkpoint_identity(checkpoint: str) -> Tuple[Optional[str], Optional[int]]:
+    """(sha256, epoch) of a checkpoint file, best-effort.
+
+    Best-effort by design: a provenance helper must never be the thing that
+    breaks an explainer run. Either value may come back None, and a None is
+    simply omitted from the explanation rather than written as a null that later
+    code would have to special-case.
+    """
+    import hashlib
+
+    if not os.path.isabs(checkpoint):
+        checkpoint = os.path.join(PKG_ROOT, checkpoint)
+    sha: Optional[str] = None
+    epoch: Optional[int] = None
+    try:
+        h = hashlib.sha256()
+        with open(checkpoint, "rb") as fh:
+            for chunk in iter(lambda: fh.read(1 << 20), b""):
+                h.update(chunk)
+        sha = h.hexdigest()
+    except Exception:                                      # noqa: BLE001
+        pass
+    try:
+        ck = torch.load(checkpoint, map_location="cpu", weights_only=False)
+        if isinstance(ck, dict) and isinstance(ck.get("epoch"), int):
+            epoch = int(ck["epoch"])
+    except Exception:                                      # noqa: BLE001
+        pass
+    return sha, epoch
+
+
 class ExplanationBuilder:
     """High-level: run the explainer and emit a schema-valid explanation dict."""
 
@@ -265,6 +296,13 @@ class ExplanationBuilder:
         self.model, self.cfg, self.scaler = load_model(checkpoint, dataset, self.device)
         self.dataset = dataset
         self.checkpoint = os.path.basename(checkpoint)
+        # Audit §11.2: the basename above is NOT provenance. `metr_la_best.pt`
+        # was epoch 34 until 2026-07-19 and epoch 54 after, and re-solving one
+        # committed explanation on the wrong one gives a top-8 Jaccard of 0.000.
+        # Hash and epoch are captured here, once per builder, so every
+        # explanation this object writes can be attributed without a re-solve.
+        self.checkpoint_sha256, self.checkpoint_epoch = _checkpoint_identity(
+            checkpoint)
         self.node_meta = load_node_meta(dataset)
         self.namer = NodeNamer(self.node_meta)
         self.adj_bool = (load_adjacency(dataset).numpy() > 0)   # [N,N]
@@ -317,9 +355,17 @@ class ExplanationBuilder:
 
         confidence = self._confidence(X, target_node, horizon_step, top_nodes_idx)
 
+        meta = {"city": self.dataset, "timestamp": timestamp,
+                "model_checkpoint": self.checkpoint}
+        # Omitted rather than written as null when unavailable, so
+        # `missing_provenance()` has one meaning: the field is not there.
+        if self.checkpoint_sha256:
+            meta["model_checkpoint_sha256"] = self.checkpoint_sha256
+        if self.checkpoint_epoch is not None:
+            meta["model_epoch"] = self.checkpoint_epoch
+
         exp = {
-            "meta": {"city": self.dataset, "timestamp": timestamp,
-                     "model_checkpoint": self.checkpoint},
+            "meta": meta,
             "prediction": {
                 "node_id": int(target_node),
                 "node_name": self.namer.name(target_node),

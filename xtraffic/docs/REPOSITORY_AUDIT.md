@@ -960,6 +960,35 @@ solves. The defect is that the manifest does not say so.
 
 #### 11.2.7 Applied now
 
+**Update 2026-08-26, later the same day — fixes 1 and 3 now applied too.**
+
+Fix 1 landed after re-checking the blocker. The claim above that `schema.py`
+"needs the golden baseline re-captured" was **over-cautious and wrong**: the
+byte-identity gate hashes RENDERED artifacts (`render_explanation_text`,
+`render_prediction_only_text`, the three condition prompts) plus the prompt
+constants and the resolver -- and none of those read `meta`. Adding keys to
+`meta` is therefore invisible to the gate, which was confirmed PASS after the
+change. `_check_dict` also ignores unknown keys, so the fields could be added
+without invalidating a single cached explanation.
+
+  * `meta.model_checkpoint_sha256` and `meta.model_epoch`, both OPTIONAL, are
+    populated by `ExplanationBuilder` from the checkpoint it actually loaded.
+    Optional is load-bearing: every pre-2026-08-26 artifact lacks them and must
+    still validate, including the 12 the gate baselines on.
+  * `schema.missing_provenance(exp)` reports which are absent. An unattributable
+    explanation is still a VALID explanation -- that is a different question, and
+    it gets a different function rather than a stricter validator.
+  * Present-but-wrong-type IS rejected (`meta.model_epoch: expected int, got str`).
+
+Fix 3: the four tables from run 20260825T201433Z now state their checkpoint in
+the caption, and Table 4 additionally warns that it sits on a different epoch
+from Tables 1-3. The older `evaluation/paper/` tables are NOT retro-captioned --
+which epoch the paper standardises on is the human author's decision, and
+stamping a caption would presume it.
+
+Verified after all three fixes: traffic byte-identity PASS, 76 unit tests PASS,
+resolver 29/30 PASS.
+
 `reproducibility/run_dir.py` gains `record_checkpoint_use(path, role)`, which
 hashes the file at the moment it is loaded and appends to
 `checkpoints_used.jsonl` in the run directory. It is additive: no existing call
