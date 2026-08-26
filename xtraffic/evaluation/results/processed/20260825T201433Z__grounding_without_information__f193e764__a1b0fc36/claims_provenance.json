@@ -1,0 +1,161 @@
+{
+  "corpus": {
+    "n_explanations": 93,
+    "built_from": "2026-07-05 12:21:10",
+    "built_to": "2026-07-06 19:58:59",
+    "files_written_on_or_after_checkpoint_swap": 0,
+    "meta_model_checkpoint_values": [
+      "metr_la_best.pt"
+    ],
+    "epoch": 34,
+    "epoch_evidence": "corpus predates the 2026-07-19 swap entirely (0 of 93 files written on or after it) AND re-solving metr_la_1154_197 / metr_la_1194_56 at seed 0 reproduces the stored top-8 exactly on epoch 34 (Jaccard 1.000) and not at all on epoch 54 (0.231 / 0.000)"
+  },
+  "grounding_run_checkpoints_used": {
+    "part1_explanation_builder": {
+      "epoch": 34,
+      "sha256": "4781693eb3e39c8f",
+      "basename": "metr_la_best_epoch34_ARCHIVE.pt"
+    },
+    "part2_explanation_builder": {
+      "epoch": 34,
+      "sha256": "4781693eb3e39c8f",
+      "basename": "metr_la_best_epoch34_ARCHIVE.pt"
+    },
+    "part3_explanation_builder": {
+      "epoch": 34,
+      "sha256": "4781693eb3e39c8f",
+      "basename": "metr_la_best_epoch34_ARCHIVE.pt"
+    },
+    "part4_sweep_solves": {
+      "epoch": 54,
+      "sha256": "046b2a4ac20613ac",
+      "basename": "metr_la_best.pt"
+    },
+    "part4_committed_explanation_solves_ep34": {
+      "epoch": 34,
+      "sha256": "4781693eb3e39c8f",
+      "basename": "metr_la_best_epoch34_ARCHIVE.pt"
+    },
+    "part4_committed_explanation_solves_ep54": {
+      "epoch": 54,
+      "sha256": "046b2a4ac20613ac",
+      "basename": "metr_la_best.pt"
+    }
+  },
+  "resolver_fix": {
+    "commit": "a5ba31d",
+    "date": "2026-07-21",
+    "canonical_ABC_rows_scored": "before the fix (2026-07-06)",
+    "A_rand_A_mismatch_rows_scored": "after the fix (2026-08-25/26)",
+    "canonical_delta_measurable": false,
+    "why_not": "the 2026-07-06 run predates decision caching (introduced 2026-07-12 with Phase 15b); its raw cited_locations were never persisted and faithfulness_per_scenario.csv stores metrics only",
+    "proxy_on_cached_15b_era_decisions": {
+      "A": {
+        "n": 93,
+        "faithfulness_f1": {
+          "stored": 0.7328671328671322,
+          "rescored_today": 0.7279516182741982,
+          "delta": -0.004915514592934045
+        },
+        "hallucination_rate": {
+          "stored": 0.021505376344086023,
+          "rescored_today": 0.021505376344086023,
+          "delta": 0.0
+        },
+        "cause_precision": {
+          "stored": 0.978494623655914,
+          "rescored_today": 0.978494623655914,
+          "delta": 0.0
+        },
+        "cause_recall": {
+          "stored": 0.6088709677419355,
+          "rescored_today": 0.603494623655914,
+          "delta": -0.005376344086021501
+        },
+        "n_scenarios_changed": 1
+      },
+      "C": {
+        "n": 3,
+        "faithfulness_f1": {
+          "stored": 0.7643467643467643,
+          "rescored_today": 0.7643467643467643,
+          "delta": 0.0
+        },
+        "hallucination_rate": {
+          "stored": 0.0,
+          "rescored_today": 0.0,
+          "delta": 0.0
+        },
+        "cause_precision": {
+          "stored": 1.0,
+          "rescored_today": 1.0,
+          "delta": 0.0
+        },
+        "cause_recall": {
+          "stored": 0.625,
+          "rescored_today": 0.625,
+          "delta": 0.0
+        },
+        "n_scenarios_changed": 0
+      },
+      "C_RICH": {
+        "n": 93,
+        "faithfulness_f1": {
+          "stored": 0.7097824517179349,
+          "rescored_today": 0.6961623800333469,
+          "delta": -0.013620071684588009
+        },
+        "hallucination_rate": {
+          "stored": 0.010752688172043012,
+          "rescored_today": 0.021505376344086023,
+          "delta": 0.010752688172043012
+        },
+        "cause_precision": {
+          "stored": 0.989247311827957,
+          "rescored_today": 0.978494623655914,
+          "delta": -0.010752688172043001
+        },
+        "cause_recall": {
+          "stored": 0.5806451612903226,
+          "rescored_today": 0.5672043010752689,
+          "delta": -0.013440860215053752
+        },
+        "n_scenarios_changed": 5
+      },
+      "D_CONTRA": {
+        "n": 93,
+        "faithfulness_f1": {
+          "stored": 0.7536742827065404,
+          "rescored_today": 0.7503227954840854,
+          "delta": -0.0033514872224549297
+        },
+        "hallucination_rate": {
+          "stored": 0.0,
+          "rescored_today": 0.0,
+          "delta": 0.0
+        },
+        "cause_precision": {
+          "stored": 1.0,
+          "rescored_today": 1.0,
+          "delta": 0.0
+        },
+        "cause_recall": {
+          "stored": 0.6303763440860215,
+          "rescored_today": 0.6263440860215054,
+          "delta": -0.0040322580645161255
+        },
+        "n_scenarios_changed": 1
+      }
+    }
+  },
+  "excluded_deliberately": {
+    "cross_city_rebuild": {
+      "values": {
+        "A_faithfulness_f1": 0.7232,
+        "B_hallucination": 0.839
+      },
+      "reason": "different corpus, and it spans the 2026-07-19 checkpoint swap. Not merged. If cited at all it is a SEPARATE result with its own provenance, not a correction to the rows in claims.csv."
+    }
+  },
+  "not_reconciled": "at least three condition-A values exist on disk (0.7246 Phase-5, 0.7329 Phase-15b, 0.7232 cross-city). They are different LLM draws, not disagreeing measurements of one quantity, and are left unreconciled by instruction."
+}
