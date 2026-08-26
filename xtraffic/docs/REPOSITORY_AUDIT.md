@@ -823,3 +823,144 @@ rather than an accident of directory listing order.
 **Current exposure:** none. The explanation-network analysis writes only into its
 own run directory and never into `explanations_cache/`; the gate was confirmed
 PASSING before and after that work.
+
+### 11.2 HIGH — cross-epoch mixing, dated 2026-08-26
+
+**This is a NEW finding. It does not replace §5.5, which already recorded that
+explanations store a checkpoint FILENAME rather than a hash or epoch, and that
+`metr_la_best.pt` has been overwritten more than once. §5.5 stands as written.
+What is new is (a) the filename ambiguity has now been RESOLVED empirically for
+every affected artifact cache, and (b) analyses produced AFTER that audit entry
+were run on the other epoch and then compared against epoch-34 results.**
+
+#### 11.2.1 The two models, established by hash
+
+    file                              epoch  val MAE   sha256[:16]
+    metr_la_best.pt                     54   2.8747    046b2a4ac20613ac
+    metr_la_best_epoch34_ARCHIVE.pt     34   2.9027    4781693eb3e39c8f
+
+Both files carry mtime `2026-07-19 19:00:03` — a bulk copy, so **mtime dates
+nothing**. Checkpoints are gitignored (`.gitignore:24`), so there is **no git
+history** for them either. The swap is dated from the documentary record:
+`CLAUDE.md` "HEADLINE CHECKPOINT UPDATED (2026-07-19) ... EPOCH 54, val MAE
+2.8747 (was epoch 34 / 2.9026)". The epoch-34 val MAE quoted there matches the
+ARCHIVE file exactly, so the identification is not inferential.
+
+**Therefore: `metr_la_best.pt` was epoch 34 from 2026-07-06 to 2026-07-19, and
+epoch 54 from 2026-07-19 onward.** Everything produced before 2026-07-19 that
+loaded `metr_la_best.pt` used epoch 34; everything after used epoch 54.
+
+#### 11.2.2 Filename ambiguity resolved empirically
+
+§5.5 states it is "impossible to tell from an artifact which model produced it."
+That is true of the artifact's METADATA, but not of the artifact: re-solving at
+the committed settings (seed 0, CPU, 200 epochs) discriminates cleanly, because
+the two checkpoints disagree almost totally on top-8 identity.
+
+    cache                              meta says          J(ep34)  J(ep54)  verdict
+    faithfulness metr_la_1154_197      metr_la_best.pt     1.000    0.231   epoch 34
+    faithfulness metr_la_1194_56       metr_la_best.pt     1.000    0.000   epoch 34
+    sim_eval  exp_metr_la_1039_149     metr_la_best.pt     1.000    0.000   epoch 34
+    sim_eval  exp_metr_la_1055_56      metr_la_best.pt     1.000    0.000   epoch 34
+
+Jaccard 1.000 means the re-solve reproduced the stored top-8 exactly; importance
+values match to 5e-5, i.e. the 4-decimal rounding in the JSON. So the caches are
+recoverable, not lost — but only by spending a solve per artifact.
+
+#### 11.2.3 What each run actually used
+
+The run_dir layer is NOT the defect. `provenance.capture()` hashes every declared
+artifact, and every run that declared a checkpoint recorded its sha256:
+
+    run                                      recorded                epoch used
+    20260824T234653Z influence_graph_solves  filename + sha256 x2    54
+    20260824T235016Z influence_graph_solves  filename + sha256 x2    54
+    20260824T235643Z device_divergence       filename + sha256       54
+    20260825T002341Z learned_semantic_graph  3 filenames + 3 sha256  34 + 54 + fusion39
+    20260825T093132Z learned_semantic_graph  3 filenames + 3 sha256  34 + 54 + fusion39
+    20260825T201433Z grounding_without_info  see 11.2.5 — MIXED
+
+Pre-run_dir work (Phases 3/5/10/11/12/13/16/17/18) has no manifest at all; its
+epoch is established only by the re-solve evidence in 11.2.2 and by date.
+
+The **nearest-by-road / geometry baseline uses no checkpoint**: `load_geometry`
+reads `adjacency.npy`, `node_meta.json` and `distances_la_2012.csv` only. It
+cannot be affected by this finding and needs no rerun.
+
+#### 11.2.4 The split, and the inference that crossed it
+
+    EPOCH 34   Phase 3 explainer metrics; Phase 5 faithfulness n=93 (the A/B/C
+               table); Phase 10 sim_eval n=444; Phase 16 active grounding n=93;
+               Phases 11/12/13/17/18; the 12 committed explanation JSONs
+    EPOCH 54   the prediction row (overall test MAE 3.145); the entire
+               explanation-network analysis (4,968 solves, mask flatness,
+               precision vs adjacency, split-half, far stratum, survivors);
+               device divergence
+
+`CLAUDE.md` already flagged the first half of this on 2026-07-19 ("downstream
+numbers ... are NOT invalidated — but they are now one checkpoint behind.
+Re-running them on epoch-54 is OWED"). That re-run was never done. The
+explanation-network analysis was then layered on top **on the other epoch**, and
+its central conclusion was stated across the boundary:
+
+> "Every committed explanation JSON keeps top_nodes = 8 of 207 — so EVERY
+> downstream consumer in this project, including the whole faithfulness line, has
+> been reading the first 8 entries of a nearly flat ranking."
+
+The flatness was measured on **epoch 54**. The committed explanations are
+**epoch 34**. At the time it was written, that sentence was an unlicensed
+inference across two different models.
+
+**It is now checked, and it holds.** Re-solving the 11 distinct committed
+explanations on their OWN checkpoint:
+
+    epoch 34 (the real provenance): entropy 0.9722-0.9997 (mean 0.9832),
+                                    sources for 80% mass 118-162 (mean 136.8/206)
+    epoch 54 (for comparison):      entropy 0.9588-0.9919 (mean 0.9802),
+                                    sources for 80% mass 113-150 (mean 134.1/206)
+
+So the conclusion survives, but it survives on evidence gathered afterwards, not
+on the evidence that was cited for it.
+
+#### 11.2.5 A new instance introduced by the 2026-08-25 run
+
+Run `20260825T201433Z__grounding_without_information__f193e764__a1b0fc36` is
+internally mixed, and its manifest is misleading about it:
+
+    manifest config.checkpoint + hashed artifact : metr_la_best.pt (epoch 54)
+    Parts 1, 2, 3 actually loaded                : epoch-34 ARCHIVE
+    Part 4 sweep actually loaded                 : epoch 54
+    Part 4 committed-explanation solves          : both, labelled
+
+Parts 1-3 record their real checkpoint in `partN_summary.json`
+(`explanation_checkpoint`) and Part 4 records both in `part4_geometry.json`, so
+the run is self-documenting at the PART level and no result is misattributed.
+But the manifest — the thing a reader checks first — hashes only epoch 54 while
+three of the four parts did not use it. **`RunDir.create(artifacts=...)` hashes
+what the caller DECLARES, not what the process later LOADS**, and nothing
+reconciles the two.
+
+Choosing epoch 34 for Parts 1-3 was deliberate and correct: those parts reuse the
+committed epoch-34 prediction blocks and are compared against committed epoch-34
+numbers. Part 4 on epoch 54 was also correct: it reuses the epoch-54 Stage-1
+solves. The defect is that the manifest does not say so.
+
+#### 11.2.6 Fixes
+
+1. **`models/explainer/schema.py`** — explanations must record
+   `model_checkpoint_sha256` and `model_epoch` beside the filename. Without this,
+   every future explanation has the same ambiguity and costs a solve to resolve.
+   NOT YET APPLIED: `schema.py` is a frozen contract that Phase 4 and the
+   byte-identity gate depend on, so changing it needs the golden baseline
+   re-captured with a documented reason.
+2. **`reproducibility/run_dir.py`** — record checkpoints as LOADED, not as
+   declared. Added: `RunDir.record_checkpoint_use()` (see 11.2.7).
+3. **Any paper table** must state its epoch in the caption until one epoch is
+   chosen and everything is rerun against it.
+
+#### 11.2.7 Applied now
+
+`reproducibility/run_dir.py` gains `record_checkpoint_use(path, role)`, which
+hashes the file at the moment it is loaded and appends to
+`checkpoints_used.jsonl` in the run directory. It is additive: no existing call
+site changes behaviour, and a run that never calls it is exactly as before.

@@ -231,6 +231,57 @@ class RunDir:
             fh.write(text)
         return path
 
+    def record_checkpoint_use(self, path: str, role: str = "model",
+                              extra: Optional[Dict[str, Any]] = None
+                              ) -> Dict[str, Any]:
+        """Hash a checkpoint AT THE MOMENT IT IS LOADED and record it.
+
+        WHY THIS EXISTS (audit §11.2.5). `create(artifacts=...)` hashes what the
+        caller DECLARES up front. That is not necessarily what the process goes
+        on to load. Run 20260825T201433Z declared and hashed
+        `metr_la_best.pt` (epoch 54) in its manifest while three of its four
+        parts actually loaded the epoch-34 archive — every part recorded its own
+        checkpoint correctly, but the manifest, which is what a reader checks
+        first, said something else.
+
+        A checkpoint filename is not provenance: `metr_la_best.pt` was epoch 34
+        until 2026-07-19 and epoch 54 after, and the two agree on almost nothing
+        (top-8 Jaccard 0.000 on the same target and seed). So this records the
+        SHA-256 and, when it can read one, the epoch — the two things a filename
+        cannot tell you.
+
+        Append-only, one line per load, so a run that loads several checkpoints
+        (or the same one per worker) keeps the full picture rather than the last
+        writer's.
+        """
+        rec: Dict[str, Any] = {
+            "role": role,
+            "path": path,
+            "basename": os.path.basename(path),
+            "recorded_utc": datetime.now(timezone.utc).isoformat(),
+        }
+        try:
+            rec["sha256"] = provenance.sha256_file(path)
+        except Exception as exc:                          # noqa: BLE001
+            rec["sha256"] = None
+            rec["error"] = "{}: {}".format(type(exc).__name__, exc)
+        # Epoch is best-effort: reading it means unpickling the checkpoint, and a
+        # provenance helper must never be the thing that crashes a run.
+        try:
+            import torch
+
+            ck = torch.load(path, map_location="cpu", weights_only=False)
+            if isinstance(ck, dict):
+                for k in ("epoch", "best_val_mae", "val_mae"):
+                    if k in ck:
+                        rec[k] = ck[k]
+        except Exception:                                  # noqa: BLE001
+            pass
+        if extra:
+            rec.update(extra)
+        self.append_jsonl("checkpoints_used.jsonl", rec)
+        return rec
+
     def append_jsonl(self, name: str, record: Dict[str, Any]) -> str:
         """Append one record. The ONLY sanctioned way to add to an existing file
         in a run directory — append-only is compatible with immutability, and it
