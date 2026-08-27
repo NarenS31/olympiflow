@@ -140,6 +140,27 @@ def main() -> int:
     need("shap halluc", "%.4f" % shap["aggregate"]["A"]["hallucination_rate_mean"])
     need("shap n", str(shap["n_scenarios"]))
 
+    # The two split-half statistics are NOT the same quantity and the paper must
+    # not present them as one. Assert both the pooled field and the per-target
+    # mean are cited, and that the text flags the distinction.
+    for token in ("pooled", "per target and then averaged"):
+        if token not in tex:
+            failures.append("MISSING split-half distinction marker: {!r} -- the "
+                            "pooled edge-set Jaccard and the per-target mean are "
+                            "different statistics".format(token))
+    if "jaccard\\_all\\_edges" not in tex:
+        failures.append("MISSING exact source field jaccard_all_edges")
+    ig_st = json.load(open(os.path.join(IG, "metrics.json")))["per_regime"]
+    for reg in ("free_flow", "congested"):
+        # Guard against ever quoting the adjacency-restricted variants as if they
+        # were the unrestricted number.
+        for wrong in ("jaccard_beyond_k", "jaccard_off_adjacency"):
+            v = ig_st[reg]["stability"].get(wrong)
+            if v is not None and ("%.4f" % v) in tex:
+                failures.append("FORBIDDEN: {} value {:.4f} ({}) appears in the "
+                                "text; the paper claims the unrestricted "
+                                "jaccard_all_edges".format(wrong, v, reg))
+
     pab = json.load(open(os.path.join(PROC, "paired_decision_ab.json")))
     for metric, fmt in (("accuracy", "%+.4f"), ("delay_reduction", "%+.4f")):
         d = pab[metric]
@@ -167,6 +188,25 @@ def main() -> int:
         failures.append("CLAIM BROKEN: P4a is no longer FALSIFIED")
     if ver["sub_verdicts"]["P4b_all_committed_flagged"] != "FALSIFIED":
         failures.append("CLAIM BROKEN: P4b is no longer FALSIFIED")
+
+    # The averaging convention must stay stated. Table 1's F1 is the MEAN OF
+    # PER-SCENARIO F1 (macro), which is 0.011-0.025 BELOW 2PR/(P+R) computed from
+    # the aggregate precision and recall in the same row. A reader who hand-checks
+    # the harmonic mean will get a different number and be right to ask why.
+    if "macro" not in tex.lower():
+        failures.append("MISSING averaging convention: Table 1 is macro-averaged "
+                        "and the text must say so, or the F1 column looks wrong "
+                        "to anyone who recomputes 2PR/(P+R) from the row")
+    # Assert the convention actually still holds in the data.
+    import csv as _csv
+    per = list(_csv.DictReader(open(os.path.join(
+        RES, "faithfulness", "faithfulness_per_scenario.csv"))))
+    for cond in ("A", "B", "C"):
+        sub = [r for r in per if r["condition"] == cond]
+        macro = sum(float(r["faithfulness_f1"]) for r in sub) / len(sub)
+        if abs(macro - float(rows[cond]["faithfulness_f1"])) > 5e-5:
+            failures.append("CONVENTION DRIFT: {} reported F1 no longer equals the "
+                            "mean of per-scenario F1".format(cond))
 
     for f in failures:
         print("  " + f)

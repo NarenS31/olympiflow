@@ -993,3 +993,52 @@ resolver 29/30 PASS.
 hashes the file at the moment it is loaded and appends to
 `checkpoints_used.jsonl` in the run directory. It is additive: no existing call
 site changes behaviour, and a run that never calls it is exactly as before.
+
+#### 11.2.8 Addendum 2026-08-27 — the 19:00:03 mtime is a bulk copy, not the swap
+
+**Appended, not a revision. Nothing above is edited.** This qualifies one sentence
+in 11.2.1 and leaves the rest of that entry standing.
+
+While establishing which checkpoint produced the SHAP comparison, three cached
+GNNExplainer explanations were re-solved at the committed settings (seed 0, CPU,
+200 epochs) against both candidates:
+
+    artifact          file mtime            offset from ckpt   J(ep34)  J(ep54)
+    gnn_1603_206      2026-07-19 19:49:30   +49m27s            1.000    0.067
+    gnn_1874_61       2026-07-19 19:46:44   +46m41s            1.000    0.000
+    gnn_1879_61       2026-07-19 19:37:55   +37m52s            1.000    0.000
+
+All three were written 38 to 49 minutes AFTER `metr_la_best.pt`'s mtime of
+`2026-07-19 19:00:03`, and all three reproduce exactly on **epoch 34** and not at
+all on epoch 54.
+
+**Therefore the 19:00:03 mtime is a bulk copy/archive timestamp, not the moment of
+the epoch 34 -> 54 swap.** Both `metr_la_best.pt` and
+`metr_la_best_epoch34_ARCHIVE.pt` carry that identical second, which is itself the
+signature of a copy rather than of two separate training completions. The actual
+swap happened later that evening, after these artifacts were written; the file
+system does not record when.
+
+**Consequence for 11.2.1.** The sentence "epoch 54 from 2026-07-19 onward" is
+**unreliable for any artifact written on 2026-07-19 itself**. Within that day the
+mtime ordering carries no information about which model was at that path. Artifacts
+dated 2026-07-20 and later are unaffected --- the original re-solve evidence in
+11.2.2 stands for those, and the epoch-34 attributions of the faithfulness and
+sim_eval caches were established by re-solve rather than by date, so they are
+unaffected too.
+
+**The rule this generalises to, stated plainly: an artifact's checkpoint identity
+must be settled by re-solving it or by a recorded hash. Never by comparing mtimes
+--- not across days, and not within the same day.** Two files can share a second
+because something copied them; a file can postdate a checkpoint's mtime by an hour
+and still have been produced by a different model at that path. mtime answers "when
+was this byte-range last written", which is not the question.
+
+**Known artifact affected.** The SHAP comparison
+(`evaluation/results/shap_comparison/`) ran on epoch 34, not epoch 54 as its
+2026-07-19 20:07 summary mtime would have suggested. Both of its arms used that
+checkpoint, so the GNNExplainer-vs-SHAP comparison is internally consistent; it is
+simply a different training state from the epoch-54 influence-graph and
+learned-adjacency runs, and must not be pooled with them. The
+Interpretability-for-Discovery paper carries that caveat in its Result 4 and marks
+the epoch in its claim-to-source table.

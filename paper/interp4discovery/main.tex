@@ -1,0 +1,402 @@
+\documentclass{article}
+% Double-blind workshop submission. NOT [final]: that is camera-ready and
+% de-anonymises the author block.
+\usepackage[dblblindworkshop]{neurips_2026}
+\workshoptitle{Interpretability for Discovery}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{microtype}
+\usepackage{array}
+
+\title{Two Readouts of a Traffic GNN, and Why Neither Supports a Claim About the
+Road Network}
+
+\author{%
+  Anonymous Author(s)\\
+  Affiliation\\
+  Address\\
+  \texttt{email}
+}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We ask whether two standard post-hoc readouts of a spatio-temporal GNN --- a
+mask-based explainer and the model's own learned adjacency --- yield checkable
+structure about the road network they were trained on. Neither does. What makes
+that null worth reporting rather than merely asserting is the instrumentation:
+three independent stability checks, an external geometric baseline that is
+independent of the model, a second explainer family, and a pre-registered
+reliability proxy that failed its own criteria. The same geometric test that finds
+nothing for the explainer recovers road structure at $0.76$--$0.81$ precision for a
+distance baseline, so the instrument demonstrably detects real structure when it is
+present. We also report one apparent effect that a sample-size robustness check did
+not reproduce, and withdraw it.
+\end{abstract}
+
+\section{Introduction}
+
+Interpretability becomes discovery only when a readout says something about the
+world that can be checked independently of the model that produced it. We take a
+spatio-temporal GNN trained to forecast traffic speed on the METR-LA sensor network
+and ask directly: does reading its internals tell us anything testable about the
+road network? Two readouts are available and both are standard --- a GNNExplainer-style
+soft mask over input sensors, and the adaptive adjacency the model learns for itself
+--- and we find that neither supports such a claim. The result is a null, so the
+instrumentation carries the weight: we measure stability three independent ways,
+compare against an \emph{external} check that does not involve the model at all
+(physical road distance between sensors, taken from the road-distance table the
+dataset ships), cross-check against a second explainer family, and pre-register a
+cheap reliability proxy that then fails. That external baseline is what makes the
+null interpretable rather than uninformative: applied to a nearest-by-road rule it
+recovers the road graph at high precision, so a near-zero score for the explainer
+reflects the explainer, not a weak test.
+
+\section{Setup}
+
+The forecaster is a Graph WaveNet-style ST-GNN~\citep{gwnet2019} on METR-LA (207
+loop sensors). Its spatial support mixes a \emph{given} adjacency with a
+\emph{learned} one as $A_{\text{final}} = \alpha A_{\text{phys}} + (1-\alpha)
+A_{\text{sem}}$. The given adjacency is a thresholded Gaussian kernel on directed
+road distance: with $\sigma = 2584.5$\,m and threshold $\kappa = 0.1$ the effective
+cutoff is $3921.7$\,m, giving 1{,}515 directed edges over 207 nodes (density
+$0.0355$). ``Off-adjacency'' below therefore means precisely ``more than about
+3.9\,km apart by road,'' not a vague notion of distance. The learned component is
+$A_{\text{sem}} = \mathrm{softmax}(\mathrm{relu}(EE^\top))$ with $E$ a learned
+$[207, 10]$ embedding initialised from $\mathcal{N}(0, 0.01^2)$ --- not seeded from
+the kernel --- and on the checkpoint we analyse the model puts weight $0.7032$ on the
+learned graph against $0.2968$ on the given one. The first readout is a
+GNNExplainer-style~\citep{ying2019gnnexplainer} node mask, optimised per (target,
+window) and read as a top-$k$ ($k{=}8$) source list; the aggregate over windows is
+an influence matrix $W$. Unless stated otherwise every number below comes from one
+run of $207 \times 24 = 4{,}968$ mask solves on CPU, and from the same epoch-54
+checkpoint, so the two readouts describe one model.\footnote{Explainer solves: run
+\texttt{20260824T235016Z\_\_influence\_\allowbreak graph\_solves}. Learned adjacency:
+run \texttt{20260825T093132Z\_\_learned\_\allowbreak semantic\_graph}, checkpoint
+\texttt{metr\_la\_best.pt}, sha \texttt{046b2a4a}, epoch 54.}
+
+\section{Result 1: the mask is close to flat}
+
+Covering $80\%$ of a target's off-self importance mass takes on average
+$146.6 \pm 4.7$ sources in the congested regime and $154.0 \pm 2.9$ in free flow,
+out of 206 available. A readout that needs roughly three quarters of the network to
+account for four fifths of its mass is not selecting a small causal set, and the
+narrow standard deviations show this is a property of the method rather than of a
+few odd targets. The learned adjacency is no better: its rows need $142.1$ of 206
+sources for the same $80\%$, it is structurally dense (every entry positive), and
+each row spreads over 107 of 207 nodes --- $52\%$ of uniform. The model's spatial
+receptive field is effectively the whole graph in one hop.
+
+\section{Result 2: instability, measured three ways}
+
+Flat readouts should be unstable, and they are. Table~\ref{tab:stability} collects
+the evidence under perturbations that have nothing to do with one another.
+
+\begin{table}[h]
+\centering
+\caption{Stability of the two readouts. Every entry is agreement between two
+computations that should have given the same answer. ``Pooled'' is one Jaccard over
+the union of all targets' top-8 source--target pairs across the full node set, with
+no adjacency or reachability restriction; ``per-target mean'' averages each target's
+own Jaccard and is a \emph{different} statistic, hence the spread. Chance references
+are two independent uniform draws under the same construction.}
+\label{tab:stability}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}llcc@{}}
+\toprule
+Perturbation & Statistic & Value & Chance ref. \\
+\midrule
+\multicolumn{4}{l}{\emph{Mask explainer}}\\
+Window resample, free-flow (200 targets) & pooled top-8 Jaccard & 0.2256 & 0.0165 \\
+Window resample, congested (28 targets)  & pooled top-8 Jaccard & 0.1399 & 0.0182 \\
+Window resample, $\lambda/3\lambda/10\lambda$ (40) & per-target mean & 0.2323 / 0.2385 / 0.2287 & --- \\
+Optimiser seed, $\lambda/3\lambda/10\lambda$ (10) & per-target mean & 0.3480 / 0.3149 / 0.3015 & --- \\
+CPU vs MPS, same seed (3 cases) & top-8 Jaccard & 0.3991 & --- \\
+CPU vs MPS, same seed (3 cases) & Pearson, magnitudes & 0.9193 & --- \\
+\midrule
+\multicolumn{4}{l}{\emph{Learned adjacency}}\\
+Epoch 34 vs 54, same run & top-8 Jaccard & 0.2163 & 0.0163 \\
+Against a separate training run & top-8 Jaccard & 0.1532 / 0.1589 & 0.0163 \\
+\midrule
+\multicolumn{4}{l}{\emph{Between the two readouts}}\\
+$W$ vs $A_{\text{sem}}$, free-flow / congested & per-target top-8 J & 0.0873 / 0.1743 & --- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Three things are worth drawing out. First, raising the sparsity penalty tenfold does
+not concentrate the mask --- per-target agreement is flat across $\lambda$, at
+$0.2323 \pm 0.1461$, $0.2385 \pm 0.1739$ and $0.2287 \pm 0.1831$ --- so the
+instability is not a tuning artefact that a stronger prior would remove. Second, the
+CPU-versus-MPS row is the starkest: the same target, the same window and the same
+seed agree on importance \emph{magnitudes} at Pearson $0.9193$ (Spearman $0.5778$)
+while agreeing on top-8 \emph{identity} only $0.3991$ of the time ($0.3576$ at
+top-20). Floating-point associativity alone reorders which sensors a reader would be
+told mattered. Third, the learned adjacency preserves \emph{ranks} across training
+states far better than it preserves top-$k$ identity (per-target Spearman $0.7795$
+between epochs against a top-8 Jaccard of $0.2163$), which is the same dissociation
+seen in the mask: what is stable is not what gets reported. The two readouts also
+largely disagree with each other, with 84 of 200 free-flow targets sharing
+\emph{nothing} in their top 8 (17 of 28 when congested) and per-target Spearman of
+$+0.0618$ and $-0.115$.
+
+\section{Result 3: the external geometric check}
+
+The checkable question is whether either readout recovers road geometry. We score
+each method's top-8 edges against the given kernel adjacency on the same targets
+(Table~\ref{tab:geometry}).
+
+\begin{table}[h]
+\centering
+\caption{Precision against the kernel adjacency, same targets and same $k{=}8$ for
+every row. The nearest-by-road baseline is the calibration: it must score well, since
+the adjacency is a road-distance threshold, and the fact that it does is what shows
+the test detects road structure when a method encodes it.}
+\label{tab:geometry}
+\small
+\begin{tabular}{lcc}
+\toprule
+Method & Free-flow & Congested \\
+\midrule
+Nearest by road distance (baseline) & 0.7557 & 0.8088 \\
+Mask explainer, top-8                & 0.2863 & 0.1397 \\
+Degree-matched random                & 0.0344 & 0.0551 \\
+Uniform random                       & 0.0331 & 0.0368 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The explainer sits above both random floors, so its mask is not noise --- but it
+recovers a small fraction of what a plain distance rule recovers on the identical
+test. \textbf{That gap is the paper's calibration point}: the instrument is
+demonstrably able to detect road structure, so a low score for the explainer reflects
+the explainer rather than a weak test. The learned adjacency does worse still. Its
+top-8 overlaps a nearest-by-road rule at $0.0644$, and it places $0.0445$ of its mass
+on adjacency edges against a $0.0355$ chance rate --- a lift of $1.252$, close to
+none. Nor does the explainer favour long-range structure, which would have been a
+different result worth reporting: beyond eight chained kernel radii it is
+\emph{depleted}, at $0.570\times$ the base rate in free flow and $0.923\times$ when
+congested.
+
+\section{Result 4: a second explainer family disagrees, invisibly}
+
+On a 28-scenario subset where SHAP (KernelExplainer) was run against the same model,
+the two methods' top-$k$ sets overlap at a mean Jaccard of $0.0221$. Two principled
+methods for reading one model agree on about $2\%$ of what they nominate. Yet a
+downstream consumer cannot tell: a deterministic citation checker scoring an LLM's
+narration of each returns \emph{identical} precision $0.9821$ and hallucination
+$0.0179$ for both.\footnote{\texttt{shap\_comparison\_summary.json}; $n{=}28$.} Whatever
+disagreement exists between explainer families is not visible to anything built on
+top of them. \emph{Checkpoint caveat}: this comparison ran on the epoch-34 checkpoint,
+not the epoch-54 one used elsewhere in this paper. Both of its arms use
+that same checkpoint, so the $0.0221$ overlap is an internally consistent
+within-model comparison; but it is a different training state from Results 1--3 and
+we do not pool it with them. The summary file records no checkpoint, so we
+established this by re-solving cached explanations on both candidates: they
+reproduce exactly on epoch 34 (top-8 Jaccard $1.000$) and not on epoch 54
+($0.067$ and $0.000$).
+
+\section{Result 5: an apparent effect, withdrawn}
+
+We report one result that did not survive its own robustness check, because the
+check is the point.
+
+Restricting to explainer edges beyond eight chained kernel radii and asking which
+survive both split halves, 52 of 423 free-flow edges survive. Those survivors sit in
+the learned adjacency's own top-8 at a rate of $0.1538$, against $0.0404$ for edges
+surviving only one half --- an apparent shift of roughly four-fold, which would have
+been the most interesting thing here: two independent readouts agreeing about
+long-range structure that the road graph does not contain.
+
+Recomputing on the first 64 targets of the same seeded shuffle --- an unbiased
+prefix, so this isolates sample size rather than geography --- the shift did not reproduce: survivors sit in the top-8 at $0.0714$ against $0.0381$ for
+one-half-only, on 14 survivors instead of 52. The congested regime shows $0.0$ at
+both sample sizes. We therefore withdraw the effect. Two readings are consistent
+with the data --- the prefix is underpowered at 14 survivors, or the full-sample
+shift is not robust --- and neither is established, so the honest statement is that
+the effect has not been shown to replicate and the four-fold figure should not be
+quoted on its own. We flag the direction explicitly because it is the opposite of
+the more familiar failure: here the apparent effect is at the \emph{larger} sample
+and the subsample is what fails to reproduce it, which makes it ambiguous rather
+than cleanly negative. The next section is the cleanly negative case.
+
+\section{Result 6: a pre-registered reliability proxy, falsified}
+
+If flatness drives instability then mask entropy should predict it, and entropy costs
+one solve where measuring stability costs two. We fixed the criteria before running:
+Spearman $\rho < -0.30$ against the split-half Jaccard \emph{and} a bootstrap CI
+excluding zero, plus a threshold chosen on the sweep alone flagging all 12 committed
+explanations. Pooled over 120 (target, setting) pairs, $\rho = -0.2008$ with 95\% CI
+$[-0.4229, +0.0452]$ for the entropy of the window-averaged mask, and
+$\rho = -0.1732$, CI $[-0.3938, +0.0513]$ for the mean per-window entropy --- the
+latter being the only form obtainable from a single solve, and so the only one that
+would have made the proxy cheap. Both intervals include zero and the threshold
+flagged 3 of 11 distinct committed explanations. Both criteria are falsified. A
+single-setting version at $n{=}40$ did appear to pass, at $\rho = -0.3412$ with 95\%
+CI $[-0.5999, -0.0241]$, meeting both criteria; it did not survive the full
+pool.\footnote{Recomputed into its own run directory
+\texttt{20260827T110720Z\_\_entropy\_\allowbreak gate\_single\_setting} from the
+Stage-1 masks, using the same functions as the pooled analysis, because the original
+inline value had been overwritten by the pooled result.} That is the expected fate of an
+underpowered positive, and the reason the criteria were fixed in advance.
+
+\section{Discussion}
+
+Three things would make either readout usable for a claim about the road network:
+stability under perturbations that should not matter, agreement across explainer
+families, and agreement with a check external to the model. None holds here. Top-$k$
+identity moves under window resampling, optimiser seed, and floating-point
+associativity alike; two explainer families overlap at $2\%$; and the external
+geometric test, calibrated by a baseline that passes it comfortably, finds little.
+
+The general lesson is about consumption, not about this model. An interpretability
+output that is handed downstream --- to an LLM that narrates it, to an automatic
+checker that scores the narration, to a human reading a ranked list --- carries its
+instability with it, and nothing downstream surfaces that. The SHAP comparison is the
+sharpest version: two readouts that disagree almost completely produce byte-identical
+downstream scores. Any pipeline that turns an attribution into a claim should
+therefore carry its own stability estimate alongside the attribution, or the claim
+inherits an error bar nobody has measured.
+
+\section{Responsible use statement}
+
+This work concerns interpretability readouts of a traffic-forecasting model, in a
+research setting, on a public sensor dataset with no personal data. Our results
+should not be read as a safety claim about the model or the explainer for their
+original purpose: we did not evaluate forecasting accuracy here, and the absence of a
+validated discovery does not imply the forecaster is unfit for forecasting or that
+the explainer is unfit for the debugging and sanity-checking uses it is normally put
+to. The scoped claim is narrower and concerns downstream use: these particular
+readouts should not be treated as evidence about real road structure --- for instance
+to justify a traffic-management intervention at a sensor named in a top-$k$ list ---
+without the stability and external checks demonstrated here. Presenting an unstable
+attribution to an operator as though it were a determined fact is the specific harm
+this paper argues against.
+
+\section{Limitations}
+
+\textbf{(a)} One dataset. Everything here is METR-LA; we make no cross-city claim,
+and whether these nulls hold on another sensor network is untested. \textbf{(b)} The
+external baseline inherits a definition. ``Geometry'' here means the dataset's
+directed road-distance table thresholded at $3921.7$\,m, which is one sensible notion
+and not the only one; moreover only $27.1\%$ of ordered sensor pairs have a road
+distance recorded at all ($24.4\%$ of non-adjacent pairs), so the baseline is
+evaluated on the covered subset. \textbf{(c)} Some checks are small: the seed-repeat
+uses 10 targets, the cross-device comparison 3 cases, the SHAP comparison 28
+scenarios, and the congested split-half only 28 targets. These are indicative. The
+central claims rest on the full-sample split-half (200 free-flow targets) and the
+geometry comparison, both at $n{=}207$ solved targets. \textbf{(d)} A single
+explainer family plus one SHAP cross-check; other attribution methods might behave
+differently, which is exactly what Result 4 suggests is worth testing.
+
+\section{Related work}
+
+Evaluating GNN explainers against ground truth is itself contested.
+\citet{sanchez2020evaluating} benchmark attribution against computable ground-truth
+attributions on synthetic graphs and \citet{agarwal2023evaluating} supply generators
+and a library for the same purpose, while \citet{faber2021ground} show that comparing
+explanations to ground truth is unsound when the trained GNN does not use the
+ground-truth edges, separating the responsible, causing and explanatory motifs. Our
+setting has no ground-truth attribution at all, which is why we substitute an
+external \emph{geometric} check and calibrate it with a baseline that passes.
+
+The second readout we examine is the adaptive adjacency now standard in
+spatio-temporal forecasting: Graph WaveNet~\citep{gwnet2019} introduced a learned
+self-adaptive matrix, MTGNN~\citep{wu2020connecting} learns a unidirectional graph
+from node embeddings, and AGCRN~\citep{bai2020adaptive} learns node-specific
+parameters and infers inter-series dependencies without a predefined graph. These are
+often described as capturing hidden spatial dependency, which invites reading the
+learned matrix as a discovered graph. Our measurements argue against that reading for
+this model: the learned matrix is structurally dense, spreads $52\%$ of uniform
+across each row, aligns with road adjacency at a lift of $1.252$, and its top-8
+changes substantially between training states.
+
+\begin{thebibliography}{9}
+\bibitem[Agarwal et al.(2023)]{agarwal2023evaluating}
+C.~Agarwal, O.~Queen, H.~Lakkaraju, and M.~Zitnik.
+\newblock Evaluating explainability for graph neural networks.
+\newblock \emph{Scientific Data}, 10:144, 2023.
+
+\bibitem[Bai et al.(2020)]{bai2020adaptive}
+L.~Bai, L.~Yao, C.~Li, X.~Wang, and C.~Wang.
+\newblock Adaptive graph convolutional recurrent network for traffic forecasting.
+\newblock In \emph{NeurIPS}, 2020.
+
+\bibitem[Faber et al.(2021)]{faber2021ground}
+L.~Faber, A.~K.~Moghaddam, and R.~Wattenhofer.
+\newblock When comparing to ground truth is wrong: On evaluating GNN explanation
+methods.
+\newblock In \emph{KDD}, 2021.
+
+\bibitem[Wu et al.(2019)]{gwnet2019}
+Z.~Wu, S.~Pan, G.~Long, J.~Jiang, and C.~Zhang.
+\newblock Graph WaveNet for deep spatial-temporal graph modeling.
+\newblock In \emph{IJCAI}, pages 1907--1913, 2019.
+
+\bibitem[Wu et al.(2020)]{wu2020connecting}
+Z.~Wu, S.~Pan, G.~Long, J.~Jiang, X.~Chang, and C.~Zhang.
+\newblock Connecting the dots: Multivariate time series forecasting with graph
+neural networks.
+\newblock In \emph{KDD}, 2020.
+
+\bibitem[Sanchez-Lengeling et al.(2020)]{sanchez2020evaluating}
+B.~Sanchez-Lengeling, J.~N.~Wei, B.~K.~Lee, E.~Reif, P.~Wang, W.~W.~Qian,
+K.~McCloskey, L.~J.~Colwell, and A.~B.~Wiltschko.
+\newblock Evaluating attribution for graph neural networks.
+\newblock In \emph{NeurIPS}, 2020.
+
+\bibitem[Ying et al.(2019)]{ying2019gnnexplainer}
+R.~Ying, D.~Bourgeois, J.~You, M.~Zitnik, and J.~Leskovec.
+\newblock GNNExplainer: Generating explanations for graph neural networks.
+\newblock In \emph{NeurIPS}, 2019.
+\end{thebibliography}
+
+\appendix
+
+\section{Claim-to-source map}
+\label{app:sources}
+
+Every number in the main text traces to one of the following. Run directories are
+under \texttt{evaluation/results/}; \texttt{IG} abbreviates
+\texttt{20260824T235016Z\_\_influence\_graph\_solves}, \texttt{LG} abbreviates
+\texttt{20260825T093132Z\_\_learned\_semantic\_graph}, and \texttt{GWI} abbreviates
+\texttt{20260825T201433Z\_\_grounding\_without\_information}.
+
+\footnotesize
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.34\linewidth}>{\raggedright\arraybackslash}p{0.24\linewidth}>{\raggedright\arraybackslash}p{0.36\linewidth}@{}}
+\toprule
+Claim & Value & Source \\
+\midrule
+Kernel adjacency construction & $\sigma$ 2584.5\,m, $\kappa$ 0.1, cutoff 3921.7\,m, 1515 edges, density 0.0355 & IG \texttt{metrics.json}, \texttt{geometry} \\
+$\alpha$ split, learned vs given & 0.7032 / 0.2968 & LG \texttt{learned\_graph.json}, \texttt{per\_checkpoint.\allowbreak metr\_la\_best.pt.alpha} \\
+Mask flatness, 80\% mass & 146.6$\pm$4.7 congested; 154.0$\pm$2.9 free-flow, of 206 & IG \texttt{metrics.json}, \texttt{per\_regime.*.\allowbreak sources\_for\_mass\_frac} \\
+Learned graph flatness & 142.1 of 206; 107 of 207 per row (52\% of uniform) & LG, \texttt{sources\_for\_mass\_frac}, \texttt{density} \\
+Split-half J, \emph{pooled} & 0.2256 (200 targets) / 0.1399 (28); ref 0.0165 / 0.0182 & IG \texttt{metrics.json}, \texttt{per\_regime.*.\allowbreak stability.jaccard\_all\_edges} \\
+Split-half J, \emph{per-target mean}, 3 $\lambda$ & 0.2323 / 0.2385 / 0.2287 & GWI \texttt{part4\_metrics.json}, \texttt{settings[]} \\
+Seed-repeat J, 3 $\lambda$ & 0.3480 / 0.3149 / 0.3015 ($n{=}10$) & GWI \texttt{part4\_metrics.json} \\
+CPU vs MPS & Pearson 0.9193; top-8 J 0.3991; Spearman 0.5778; top-20 J 0.3576 & \texttt{20260824T235643Z\_\_\allowbreak device\_divergence}, \texttt{device\_divergence.json} \\
+Cross-checkpoint J, learned graph & 0.2163 / 0.1532 / 0.1589; ref 0.0163 & LG, \texttt{cross\_checkpoint\_stability} \\
+$W$ vs $A_{\text{sem}}$ agreement & J 0.0873 (84 zero) / 0.1743 (17 zero); Spearman +0.0618 / $-$0.115 & IG \texttt{metrics.json}, \texttt{per\_regime.*.\allowbreak vs\_learned\_semantic\_graph} \\
+Geometry precision, explainer & 0.2863 free-flow / 0.1397 congested & IG \texttt{metrics.json}, \texttt{per\_regime.*.edges.top\_k.\allowbreak precision} \\
+Geometry precision, baselines & nearest-road 0.7557 / 0.8088; uniform 0.0331 / 0.0368; degree 0.0344 / 0.0551 & IG \texttt{metrics.json}, \texttt{per\_regime.*.baselines} \\
+Learned graph vs geometry & overlap 0.0644; mass 0.0445 vs 0.0355 chance, lift 1.252 & LG, \texttt{overlap\_with\_nearest\_road}, \texttt{road\_alignment\_semantic} \\
+Beyond-8-radii enrichment & 0.57$\times$ free-flow; 0.923$\times$ congested & IG \texttt{metrics.json}, \texttt{per\_regime.*.beyond\_k} \\
+SHAP overlap and downstream scores (\textbf{epoch 34}) & J 0.0221; precision 0.9821; halluc 0.0179; $n{=}28$ & \texttt{shap\_comparison\_summary.json}; epoch established by re-solve, see \S6 \\
+Survivors, full sample & 52 of 423; 0.1538 vs 0.0404; survival 0.1229 & IG \texttt{metrics.json}, \texttt{per\_regime.free\_flow.\allowbreak beyond\_k\_survivors} \\
+Survivors, 64-target prefix & 14 survivors; 0.0714 vs 0.0381; congested 0.0 both & IG \texttt{metrics.json}, \texttt{survivor\_sample\_\allowbreak size\_sensitivity} \\
+Entropy proxy $\rho$ and CIs & $-$0.2008 [$-$0.4229, +0.0452]; $-$0.1732 [$-$0.3938, +0.0513]; 3/11 & GWI \texttt{verdicts.json}, \texttt{P4} \\
+Entropy proxy at $n{=}40$ & $\rho$ $-$0.3412, CI [$-$0.5999, $-$0.0241] & \texttt{20260827T110720Z\_\_entropy\_\allowbreak gate\_single\_setting}, \texttt{entropy\_gate\_\allowbreak single\_setting.json} \\
+Road-distance coverage & 27.1\% of pairs; 24.4\% of non-adjacent & IG \texttt{metrics.json}, \texttt{geometry} \\
+\bottomrule
+\end{tabular}
+\normalsize
+
+\end{document}

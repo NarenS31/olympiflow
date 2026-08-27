@@ -1,0 +1,10 @@
+{
+  "pythonhashseed_env": "42",
+  "cublas_workspace_config": null,
+  "torch_initial_seed": 42,
+  "cuda_available": false,
+  "mps_available": true,
+  "cudnn_deterministic": false,
+  "cudnn_benchmark": false,
+  "deterministic_algorithms": false
+}

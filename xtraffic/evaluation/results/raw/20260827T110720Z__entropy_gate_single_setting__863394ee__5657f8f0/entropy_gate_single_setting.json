@@ -1,0 +1,40 @@
+{
+  "n_targets_requested": 40,
+  "n_targets_used": 40,
+  "n_targets_missing_or_geometry_mismatch": 0,
+  "setting": "current",
+  "lambda_size": 0.15,
+  "split_half_jaccard_mean": 0.2323082473082473,
+  "spearman": {
+    "entropy_of_mean": {
+      "rho": -0.34115488353244333,
+      "p_value": 0.031214284033982846,
+      "n_points": 40,
+      "n_clusters": 40,
+      "n_boot": 10000,
+      "n_boot_used": 10000,
+      "ci_lo": -0.5999357933897247,
+      "ci_hi": -0.024065529142161,
+      "excludes_zero": true,
+      "bootstrap_unit": "target (all of a target's settings move together)",
+      "passes_pre_registered_criteria": true
+    },
+    "mean_of_entropy": {
+      "rho": -0.3185650279026535,
+      "p_value": 0.04513137141983635,
+      "n_points": 40,
+      "n_clusters": 40,
+      "n_boot": 10000,
+      "n_boot_used": 10000,
+      "ci_lo": -0.5599322807920196,
+      "ci_hi": -0.019595108583594707,
+      "excludes_zero": true,
+      "bootstrap_unit": "target (all of a target's settings move together)",
+      "passes_pre_registered_criteria": true
+    }
+  },
+  "pre_registered_criteria": {
+    "rho_threshold": -0.3,
+    "requires_ci_excluding_zero": true
+  }
+}

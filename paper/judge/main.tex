@@ -55,10 +55,7 @@ construction to the position, verbosity and self-enhancement biases afflicting L
 judges~\citep{zheng2023judging}. That immunity buys less than it appears to. The
 judge correctly scores citation--artifact correspondence, cannot tell whether the
 artifact carries any information, and a correction loop added to improve grounding
-destroys the one signal that would have revealed the evidence was fabricated. Our contribution
-is a set of controls --- random and mismatched evidence, a second explainer, a
-decision-level replication, a failed detector --- locating which part of a grounded
-evaluation stack is load-bearing.
+destroys the one signal that would have revealed the evidence was fabricated.
 
 \section{Setup}
 
@@ -68,8 +65,11 @@ GNNExplainer~\citep{ying2019gnnexplainer}, and its top-$k$ ($k{=}8$) entries are
 rendered into the prompt as the only admissible causes. The judge resolves each
 free-text citation to a node-id set via an escalating ladder (exact sensor, exact
 region, fuzzy, geographic), counting a hit when that set intersects the top-$k$;
-precision, recall, $F_1$ and hallucination $(1-\text{precision})$ follow. The
-resolver scores $29/30 = 96.7\%$ on hand-labeled cases --- a \textbf{single-labeler
+precision, recall, $F_1$ and hallucination $(1-\text{precision})$ follow. Every
+figure we report is \emph{macro}-averaged --- the mean over scenarios of that
+scenario's own value --- so $F_1$ is the mean of per-scenario $F_1$ and, $F_1$ being
+concave in precision and recall, sits below the harmonic mean of the aggregate
+precision and recall shown beside it. The resolver scores $29/30 = 96.7\%$ on hand-labeled cases --- a \textbf{single-labeler
 validation on 30 cases}, not a reliability estimate. Five conditions share one
 93-scenario corpus: \textbf{A} (full explanation), \textbf{B} (prediction only),
 \textbf{C} (no city context), \textbf{A\_rand} (importances replaced by a seeded
@@ -120,25 +120,30 @@ needing three quarters of the network for four fifths of its mass is close to fl
 and the top-8 in every prompt is the head of that flat ranking.
 
 \paragraph{And its top-$k$ is close to unstable.} Flatness predicts instability, and
-we measure it three ways. Splitting each target's 24 windows into two stratified
-halves and re-deriving the top-8 from each gives a Jaccard of $0.2256$ over the 200
-free-flow targets present in both halves and $0.1399$ over the 28 congested ones,
-against a two-independent-random-draws reference of $0.0165$ and $0.0182$
-respectively --- above chance, but far from a determined object.$^{1}$ Raising the
-explainer's sparsity coefficient does not help: over 40 targets the split-half
-Jaccard is $0.2323\pm0.1461$ at the committed $\lambda$, $0.2385\pm0.1739$ at
-$3\lambda$ and $0.2287\pm0.1831$ at
-$10\lambda$.\footnote{Run \texttt{20260825T201433Z\_\_grounding\_without\_information},
-\texttt{part4\_metrics.json}, \texttt{settings[]}. Seed-repeat and entropy figures
-below come from the same file.} Re-running the explainer at a different random seed
-on 10 of those targets recovers only $0.3480$, $0.3149$ and $0.3015$ of the top-8
-at the three settings. Even the arithmetic is load-bearing: solving the same target
-and window at the same seed on CPU versus MPS agrees on importance \emph{magnitudes}
-(Pearson $0.9193$) while agreeing on top-8 \emph{identity} only $0.3991$ of the
-time.\footnote{Run \texttt{20260824T235643Z\_\_device\_divergence},
+we measure it three ways. Splitting each target's 24 windows into two disjoint
+stratum-balanced halves and re-deriving the top-8 from each gives a \emph{pooled}
+edge-set Jaccard --- top-8 identity across the full node set, not restricted to any
+adjacency or reachability stratum --- of $0.2256$ over the 200 free-flow targets
+present in both halves and $0.1399$ over the 28 congested ones, against a
+two-independent-random-draws reference of $0.0165$ and
+$0.0182$. Computed instead \emph{per target and then averaged} --- a
+different statistic, hence the spread --- split-half agreement over 40 targets is
+$0.2323\pm0.1461$ at the committed sparsity coefficient, $0.2385\pm0.1739$ at
+$3\lambda$ and $0.2287\pm0.1831$ at $10\lambda$: raising sparsity does not
+help.\footnote{Pooled figures: run \texttt{20260824T235016Z\_\_influence\_\allowbreak
+graph\_solves}, \texttt{metrics.json}, \texttt{per\_regime.*.stability.\allowbreak
+jaccard\_all\_edges} --- a Jaccard over the union of every target's top-8
+source--target pairs, hence no standard deviation; the adjacency-restricted variants
+are separate fields and are not used. Per-target figures and the entropy results
+below: run \texttt{20260825T201433Z\_\_grounding\_\allowbreak without\_information},
+\texttt{part4\_metrics.json}.} Re-running the explainer at a different random seed on 10 of those
+targets recovers only $0.3480$, $0.3149$ and $0.3015$ of the top-8. Even the
+arithmetic is load-bearing: solving the same target and window at the same seed on
+CPU versus MPS agrees on importance \emph{magnitudes} (Pearson $0.9193$) while
+agreeing on top-8 \emph{identity} only $0.3991$ of the
+time.\footnote{Run \texttt{20260824T235643Z\_\_device\_\allowbreak divergence},
 \texttt{device\_divergence.json}; 3 cases, Spearman rank $0.5778$, top-20 Jaccard
-$0.3576$.} Substituting a uniform draw for an object this weakly determined is a
-smaller intervention than it sounds.
+$0.3576$.}
 
 \paragraph{A second explainer scores the same.} On a 28-scenario subset where
 SHAP (KernelExplainer) was run beside the mask, the two methods' top-$k$ sets
@@ -149,7 +154,7 @@ $0.6918$).\footnote{\texttt{shap\_comparison\_summary.json},
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.76\linewidth]{fig_loop.pdf}
+\includegraphics[width=0.78\linewidth]{fig_loop.pdf}
 \caption{Faithfulness $F_1$ by correction round, real evidence (A) versus random
 evidence (A\_rand), $n{=}93$ each, threshold $0.70$. The arms are separated before
 any correction and indistinguishable after one round; by round 3 the fabricated
@@ -215,21 +220,18 @@ the reason the criteria were fixed in advance.
 
 \section{Facet mapping}
 
-A deterministic checker's coverage of judge-quality facets is unusually easy to
-state, because most of it is settled by construction rather than by measurement.
-\emph{Surface-form sensitivity}, \emph{positional bias}, \emph{sycophancy} and
-\emph{inter-judge inconsistency} are all removed outright: there is no judge model
-to exhibit them, the same input yields the same verdict on every run, and rerunning
-the scorer changes nothing. \emph{Verbosity bias} is likewise absent: the score
-depends on the citation array, not answer length. Against that, three facets are
-untouched. \emph{Criteria drift} is not addressed at
-all: the evaluation field is self-declared by the same project that built the system
-being evaluated, with no external specification and no community standard.
-\emph{Reasoning-chain validity} is not addressed: the judge checks which locations
-are cited, never whether the causal story told about them is coherent or correct,
-so a reversed edge or an invented propagation order scores clean. And \emph{construct validity} is exactly what this paper puts in
-question: a judge scoring random evidence identically to real evidence is measuring
-citation compliance, not grounding.
+A deterministic checker's facet coverage is settled by construction rather than
+measurement. \emph{Surface-form sensitivity}, \emph{positional bias},
+\emph{sycophancy} and \emph{inter-judge inconsistency} are removed outright --- there
+is no judge model to exhibit them and the same input yields the same verdict every
+run --- as is \emph{verbosity bias}, since the score depends on the citation array,
+not answer length. Against that, three facets are untouched. \emph{Criteria drift} is not addressed: the
+evaluation field is self-declared by the project that built the system, with no
+external specification. \emph{Reasoning-chain validity} is not addressed: the judge
+checks which locations are cited, never whether the causal story about them is
+correct, so a reversed edge scores clean. And \emph{construct validity} is what this
+paper puts in question --- a judge scoring random evidence identically to real
+evidence measures citation compliance, not grounding.
 A filled disclosure template is provided in Appendix~\ref{app:disclosure}.
 
 \section{Limitations}
@@ -254,11 +256,10 @@ approximately 0.005--0.014 $F_1$. We restrict our central claim to the
 precision/hallucination axis, which is unaffected. \textbf{(e)} The resolver was
 validated on 30 hand-labeled cases by a \emph{single labeler}; there is no second
 annotator and no inter-annotator agreement, so $96.7\%$ is a development check, not
-a measured reliability. \textbf{(f)} The supporting measurements carry small
-samples of their own: the seed-repeat Jaccard rests on 10 targets, the device
-comparison on 3 cases, the SHAP comparison on 28 scenarios, and the congested
-split-half on 28 targets. We report them as indicative, and none of them carries the
-central claim, which rests on Table~\ref{tab:main}. \textbf{(g)} The decision
+a measured reliability. \textbf{(f)} The supporting measurements carry small samples:
+seed-repeat 10 targets, device comparison 3 cases, SHAP 28 scenarios, congested
+split-half 28 targets. They are indicative; the central claim rests on
+Table~\ref{tab:main}. \textbf{(g)} The decision
 simulation's ground truth is model-in-the-loop --- what the trained forecaster
 believes an intervention would do, not an observed outcome --- so it inherits that
 model's biases and is internally consistent rather than externally valid.
@@ -269,26 +270,23 @@ LLM-as-judge biases are set out by~\citet{zheng2023judging}.
 Citation and attribution evaluation are formalised by ALCE~\citep{gao2023alce} and
 AIS~\citep{rashkin2023ais}, which separates attribution from correctness by
 definition; our results instantiate that separation where no gold reference exists.
-\citet{shi2023distracted} show irrelevant context degrades task accuracy --- here the
-irrelevant content is the evidence the model is told to cite, and the measured
-quantity is compliance.
+\citet{shi2023distracted} show irrelevant context degrades task accuracy; here the
+irrelevant content is the evidence the model is told to cite.
 
-The stability results sit on an existing line of work on GNN-explainer evaluation.
+The stability results sit on existing work on GNN-explainer evaluation:
 \citet{sanchez2020evaluating} benchmark attribution against computable ground truth
-on synthetic graphs; our setting has none, which is what makes a randomised-evidence
-control necessary rather than optional. \citet{faber2021ground} show that comparing
-explanations to ground truth is itself unsound when the GNN does not use the
-ground-truth edges, separating responsible, causing and explanatory motifs; our
-mismatch is one step further downstream, between an explanation and a judge that
-consumes it. \citet{agarwal2023evaluating} provide generators and a library for
-evaluating explanation quality. Our numbers agree with that literature; what we add
-is the downstream consequence --- an unstable, near-flat attribution is
-indistinguishable from noise to the verifier and to the agent built on it.
-
-To our knowledge this is the first evaluation where the cited source is a
-\emph{GNN-explanation artifact}, checked by a \emph{deterministic} verifier with no
-gold reference, paired with a \emph{correction loop} whose effect on the noise
-signal is measured.\footnote{C\_RICH (fuller context) and D\_CONTRA (contradictory context) ran on
+on synthetic graphs and \citet{agarwal2023evaluating} supply generators and a library
+for the same purpose, while \citet{faber2021ground} show that comparing explanations
+to ground truth is itself unsound when the GNN does not use the ground-truth edges,
+separating responsible, causing and explanatory motifs. Our setting has no ground
+truth at all --- which is what makes a randomised-evidence control necessary rather
+than optional --- and our mismatch lies one step further downstream, between an
+explanation and the judge that consumes it; what we add is the consequence, that an
+unstable, near-flat attribution is indistinguishable from noise to that judge and to
+the agent built on it.
+To our knowledge this combination --- \emph{GNN-explanation artifact}
+as cited source, \emph{deterministic} verifier, no gold reference, and a
+\emph{correction loop} measured against noise --- has not been evaluated before.\footnote{C\_RICH (fuller context) and D\_CONTRA (contradictory context) ran on
 this corpus in a separate LLM draw and did not move hallucination materially; being
 a different draw they are omitted from Table~\ref{tab:main}.}
 
@@ -398,11 +396,11 @@ Bootstrap CIs, paired diffs & 10k, seed 42 & GWI \texttt{part1\_summary.json}, \
 Corpus, epoch 34, $n{=}93$ & 2026-07-05/06 & \texttt{claims\_provenance.json}, \texttt{corpus} \\
 Prompt lengths within 0.4\% & +0.18\%, +0.38\% & GWI \texttt{part1\_token\_parity.json} \\
 80\% mass of importance & 146.6$\pm$4.7 / 154.0$\pm$2.9 of 206 & \texttt{20260824T235016Z\_\_\allowbreak influence\_\allowbreak graph\_\allowbreak solves}, \texttt{metrics.json} \\
-Split-half Jaccard, 207-target & 0.2256 / 0.1399; ref 0.0165 / 0.0182 & same file, \texttt{per\_regime.*.stability} \\
-Split-half Jaccard, 3 $\lambda$ & 0.2323 / 0.2385 / 0.2287 & GWI \texttt{part4\_metrics.json}, \texttt{settings[]} \\
+Split-half J, \emph{pooled} (200 / 28 targets) & 0.2256 / 0.1399; ref 0.0165 / 0.0182 & same file, \texttt{per\_regime.*.stability.\allowbreak jaccard\_all\_edges} \\
+SHAP overlap and scores & J 0.0221; $F_1$ 0.7423 / 0.6918; P 0.9821 & \texttt{shap\_comparison\_summary.json} \\
+Split-half J, \emph{per-target mean}, 3 $\lambda$ & 0.2323 / 0.2385 / 0.2287 & GWI \texttt{part4\_metrics.json}, \texttt{settings[]} \\
 Seed-repeat Jaccard, 3 $\lambda$ & 0.3480 / 0.3149 / 0.3015 ($n{=}10$) & same file \\
 CPU vs MPS divergence & Pearson 0.9193, top-8 J 0.3991 & \texttt{20260824T235643Z\_\_\allowbreak device\_\allowbreak divergence}, \texttt{device\_\allowbreak divergence.json} \\
-SHAP overlap and scores & J 0.0221; $F_1$ 0.7423 / 0.6918 & \texttt{shap\_comparison\_summary.json} \\
 Round-0 grounding & 64.5\% real / 41.9\% random & \texttt{active\_\allowbreak grounding\_\allowbreak summary.json}; GWI \texttt{part2\_summary.json} \\
 Loop curve, Figure~\ref{fig:loop} & real $F_1$ 0.7323$\to$0.8738; random 0.6868$\to$0.8903 & same two files, \texttt{per\_round[]} \\
 Loop reach endpoints & 100.0\% / 98.9\% & same two files \\
