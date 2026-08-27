@@ -1,0 +1,114 @@
+{
+  "curve": [
+    {
+      "round": 0,
+      "used_correction": false,
+      "faithfulness_f1": 0.6666666666666666,
+      "cause_precision": 1.0,
+      "cause_recall": 0.5,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 1,
+      "n_topk": 8,
+      "n_missed": 4,
+      "missed_regions": [
+        "NE of Downtown LA",
+        "NE of Downtown LA",
+        "Hollywood",
+        "Pasadena / East"
+      ],
+      "missed_node_ids": [
+        2,
+        28,
+        127,
+        203
+      ],
+      "advisory_error": ""
+    },
+    {
+      "round": 1,
+      "used_correction": true,
+      "faithfulness_f1": 0.8571428571428571,
+      "cause_precision": 1.0,
+      "cause_recall": 0.75,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 5,
+      "n_topk": 8,
+      "n_missed": 2,
+      "missed_regions": [
+        "Hollywood",
+        "Pasadena / East"
+      ],
+      "missed_node_ids": [
+        127,
+        203
+      ],
+      "advisory_error": ""
+    }
+  ],
+  "n_rounds": 1,
+  "reached_threshold": true,
+  "stop_reason": "threshold_reached",
+  "f1_initial": 0.6666666666666666,
+  "f1_final": 0.8571428571428571,
+  "f1_gain": 0.19047619047619047,
+  "final_advisory": {
+    "reasoning": "The predicted congestion in Downtown LA is caused by a propagation of congestion from multiple locations. The top contributing sensor NE of Downtown LA (sensor 767542) has an importance of 0.998 and a speed of 68.29 mph, indicating that it is the primary cause of the congestion. Additionally, other sensors such as San Fernando Valley (sensors 767366, 772178, 764101, and 717498) are also contributing to the congestion with speeds ranging from 63.0 to 69.43 mph.",
+    "cited_causes": [
+      {
+        "location": "NE of Downtown LA",
+        "resolved_node_id": 2
+      },
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 59
+      },
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 172
+      },
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 176
+      },
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 75
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering on I-5/SR-134 interchange",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion by 10%",
+        "grounded_in": [
+          "city-context fact: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Reroute traffic before the merge at I-5/SR-134 interchange",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion by 15%",
+        "grounded_in": [
+          "city-context fact: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Coordinate ATSAC signals on Sunset Blvd and Santa Monica Blvd to optimize surface relief traffic flow",
+        "location": "US-101 Hollywood Freeway corridor",
+        "time_window_minutes": 5,
+        "expected_effect": "Improved surface relief traffic flow by 10%",
+        "grounded_in": [
+          "city-context fact: US-101 Hollywood Freeway corridor"
+        ]
+      }
+    ]
+  },
+  "sample_index": 1919,
+  "target_node": 16,
+  "tod_band": "pm_rush",
+  "congestion": "low",
+  "model": "llama3.1:8b",
+  "condition": "A_rand"
+}

@@ -1,0 +1,120 @@
+{
+  "meta": {
+    "city": "metr_la",
+    "timestamp": "test#1740 @ 04:15",
+    "model_checkpoint": "metr_la_best.pt"
+  },
+  "prediction": {
+    "node_id": 166,
+    "node_name": "NE of Downtown LA (sensor 772669, 34.078, -118.228)",
+    "predicted_speed_mph": 67.66,
+    "horizon_minutes": 30,
+    "current_speed_mph": 69.5
+  },
+  "top_nodes": [
+    {
+      "node_id": 45,
+      "node_name": "NE of Downtown LA (sensor 774011, 34.147, -118.201)",
+      "importance": 0.8443,
+      "current_speed_mph": 67.87
+    },
+    {
+      "node_id": 200,
+      "node_name": "Pasadena / East (sensor 769806, 34.196, -118.184)",
+      "importance": 0.819,
+      "current_speed_mph": 65.87
+    },
+    {
+      "node_id": 28,
+      "node_name": "NE of Downtown LA (sensor 767573, 34.130, -118.229)",
+      "importance": 0.8009,
+      "current_speed_mph": 67.38
+    },
+    {
+      "node_id": 90,
+      "node_name": "San Fernando Valley (sensor 716571, 34.200, -118.403)",
+      "importance": 0.7905,
+      "current_speed_mph": 68.38
+    },
+    {
+      "node_id": 89,
+      "node_name": "San Fernando Valley (sensor 767351, 34.180, -118.470)",
+      "importance": 0.7832,
+      "current_speed_mph": 67.38
+    },
+    {
+      "node_id": 65,
+      "node_name": "NE of Downtown LA (sensor 767751, 34.093, -118.206)",
+      "importance": 0.773,
+      "current_speed_mph": 58.0
+    },
+    {
+      "node_id": 59,
+      "node_name": "San Fernando Valley (sensor 767366, 34.212, -118.473)",
+      "importance": 0.7649,
+      "current_speed_mph": 59.37
+    },
+    {
+      "node_id": 79,
+      "node_name": "NE of Downtown LA (sensor 718066, 34.123, -118.229)",
+      "importance": 0.7472,
+      "current_speed_mph": 55.0
+    }
+  ],
+  "top_edges": [
+    {
+      "from_id": 89,
+      "to_id": 14,
+      "importance": 0.8648
+    },
+    {
+      "from_id": 89,
+      "to_id": 151,
+      "importance": 0.8294
+    },
+    {
+      "from_id": 59,
+      "to_id": 151,
+      "importance": 0.8133
+    },
+    {
+      "from_id": 59,
+      "to_id": 8,
+      "importance": 0.8127
+    },
+    {
+      "from_id": 59,
+      "to_id": 14,
+      "importance": 0.7964
+    },
+    {
+      "from_id": 59,
+      "to_id": 185,
+      "importance": 0.7936
+    },
+    {
+      "from_id": 185,
+      "to_id": 84,
+      "importance": 0.7882
+    },
+    {
+      "from_id": 89,
+      "to_id": 88,
+      "importance": 0.7862
+    }
+  ],
+  "propagation_path": [
+    45,
+    84
+  ],
+  "propagation_lag_minutes": 55.0,
+  "explanation_confidence": 0.4109,
+  "_noise": {
+    "condition": "A_mismatch",
+    "seed": 20260829,
+    "donor_target_node": 84,
+    "donor_timestamp": "test#3212 @ 06:55",
+    "prediction_block_source": "committed condition-A artifact (epoch-34)",
+    "evidence_source": "committed condition-A artifact of the donor target"
+  }
+}

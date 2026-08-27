@@ -1,0 +1,49 @@
+{
+  "advisory": {
+    "reasoning": "The congestion is predicted because of the high speeds in areas that feed into Downtown LA, particularly Glendale/Burbank (sensor 767585 and 762329), San Fernando Valley (sensors 769443 and 717821), and Hollywood (sensor 717463). These locations are all traveling at speeds above 55 mph, which indicates a potential bottleneck downstream. The propagation of congestion appears to travel along a path of 2 sensors with an estimated lag of 5 minutes between the source and the target.",
+    "cited_causes": [
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 92
+      },
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 63
+      },
+      {
+        "location": "Hollywood",
+        "resolved_node_id": null
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering",
+        "location": "Glendale / Burbank (sensor 767585)",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduce speed to 50 mph, alleviating congestion",
+        "grounded_in": [
+          "cited_cause: Glendale / Burbank"
+        ]
+      },
+      {
+        "action": "Reroute traffic before merge",
+        "location": "San Fernando Valley (sensor 769443)",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduce speed to 55 mph, reducing congestion",
+        "grounded_in": [
+          "cited_cause: San Fernando Valley"
+        ]
+      },
+      {
+        "action": "Signal-coordinated surface relief",
+        "location": "Hollywood (sensor 717463)",
+        "time_window_minutes": 5,
+        "expected_effect": "Reduce speed to 60 mph, reducing congestion",
+        "grounded_in": [
+          "cited_cause: Hollywood"
+        ]
+      }
+    ]
+  },
+  "sample_index": 2845
+}

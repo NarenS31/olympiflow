@@ -1,0 +1,45 @@
+{
+  "advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley, particularly at sensor 769431 (34.158, -118.457), which is traveling at 0.0 mph, and sensor 716571 (34.200, -118.403), which is traveling at 68.0 mph. This congestion appears to be propagating along a path of 9 sensors with an estimated lag of 0.0 minutes between the source and the target.",
+    "cited_causes": [
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 81
+      },
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 90
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Extend green-band timing by 10-20% for up to 30 minutes on the coordinated corridor of Olympic, Pico, Wilshire, Sunset, Figueroa, and Vermont",
+        "location": "Downtown LA",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion in the area by allowing more vehicles to pass through the corridors",
+        "grounded_in": [
+          "city-context fact: LADOT's ATSAC/ATCS system adaptively controls ~4,900 signalized intersections"
+        ]
+      },
+      {
+        "action": "Reroute traffic before merging onto I-5/SR-134/SR-2 interchange",
+        "location": "Glendale/Burbank",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion at the merge point by diverting traffic away from it",
+        "grounded_in": [
+          "city-context fact: Recurrent bottlenecks a planner should assume unless told otherwise"
+        ]
+      },
+      {
+        "action": "Encourage carpooling and use of public transportation, particularly on the Expo Line (Expo/I-10) and ExpressLanes bus on I-110",
+        "location": "Hollywood",
+        "time_window_minutes": 5,
+        "expected_effect": "Reduced number of vehicles on the road, thereby reducing congestion",
+        "grounded_in": [
+          "city-context fact: Transit is a viable diversion lever only where a parallel rail line exists"
+        ]
+      }
+    ]
+  },
+  "sample_index": 5703
+}

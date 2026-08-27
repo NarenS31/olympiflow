@@ -1,0 +1,45 @@
+{
+  "advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in the Glendale/Burbank area, specifically at sensor 767620 (node_id 7), which has a speed of 66.87 mph. This slow speed is contributing to the congestion at the target location NE of Downtown LA (sensor 767609, node_id 46). The propagation of congestion appears to travel along a path of 3 sensors with an estimated lag of 5 minutes between the source and the target.",
+    "cited_causes": [
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 7
+      },
+      {
+        "location": "NE of Downtown LA",
+        "resolved_node_id": null
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering",
+        "location": "I-10/I-110 downtown interchange",
+        "time_window_minutes": 5,
+        "expected_effect": "Reduce congestion at the target location by 2-3 mph",
+        "grounded_in": [
+          "city-context fact: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Reroute traffic before merge",
+        "location": "I-405 Sepulveda Pass",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduce congestion at the target location by 1-2 mph",
+        "grounded_in": [
+          "city-context fact: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Optimize signal timing",
+        "location": "Downtown LA",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduce congestion at the target location by 1-2 mph",
+        "grounded_in": [
+          "city-context fact: recurrent bottlenecks"
+        ]
+      }
+    ]
+  },
+  "sample_index": 5828
+}

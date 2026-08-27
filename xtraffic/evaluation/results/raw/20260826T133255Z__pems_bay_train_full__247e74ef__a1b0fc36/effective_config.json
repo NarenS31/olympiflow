@@ -1,0 +1,44 @@
+{
+  "dataset": "pems_bay",
+  "seed": 42,
+  "modalities": {
+    "traffic": 2,
+    "weather": 3,
+    "events": 1,
+    "transit": 1
+  },
+  "traffic_channels": [
+    0,
+    1
+  ],
+  "use_sidecars": false,
+  "model": {
+    "residual_channels": 32,
+    "dilation_channels": 32,
+    "skip_channels": 64,
+    "end_channels": 128,
+    "n_blocks": 4,
+    "embed_dim": 10,
+    "gcn_order": 2,
+    "dropout": 0.3,
+    "out_len": 12
+  },
+  "train": {
+    "epochs": 100,
+    "batch_size": 32,
+    "lr": 0.001,
+    "weight_decay": 0.0001,
+    "grad_clip": 5.0,
+    "early_stopping_patience": 15,
+    "num_workers": 0,
+    "early_stopping_min_delta": 0.0001
+  },
+  "horizons_steps": [
+    3,
+    6,
+    12
+  ],
+  "run_name": "pems_bay",
+  "checkpoint_dir": "models/gnn/checkpoints",
+  "results_dir": "evaluation/results"
+}

@@ -1,0 +1,28 @@
+{
+  "sample_index": 3369,
+  "target_node": 206,
+  "tod_band": "evening",
+  "congestion": "high",
+  "condition": "A_mismatch",
+  "source": "new",
+  "advisory_error": "",
+  "cited_locations": [
+    "Downtown LA",
+    "NE of Downtown LA"
+  ],
+  "context_used": [
+    "Known recurrent bottlenecks (LA basin)",
+    "US-101 Hollywood Freeway corridor",
+    "I-405 San Diego Freeway corridor",
+    "San Fernando Valley freeways (US-101, I-405, SR-118)"
+  ],
+  "explanation_confidence": 0.6711,
+  "reasoning": "The congestion is predicted because of the slow speeds in Downtown LA, specifically at sensor 764853 (node_id 144), which has a speed of 45.75 mph, and sensors 771667 (node_id 16) and 773023 (node_id 91) with speeds of 27.75 mph and 50.62 mph respectively. This slow traffic is propagating along the path of three sensors, starting from Downtown LA.",
+  "cause_precision": 1.0,
+  "cause_recall": 0.75,
+  "faithfulness_f1": 0.8571428571428571,
+  "hallucination_rate": 0.0,
+  "n_cited_causes": 2,
+  "n_topk": 8,
+  "quantitative_fidelity": 0.5
+}

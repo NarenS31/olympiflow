@@ -1,0 +1,28 @@
+{
+  "sample_index": 6581,
+  "target_node": 197,
+  "tod_band": "evening",
+  "congestion": "low",
+  "condition": "A_mismatch",
+  "source": "new",
+  "advisory_error": "",
+  "cited_locations": [
+    "San Fernando Valley",
+    "Glendale / Burbank"
+  ],
+  "context_used": [
+    "Known recurrent bottlenecks (LA basin)",
+    "Glendale/Burbank freeways (SR-134, I-5, SR-2)",
+    "I-405 San Diego Freeway corridor",
+    "San Fernando Valley freeways (US-101, I-405, SR-118)"
+  ],
+  "explanation_confidence": 0.5596,
+  "reasoning": "The predicted congestion in the San Fernando Valley is due to a combination of factors. The top contributing sensors indicate that traffic is moving at relatively slow speeds (56-67 mph) in nearby areas, such as the San Fernando Valley and Glendale/Burbank. Specifically, sensor 769431 is reporting a speed of 56.13 mph, while sensor 767351 is reporting 66.87 mph. This suggests that there are bottlenecks or congestion points upstream from the target location, which are causing traffic to slow down.",
+  "cause_precision": 1.0,
+  "cause_recall": 0.75,
+  "faithfulness_f1": 0.8571428571428571,
+  "hallucination_rate": 0.0,
+  "n_cited_causes": 2,
+  "n_topk": 8,
+  "quantitative_fidelity": 1.0
+}

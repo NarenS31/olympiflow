@@ -1,0 +1,45 @@
+{
+  "advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in Downtown LA (sensor 717488, node_id 103), which is affecting traffic flowing into Glendale/Burbank. The slow speed at NE of Downtown LA (sensor 771673, node_id 196) also contributes to this congestion.",
+    "cited_causes": [
+      {
+        "location": "NW of Downtown LA",
+        "resolved_node_id": 103
+      },
+      {
+        "location": "NE of Downtown LA",
+        "resolved_node_id": 196
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Reroute traffic before the merge",
+        "location": "Glendale/Burbank (sensor 774067, node_id 62)",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion at Glendale/Burbank",
+        "grounded_in": [
+          "congestion appears to travel along a path of 6 sensors"
+        ]
+      },
+      {
+        "action": "Meter traffic upstream from the merge",
+        "location": "NW of Downtown LA (sensor 717488, node_id 103)",
+        "time_window_minutes": 5,
+        "expected_effect": "Reduced congestion at Glendale/Burbank",
+        "grounded_in": [
+          "congestion appears to travel along a path of 6 sensors"
+        ]
+      },
+      {
+        "action": "Signal-coordinated surface relief on Sunset Blvd and Santa Monica Blvd",
+        "location": "Hollywood (sensor 717469, node_id 154)",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion at Glendale/Burbank",
+        "grounded_in": [
+          "surface relief: Sunset Blvd and Santa Monica Blvd, both ATSAC signal-coordinated"
+        ]
+      }
+    ]
+  },
+  "sample_index": 3394
+}

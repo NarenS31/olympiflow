@@ -1,0 +1,45 @@
+{
+  "advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley, specifically at sensor 717498 (52.89 mph), which is causing a ripple effect and slowing down traffic along a path of 7 sensors with an estimated lag of 15 minutes between the source and the target.",
+    "cited_causes": [
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 75
+      },
+      {
+        "location": "NW of Downtown LA",
+        "resolved_node_id": null
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering",
+        "location": "I-5/SR-134 interchange (upstream)",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion in the San Fernando Valley",
+        "grounded_in": [
+          "City-context fact: recurrent bottleneck at I-5/SR-134 interchange"
+        ]
+      },
+      {
+        "action": "Reroute traffic before merge",
+        "location": "I-5/SR-134/SR-2 interchange (upstream)",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion in the San Fernando Valley and Glendale/Burbank areas",
+        "grounded_in": [
+          "City-context fact: recurrent bottleneck at I-5/SR-134/SR-2 interchange"
+        ]
+      },
+      {
+        "action": "Signal-coordinated surface relief",
+        "location": "Sunset Blvd and Santa Monica Blvd (surface reliefs)",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion in the Hollywood area",
+        "grounded_in": [
+          "City-context fact: surface relief options along US-101 Hollywood Freeway corridor"
+        ]
+      }
+    ]
+  },
+  "sample_index": 3383
+}

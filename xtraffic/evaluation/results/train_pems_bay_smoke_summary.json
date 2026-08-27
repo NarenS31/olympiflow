@@ -1,0 +1,9 @@
+{
+  "dataset": "pems_bay",
+  "run_name": "pems_bay_smoke",
+  "best_val_mae": 3.4876489639282227,
+  "units": "mph",
+  "best_epoch": 1,
+  "n_params": 398599,
+  "device": "mps"
+}

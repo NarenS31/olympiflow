@@ -1,0 +1,45 @@
+{
+  "advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in several locations upstream, particularly NE of Downtown LA (61.78 mph), Glendale / Burbank (59.67 mph), and East LA (55.0 mph). These slow speeds are causing a ripple effect downstream, with the target location experiencing a decrease in speed from 67.67 to 67.43 mph.",
+    "cited_causes": [
+      {
+        "location": "NE of Downtown LA",
+        "resolved_node_id": 101
+      },
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": null
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Reroute traffic before the merge",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion at the target location",
+        "grounded_in": [
+          "city-context fact: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Optimize signal timing on surface relief roads",
+        "location": "Sunset Blvd and Santa Monica Blvd",
+        "time_window_minutes": 15,
+        "expected_effect": "Improved traffic flow through Hollywood",
+        "grounded_in": [
+          "city-context fact: ATSAC signal-coordinated"
+        ]
+      },
+      {
+        "action": "Implement upstream metering",
+        "location": "NE of Downtown LA (sensor 718371)",
+        "time_window_minutes": 5,
+        "expected_effect": "Reduced congestion at the target location",
+        "grounded_in": [
+          "cited cause: NE of Downtown LA"
+        ]
+      }
+    ]
+  },
+  "sample_index": 6062
+}

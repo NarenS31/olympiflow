@@ -1,0 +1,276 @@
+{
+  "run_id": "20260825T213837Z__pems_bay_train_smoke__38253ef9__a1b0fc36",
+  "experiment": "pems_bay_train_smoke",
+  "status": "failed",
+  "created_utc": "2026-08-25T21:38:37.766545+00:00",
+  "notes": "PEMS-BAY training smoke test: device probe + a few real epochs to cost a full run before committing to it. No LLM calls. Writes only throwaway *_smoke artifacts.",
+  "config": {
+    "experiment": "pems_bay_train_smoke",
+    "dataset": "pems_bay",
+    "train_config": "configs/train_pems_bay.yaml",
+    "epochs_requested": 3,
+    "probe_batches": 8,
+    "seed": 42,
+    "smoke_run_name": "pems_bay_smoke",
+    "model": {
+      "residual_channels": 32,
+      "dilation_channels": 32,
+      "skip_channels": 64,
+      "end_channels": 128,
+      "n_blocks": 4,
+      "embed_dim": 10,
+      "gcn_order": 2,
+      "dropout": 0.3,
+      "out_len": 12
+    },
+    "train": {
+      "epochs": 100,
+      "batch_size": 32,
+      "lr": 0.001,
+      "weight_decay": 0.0001,
+      "grad_clip": 5.0,
+      "early_stopping_patience": 15,
+      "num_workers": 0,
+      "early_stopping_min_delta": 0.0001
+    }
+  },
+  "provenance": {
+    "captured_utc": "2026-08-25T21:38:32.784210+00:00",
+    "repo_root": "/Users/narensara/Desktop/OlympiFlow",
+    "git": {
+      "available": true,
+      "commit": "a1b0fc36d84416ab7f13caa6994e0863e2b3fefa",
+      "commit_short": "a1b0fc36d844",
+      "branch": "explanation-network-analysis",
+      "dirty": true,
+      "commit_utc": "2026-08-25T15:15:47-04:00",
+      "subject": "Survivor result is sample-size dependent: report it, do not quote 4.0x alone",
+      "dirty_files": [
+        "xtraffic/configs/train_pems_bay.yaml",
+        "xtraffic/evaluation/mask_entropy.py",
+        "xtraffic/evaluation/noise_conditions.py",
+        "xtraffic/evaluation/results/raw/20260825T201433Z__grounding_without_information__f193e764__a1b0fc36/",
+        "xtraffic/evaluation/results/raw/20260825T210137Z__pems_bay_train_smoke__3584bdf3__a1b0fc36/",
+        "xtraffic/evaluation/results/raw/20260825T212803Z__pems_bay_train_smoke__38253ef9__a1b0fc36/",
+        "xtraffic/scripts/analyze_sparsity_sweep.py",
+        "xtraffic/scripts/init_grounding_noise_run.py",
+        "xtraffic/scripts/noise_run.py",
+        "xtraffic/scripts/report_grounding_without_information.py",
+        "xtraffic/scripts/run_decisions_on_noise.py",
+        "xtraffic/scripts/run_grounding_without_information.py",
+        "xtraffic/scripts/run_loop_on_noise.py",
+        "xtraffic/scripts/run_pems_bay_train_smoke.py",
+        "xtraffic/scripts/run_sparsity_sweep.py"
+      ],
+      "diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "warning": "working tree was DIRTY: this run is not reproducible from the commit alone"
+    },
+    "interpreter": {
+      "python_version": "3.9.6",
+      "python_full": "3.9.6 (default, May 22 2026, 11:13:45)  [Clang 21.0.0 (clang-2100.1.1.101)]",
+      "implementation": "CPython",
+      "executable": "/Applications/Xcode.app/Contents/Developer/usr/bin/python3"
+    },
+    "platform": {
+      "system": "Darwin",
+      "release": "25.4.0",
+      "machine": "arm64",
+      "processor": "arm",
+      "node": "narens-MacBook-Pro.local",
+      "torch_version": "2.8.0",
+      "cuda_available": false,
+      "mps_available": true
+    },
+    "packages": {
+      "requirements_path": "/Users/narensara/Desktop/OlympiFlow/xtraffic/requirements.txt",
+      "requirements_sha256": "160fb94b92858443acaaa98302c4d719b35ad8325fb78497a16b29dacffb3f02",
+      "pinned": {
+        "torch": "2.2.2",
+        "torch-geometric": "2.5.3",
+        "numpy": "1.26.4",
+        "pandas": "2.1.4",
+        "scipy": "1.11.4",
+        "rapidfuzz": "3.6.1",
+        "pandapower": "2.14.11",
+        "shap": "0.44.1",
+        "pyyaml": "6.0.1",
+        "requests": "2.31.0",
+        "matplotlib": "3.8.2",
+        "fastapi": "0.110.0",
+        "uvicorn": "0.29.0",
+        "python-multipart": "0.0.9"
+      },
+      "installed": {
+        "torch": "2.8.0",
+        "torch-geometric": null,
+        "numpy": "1.26.4",
+        "pandas": "2.2.3",
+        "scipy": "1.11.4",
+        "rapidfuzz": null,
+        "pandapower": "2.14.11",
+        "shap": "0.44.1",
+        "pyyaml": "6.0.3",
+        "requests": "2.32.5",
+        "matplotlib": "3.9.4",
+        "fastapi": "0.115.6",
+        "uvicorn": "0.32.1",
+        "python-multipart": "0.0.20"
+      },
+      "mismatches": [
+        {
+          "package": "fastapi",
+          "pinned": "0.110.0",
+          "installed": "0.115.6",
+          "status": "MISMATCH"
+        },
+        {
+          "package": "matplotlib",
+          "pinned": "3.8.2",
+          "installed": "3.9.4",
+          "status": "MISMATCH"
+        },
+        {
+          "package": "pandas",
+          "pinned": "2.1.4",
+          "installed": "2.2.3",
+          "status": "MISMATCH"
+        },
+        {
+          "package": "python-multipart",
+          "pinned": "0.0.9",
+          "installed": "0.0.20",
+          "status": "MISMATCH"
+        },
+        {
+          "package": "pyyaml",
+          "pinned": "6.0.1",
+          "installed": "6.0.3",
+          "status": "MISMATCH"
+        },
+        {
+          "package": "rapidfuzz",
+          "pinned": "3.6.1",
+          "installed": null,
+          "status": "MISSING"
+        },
+        {
+          "package": "requests",
+          "pinned": "2.31.0",
+          "installed": "2.32.5",
+          "status": "MISMATCH"
+        },
+        {
+          "package": "torch",
+          "pinned": "2.2.2",
+          "installed": "2.8.0",
+          "status": "MISMATCH"
+        },
+        {
+          "package": "torch-geometric",
+          "pinned": "2.5.3",
+          "installed": null,
+          "status": "MISSING"
+        },
+        {
+          "package": "uvicorn",
+          "pinned": "0.29.0",
+          "installed": "0.32.1",
+          "status": "MISMATCH"
+        }
+      ],
+      "n_mismatches": 10,
+      "environment_matches_requirements": false
+    },
+    "metric": {
+      "fuzzy_backend": "difflib.SequenceMatcher",
+      "fuzzy_threshold": 82.0,
+      "numeric_tolerance": 0.1,
+      "rapidfuzz_installed": false,
+      "warning": "rapidfuzz is NOT installed; the resolver is running on the difflib fallback, which is a DIFFERENT similarity function against the same threshold. Results are not comparable to a rapidfuzz run."
+    },
+    "config_sha256": "38253ef91c5f384a5cb8a4b6c87d54cfd754586e20df7b1bae93414af916a443",
+    "config": {
+      "experiment": "pems_bay_train_smoke",
+      "dataset": "pems_bay",
+      "train_config": "configs/train_pems_bay.yaml",
+      "epochs_requested": 3,
+      "probe_batches": 8,
+      "seed": 42,
+      "smoke_run_name": "pems_bay_smoke",
+      "model": {
+        "residual_channels": 32,
+        "dilation_channels": 32,
+        "skip_channels": 64,
+        "end_channels": 128,
+        "n_blocks": 4,
+        "embed_dim": 10,
+        "gcn_order": 2,
+        "dropout": 0.3,
+        "out_len": 12
+      },
+      "train": {
+        "epochs": 100,
+        "batch_size": 32,
+        "lr": 0.001,
+        "weight_decay": 0.0001,
+        "grad_clip": 5.0,
+        "early_stopping_patience": 15,
+        "num_workers": 0,
+        "early_stopping_min_delta": 0.0001
+      }
+    },
+    "artifacts": {
+      "adjacency": {
+        "path": "/Users/narensara/Desktop/OlympiFlow/xtraffic/data/processed/pems_bay/adjacency.npy",
+        "exists": true,
+        "size_bytes": 422628,
+        "mtime_utc": "2026-07-02T04:48:57.480634+00:00",
+        "sha256": "59979fd12fac21c87a61cb220442b238a7c55bee1196e8b661283c2911099abb"
+      },
+      "node_meta": {
+        "path": "/Users/narensara/Desktop/OlympiFlow/xtraffic/data/processed/pems_bay/node_meta.json",
+        "exists": true,
+        "size_bytes": 19900,
+        "mtime_utc": "2026-07-02T04:48:57.482837+00:00",
+        "sha256": "8d8fe74bbe18dccbb4fd6d16f2c08ea047138c02c224e31f1de568932bd7e0bf"
+      },
+      "scaler": {
+        "path": "/Users/narensara/Desktop/OlympiFlow/xtraffic/data/processed/pems_bay/scaler.json",
+        "exists": true,
+        "size_bytes": 60,
+        "mtime_utc": "2026-07-02T04:48:57.481210+00:00",
+        "sha256": "f4c69d2fab54fec3da23a13b9628bc269ca499ed6b2143050f565414d5015627"
+      },
+      "train_split": {
+        "path": "/Users/narensara/Desktop/OlympiFlow/xtraffic/data/processed/pems_bay/train.npz",
+        "exists": true,
+        "size_bytes": 63353131,
+        "mtime_utc": "2026-07-02T04:48:50.918580+00:00",
+        "sha256": "6e7cb1d773630b5573037f0339e83100a91adb02215ac842554ef510b14d5b42"
+      },
+      "val_split": {
+        "path": "/Users/narensara/Desktop/OlympiFlow/xtraffic/data/processed/pems_bay/val.npz",
+        "exists": true,
+        "size_bytes": 9150976,
+        "mtime_utc": "2026-07-02T04:48:53.117442+00:00",
+        "sha256": "607c4d8a755103660436bf4c79dde33e10dfd56f64300568954670c14f9a76a3"
+      }
+    },
+    "warnings": [
+      "git working tree was dirty",
+      "10 package(s) differ from requirements.txt",
+      "rapidfuzz is NOT installed; the resolver is running on the difflib fallback, which is a DIFFERENT similarity function against the same threshold. Results are not comparable to a rapidfuzz run."
+    ]
+  },
+  "started_utc": "2026-08-25T21:38:37.768927+00:00",
+  "updated_utc": "2026-08-25T22:14:44.882876+00:00",
+  "finished_utc": "2026-08-25T22:14:44.881557+00:00",
+  "error": "KilledByOperator: SIGTERM. Real-data CPU probe (8 batches), unbuffered restart. Did measure batch 0 = 62.458 s (warmup) and batch 1 = 77.385 s before being killed, but those numbers are swap-contaminated and exist only in the console log, not here -- same write-at-end bug. Superseded by the synthetic-tensor probe.",
+  "outputs": [
+    {
+      "file": "seeds.json",
+      "size_bytes": 561,
+      "sha256": "c30c225a461fa7c1c42fdc1b73d6b4143092f53db18f1b7d1d14d254636b13da"
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in various locations. The Hollywood area (sensor 717461, node_id 160) has a speed of 64.5 mph, which is slower than the San Fernando Valley (sensor 769467, node_id 113) with a speed of 63.13 mph. Additionally, Downtown LA (sensor 765182, node_id 136) and areas near it have speeds ranging from 61.62 to 66.38 mph, indicating congestion in these areas.",
+    "cited_causes": [
+      {
+        "location": "Hollywood",
+        "resolved_node_id": 160
+      },
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 113
+      },
+      {
+        "location": "Downtown LA",
+        "resolved_node_id": 136
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Reroute traffic before the merge",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion at the I-5/SR-134/SR-2 interchange",
+        "grounded_in": [
+          "city-context fact: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Implement upstream metering",
+        "location": "I-405 Sepulveda Pass",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion at the I-405 Sepulveda Pass",
+        "grounded_in": [
+          "city-context fact: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Signal-coordinated surface relief",
+        "location": "Sunset Blvd and Santa Monica Blvd",
+        "time_window_minutes": 5,
+        "expected_effect": "Reduced congestion in the US-101 Hollywood Freeway corridor",
+        "grounded_in": [
+          "city-context fact: surface reliefs"
+        ]
+      }
+    ]
+  },
+  "sample_index": 2097
+}

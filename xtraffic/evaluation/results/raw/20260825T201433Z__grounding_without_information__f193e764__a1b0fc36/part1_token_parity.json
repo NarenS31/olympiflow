@@ -1,0 +1,81 @@
+{
+  "tolerance": 0.05,
+  "token_sample_n": 20,
+  "token_sample_seed": 42,
+  "token_sample_keys": [
+    4289,
+    5460,
+    6615,
+    1154,
+    5536,
+    5257,
+    3212,
+    6092,
+    5866,
+    5861,
+    1836,
+    6133,
+    3296,
+    3270,
+    1918,
+    4222,
+    1344,
+    3894,
+    6292,
+    5420
+  ],
+  "per_condition": {
+    "A": {
+      "n_tokens_measured": 20,
+      "mean_prompt_tokens": 1182.7,
+      "std_prompt_tokens": 16.79910711912987,
+      "min_prompt_tokens": 1143,
+      "max_prompt_tokens": 1213,
+      "n_chars_measured": 93,
+      "mean_prompt_chars": 4282.731182795699,
+      "std_prompt_chars": 60.09260591535175
+    },
+    "A_rand": {
+      "n_tokens_measured": 20,
+      "mean_prompt_tokens": 1184.8,
+      "std_prompt_tokens": 10.42401074443038,
+      "min_prompt_tokens": 1176,
+      "max_prompt_tokens": 1206,
+      "n_chars_measured": 93,
+      "mean_prompt_chars": 4279.634408602151,
+      "std_prompt_chars": 52.44941955586375
+    },
+    "A_mismatch": {
+      "n_tokens_measured": 20,
+      "mean_prompt_tokens": 1187.2,
+      "std_prompt_tokens": 17.565876010037186,
+      "min_prompt_tokens": 1143,
+      "max_prompt_tokens": 1214,
+      "n_chars_measured": 93,
+      "mean_prompt_chars": 4279.580645161291,
+      "std_prompt_chars": 60.87998463055017
+    }
+  },
+  "reference_condition": "A",
+  "checks": {
+    "A_rand": {
+      "mean_tokens": 1184.8,
+      "reference_mean": 1182.7,
+      "relative_difference": 0.0017755982074912564,
+      "within_5pct": true,
+      "mean_chars": 4279.634408602151,
+      "reference_mean_chars": 4282.731182795699,
+      "relative_difference_chars": -0.0007230839530597794
+    },
+    "A_mismatch": {
+      "mean_tokens": 1187.2,
+      "reference_mean": 1182.7,
+      "relative_difference": 0.003804853301767143,
+      "within_5pct": true,
+      "mean_chars": 4279.580645161291,
+      "reference_mean_chars": 4282.731182795699,
+      "relative_difference_chars": -0.0007356374939115007
+    }
+  },
+  "all_within_tolerance": true
+}

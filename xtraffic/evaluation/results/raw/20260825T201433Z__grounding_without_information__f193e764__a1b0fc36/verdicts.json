@@ -1,0 +1,157 @@
+{
+  "P1": {
+    "verdict": "CONFIRMED",
+    "checks": [
+      {
+        "condition": "A_rand",
+        "metric": "faithfulness_f1",
+        "mean": 0.701303475497024,
+        "A_ci": [
+          0.6930171620494201,
+          0.7553339253339255
+        ],
+        "inside_A_ci": true,
+        "paired_diff": 0.023272545853191023,
+        "paired_ci": [
+          -0.021065780098038164,
+          0.06648509793671083
+        ],
+        "paired_spans_zero": true,
+        "passes": true
+      },
+      {
+        "condition": "A_rand",
+        "metric": "hallucination_rate",
+        "mean": 0.005376344086021506,
+        "A_ci": [
+          0.0,
+          0.016129032258064516
+        ],
+        "inside_A_ci": true,
+        "paired_diff": 0.0,
+        "paired_ci": [
+          -0.016129032258064516,
+          0.016129032258064516
+        ],
+        "paired_spans_zero": true,
+        "passes": true
+      },
+      {
+        "condition": "A_mismatch",
+        "metric": "faithfulness_f1",
+        "mean": 0.7274691855337019,
+        "A_ci": [
+          0.6930171620494201,
+          0.7553339253339255
+        ],
+        "inside_A_ci": true,
+        "paired_diff": -0.0028931641834867607,
+        "paired_ci": [
+          -0.05142779562134401,
+          0.0450893849280946
+        ],
+        "paired_spans_zero": true,
+        "passes": true
+      },
+      {
+        "condition": "A_mismatch",
+        "metric": "hallucination_rate",
+        "mean": 0.010752688172043012,
+        "A_ci": [
+          0.0,
+          0.016129032258064516
+        ],
+        "inside_A_ci": true,
+        "paired_diff": -0.005376344086021506,
+        "paired_ci": [
+          -0.026881720430107527,
+          0.010752688172043012
+        ],
+        "paired_spans_zero": true,
+        "passes": true
+      }
+    ]
+  },
+  "P2": {
+    "verdict": "FALSIFIED",
+    "checks": [
+      {
+        "criterion": "fraction reaching threshold >= 0.95",
+        "value": 0.989247311827957,
+        "passes": true
+      },
+      {
+        "criterion": "mean correction rounds within 0.40 +/- 0.25",
+        "value": 0.6989247311827957,
+        "passes": false
+      },
+      {
+        "criterion": "final-round mean precision >= 0.95",
+        "value": 0.9986559139784946,
+        "passes": true
+      }
+    ]
+  },
+  "P3": {
+    "verdict": "FALSIFIED",
+    "checks": [
+      {
+        "criterion": "accuracy within XTRAFFIC mean +/- 1 sd",
+        "value": 0.25777777777777783,
+        "interval": [
+          0.2423613834433129,
+          0.3131941721122428
+        ],
+        "passes": true
+      },
+      {
+        "criterion": "delay_reduction within XTRAFFIC mean +/- 1 sd",
+        "value": 20.889464444444446,
+        "interval": [
+          20.604437734721504,
+          21.40499782083406
+        ],
+        "passes": true
+      },
+      {
+        "criterion": "XTRAFFIC_RAND accuracy above RAW",
+        "value": 0.25777777777777783,
+        "raw": 0.27555555555555555,
+        "passes": false
+      }
+    ]
+  },
+  "P4": {
+    "verdict": "FALSIFIED",
+    "sub_verdicts": {
+      "P4a_correlation": "FALSIFIED",
+      "P4b_all_committed_flagged": "FALSIFIED"
+    },
+    "checks": [
+      {
+        "criterion": "rho < -0.30 and CI excludes 0 [entropy_of_mean]",
+        "value": -0.20082258071867715,
+        "ci": [
+          -0.42293422366885525,
+          0.04521392349407688
+        ],
+        "passes": false
+      },
+      {
+        "criterion": "rho < -0.30 and CI excludes 0 [mean_of_entropy]",
+        "value": -0.17317904391690264,
+        "ci": [
+          -0.393806692444089,
+          0.05127385516462388
+        ],
+        "passes": false
+      },
+      {
+        "criterion": "all committed explanations flagged (ep34, the checkpoint they were actually produced by)",
+        "value": 0.2727272727272727,
+        "detail": "3/11",
+        "passes": false
+      }
+    ]
+  }
+}

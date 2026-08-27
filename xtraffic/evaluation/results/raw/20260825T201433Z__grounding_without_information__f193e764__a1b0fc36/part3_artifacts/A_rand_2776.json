@@ -1,0 +1,125 @@
+{
+  "meta": {
+    "city": "metr_la",
+    "timestamp": "test#2776 @ 18:35",
+    "model_checkpoint": "metr_la_best.pt"
+  },
+  "prediction": {
+    "node_id": 189,
+    "node_name": "Glendale / Burbank (sensor 769926, 34.214, -118.231)",
+    "predicted_speed_mph": 64.62,
+    "horizon_minutes": 30,
+    "current_speed_mph": 64.33
+  },
+  "top_nodes": [
+    {
+      "node_id": 15,
+      "node_name": "Downtown LA (sensor 716331, 34.070, -118.262)",
+      "importance": 0.9911,
+      "current_speed_mph": 26.78
+    },
+    {
+      "node_id": 98,
+      "node_name": "Hollywood (sensor 717486, 34.130, -118.348)",
+      "importance": 0.9877,
+      "current_speed_mph": 61.67
+    },
+    {
+      "node_id": 89,
+      "node_name": "San Fernando Valley (sensor 767351, 34.180, -118.470)",
+      "importance": 0.9677,
+      "current_speed_mph": 66.78
+    },
+    {
+      "node_id": 138,
+      "node_name": "Downtown LA (sensor 772513, 34.069, -118.237)",
+      "importance": 0.9663,
+      "current_speed_mph": 62.78
+    },
+    {
+      "node_id": 81,
+      "node_name": "San Fernando Valley (sensor 769431, 34.158, -118.457)",
+      "importance": 0.9484,
+      "current_speed_mph": 50.44
+    },
+    {
+      "node_id": 129,
+      "node_name": "NW of Downtown LA (sensor 759591, 34.115, -118.268)",
+      "importance": 0.941,
+      "current_speed_mph": 63.11
+    },
+    {
+      "node_id": 61,
+      "node_name": "San Fernando Valley (sensor 773939, 34.153, -118.372)",
+      "importance": 0.9364,
+      "current_speed_mph": 12.56
+    },
+    {
+      "node_id": 82,
+      "node_name": "San Fernando Valley (sensor 769430, 34.158, -118.457)",
+      "importance": 0.9238,
+      "current_speed_mph": 43.11
+    }
+  ],
+  "top_edges": [
+    {
+      "from_id": 63,
+      "to_id": 81,
+      "importance": 0.9978
+    },
+    {
+      "from_id": 120,
+      "to_id": 129,
+      "importance": 0.9738
+    },
+    {
+      "from_id": 102,
+      "to_id": 98,
+      "importance": 0.9616
+    },
+    {
+      "from_id": 12,
+      "to_id": 15,
+      "importance": 0.9559
+    },
+    {
+      "from_id": 75,
+      "to_id": 81,
+      "importance": 0.9387
+    },
+    {
+      "from_id": 15,
+      "to_id": 144,
+      "importance": 0.9347
+    },
+    {
+      "from_id": 130,
+      "to_id": 81,
+      "importance": 0.924
+    },
+    {
+      "from_id": 57,
+      "to_id": 98,
+      "importance": 0.9235
+    }
+  ],
+  "propagation_path": [
+    15,
+    16,
+    101,
+    1,
+    7,
+    11,
+    46,
+    189
+  ],
+  "propagation_lag_minutes": 45.0,
+  "explanation_confidence": 0.0,
+  "_noise": {
+    "condition": "A_rand",
+    "node_imp_distribution": "uniform(0,1), numpy RandomState",
+    "seed": 20260876,
+    "explainer_calls_drawn": 6,
+    "prediction_block_source": "committed condition-A artifact (epoch-34)"
+  }
+}

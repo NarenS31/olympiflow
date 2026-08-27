@@ -1,0 +1,80 @@
+{
+  "curve": [
+    {
+      "round": 0,
+      "used_correction": false,
+      "faithfulness_f1": 0.7692307692307693,
+      "cause_precision": 1.0,
+      "cause_recall": 0.625,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 2,
+      "n_topk": 8,
+      "n_missed": 3,
+      "missed_regions": [
+        "Hollywood",
+        "N of Downtown LA",
+        "NW of Downtown LA"
+      ],
+      "missed_node_ids": [
+        94,
+        49,
+        195
+      ],
+      "advisory_error": ""
+    }
+  ],
+  "n_rounds": 0,
+  "reached_threshold": true,
+  "stop_reason": "threshold_reached",
+  "f1_initial": 0.7692307692307693,
+  "f1_final": 0.7692307692307693,
+  "f1_gain": 0.0,
+  "final_advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in Downtown LA (11.25 mph), which are influenced by faster-moving traffic to the northeast (64.12 mph at sensor 769819, node_id 21) and the San Fernando Valley (67.62 mph at sensor 717570, node_id 118). The propagation of congestion appears to travel along a path of 10 sensors with no lag.",
+    "cited_causes": [
+      {
+        "location": "NE of Downtown LA",
+        "resolved_node_id": 21
+      },
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 118
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering",
+        "location": "I-10/I-110 downtown interchange",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduce congestion in Downtown LA by regulating traffic flow upstream of the bottleneck",
+        "grounded_in": [
+          "city-context fact: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Reroute traffic before merge",
+        "location": "I-10/I-110 downtown interchange",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduce congestion in Downtown LA by diverting traffic away from the bottleneck",
+        "grounded_in": [
+          "city-context fact: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Optimize signal timing at surface relief roads",
+        "location": "Sunset Blvd and Santa Monica Blvd",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduce congestion in Downtown LA by improving traffic flow on parallel arterials",
+        "grounded_in": [
+          "city-context fact: ATSAC signal-coordinated"
+        ]
+      }
+    ]
+  },
+  "sample_index": 5049,
+  "target_node": 38,
+  "tod_band": "pm_rush",
+  "congestion": "high",
+  "model": "llama3.1:8b",
+  "condition": "A_rand"
+}

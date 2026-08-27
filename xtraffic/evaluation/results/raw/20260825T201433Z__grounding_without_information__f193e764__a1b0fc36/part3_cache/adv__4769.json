@@ -1,0 +1,45 @@
+{
+  "advisory": {
+    "reasoning": "The predicted congestion in Hollywood is due to the slow speeds upstream, particularly in the San Fernando Valley where sensors are reporting speeds of around 12-37 mph. This congestion appears to be propagating along a path of 6 sensors with no lag between the source and target.",
+    "cited_causes": [
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 61
+      },
+      {
+        "location": "Downtown LA",
+        "resolved_node_id": 16
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Activate ramp metering on I-405 Sepulveda Pass",
+        "location": "I-405 Sepulveda Pass",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion in the San Fernando Valley and downstream areas",
+        "grounded_in": [
+          "San Fernando Valley (sensor 773939, 34.153, -118.372)"
+        ]
+      },
+      {
+        "action": "Optimize signal timing on Sunset Blvd and Santa Monica Blvd",
+        "location": "Sunset Blvd and Santa Monica Blvd",
+        "time_window_minutes": 5,
+        "expected_effect": "Improved traffic flow in the Hollywood area",
+        "grounded_in": [
+          "US-101 (Hollywood Fwy) connects Downtown LA through Hollywood toward the San Fernando Valley"
+        ]
+      },
+      {
+        "action": "Implement dynamic lane management on I-405 Sepulveda Pass",
+        "location": "I-405 Sepulveda Pass",
+        "time_window_minutes": 15,
+        "expected_effect": "Increased capacity and reduced congestion in the Sepulveda Pass area",
+        "grounded_in": [
+          "Sepulveda Blvd is the parallel arterial"
+        ]
+      }
+    ]
+  },
+  "sample_index": 4769
+}

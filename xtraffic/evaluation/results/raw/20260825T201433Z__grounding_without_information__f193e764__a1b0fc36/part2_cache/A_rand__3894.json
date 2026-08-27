@@ -1,0 +1,80 @@
+{
+  "curve": [
+    {
+      "round": 0,
+      "used_correction": false,
+      "faithfulness_f1": 1.0,
+      "cause_precision": 1.0,
+      "cause_recall": 1.0,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 4,
+      "n_topk": 8,
+      "n_missed": 0,
+      "missed_regions": [],
+      "missed_node_ids": [],
+      "advisory_error": ""
+    }
+  ],
+  "n_rounds": 0,
+  "reached_threshold": true,
+  "stop_reason": "threshold_reached",
+  "f1_initial": 1.0,
+  "f1_final": 1.0,
+  "f1_gain": 0.0,
+  "final_advisory": {
+    "reasoning": "The congestion is predicted because of the lack of movement at several locations around Downtown LA, with speeds reported as 0.0 mph. Specifically, Hollywood (sensor 717466), NW of Downtown LA (sensors 759602 and 717453), NE of Downtown LA (sensors 767573 and 769831), Glendale/Burbank (sensors 773975 and 717578) are all contributing to the congestion.",
+    "cited_causes": [
+      {
+        "location": "Hollywood",
+        "resolved_node_id": 159
+      },
+      {
+        "location": "NW of Downtown LA",
+        "resolved_node_id": 147
+      },
+      {
+        "location": "NE of Downtown LA",
+        "resolved_node_id": 28
+      },
+      {
+        "location": "Glendale/Burbank",
+        "resolved_node_id": 178
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering",
+        "location": "I-10/I-110 downtown interchange",
+        "time_window_minutes": 5,
+        "expected_effect": "Reduced congestion in the area",
+        "grounded_in": [
+          "city-context fact: recurrent bottleneck at I-10/I-110 downtown interchange"
+        ]
+      },
+      {
+        "action": "Reroute traffic before merge",
+        "location": "I-405 Sepulveda Pass",
+        "time_window_minutes": 5,
+        "expected_effect": "Reduced congestion in the area",
+        "grounded_in": [
+          "city-context fact: recurrent bottleneck at I-405 Sepulveda Pass"
+        ]
+      },
+      {
+        "action": "Signal-coordinated surface relief",
+        "location": "Sunset Blvd and Santa Monica Blvd",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion in the area",
+        "grounded_in": [
+          "city-context fact: surface relief at Sunset Blvd and Santa Monica Blvd"
+        ]
+      }
+    ]
+  },
+  "sample_index": 3894,
+  "target_node": 91,
+  "tod_band": "pm_rush",
+  "congestion": "high",
+  "model": "llama3.1:8b",
+  "condition": "A_rand"
+}

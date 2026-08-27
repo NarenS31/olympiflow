@@ -1,0 +1,49 @@
+{
+  "advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in Downtown LA (32.11 mph), Hollywood (23.33 mph), and East LA (16.78 mph), which are contributing to the overall slowdown in the San Fernando Valley, where the target sensor is located.",
+    "cited_causes": [
+      {
+        "location": "Downtown LA",
+        "resolved_node_id": 6
+      },
+      {
+        "location": "Hollywood",
+        "resolved_node_id": 162
+      },
+      {
+        "location": "East LA",
+        "resolved_node_id": 124
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement metering at the I-5/SR-134 interchange",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduce congestion by slowing down traffic upstream of the merge",
+        "grounded_in": [
+          "Recurrent bottlenecks (LA basin)"
+        ]
+      },
+      {
+        "action": "Coordinate signals on surface relief roads (e.g. Sunset Blvd, Santa Monica Blvd)",
+        "location": "Surface relief roads in Hollywood and Downtown LA",
+        "time_window_minutes": 15,
+        "expected_effect": "Improve traffic flow by synchronizing green waves",
+        "grounded_in": [
+          "US-101 Hollywood Freeway corridor"
+        ]
+      },
+      {
+        "action": "Reroute traffic through the Pasadena A Line (Blue/Gold) rail line",
+        "location": "Pasadena A Line",
+        "time_window_minutes": 5,
+        "expected_effect": "Divert traffic away from congested roads",
+        "grounded_in": [
+          "Transit alternatives (Metro rail/bus)"
+        ]
+      }
+    ]
+  },
+  "sample_index": 3882
+}

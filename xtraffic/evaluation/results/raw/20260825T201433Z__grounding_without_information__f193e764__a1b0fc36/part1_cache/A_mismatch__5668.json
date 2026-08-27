@@ -1,0 +1,29 @@
+{
+  "sample_index": 5668,
+  "target_node": 144,
+  "tod_band": "pm_rush",
+  "congestion": "low",
+  "condition": "A_mismatch",
+  "source": "new",
+  "advisory_error": "",
+  "cited_locations": [
+    "Hollywood",
+    "Glendale / Burbank",
+    "Glendale / Burbank"
+  ],
+  "context_used": [
+    "Glendale/Burbank freeways (SR-134, I-5, SR-2)",
+    "Known recurrent bottlenecks (LA basin)",
+    "Transit alternatives (Metro rail/bus)",
+    "US-101 Hollywood Freeway corridor"
+  ],
+  "explanation_confidence": 0.6065,
+  "reasoning": "The predicted congestion in Downtown LA is due to the slow speeds and traffic congestion observed at several locations upstream, particularly along the Glendale/Burbank freeways (SR-134 and I-5). The Hollywood area is also experiencing high speeds, which may indicate a bottleneck or merge congestion. This congestion appears to be propagating downstream with an estimated lag of 10 minutes.",
+  "cause_precision": 1.0,
+  "cause_recall": 0.5,
+  "faithfulness_f1": 0.6666666666666666,
+  "hallucination_rate": 0.0,
+  "n_cited_causes": 3,
+  "n_topk": 8,
+  "quantitative_fidelity": 0.3333333333333333
+}

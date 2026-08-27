@@ -1,0 +1,28 @@
+{
+  "sample_index": 3831,
+  "target_node": 131,
+  "tod_band": "midday",
+  "congestion": "low",
+  "condition": "A_mismatch",
+  "source": "new",
+  "advisory_error": "",
+  "cited_locations": [
+    "NW of Downtown LA",
+    "Hollywood"
+  ],
+  "context_used": [
+    "Known recurrent bottlenecks (LA basin)",
+    "US-101 Hollywood Freeway corridor",
+    "Glendale/Burbank freeways (SR-134, I-5, SR-2)",
+    "Transit alternatives (Metro rail/bus)"
+  ],
+  "explanation_confidence": 0.6065,
+  "reasoning": "The congestion is predicted because of the slow speeds in Downtown LA (sensor 717488, node_id 103), which is causing a ripple effect and slowing down traffic in Hollywood (sensors 717473, 717480, 769372, and 717465) and eventually reaching the San Fernando Valley (target location).",
+  "cause_precision": 1.0,
+  "cause_recall": 0.625,
+  "faithfulness_f1": 0.7692307692307693,
+  "hallucination_rate": 0.0,
+  "n_cited_causes": 2,
+  "n_topk": 8,
+  "quantitative_fidelity": 0.0
+}

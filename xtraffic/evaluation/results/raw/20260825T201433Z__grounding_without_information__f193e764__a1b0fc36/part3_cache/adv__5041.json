@@ -1,0 +1,45 @@
+{
+  "advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley, particularly at sensor 768066 (node_id 40), which is currently moving at 64.88 mph, and sensor 717508 (node_id 150) with a speed of 40.75 mph. This congestion appears to be traveling along a path of 5 sensors, with an estimated lag of 35 minutes between the source and the target.",
+    "cited_causes": [
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 40
+      },
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 150
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering",
+        "location": "I-5/SR-134 interchange (upstream of sensor 768066)",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion in the San Fernando Valley",
+        "grounded_in": [
+          "congestion appears to travel along a path of 5 sensors"
+        ]
+      },
+      {
+        "action": "Reroute traffic before merge",
+        "location": "I-405 Sepulveda Pass (near sensor 717508)",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion in the San Fernando Valley",
+        "grounded_in": [
+          "congestion appears to travel along a path of 5 sensors"
+        ]
+      },
+      {
+        "action": "Optimize signal timing at nearby intersections",
+        "location": "NW of Downtown LA (near sensor 716958)",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion in the San Fernando Valley",
+        "grounded_in": [
+          "NW of Downtown LA (sensor 716958, importance 0.989)"
+        ]
+      }
+    ]
+  },
+  "sample_index": 5041
+}

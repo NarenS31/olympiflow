@@ -1,0 +1,45 @@
+{
+  "advisory": {
+    "reasoning": "The predicted congestion in Downtown LA is due to the slow speeds of traffic coming from the Glendale/Burbank area, specifically at sensor 717585 (node_id 173), which has a speed of 68.13 mph and an importance of 0.991. This slow traffic is propagating along a path of 7 sensors with an estimated lag of 5 minutes between the source and the target.",
+    "cited_causes": [
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 173
+      },
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 130
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering on I-5/SR-134",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion in the Glendale/Burbank area",
+        "grounded_in": [
+          "city-context fact: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Reroute traffic before merging on I-5/SR-134",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion in the Glendale/Burbank area",
+        "grounded_in": [
+          "city-context fact: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Signal-coordinated relief on Sunset Blvd and Santa Monica Blvd",
+        "location": "US-101 Hollywood Freeway corridor",
+        "time_window_minutes": 5,
+        "expected_effect": "Reduced congestion in the Downtown LA area",
+        "grounded_in": [
+          "city-context fact: surface relief"
+        ]
+      }
+    ]
+  },
+  "sample_index": 3515
+}

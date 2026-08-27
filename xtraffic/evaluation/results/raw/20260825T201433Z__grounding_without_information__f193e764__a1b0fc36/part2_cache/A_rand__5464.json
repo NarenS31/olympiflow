@@ -1,0 +1,140 @@
+{
+  "curve": [
+    {
+      "round": 0,
+      "used_correction": false,
+      "faithfulness_f1": 0.5454545454545454,
+      "cause_precision": 1.0,
+      "cause_recall": 0.375,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 3,
+      "n_topk": 8,
+      "n_missed": 5,
+      "missed_regions": [
+        "Glendale / Burbank",
+        "Glendale / Burbank",
+        "Glendale / Burbank",
+        "NE of Downtown LA",
+        "N of Downtown LA"
+      ],
+      "missed_node_ids": [
+        37,
+        7,
+        140,
+        27,
+        56
+      ],
+      "advisory_error": ""
+    },
+    {
+      "round": 1,
+      "used_correction": true,
+      "faithfulness_f1": 1.0,
+      "cause_precision": 1.0,
+      "cause_recall": 1.0,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 8,
+      "n_topk": 8,
+      "n_missed": 0,
+      "missed_regions": [],
+      "missed_node_ids": [],
+      "advisory_error": ""
+    }
+  ],
+  "n_rounds": 1,
+  "reached_threshold": true,
+  "stop_reason": "threshold_reached",
+  "f1_initial": 0.5454545454545454,
+  "f1_final": 1.0,
+  "f1_gain": 0.4545454545454546,
+  "final_advisory": {
+    "reasoning": "The predicted congestion at Glendale/Burbank is likely due to a combination of factors, including slower speeds upstream in the San Fernando Valley (21.89 mph), and slower speeds downstream in Downtown LA (63.22 mph). The top contributing sensors indicate that traffic is moving slowly through the area, with speeds ranging from 43.89 mph to 66.44 mph at various locations within Glendale/Burbank.",
+    "cited_causes": [
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 182
+      },
+      {
+        "location": "NW of Downtown LA",
+        "resolved_node_id": 26
+      },
+      {
+        "location": "Downtown LA",
+        "resolved_node_id": 6
+      },
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 37
+      },
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 7
+      },
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 140
+      },
+      {
+        "location": "NE of Downtown LA",
+        "resolved_node_id": 27
+      },
+      {
+        "location": "N of Downtown LA",
+        "resolved_node_id": 56
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement ramp metering at the I-5/SR-134/SR-2 interchange",
+        "location": "I-5/SR-134/SR-2 interchange",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion and improved traffic flow through the area",
+        "grounded_in": [
+          "Glendale / Burbank (sensor 718204, 34.155, -118.296)"
+        ]
+      },
+      {
+        "action": "Adjust signal timing at the I-405 Sepulveda Pass to optimize traffic flow",
+        "location": "I-405 Sepulveda Pass",
+        "time_window_minutes": 15,
+        "expected_effect": "Improved traffic flow and reduced congestion through the area",
+        "grounded_in": [
+          "NW of Downtown LA (sensor 717804, 34.095, -118.476)"
+        ]
+      },
+      {
+        "action": "Implement dynamic lane management on I-405 to optimize traffic flow",
+        "location": "I-405 Sepulveda Pass",
+        "time_window_minutes": 15,
+        "expected_effect": "Improved traffic flow and reduced congestion through the area",
+        "grounded_in": [
+          "Downtown LA (sensor 773062, 34.054, -118.234)"
+        ]
+      },
+      {
+        "action": "Implement dynamic lane management on I-5 to optimize traffic flow",
+        "location": "I-5 Sepulveda Pass",
+        "time_window_minutes": 15,
+        "expected_effect": "Improved traffic flow and reduced congestion through the area",
+        "grounded_in": [
+          "Glendale / Burbank (sensor 767620, 34.135, -118.229)"
+        ]
+      },
+      {
+        "action": "Implement dynamic lane management on US-101 to optimize traffic flow",
+        "location": "US-101 Sepulveda Pass",
+        "time_window_minutes": 15,
+        "expected_effect": "Improved traffic flow and reduced congestion through the area",
+        "grounded_in": [
+          "NE of Downtown LA (sensor 767572, 34.130, -118.229)"
+        ]
+      }
+    ]
+  },
+  "sample_index": 5464,
+  "target_node": 54,
+  "tod_band": "night",
+  "congestion": "low",
+  "model": "llama3.1:8b",
+  "condition": "A_rand"
+}

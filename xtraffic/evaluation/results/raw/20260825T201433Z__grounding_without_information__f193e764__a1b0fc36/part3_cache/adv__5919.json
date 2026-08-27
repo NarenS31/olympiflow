@@ -1,0 +1,45 @@
+{
+  "advisory": {
+    "reasoning": "The predicted congestion at the target location NW of Downtown LA is due to a propagation of congestion from upstream locations. The top contributing sensors indicate that traffic is moving slowly in the Glendale/Burbank area (63.67 mph) and NE of Downtown LA (69.78 mph), which are causing congestion to propagate downstream.",
+    "cited_causes": [
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 125
+      },
+      {
+        "location": "NE of Downtown LA",
+        "resolved_node_id": 28
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Reroute traffic before the merge",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion at target location",
+        "grounded_in": [
+          "city-context fact: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Optimize signal timing on surface reliefs",
+        "location": "Sunset Blvd and Santa Monica Blvd",
+        "time_window_minutes": 15,
+        "expected_effect": "Improved traffic flow through Hollywood",
+        "grounded_in": [
+          "city-context fact: ATSAC signal-coordinated"
+        ]
+      },
+      {
+        "action": "Encourage carpooling or use of public transit",
+        "location": "Glendale/Burbank area",
+        "time_window_minutes": 5,
+        "expected_effect": "Reduced demand on roads and alleviated congestion",
+        "grounded_in": [
+          "city-context fact: Metro is limited here, so demand is car-dominant"
+        ]
+      }
+    ]
+  },
+  "sample_index": 5919
+}

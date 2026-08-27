@@ -1,0 +1,45 @@
+{
+  "advisory": {
+    "reasoning": "The congestion is predicted because of the high speeds in areas north and east of Downtown LA, particularly at sensor 767494 (63.25 mph), which is driving the prediction with an importance of 0.998. This suggests that traffic is flowing freely from these areas into Downtown LA, causing congestion.",
+    "cited_causes": [
+      {
+        "location": "N of Downtown LA",
+        "resolved_node_id": 184
+      },
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 132
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering on I-10/I-110",
+        "location": "Downtown LA",
+        "time_window_minutes": 5,
+        "expected_effect": "Reduced congestion in Downtown LA by limiting the flow of traffic from areas with high speeds",
+        "grounded_in": [
+          "cited_cause: Glendale / Burbank (sensor 762329, 34.139, -118.229)"
+        ]
+      },
+      {
+        "action": "Reroute traffic before merging onto I-5/SR-134 interchange",
+        "location": "Glendale/Burbank freeways",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion at the I-5/SR-134/SR-2 interchange by reducing the number of vehicles entering the merge",
+        "grounded_in": [
+          "city-context: Key merge congestion at the I-5/SR-134/SR-2 interchange"
+        ]
+      },
+      {
+        "action": "Activate ramp metering on Sepulveda Blvd",
+        "location": "Sepulveda Pass",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion in the Sepulveda Pass by regulating the flow of traffic onto I-405",
+        "grounded_in": [
+          "city-context: Ramp metering is active pass-wide"
+        ]
+      }
+    ]
+  },
+  "sample_index": 3259
+}

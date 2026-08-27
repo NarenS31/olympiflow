@@ -1,0 +1,45 @@
+{
+  "advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in Downtown LA (30.75 mph), which propagates to the target location in Hollywood with a lag of 5 minutes, causing the current speed of 11.0 mph. This propagation path involves 4 sensors and is consistent across reruns.",
+    "cited_causes": [
+      {
+        "location": "Downtown LA",
+        "resolved_node_id": 4
+      },
+      {
+        "location": "NW of Downtown LA",
+        "resolved_node_id": 129
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Reroute traffic before the merge",
+        "location": "I-10/I-110 downtown interchange",
+        "time_window_minutes": 5,
+        "expected_effect": "Reduced congestion in Hollywood",
+        "grounded_in": [
+          "city-context fact: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Optimize signal timing at surface relief roads",
+        "location": "Sunset Blvd and Santa Monica Blvd",
+        "time_window_minutes": 10,
+        "expected_effect": "Improved traffic flow in Hollywood",
+        "grounded_in": [
+          "city-context fact: ATSAC signal-coordinated"
+        ]
+      },
+      {
+        "action": "Encourage carpooling or use of public transit",
+        "location": "Glendale/Burbank freeways (SR-134, I-5)",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced demand on roads in Hollywood",
+        "grounded_in": [
+          "city-context fact: Metro is limited here"
+        ]
+      }
+    ]
+  },
+  "sample_index": 3374
+}

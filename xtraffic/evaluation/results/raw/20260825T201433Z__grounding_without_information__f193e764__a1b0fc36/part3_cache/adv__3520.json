@@ -1,0 +1,45 @@
+{
+  "advisory": {
+    "reasoning": "The congestion predicted in Downtown LA is likely due to the high speeds and low importance of sensors in the Glendale/Burbank area, which suggests that traffic is not yet building up there. However, the lower speeds and higher importance of sensors in the San Fernando Valley indicate that traffic is slowing down as it approaches the Sepulveda Pass on I-405.",
+    "cited_causes": [
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 54
+      },
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 63
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement ramp metering on I-405 approaching the Sepulveda Pass",
+        "location": "I-405, Sepulveda Pass",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion and improved traffic flow through the pass",
+        "grounded_in": [
+          "San Fernando Valley (sensor 769443, 34.156, -118.439)"
+        ]
+      },
+      {
+        "action": "Optimize signal timing at upstream intersections to reduce congestion on surface streets",
+        "location": "Brand Blvd, San Fernando Rd and Colorado Blvd",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion on surface streets and improved traffic flow into the Sepulveda Pass",
+        "grounded_in": [
+          "City-context fact: Glendale/Burbank freeways (SR-134, I-5, SR-2)"
+        ]
+      },
+      {
+        "action": "Implement dynamic lane management to reduce congestion on I-405",
+        "location": "I-405, Sepulveda Pass",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion and improved traffic flow through the pass",
+        "grounded_in": [
+          "City-context fact: I-405 San Diego Freeway corridor"
+        ]
+      }
+    ]
+  },
+  "sample_index": 3520
+}

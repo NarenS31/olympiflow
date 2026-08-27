@@ -1,0 +1,49 @@
+{
+  "advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in several locations, particularly NW of Downtown LA (65.25 mph), Hollywood (62.12 mph), and East LA (61.12 mph). These slow speeds are driving down the speed at the target location in the San Fernando Valley.",
+    "cited_causes": [
+      {
+        "location": "NW of Downtown LA",
+        "resolved_node_id": 103
+      },
+      {
+        "location": "Hollywood",
+        "resolved_node_id": 57
+      },
+      {
+        "location": "East LA",
+        "resolved_node_id": 165
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Reroute traffic before the merge",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion at the target location",
+        "grounded_in": [
+          "The I-5/SR-134/SR-2 interchange is a known recurrent bottleneck"
+        ]
+      },
+      {
+        "action": "Meter traffic upstream of the merge",
+        "location": "I-5 and SR-134",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion at the target location",
+        "grounded_in": [
+          "Upstream metering is a lever for addressing structural bottlenecks"
+        ]
+      },
+      {
+        "action": "Signal coordination on surface relief roads",
+        "location": "Sunset Blvd and Santa Monica Blvd",
+        "time_window_minutes": 5,
+        "expected_effect": "Reduced congestion at the target location",
+        "grounded_in": [
+          "Surface relief roads are ATSAC signal-coordinated"
+        ]
+      }
+    ]
+  },
+  "sample_index": 3541
+}

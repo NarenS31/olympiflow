@@ -1,0 +1,53 @@
+{
+  "advisory": {
+    "reasoning": "The congestion predicted in Downtown LA is due to the slow speeds and traffic congestion building up in the San Fernando Valley, particularly along US-101 (Ventura Fwy), where sensors 737529, 767351, 717818, and 772168 are reporting speeds of 64.63 mph, 68.0 mph, 66.5 mph, and 63.37 mph respectively. This congestion is then propagating downstream to Downtown LA with a lag of approximately 20 minutes.",
+    "cited_causes": [
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 8
+      },
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 89
+      },
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 104
+      },
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 204
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering on US-101 in the San Fernando Valley",
+        "location": "US-101, San Fernando Valley",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion and slower speed propagation to Downtown LA",
+        "grounded_in": [
+          "City-context fact: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Reroute traffic before the merge on US-101/I-110 four-level in Downtown LA",
+        "location": "US-101/I-110 four-level, Downtown LA",
+        "time_window_minutes": 5,
+        "expected_effect": "Reduced congestion and slower speed propagation to Downtown LA",
+        "grounded_in": [
+          "City-context fact: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Activate ramp metering on Sepulveda Blvd in the San Fernando Valley",
+        "location": "Sepulveda Blvd, San Fernando Valley",
+        "time_window_minutes": 5,
+        "expected_effect": "Reduced congestion and slower speed propagation to Downtown LA",
+        "grounded_in": [
+          "City-context fact: ramp metering is active pass-wide on I-405"
+        ]
+      }
+    ]
+  },
+  "sample_index": 5533
+}

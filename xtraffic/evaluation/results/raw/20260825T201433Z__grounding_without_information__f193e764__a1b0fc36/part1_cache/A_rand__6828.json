@@ -1,0 +1,28 @@
+{
+  "sample_index": 6828,
+  "target_node": 193,
+  "tod_band": "evening",
+  "congestion": "low",
+  "condition": "A_rand",
+  "source": "new",
+  "advisory_error": "",
+  "cited_locations": [
+    "San Fernando Valley",
+    "NW of Downtown LA"
+  ],
+  "context_used": [
+    "Known recurrent bottlenecks (LA basin)",
+    "Glendale/Burbank freeways (SR-134, I-5, SR-2)",
+    "I-405 San Diego Freeway corridor",
+    "San Fernando Valley freeways (US-101, I-405, SR-118)"
+  ],
+  "explanation_confidence": 0.04,
+  "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley, particularly at sensor 772596 (34.171, -118.505), which has a speed of 65.14 mph and drives the prediction with an importance of 0.998. This slow speed is likely due to the structural bottleneck at the I-5/SR-134 interchange, as mentioned in the city context.",
+  "cause_precision": 1.0,
+  "cause_recall": 0.625,
+  "faithfulness_f1": 0.7692307692307693,
+  "hallucination_rate": 0.0,
+  "n_cited_causes": 2,
+  "n_topk": 8,
+  "quantitative_fidelity": 0.3333333333333333
+}

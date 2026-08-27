@@ -1,0 +1,88 @@
+{
+  "curve": [
+    {
+      "round": 0,
+      "used_correction": false,
+      "faithfulness_f1": 0.7692307692307693,
+      "cause_precision": 1.0,
+      "cause_recall": 0.625,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 4,
+      "n_topk": 8,
+      "n_missed": 3,
+      "missed_regions": [
+        "San Fernando Valley",
+        "San Fernando Valley",
+        "San Fernando Valley"
+      ],
+      "missed_node_ids": [
+        63,
+        34,
+        185
+      ],
+      "advisory_error": ""
+    }
+  ],
+  "n_rounds": 0,
+  "reached_threshold": true,
+  "stop_reason": "threshold_reached",
+  "f1_initial": 0.7692307692307693,
+  "f1_final": 0.7692307692307693,
+  "f1_gain": 0.0,
+  "final_advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in the Glendale/Burbank area, specifically at sensor 761604 (node_id 51), which is currently traveling at 50.62 mph, and sensors 717572, 718076, and 759772, all with high importance values, indicating that traffic is slowing down as it approaches the San Fernando Valley.",
+    "cited_causes": [
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 51
+      },
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 116
+      },
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 105
+      },
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 194
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion in the San Fernando Valley",
+        "grounded_in": [
+          "The Glendale/Burbank area is experiencing slow speeds, indicating that traffic is building up as it approaches the I-5/SR-134 interchange."
+        ]
+      },
+      {
+        "action": "Reroute traffic before the merge",
+        "location": "I-405 Sepulveda Pass",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion in the San Fernando Valley",
+        "grounded_in": [
+          "The Glendale/Burbank area is experiencing slow speeds, indicating that traffic is building up as it approaches the I-5/SR-134 interchange."
+        ]
+      },
+      {
+        "action": "Adjust signal timing at nearby intersections",
+        "location": "Brand Blvd, San Fernando Rd and Colorado Blvd",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion in the San Fernando Valley",
+        "grounded_in": [
+          "The Glendale/Burbank area is experiencing slow speeds, indicating that traffic is building up as it approaches the I-5/SR-134 interchange."
+        ]
+      }
+    ]
+  },
+  "sample_index": 6092,
+  "target_node": 9,
+  "tod_band": "am_rush",
+  "congestion": "high",
+  "model": "llama3.1:8b",
+  "condition": "A_rand"
+}

@@ -1,0 +1,45 @@
+{
+  "advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley, particularly at sensor 765099 (node_id 131), which is currently moving at 11.0 mph. This is influenced by several locations: NE of Downtown LA (sensor 769819, node_id 21) and San Fernando Valley (sensor 717570, node_id 118) are both moving at high speeds (65.5 mph and 69.0 mph respectively), but the congestion appears to be traveling from these areas towards the target location.",
+    "cited_causes": [
+      {
+        "location": "NE of Downtown LA",
+        "resolved_node_id": 21
+      },
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 118
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement ramp metering",
+        "location": "Sepulveda Pass (I-405)",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion in the Sepulveda Pass area",
+        "grounded_in": [
+          "city-context fact: I-405 Sepulveda Pass, both peaks"
+        ]
+      },
+      {
+        "action": "Optimize signal timing at surface relief roads",
+        "location": "Sunset Blvd and Santa Monica Blvd (ATSAC signal-coordinated)",
+        "time_window_minutes": 15,
+        "expected_effect": "Improved traffic flow on these roads",
+        "grounded_in": [
+          "city-context fact: Surface relief: Sunset Blvd and Santa Monica Blvd, both ATSAC signal-coordinated"
+        ]
+      },
+      {
+        "action": "Implement dynamic lane management",
+        "location": "I-405 Sepulveda Pass",
+        "time_window_minutes": 10,
+        "expected_effect": "Increased capacity on I-405",
+        "grounded_in": [
+          "city-context fact: I-405 (San Diego Fwy) is the north-south Westside spine over the Sepulveda Pass"
+        ]
+      }
+    ]
+  },
+  "sample_index": 3830
+}

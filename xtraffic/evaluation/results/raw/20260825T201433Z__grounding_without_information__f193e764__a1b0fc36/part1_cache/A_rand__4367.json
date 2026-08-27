@@ -1,0 +1,28 @@
+{
+  "sample_index": 4367,
+  "target_node": 29,
+  "tod_band": "am_rush",
+  "congestion": "high",
+  "condition": "A_rand",
+  "source": "new",
+  "advisory_error": "",
+  "cited_locations": [
+    "Glendale / Burbank",
+    "Glendale / Burbank"
+  ],
+  "context_used": [
+    "Known recurrent bottlenecks (LA basin)",
+    "Transit alternatives (Metro rail/bus)",
+    "Glendale/Burbank freeways (SR-134, I-5, SR-2)",
+    "US-101 Hollywood Freeway corridor"
+  ],
+  "explanation_confidence": 0.0286,
+  "reasoning": "The congestion is predicted because of the slow speeds in the Glendale/Burbank area, specifically at sensor 767621 (node_id 85), which is currently traveling at 61.88 mph, and sensor 774067 (node_id 62), which is currently traveling at 61.25 mph. This slow traffic is then propagated to the target location NE of Downtown LA with a lag of approximately 10 minutes.",
+  "cause_precision": 1.0,
+  "cause_recall": 0.375,
+  "faithfulness_f1": 0.5454545454545454,
+  "hallucination_rate": 0.0,
+  "n_cited_causes": 2,
+  "n_topk": 8,
+  "quantitative_fidelity": 0.8
+}

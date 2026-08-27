@@ -1,0 +1,84 @@
+{
+  "curve": [
+    {
+      "round": 0,
+      "used_correction": false,
+      "faithfulness_f1": 0.7692307692307693,
+      "cause_precision": 1.0,
+      "cause_recall": 0.625,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 3,
+      "n_topk": 8,
+      "n_missed": 3,
+      "missed_regions": [
+        "NW of Downtown LA",
+        "NW of Downtown LA",
+        "Glendale / Burbank"
+      ],
+      "missed_node_ids": [
+        195,
+        175,
+        126
+      ],
+      "advisory_error": ""
+    }
+  ],
+  "n_rounds": 0,
+  "reached_threshold": true,
+  "stop_reason": "threshold_reached",
+  "f1_initial": 0.7692307692307693,
+  "f1_final": 0.7692307692307693,
+  "f1_gain": 0.0,
+  "final_advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in several locations upstream of Downtown LA. The NE of Downtown LA (sensor 767573, node_id 28) has a speed of 69.33 mph, which is slower than expected. Additionally, the San Fernando Valley (sensor 717490, node_id 70) and Pasadena / East (sensor 717595, node_id 203) have speeds of 62.11 mph and 68.78 mph respectively, indicating congestion building up in these areas.",
+    "cited_causes": [
+      {
+        "location": "NE of Downtown LA",
+        "resolved_node_id": 28
+      },
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 70
+      },
+      {
+        "location": "Pasadena / East",
+        "resolved_node_id": 203
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Reroute traffic from the San Fernando Valley to the Pasadena / East area",
+        "location": "San Fernando Valley",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion in Downtown LA by diverting some traffic away from the bottleneck",
+        "grounded_in": [
+          "city-context fact: Metro is limited here, so demand is car-dominant"
+        ]
+      },
+      {
+        "action": "Implement upstream metering on I-5/SR-134 interchange",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion in Downtown LA by controlling the flow of traffic into the area",
+        "grounded_in": [
+          "city-context fact: Recurrent bottlenecks a planner should assume unless told otherwise"
+        ]
+      },
+      {
+        "action": "Use ExpressLanes bus on I-110 to divert some traffic away from Downtown LA",
+        "location": "I-110",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion in Downtown LA by diverting some traffic away from the bottleneck",
+        "grounded_in": [
+          "city-context fact: Transit is a viable diversion lever only where a parallel rail line exists"
+        ]
+      }
+    ]
+  },
+  "sample_index": 3506,
+  "target_node": 16,
+  "tod_band": "am_rush",
+  "congestion": "low",
+  "model": "llama3.1:8b",
+  "condition": "A_rand"
+}

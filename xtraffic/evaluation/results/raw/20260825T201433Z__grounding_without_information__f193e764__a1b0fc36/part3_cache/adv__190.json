@@ -1,0 +1,45 @@
+{
+  "advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in the areas north and northeast of Downtown LA, which are affecting traffic in the San Fernando Valley. Specifically, the sensors at N of Downtown LA (node_id 133) and NE of Downtown LA (node_id 28) are reporting low speeds, which is causing a ripple effect downstream.",
+    "cited_causes": [
+      {
+        "location": "N of Downtown LA",
+        "resolved_node_id": 133
+      },
+      {
+        "location": "NE of Downtown LA",
+        "resolved_node_id": 28
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Reroute traffic before the merge",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion in the San Fernando Valley",
+        "grounded_in": [
+          "city-context fact: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Optimize signal timing at surface relief roads",
+        "location": "Brand Blvd, San Fernando Rd and Colorado Blvd",
+        "time_window_minutes": 5,
+        "expected_effect": "Improved traffic flow on surface roads",
+        "grounded_in": [
+          "city-context fact: transit alternatives"
+        ]
+      },
+      {
+        "action": "Increase frequency of ExpressLanes bus service",
+        "location": "I-110",
+        "time_window_minutes": 15,
+        "expected_effect": "Divert some traffic to public transportation",
+        "grounded_in": [
+          "city-context fact: transit alternatives"
+        ]
+      }
+    ]
+  },
+  "sample_index": 190
+}

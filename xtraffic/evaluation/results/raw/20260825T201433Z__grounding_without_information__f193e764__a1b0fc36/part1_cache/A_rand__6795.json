@@ -1,0 +1,28 @@
+{
+  "sample_index": 6795,
+  "target_node": 149,
+  "tod_band": "pm_rush",
+  "congestion": "high",
+  "condition": "A_rand",
+  "source": "new",
+  "advisory_error": "",
+  "cited_locations": [
+    "San Fernando Valley",
+    "East LA"
+  ],
+  "context_used": [
+    "San Fernando Valley freeways (US-101, I-405, SR-118)",
+    "I-405 San Diego Freeway corridor",
+    "Known recurrent bottlenecks (LA basin)",
+    "Transit alternatives (Metro rail/bus)"
+  ],
+  "explanation_confidence": 0.0267,
+  "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley, particularly at sensor 717490 (node_id 70), which is currently moving at 62.25 mph, and sensor 765099 (node_id 131) with a speed of 27.13 mph. This congestion appears to be propagating along a path of 5 sensors, starting from the San Fernando Valley.",
+  "cause_precision": 1.0,
+  "cause_recall": 0.875,
+  "faithfulness_f1": 0.9333333333333333,
+  "hallucination_rate": 0.0,
+  "n_cited_causes": 2,
+  "n_topk": 8,
+  "quantitative_fidelity": 0.4
+}

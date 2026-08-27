@@ -1,0 +1,84 @@
+{
+  "curve": [
+    {
+      "round": 0,
+      "used_correction": false,
+      "faithfulness_f1": 1.0,
+      "cause_precision": 1.0,
+      "cause_recall": 1.0,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 5,
+      "n_topk": 8,
+      "n_missed": 0,
+      "missed_regions": [],
+      "missed_node_ids": [],
+      "advisory_error": ""
+    }
+  ],
+  "n_rounds": 0,
+  "reached_threshold": true,
+  "stop_reason": "threshold_reached",
+  "f1_initial": 1.0,
+  "f1_final": 1.0,
+  "f1_gain": 0.0,
+  "final_advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley, specifically at sensor 717816 (node_id 9), which is currently moving at 20.0 mph and is expected to increase to only 23.79 mph in 30 minutes. This is due to the propagation of congestion from other locations, with a lag of 15.0 minutes between the source and the target.",
+    "cited_causes": [
+      {
+        "location": "NE of Downtown LA",
+        "resolved_node_id": 196
+      },
+      {
+        "location": "NE of Downtown LA",
+        "resolved_node_id": 166
+      },
+      {
+        "location": "N of Downtown LA",
+        "resolved_node_id": 78
+      },
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 169
+      },
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 47
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering",
+        "location": "I-5/SR-134 interchange (PM peak)",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduce congestion by limiting the number of vehicles entering the bottlenecked area",
+        "grounded_in": [
+          "City-context fact: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Reroute traffic before merge",
+        "location": "I-5/SR-134 interchange (PM peak)",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduce congestion by diverting traffic away from the bottlenecked area",
+        "grounded_in": [
+          "City-context fact: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Optimize signal timing at nearby intersections",
+        "location": "Brand Blvd, San Fernando Rd and Colorado Blvd",
+        "time_window_minutes": 15,
+        "expected_effect": "Improve traffic flow by synchronizing signals to reduce congestion",
+        "grounded_in": [
+          "City-context fact: limited Metro presence"
+        ]
+      }
+    ]
+  },
+  "sample_index": 1225,
+  "target_node": 9,
+  "tod_band": "am_rush",
+  "congestion": "high",
+  "model": "llama3.1:8b",
+  "condition": "A_rand"
+}

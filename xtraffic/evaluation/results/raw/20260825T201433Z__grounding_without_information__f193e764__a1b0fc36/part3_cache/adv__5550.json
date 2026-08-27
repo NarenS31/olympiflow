@@ -1,0 +1,45 @@
+{
+  "advisory": {
+    "reasoning": "The congestion is predicted because of the high speeds observed in the surrounding areas, particularly NE of Downtown LA (63.87 mph and 68.88 mph), which indicates that traffic is flowing freely there. However, the speed at the target location (19.0 mph) is much lower, suggesting that congestion is building up as traffic approaches from these faster-moving areas.",
+    "cited_causes": [
+      {
+        "location": "NE of Downtown LA",
+        "resolved_node_id": 35
+      },
+      {
+        "location": "NE of Downtown LA",
+        "resolved_node_id": 28
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering",
+        "location": "I-10/I-110 downtown interchange",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion at the target location",
+        "grounded_in": [
+          "City-context fact: Recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Reroute traffic before merging",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion at the target location",
+        "grounded_in": [
+          "City-context fact: Recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Adjust signal timing to optimize traffic flow",
+        "location": "Downtown LA",
+        "time_window_minutes": 5,
+        "expected_effect": "Improved traffic flow at the target location",
+        "grounded_in": [
+          "City-context fact: Recurrent bottlenecks"
+        ]
+      }
+    ]
+  },
+  "sample_index": 5550
+}

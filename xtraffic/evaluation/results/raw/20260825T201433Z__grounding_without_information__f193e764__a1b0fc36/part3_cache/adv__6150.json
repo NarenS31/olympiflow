@@ -1,0 +1,45 @@
+{
+  "advisory": {
+    "reasoning": "The congestion is predicted because of the slower speeds upstream, particularly in Glendale/Burbank (58.75 mph and 60.63 mph), which are contributing to a propagation of congestion along a path of 5 sensors with an estimated lag of 35 minutes.",
+    "cited_causes": [
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 95
+      },
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 0
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Reroute traffic before the merge",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion at the target location",
+        "grounded_in": [
+          "city-context fact: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Optimize signal timing on surface reliefs",
+        "location": "Brand Blvd, San Fernando Rd and Colorado Blvd",
+        "time_window_minutes": 5,
+        "expected_effect": "Improved traffic flow through the area",
+        "grounded_in": [
+          "city-context fact: transit alternatives"
+        ]
+      },
+      {
+        "action": "Increase Metro rail service frequency",
+        "location": "Wilshire, Expo/I-10, Harbor/I-110, Pasadena A Line",
+        "time_window_minutes": 15,
+        "expected_effect": "Divert traffic to parallel rail lines and reduce congestion",
+        "grounded_in": [
+          "city-context fact: transit alternatives"
+        ]
+      }
+    ]
+  },
+  "sample_index": 6150
+}

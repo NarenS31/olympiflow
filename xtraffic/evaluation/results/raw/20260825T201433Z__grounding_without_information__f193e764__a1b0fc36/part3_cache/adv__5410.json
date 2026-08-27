@@ -1,0 +1,45 @@
+{
+  "advisory": {
+    "reasoning": "The congestion is predicted because of the high speeds in the Glendale/Burbank area (sensor 717578, node_id 24), which indicates that traffic is flowing freely there. However, as we move towards Downtown LA, the speeds decrease significantly, indicating a bottleneck. The propagation of congestion appears to travel along a path of 8 sensors, with an estimated lag of 15 minutes between the source and the target.",
+    "cited_causes": [
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 24
+      },
+      {
+        "location": "NE of Downtown LA",
+        "resolved_node_id": 65
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering",
+        "location": "NW of Downtown LA (sensor 717458)",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion at the target location",
+        "grounded_in": [
+          "The high speeds in Glendale/Burbank indicate that traffic is flowing freely there, suggesting that upstream metering can help regulate traffic flow."
+        ]
+      },
+      {
+        "action": "Reroute traffic before the merge",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion at the I-5/SR-134/SR-2 interchange",
+        "grounded_in": [
+          "The city context states that upstream metering and reroute-before-the-merge are the levers for structural bottlenecks like this one."
+        ]
+      },
+      {
+        "action": "Signal-coordinated surface relief",
+        "location": "Sunset Blvd and Santa Monica Blvd",
+        "time_window_minutes": 5,
+        "expected_effect": "Reduced congestion at the US-101/I-110 four-level",
+        "grounded_in": [
+          "The city context states that Sunset Blvd and Santa Monica Blvd are signal-coordinated surface reliefs, which can help alleviate congestion."
+        ]
+      }
+    ]
+  },
+  "sample_index": 5410
+}

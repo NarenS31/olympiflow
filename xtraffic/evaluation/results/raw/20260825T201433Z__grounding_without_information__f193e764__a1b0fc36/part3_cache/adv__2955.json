@@ -1,0 +1,57 @@
+{
+  "advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in several locations upstream of Downtown LA. The San Fernando Valley (sensor 717608, node_id 122) has a speed of 67.22 mph, which is slower than expected, and this is contributing significantly to the prediction. Additionally, NW of Downtown LA (sensor 717458, node_id 187), NE of Downtown LA (sensor 767541, node_id 1), Glendale / Burbank (sensor 717583, node_id 168) and East LA (sensor 716942, node_id 124) all have slow speeds, which are also contributing to the prediction.",
+    "cited_causes": [
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 122
+      },
+      {
+        "location": "NW of Downtown LA",
+        "resolved_node_id": 187
+      },
+      {
+        "location": "NE of Downtown LA",
+        "resolved_node_id": 1
+      },
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 168
+      },
+      {
+        "location": "East LA",
+        "resolved_node_id": 124
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering",
+        "location": "San Fernando Valley (sensor 717608)",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduce congestion by slowing down traffic in the San Fernando Valley, allowing it to clear before reaching Downtown LA.",
+        "grounded_in": [
+          "cited_cause: San Fernando Valley"
+        ]
+      },
+      {
+        "action": "Reroute traffic",
+        "location": "NW of Downtown LA (sensor 717458)",
+        "time_window_minutes": 15,
+        "expected_effect": "Redirect traffic away from the congested area, reducing congestion in NW of Downtown LA.",
+        "grounded_in": [
+          "cited_cause: NW of Downtown LA"
+        ]
+      },
+      {
+        "action": "Optimize signal timing",
+        "location": "NE of Downtown LA (sensor 767541)",
+        "time_window_minutes": 10,
+        "expected_effect": "Adjust traffic signals to optimize flow and reduce congestion in NE of Downtown LA.",
+        "grounded_in": [
+          "cited_cause: NE of Downtown LA"
+        ]
+      }
+    ]
+  },
+  "sample_index": 2955
+}

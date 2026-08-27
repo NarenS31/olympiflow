@@ -1,0 +1,84 @@
+{
+  "curve": [
+    {
+      "round": 0,
+      "used_correction": false,
+      "faithfulness_f1": 0.7692307692307693,
+      "cause_precision": 1.0,
+      "cause_recall": 0.625,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 3,
+      "n_topk": 8,
+      "n_missed": 3,
+      "missed_regions": [
+        "NW of Downtown LA",
+        "NE of Downtown LA",
+        "NW of Downtown LA"
+      ],
+      "missed_node_ids": [
+        80,
+        66,
+        192
+      ],
+      "advisory_error": ""
+    }
+  ],
+  "n_rounds": 0,
+  "reached_threshold": true,
+  "stop_reason": "threshold_reached",
+  "f1_initial": 0.7692307692307693,
+  "f1_final": 0.7692307692307693,
+  "f1_gain": 0.0,
+  "final_advisory": {
+    "reasoning": "The congestion is predicted because the San Fernando Valley area (sensor 717497, node_id 69) has a high speed of 63.63 mph, which suggests that traffic is flowing freely there. However, this high speed is not being sustained downstream, as evidenced by the lower speeds at nearby sensors such as Glendale / Burbank (sensor 773880, node_id 67), Hollywood (sensor 717473, node_id 128), and San Fernando Valley (sensor 717495, node_id 52). This suggests that congestion is propagating from the San Fernando Valley area to these downstream locations.",
+    "cited_causes": [
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 69
+      },
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 67
+      },
+      {
+        "location": "Hollywood",
+        "resolved_node_id": 128
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering",
+        "location": "San Fernando Valley (sensor 717497)",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduce congestion propagation downstream",
+        "grounded_in": [
+          "congestion propagating from the San Fernando Valley area"
+        ]
+      },
+      {
+        "action": "Reroute traffic before merge",
+        "location": "I-5/SR-134/SR-2 interchange (city-context fact)",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduce congestion at the I-5/SR-134/SR-2 interchange",
+        "grounded_in": [
+          "structural bottleneck at the I-5/SR-134/SR-2 interchange"
+        ]
+      },
+      {
+        "action": "Signal-coordinated timing on surface reliefs",
+        "location": "Sunset Blvd and Santa Monica Blvd (city-context fact)",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduce congestion on surface roads",
+        "grounded_in": [
+          "signal-coordinated timing on ATSAC signal-coordinated surface roads"
+        ]
+      }
+    ]
+  },
+  "sample_index": 3212,
+  "target_node": 84,
+  "tod_band": "am_rush",
+  "congestion": "medium",
+  "model": "llama3.1:8b",
+  "condition": "A_rand"
+}

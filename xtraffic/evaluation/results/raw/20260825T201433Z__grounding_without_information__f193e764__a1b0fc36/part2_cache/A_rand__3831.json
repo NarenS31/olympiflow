@@ -1,0 +1,78 @@
+{
+  "curve": [
+    {
+      "round": 0,
+      "used_correction": false,
+      "faithfulness_f1": 0.8571428571428571,
+      "cause_precision": 1.0,
+      "cause_recall": 0.75,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 2,
+      "n_topk": 8,
+      "n_missed": 2,
+      "missed_regions": [
+        "East LA",
+        "Hollywood"
+      ],
+      "missed_node_ids": [
+        165,
+        127
+      ],
+      "advisory_error": ""
+    }
+  ],
+  "n_rounds": 0,
+  "reached_threshold": true,
+  "stop_reason": "threshold_reached",
+  "f1_initial": 0.8571428571428571,
+  "f1_final": 0.8571428571428571,
+  "f1_gain": 0.0,
+  "final_advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in the Glendale/Burbank area, specifically at sensor 759772 (node_id 194), which is currently moving at 48.33 mph. This slow speed is affecting traffic in the San Fernando Valley, including the target location, where the current speed is 21.11 mph and predicted to increase to 41.25 mph in 30 minutes.",
+    "cited_causes": [
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 194
+      },
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": null
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Reroute traffic before the merge",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion in the San Fernando Valley",
+        "grounded_in": [
+          "city-context fact: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Implement upstream metering",
+        "location": "Glendale / Burbank area (sensor 759772)",
+        "time_window_minutes": 5,
+        "expected_effect": "Increased speed in the Glendale/Burbank area",
+        "grounded_in": [
+          "cited cause: slow speeds at sensor 759772"
+        ]
+      },
+      {
+        "action": "Use transit alternatives",
+        "location": "Wilshire and Hollywood areas (B/D Lines)",
+        "time_window_minutes": 15,
+        "expected_effect": "Divert traffic from the San Fernando Valley",
+        "grounded_in": [
+          "city-context fact: transit is a viable diversion lever"
+        ]
+      }
+    ]
+  },
+  "sample_index": 3831,
+  "target_node": 131,
+  "tod_band": "midday",
+  "congestion": "low",
+  "model": "llama3.1:8b",
+  "condition": "A_rand"
+}

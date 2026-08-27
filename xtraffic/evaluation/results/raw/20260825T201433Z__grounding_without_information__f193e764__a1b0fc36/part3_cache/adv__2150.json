@@ -1,0 +1,49 @@
+{
+  "advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in various locations upstream of the target location. The Pasadena / East area (sensor 769806, node_id 200) has a speed of 66.78 mph, which is slower than expected. Similarly, the Glendale / Burbank area (sensors 773916 and 773906) have speeds of 63.78 mph and 66.78 mph respectively, indicating congestion in this region. The San Fernando Valley areas also show slow speeds, with values ranging from 55.56 mph to 67.11 mph.",
+    "cited_causes": [
+      {
+        "location": "Pasadena / East",
+        "resolved_node_id": 200
+      },
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": null
+      },
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": null
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering",
+        "location": "Pasadena / East (sensor 769806)",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion in the Pasadena / East area, allowing for faster speeds downstream.",
+        "grounded_in": [
+          "cited_cause: Pasadena / East"
+        ]
+      },
+      {
+        "action": "Reroute traffic before merge",
+        "location": "Glendale / Burbank (sensors 773916 and 773906)",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion in the Glendale / Burbank area, allowing for faster speeds downstream.",
+        "grounded_in": [
+          "cited_cause: Glendale / Burbank"
+        ]
+      },
+      {
+        "action": "Signal timing adjustments",
+        "location": "San Fernando Valley (sensors 717508, 765265, and 717570)",
+        "time_window_minutes": 10,
+        "expected_effect": "Improved traffic flow in the San Fernando Valley area.",
+        "grounded_in": [
+          "cited_cause: San Fernando Valley"
+        ]
+      }
+    ]
+  },
+  "sample_index": 2150
+}

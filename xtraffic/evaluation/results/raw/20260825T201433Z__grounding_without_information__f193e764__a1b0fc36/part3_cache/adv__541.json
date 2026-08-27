@@ -1,0 +1,49 @@
+{
+  "advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley (0.0 mph and 62.38 mph), which are affecting traffic flowing into Downtown LA, particularly from the NE (63.75 mph) and Pasadena/East (59.5 mph). This congestion appears to be traveling along a path of 7 sensors with an estimated lag of 20 minutes between the source and the target.",
+    "cited_causes": [
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 70
+      },
+      {
+        "location": "NE of Downtown LA",
+        "resolved_node_id": 28
+      },
+      {
+        "location": "Pasadena / East",
+        "resolved_node_id": 203
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering",
+        "location": "San Fernando Valley (SR-134, I-5)",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion in the San Fernando Valley",
+        "grounded_in": [
+          "city-context fact: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Reroute traffic before merge",
+        "location": "I-5/SR-134/SR-2 interchange",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion at the I-5/SR-134/SR-2 interchange",
+        "grounded_in": [
+          "city-context fact: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Increase transit capacity on parallel rail lines",
+        "location": "Wilshire, Expo/I-10, Harbor/I-110",
+        "time_window_minutes": 5,
+        "expected_effect": "Divert traffic from roads to transit",
+        "grounded_in": [
+          "Transit alternatives (Metro rail/bus)"
+        ]
+      }
+    ]
+  },
+  "sample_index": 541
+}

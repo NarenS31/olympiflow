@@ -1,0 +1,113 @@
+# XTraffic — training config for PEMS-BAY (325 sensors, Bay Area, 2017).
+#
+# Deliberately a near-copy of train_metr_la.yaml. Same reasoning as
+# train_power_grid.yaml: the cross-dataset claim is "the SAME model, unmodified",
+# so anything that differs here has to be justified. Only DATASET-SPECIFIC fields
+# differ (marked CHANGED); every model hyperparameter and every optimiser setting
+# is byte-identical to train_metr_la.yaml.
+#
+# WHAT IS DATASET-SPECIFIC vs ARCHITECTURAL (established by diffing
+# train_metr_la.yaml against train_metr_la_fusion.yaml — the only two configs for
+# the same dataset, so everything that differs between them is a RUN knob, and
+# everything they share that changes across datasets is DATASET-specific):
+#   dataset      -> selects data/processed/<ds>/ = adjacency.npy, train/val/test.npz,
+#                   scaler.json, node_meta.json. This one key carries the split,
+#                   the adjacency AND the scaler.
+#   run_name     -> checkpoint + log filenames only.
+#   modalities / use_sidecars / traffic_channels -> which feeds exist.
+# NOTE n_nodes is NOT a config key anywhere. train.py reads it from the adjacency
+# (`adj = load_adjacency(dataset); n_nodes = adj.shape[0]`), so 207 -> 325 needs no
+# edit and cannot be got wrong. Same for the scaler (load_scaler(dataset)).
+
+dataset: pems_bay         # CHANGED: reads xtraffic/data/processed/pems_bay/
+                          # Splits ALREADY EXIST from the Phase-1 pipeline
+                          # (data/pipelines/pems_bay.py) — nothing constructed here:
+                          #   train 36,465 / val 5,209 / test 10,419 samples
+                          #   X[36465,12,325,2]  Y[36465,12,325]
+                          #   325 nodes, 2,369 edges, 0.003% missing,
+                          #   2017-01-01 -> 2017-06-30, chronological 70/10/20.
+seed: 42                  # numpy + torch + python RNG (reproducibility, CLAUDE.md)
+
+# --- Modalities present in this dataset (MOD 3 heterogeneous fusion) ---
+# IDENTICAL to train_metr_la.yaml, and that is deliberate. PEMS-BAY has NO
+# sidecars on disk (data/processed/pems_bay/ holds only the core tensors —
+# no mod_weather.npz / mod_events.npz / mod_transit.npz), exactly like METR-LA
+# at Phase 2. Declaring them here builds the encoders + gates so the ARCHITECTURE
+# matches METR-LA's parameter-for-parameter; use_sidecars below is false, so each
+# is fed None and MOD 3 zeroes its gate. This is the same traffic-only baseline
+# the METR-LA Phase-2 run was, on a second city.
+modalities:
+  traffic: 2     # channel 0 = z-scored speed, channel 1 = time-of-day
+  weather: 3     # temp, precip, visibility  (stub -> None; no PEMS-BAY sidecar)
+  events: 1      # proximity-decayed event indicator (stub -> None)
+  transit: 1     # nearby stop count (stub -> None)
+# Which channels of the processed X tensor belong to the "traffic" modality.
+# X is [B, 12, N, 2]; both channels are the traffic modality's inputs.
+traffic_channels: [0, 1]
+
+# Sidecar fusion OFF. train_metr_la.yaml omits this key and relies on the default
+# (train.py: `cfg.get("use_sidecars", False)`); stated EXPLICITLY here, following
+# the train_power_grid.yaml precedent, because PEMS-BAY has no sidecar files at all
+# and a silent default is the wrong way to record that.
+use_sidecars: false
+
+# --- Model hyperparameters (IDENTICAL to train_metr_la.yaml) ---
+model:
+  residual_channels: 32
+  dilation_channels: 32
+  skip_channels: 64
+  end_channels: 128
+  n_blocks: 4          # 4 stacked spatial-temporal blocks
+  embed_dim: 10        # dim of semantic (MOD 1) and adaptive node embeddings
+  gcn_order: 2         # diffusion hops in each graph conv
+  dropout: 0.3
+  out_len: 12          # forecast 12 steps (60 min)
+
+# --- Optimisation (IDENTICAL to train_metr_la.yaml, plus one EXPLICIT knob) ---
+train:
+  epochs: 100
+  batch_size: 32
+  lr: 0.001
+  weight_decay: 0.0001
+  grad_clip: 5.0       # clip global grad norm (Graph WaveNet is prone to spikes)
+  early_stopping_patience: 15   # stop if val MAE hasn't improved in N epochs
+  num_workers: 0       # 0 keeps it simple + deterministic on laptop
+
+  # --- EXPLICIT, not inherited. See train.py's Phase-19 BUG FIX note. ---
+  # min_delta is the smallest val-MAE gain that counts as progress. It is an
+  # ABSOLUTE number, so its meaning depends entirely on the target's scale, and
+  # inheriting it silently is exactly what broke power_grid_best.pt (saved epoch 6
+  # at 0.00170 while epoch 21 reached 0.00163 — real progress scored as
+  # no-progress, then early-stopped on the WORSE checkpoint).
+  #
+  # CHECKED FOR THIS DATASET rather than assumed. min_delta as a FRACTION of the
+  # metric it guards (val MAE), which is the only ratio that matters:
+  #     METR-LA      1e-4 / 2.875 mph  = 0.0035%   <- the intended noise guard
+  #     PEMS-BAY     1e-4 / ~1.5 mph   = 0.0067%   <- this run, SAFE
+  #     power grid   1e-4 / 0.0017 pu  = 5.9%      <- the failure regime
+  # PEMS-BAY is on the SAME mph scale as METR-LA (scaler mean 62.7 / std 9.4 vs
+  # 54.4 / 19.5), so it is ~1.9x more exposed than METR-LA and ~880x safer than
+  # the power grid. Expected val MAE ~1.5 mph is derived from THIS dataset, not
+  # from literature: a persistence baseline on the PEMS-BAY val split scores
+  # 2.396 mph vs 4.539 mph on METR-LA (0.53x), and METR-LA's trained model reached
+  # 2.875, so 2.875 x 0.53 ~= 1.5. 1e-4 mph is orders of magnitude below
+  # run-to-run noise at that scale, so it still does only the job it was written
+  # for. Kept at 1e-4 so PEMS-BAY stays comparable to METR-LA; written down so
+  # it is a decision on the record, not an inheritance.
+  early_stopping_min_delta: 0.0001
+
+# Horizons to report (in 5-min steps): 15 / 30 / 60 min. PEMS-BAY runs on the same
+# 5-min grid as METR-LA, so these mean the same thing.
+horizons_steps: [3, 6, 12]
+
+# CHANGED vs METR-LA: run_name drives the checkpoint filename, so the best model
+# lands at models/gnn/checkpoints/pems_bay_best.pt. This CANNOT collide with
+# metr_la_best.pt, and it is a DIFFERENT FILE from the existing
+# pems_bay_zero_shot.pt (which is METR-LA weights transferred to the 325-node
+# graph, config.dataset="metr_la", setting="zero_shot" — not a trained model).
+# Both are left untouched.
+run_name: pems_bay
+
+# Where checkpoints + logs go (CLAUDE.md: results to /evaluation/results/).
+checkpoint_dir: models/gnn/checkpoints
+results_dir: evaluation/results

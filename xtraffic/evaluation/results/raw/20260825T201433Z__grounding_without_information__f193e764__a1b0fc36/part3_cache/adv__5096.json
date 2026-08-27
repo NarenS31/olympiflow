@@ -1,0 +1,49 @@
+{
+  "advisory": {
+    "reasoning": "The congestion is predicted because of the high speeds in areas upstream, particularly Hollywood (67.0 mph), San Fernando Valley (61.5 and 58.63 mph), Glendale/Burbank (65.14 mph), and Pasadena/East (64.43 mph). This indicates that traffic is flowing freely in these areas but will eventually reach Downtown LA with a lag of approximately 20 minutes.",
+    "cited_causes": [
+      {
+        "location": "Hollywood",
+        "resolved_node_id": 32
+      },
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 137
+      },
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 189
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering",
+        "location": "Hollywood (sensor 769388, node_id 32)",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced speed in Hollywood to mitigate congestion impact on Downtown LA",
+        "grounded_in": [
+          "cited_cause: Hollywood"
+        ]
+      },
+      {
+        "action": "Reroute traffic before merge",
+        "location": "I-5/SR-134/SR-2 interchange (key merge congestion)",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion at the I-5/SR-134/SR-2 interchange and subsequent areas",
+        "grounded_in": [
+          "city-context: Glendale/Burbank freeways"
+        ]
+      },
+      {
+        "action": "Signal-coordinated surface relief",
+        "location": "Sunset Blvd and Santa Monica Blvd (surface reliefs)",
+        "time_window_minutes": 10,
+        "expected_effect": "Improved traffic flow through surface streets in Hollywood",
+        "grounded_in": [
+          "city-context: US-101 Hollywood Freeway corridor"
+        ]
+      }
+    ]
+  },
+  "sample_index": 5096
+}

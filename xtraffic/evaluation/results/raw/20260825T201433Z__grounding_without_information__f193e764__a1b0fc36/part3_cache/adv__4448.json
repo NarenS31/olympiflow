@@ -1,0 +1,41 @@
+{
+  "advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley, particularly at sensor 717508 (34.171, -118.518), which is currently traveling at 43.25 mph. This slow speed is contributing to the congestion that will reach the target location in Hollywood in 30 minutes.",
+    "cited_causes": [
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 150
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Reroute traffic before it merges onto US-101",
+        "location": "US-101/I-110 four-level interchange",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion in the Hollywood area",
+        "grounded_in": [
+          "city-context fact: upstream metering and reroute-before-the-merge are the levers"
+        ]
+      },
+      {
+        "action": "Implement ramp metering on Sepulveda Blvd",
+        "location": "Sepulveda Pass",
+        "time_window_minutes": 5,
+        "expected_effect": "Reduced congestion in the Sepulveda Pass area",
+        "grounded_in": [
+          "city-context fact: Ramp metering is active pass-wide"
+        ]
+      },
+      {
+        "action": "Coordinate signal timing on Sunset Blvd and Santa Monica Blvd",
+        "location": "Surface relief: Sunset Blvd and Santa Monica Blvd",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion in the Hollywood area",
+        "grounded_in": [
+          "city-context fact: Surface relief: Sunset Blvd and Santa Monica Blvd, both ATSAC signal-coordinated"
+        ]
+      }
+    ]
+  },
+  "sample_index": 4448
+}

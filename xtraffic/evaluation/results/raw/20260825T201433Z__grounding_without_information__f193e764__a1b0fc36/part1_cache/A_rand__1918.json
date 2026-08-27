@@ -1,0 +1,29 @@
+{
+  "sample_index": 1918,
+  "target_node": 16,
+  "tod_band": "pm_rush",
+  "congestion": "low",
+  "condition": "A_rand",
+  "source": "new",
+  "advisory_error": "",
+  "cited_locations": [
+    "NW of Downtown LA",
+    "San Fernando Valley",
+    "Glendale / Burbank"
+  ],
+  "context_used": [
+    "Glendale/Burbank freeways (SR-134, I-5, SR-2)",
+    "Known recurrent bottlenecks (LA basin)",
+    "Transit alternatives (Metro rail/bus)",
+    "US-101 Hollywood Freeway corridor"
+  ],
+  "explanation_confidence": 0.0552,
+  "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley and Glendale/Burbank areas, which are contributing to a propagation of congestion along a path of 6 sensors. The source of the congestion appears to be located NW of Downtown LA (sensor 717488), where the speed is currently 67.22 mph.",
+  "cause_precision": 1.0,
+  "cause_recall": 0.625,
+  "faithfulness_f1": 0.7692307692307693,
+  "hallucination_rate": 0.0,
+  "n_cited_causes": 3,
+  "n_topk": 8,
+  "quantitative_fidelity": 0.5
+}

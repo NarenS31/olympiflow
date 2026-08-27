@@ -961,6 +961,118 @@ there is no per-lag importance to weight. Skipped rather than substituted.
 Gates after: traffic regression PASS, resolvers 29/30 + 32/32 + 32/32 + 22/22,
 76 unit tests, 9/9 mutants killed. Nothing committed was modified.
 
+---
+
+## 2026-08-25 — PEMS-BAY training config + cost measurement (STOPPED BEFORE TRAINING)
+
+Goal was a real PEMS-BAY-trained checkpoint. Got as far as a verified config and a
+measured cost, then stopped at the gate as instructed. **Nothing was trained.**
+
+- Wrote `configs/train_pems_bay.yaml` by diffing `train_metr_la.yaml` against
+  `train_metr_la_fusion.yaml` to separate DATASET knobs from ARCHITECTURE. Only
+  `dataset`, `run_name`, `modalities`/`use_sidecars`/`traffic_channels` are
+  dataset-specific. **`n_nodes` is not a config key anywhere** — `train.py` reads it
+  from the adjacency (`adj.shape[0]`), so 207 -> 325 needs no edit and cannot be got
+  wrong. Model + optimiser blocks are byte-identical to METR-LA.
+- Splits were ALREADY BUILT by the Phase-1 pipeline; nothing was constructed:
+  train 36,465 / val 5,209 / test 10,419, `X[36465,12,325,2]`, 0.003% missing.
+- **EARLY-STOPPING BUG CHECK (the power-grid failure): PEMS-BAY IS SAFE.** `min_delta`
+  is absolute, so its meaning is set by the target's scale. As a fraction of the
+  metric it guards: METR-LA 1e-4/2.875 mph = 0.0035% (the intended noise guard);
+  PEMS-BAY 1e-4/~1.5 mph = 0.0067%; power grid 1e-4/0.0017 pu = 5.9% (the failure).
+  PEMS-BAY is on the SAME mph scale, ~1.9x more exposed than METR-LA and ~880x safer
+  than the grid. Expected ~1.5 mph derived from THIS dataset, not literature: a
+  persistence baseline scores 2.396 mph on PEMS-BAY val vs 4.539 on METR-LA (0.53x),
+  and METR-LA's model reached 2.875, so 2.875 x 0.53 ~= 1.5. Set
+  `early_stopping_min_delta: 0.0001` EXPLICITLY anyway — same value, but now a
+  decision on the record rather than an inheritance.
+- CONFIG PORT VERIFIED via the repo's own `--smoke` gate: `device=mps units=mph`,
+  traffic-only loaders, **398,599 params** vs METR-LA's 395,059 — exactly +3,540,
+  which is the 118 extra nodes x 3 node-embedding tables x 10 dims. Finite loss
+  (train 4.924, val MAE 3.488 mph), no NaN. `units=mph` is CORRECT here, unlike the
+  power grid where the hard-coded label lied.
+
+**THE NUMBER (this is why we stopped): 1.74 h/epoch on MPS.**
+Measured 5.1825 s/batch; 1,140 train + 163 val batches/epoch -> 104.1 min/epoch.
+  54 epochs (METR-LA's best) = 93.7 h = 3.9 days
+  69 epochs (54 + patience 15) = 119.7 h = 5.0 days
+  100 epochs (config max) = 173.5 h = 7.2 days
+CROSS-CHECK, and it is a good one: CLAUDE.md records ~40 min/epoch for METR-LA on
+MPS = 3.03 s/batch. PEMS-BAY is 1.71x per batch x 1.52x more batches = 2.60x total,
+and 40 min x 2.60 = 104 min. The measurement reproduces the historical record to
+within 0.1%, so it is not an artifact.
+
+- **CPU IS NOT AN ALTERNATIVE: 62.44 s/batch = 20.9 h/epoch, 12.05x SLOWER than MPS.**
+  So `train.py`'s existing device default (cuda > mps > cpu) is already the right
+  one; the device-override hook in the smoke harness turned out to be unnecessary.
+
+**SURPRISE, and it cost an hour: the first measurement was measuring swap, not the
+model.** An idle `llama-server` (Ollama, 0% CPU) is holding 12 GB of this machine's
+16 GB. PEMS-BAY's splits are ~2.4 GB of float32 tensors (train X alone is
+36465*12*325*2*4 = 1.14 GB), so loading them put swap at 20.4/21.5 GB with 42%
+system time and 77 s/batch on CPU. Re-measured with production-shaped synthetic
+tensors (same arithmetic, small resident set) to get a clean compute number. The
+lesson worth keeping: on this machine ANY timing taken while Ollama holds a model is
+suspect, and the training run itself will need that 12 GB freed.
+
+**Two harness bugs found and fixed in my own code, both real:**
+1. `device_probe.json` was written once at the end, so killing a slow probe lost
+   every measurement already made -> now written per device as measured.
+2. Rewriting that one filename raised `FileExistsError` from `RunDir.write_json`,
+   which refuses to overwrite inside an append-only run directory. The guard is
+   right; the write pattern was wrong -> now one file per device.
+
+Gates: traffic regression PASS (captured before AND after). No writes to any
+explanations_cache. Seeded (42), run_dir infrastructure throughout. Existing
+checkpoints untouched — smoke wrote only `pems_bay_smoke_smoke.pt`.
+**Step 3 (full train) NOT started — awaiting decision, because 93.7 h does not fit
+in the 78 h remaining before the 29th.**
+
+### CORRECTION, same day (2026-08-25), before any decision was acted on
+
+**The "1.74 h/epoch" figure above is WRONG — too PESSIMISTIC by roughly 2x. The
+conclusion it supported ("does not fit before the 29th") does not survive.**
+
+What happened: that number (5.1825 s/batch) was measured immediately after killing
+the swapping probe, while the machine was still thrashing — load average ~35, swap
+18.8 GB in use. Re-measuring the identical synthetic probe later gave 2.40 s/batch
+steady. Same code, same shapes, same device, **1.84x apart**, and the only variable
+was system memory pressure.
+
+Per-batch trace from the second run, which is why the first was believable and wrong:
+`22.291 (b0) | 6.515 (b1) | 2.451 2.455 2.128 2.625 2.394 2.670 2.393 1.732 2.785`
+Steady state (b2-b10) = **2.404 +/- 0.316 s/batch**, median 2.451.
+
+**A SECOND, SEPARATE BUG IN MY OWN PROBE:** it excluded only batch 0 as warmup, but
+batch 1 is still 2.7x steady state. That alone reported 2.8149 instead of 2.404 —
+17% high. Now drops 2 warmup batches and reports median alongside mean.
+
+CORRECTED ESTIMATES at 2.404 s/batch (1,140 train + 163 val batches -> 48.3 min/epoch):
+    54 epochs (METR-LA's best)  = 43.5 h   FITS in the 78 h available
+    69 epochs (54 + patience)   = 55.5 h   FITS
+   100 epochs (config max)      = 80.5 h   marginal
+So local training on MPS is probably FEASIBLE, the opposite of what I recorded above.
+
+**RETRACTION OF THE CROSS-CHECK.** I wrote that the measurement "reproduces the
+historical record to within 0.1%" because 40 min x 2.60 = 104 min matched the 104.1
+min figure. That agreement was SPURIOUS — it matched a swap-contaminated number
+against a vague "~40 min/epoch" note of unknown provenance and torch version. Two
+soft numbers agreeing is not validation, and I should not have presented it as
+confirmation. There is no usable cross-check against METR-LA here.
+
+**WHAT IS STILL NOT KNOWN, and it is the thing that matters:** every measurement so
+far was taken with an idle `llama-server` holding 12-13 GB of this machine's 16 GB
+and swap at 22-24 GB of ~25 GB. The 2.404 s/batch figure is therefore a measurement
+taken under duress too, just less of it — it is a lower bound on contention, not a
+clean number. And the REAL run additionally needs ~2.4 GB of split tensors resident,
+which under the current 13 GB of Ollama WILL swap. **Free that memory and re-measure
+before committing to a schedule.** Range to plan against until then: 48-104 min/epoch,
+i.e. 43-94 h for 54 epochs.
+
+Anomaly logged, not explained: the synthetic probe process itself reached 8.3 GB RSS
+despite loading no splits. Not diagnosed. Suspect MPS caching-allocator growth across
+the two per-device probes in one process; worth a look before trusting long runs.
+
 ## 2026-08-25/26 — Grounding without information (pre-registered, four parts)
 
 Run `20260825T201433Z__grounding_without_information__f193e764__a1b0fc36`.

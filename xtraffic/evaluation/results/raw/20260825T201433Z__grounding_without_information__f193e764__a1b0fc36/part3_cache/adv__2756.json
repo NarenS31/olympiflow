@@ -1,0 +1,48 @@
+{
+  "advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley (14.37 mph at the target location, and 29.5 mph and 29.0 mph at nearby sensors), which are causing a ripple effect downstream. The Hollywood area (49.25 mph) is also contributing to the congestion, as it's slower than expected.",
+    "cited_causes": [
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 197
+      },
+      {
+        "location": "Hollywood",
+        "resolved_node_id": 22
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Reroute traffic before the merge",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion at the target location",
+        "grounded_in": [
+          "upstream metering and reroute-before-the-merge are the levers, not signal timing at the interchange itself",
+          "San Fernando Valley"
+        ]
+      },
+      {
+        "action": "Signal coordination on surface relief roads",
+        "location": "Sunset Blvd and Santa Monica Blvd",
+        "time_window_minutes": 5,
+        "expected_effect": "Improved traffic flow through Hollywood",
+        "grounded_in": [
+          "ATSAC signal-coordinated",
+          "Hollywood"
+        ]
+      },
+      {
+        "action": "Encourage carpooling or transit use",
+        "location": "Glendale/Burbank freeways (SR-134, I-5)",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced demand on the freeway system",
+        "grounded_in": [
+          "Metro is limited here, so demand is car-dominant",
+          "Glendale/Burbank"
+        ]
+      }
+    ]
+  },
+  "sample_index": 2756
+}

@@ -1,0 +1,53 @@
+{
+  "advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley, specifically at sensors 769430 (63.0 mph), 717495 (63.22 mph), and 772140 (66.56 mph). These slow speeds are causing a ripple effect downstream, with congestion propagating along a path of 11 sensors, resulting in a predicted speed of 49.55 mph at the target location NE of Downtown LA.",
+    "cited_causes": [
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 82
+      },
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 52
+      },
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 182
+      },
+      {
+        "location": "Hollywood",
+        "resolved_node_id": null
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement ramp metering upstream of the Sepulveda Pass",
+        "location": "Sepulveda Pass (I-405)",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion and increased speed in the San Fernando Valley",
+        "grounded_in": [
+          "city-context fact: I-405 Sepulveda Pass saturates in both peaks"
+        ]
+      },
+      {
+        "action": "Optimize signal timing at surface relief roads (Sunset Blvd and Santa Monica Blvd)",
+        "location": "Surface relief roads (Sunset Blvd and Santa Monica Blvd)",
+        "time_window_minutes": 15,
+        "expected_effect": "Improved traffic flow in the Hollywood area",
+        "grounded_in": [
+          "city-context fact: Sunset Blvd and Santa Monica Blvd are ATSAC signal-coordinated"
+        ]
+      },
+      {
+        "action": "Implement dynamic lane management at the Cahuenga Pass grade",
+        "location": "Cahuenga Pass grade (US-101)",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion and increased speed on US-101",
+        "grounded_in": [
+          "city-context fact: Bottleneck at the Cahuenga Pass grade"
+        ]
+      }
+    ]
+  },
+  "sample_index": 247
+}

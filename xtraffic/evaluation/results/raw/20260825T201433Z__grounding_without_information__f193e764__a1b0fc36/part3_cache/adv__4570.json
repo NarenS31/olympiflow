@@ -1,0 +1,45 @@
+{
+  "advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley, specifically at sensor 717823 (34.203, -118.473), which has a speed of 60.11 mph and an importance of 0.984. This slow speed is also reflected in other sensors in the area, such as sensor 767454 (34.144, -118.227) with a speed of 67.89 mph and an importance of 0.980.",
+    "cited_causes": [
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 186
+      },
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 108
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering on I-5/SR-134 interchange",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion in the San Fernando Valley and Glendale/Burbank areas",
+        "grounded_in": [
+          "city-context fact: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Reroute traffic before merging onto I-405 at Sepulveda Pass",
+        "location": "Sepulveda Pass",
+        "time_window_minutes": 5,
+        "expected_effect": "Reduced congestion on I-405 and in the San Fernando Valley area",
+        "grounded_in": [
+          "city-context fact: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Adjust ramp metering on I-405 at Sepulveda Pass",
+        "location": "I-405 at Sepulveda Pass",
+        "time_window_minutes": 5,
+        "expected_effect": "Reduced congestion on I-405 and in the San Fernando Valley area",
+        "grounded_in": [
+          "city-context fact: ramp metering is active pass-wide"
+        ]
+      }
+    ]
+  },
+  "sample_index": 4570
+}

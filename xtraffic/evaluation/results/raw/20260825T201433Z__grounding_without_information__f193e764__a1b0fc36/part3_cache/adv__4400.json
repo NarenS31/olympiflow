@@ -1,0 +1,45 @@
+{
+  "advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in Downtown LA (25.6 mph), which are influenced by the slower speeds in East LA (43.5 mph). However, the main contributing factors are the faster speeds in the San Fernando Valley (61-65 mph) and NE of Downtown LA (63.63 mph), indicating that congestion is propagating from these areas to Downtown LA.",
+    "cited_causes": [
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 181
+      },
+      {
+        "location": "NE of Downtown LA",
+        "resolved_node_id": 64
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering on I-405 in the San Fernando Valley",
+        "location": "I-405, San Fernando Valley",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduce congestion by limiting the number of vehicles entering the Sepulveda Pass",
+        "grounded_in": [
+          "San Fernando Valley (sensor 717513, 34.173, -118.537)"
+        ]
+      },
+      {
+        "action": "Reroute traffic before merging onto I-405 in the San Fernando Valley",
+        "location": "I-405, San Fernando Valley",
+        "time_window_minutes": 5,
+        "expected_effect": "Reduce congestion by reducing the number of vehicles entering the Sepulveda Pass",
+        "grounded_in": [
+          "San Fernando Valley (sensor 717513, 34.173, -118.537)"
+        ]
+      },
+      {
+        "action": "Adjust signal timing to optimize traffic flow through Downtown LA",
+        "location": "Downtown LA",
+        "time_window_minutes": 15,
+        "expected_effect": "Improve traffic conditions in Downtown LA by optimizing signal timing",
+        "grounded_in": [
+          "City-context: recurrent bottlenecks"
+        ]
+      }
+    ]
+  },
+  "sample_index": 4400
+}

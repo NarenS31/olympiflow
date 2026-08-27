@@ -1,0 +1,14 @@
+{
+  "dataset": "metr_la",
+  "scenario_id": "s0425",
+  "sample_index": 3664,
+  "scenario_type": "evening|medium",
+  "tod_band": "evening",
+  "congestion": "medium",
+  "seed": 2,
+  "condition": "XTRAFFIC_RAND",
+  "chosen": "signal_retiming",
+  "ground_truth": "signal_retiming",
+  "correct": 1,
+  "delay_reduction": 25.074
+}

@@ -1,0 +1,45 @@
+{
+  "advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in the Glendale/Burbank area, specifically at sensor 717578 (node_id 24), which has a speed of 68.0 mph and an importance of 0.998. This slow speed is contributing to the congestion at the target location in the San Fernando Valley.",
+    "cited_causes": [
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 24
+      },
+      {
+        "location": "NW of Downtown LA",
+        "resolved_node_id": null
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion at the target location",
+        "grounded_in": [
+          "congestion appears to travel along a path of 6 sensors"
+        ]
+      },
+      {
+        "action": "Reroute traffic before merge",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion at the target location",
+        "grounded_in": [
+          "congestion appears to travel along a path of 6 sensors"
+        ]
+      },
+      {
+        "action": "Activate ramp metering",
+        "location": "Sepulveda Pass",
+        "time_window_minutes": 5,
+        "expected_effect": "Reduced congestion at the target location",
+        "grounded_in": [
+          "Ramp metering is active pass-wide in I-405 San Diego Freeway corridor"
+        ]
+      }
+    ]
+  },
+  "sample_index": 5546
+}

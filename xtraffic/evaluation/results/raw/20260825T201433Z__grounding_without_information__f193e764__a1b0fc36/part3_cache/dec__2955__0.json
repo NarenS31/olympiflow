@@ -1,0 +1,14 @@
+{
+  "dataset": "metr_la",
+  "scenario_id": "s0146",
+  "sample_index": 2955,
+  "scenario_type": "am_rush|high",
+  "tod_band": "am_rush",
+  "congestion": "high",
+  "seed": 0,
+  "condition": "XTRAFFIC_RAND",
+  "chosen": "ramp_metering",
+  "ground_truth": "transit_surge",
+  "correct": 0,
+  "delay_reduction": 41.911
+}

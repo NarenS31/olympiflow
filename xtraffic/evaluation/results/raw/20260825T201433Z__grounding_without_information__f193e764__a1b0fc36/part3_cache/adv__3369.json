@@ -1,0 +1,45 @@
+{
+  "advisory": {
+    "reasoning": "The predicted congestion at the Hollywood location is due to a propagation of congestion from upstream locations, specifically from NE of Downtown LA (node_id 66 and node_id 177), where speeds are significantly lower than in other areas. The congestion appears to travel along a path of 3 sensors with an estimated lag of 0 minutes between the source and the target.",
+    "cited_causes": [
+      {
+        "location": "NE of Downtown LA",
+        "resolved_node_id": 66
+      },
+      {
+        "location": "NE of Downtown LA",
+        "resolved_node_id": 177
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering",
+        "location": "US-101/I-110 four-level (near NE of Downtown LA)",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion at Hollywood location",
+        "grounded_in": [
+          "city-context fact: recurrent bottleneck at US-101/I-110 four-level"
+        ]
+      },
+      {
+        "action": "Reroute traffic before merge",
+        "location": "I-405 Sepulveda Pass (near San Fernando Valley)",
+        "time_window_minutes": 5,
+        "expected_effect": "Reduced congestion at Hollywood location",
+        "grounded_in": [
+          "city-context fact: recurrent bottleneck at I-405 Sepulveda Pass"
+        ]
+      },
+      {
+        "action": "Signal timing adjustments",
+        "location": "Surface relief: Sunset Blvd and Santa Monica Blvd (near Hollywood)",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion at Hollywood location",
+        "grounded_in": [
+          "city-context fact: ATSAC signal-coordinated"
+        ]
+      }
+    ]
+  },
+  "sample_index": 3369
+}

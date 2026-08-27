@@ -1,0 +1,45 @@
+{
+  "advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley, specifically at sensor 769444 (node_id 60), which has a speed of 0.0 mph and drives the prediction with an importance of 0.995. This slow speed is likely caused by the merge congestion at the I-5/SR-134/SR-2 interchange in Glendale/Burbank, where traffic from SR-134 and I-5 merges onto SR-2.",
+    "cited_causes": [
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 60
+      },
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": null
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Reroute traffic before the merge",
+        "location": "I-5/SR-134/SR-2 interchange in Glendale/Burbank",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion at the interchange",
+        "grounded_in": [
+          "merge congestion at the I-5/SR-134/SR-2 interchange"
+        ]
+      },
+      {
+        "action": "Implement upstream metering",
+        "location": "Upstream of the I-5/SR-134/SR-2 interchange in Glendale/Burbank",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion at the interchange",
+        "grounded_in": [
+          "merge congestion at the I-5/SR-134/SR-2 interchange"
+        ]
+      },
+      {
+        "action": "Signal-coordinated relief on surface streets",
+        "location": "Surface reliefs in Glendale/Burbank (Brand Blvd, San Fernando Rd and Colorado Blvd)",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion at the interchange",
+        "grounded_in": [
+          "merge congestion at the I-5/SR-134/SR-2 interchange"
+        ]
+      }
+    ]
+  },
+  "sample_index": 4949
+}

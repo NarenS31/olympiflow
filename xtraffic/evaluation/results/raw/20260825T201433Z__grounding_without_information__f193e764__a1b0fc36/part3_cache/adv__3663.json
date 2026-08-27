@@ -1,0 +1,45 @@
+{
+  "advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in Downtown LA (sensor 771667, node_id 16: 27.33 mph and sensor 716331, node_id 15: 28.33 mph) and the San Fernando Valley (multiple sensors with high speeds around 64-68 mph), indicating that traffic is building up from these areas and propagating towards the target location.",
+    "cited_causes": [
+      {
+        "location": "Downtown LA",
+        "resolved_node_id": 16
+      },
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": null
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Reroute traffic before the merge",
+        "location": "I-10/I-110 downtown interchange",
+        "time_window_minutes": 5,
+        "expected_effect": "Reduced congestion at the target location",
+        "grounded_in": [
+          "city-context fact: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Use upstream metering to regulate traffic flow",
+        "location": "San Fernando Valley (near sensor 717510, node_id 180)",
+        "time_window_minutes": 10,
+        "expected_effect": "Slower build-up of congestion from the San Fernando Valley",
+        "grounded_in": [
+          "cited cause: San Fernando Valley"
+        ]
+      },
+      {
+        "action": "Encourage transit use to divert traffic",
+        "location": "Downtown LA (near sensor 771667, node_id 16)",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced number of cars on the road",
+        "grounded_in": [
+          "city-context fact: transit alternatives"
+        ]
+      }
+    ]
+  },
+  "sample_index": 3663
+}

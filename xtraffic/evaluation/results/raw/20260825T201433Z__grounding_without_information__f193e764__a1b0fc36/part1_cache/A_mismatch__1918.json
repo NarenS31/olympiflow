@@ -1,0 +1,29 @@
+{
+  "sample_index": 1918,
+  "target_node": 16,
+  "tod_band": "pm_rush",
+  "congestion": "low",
+  "condition": "A_mismatch",
+  "source": "new",
+  "advisory_error": "",
+  "cited_locations": [
+    "NE of Downtown LA",
+    "San Fernando Valley",
+    "Glendale/Burbank"
+  ],
+  "context_used": [
+    "Glendale/Burbank freeways (SR-134, I-5, SR-2)",
+    "Known recurrent bottlenecks (LA basin)",
+    "Transit alternatives (Metro rail/bus)",
+    "San Fernando Valley freeways (US-101, I-405, SR-118)"
+  ],
+  "explanation_confidence": 0.296,
+  "reasoning": "The congestion is predicted because of the slow speeds in several locations upstream of Downtown LA. Specifically, sensors NE of Downtown LA (node_id 45 and node_id 30) are reporting speeds below 70 mph, which is contributing to the slowdown at the target location. Additionally, sensors in the San Fernando Valley (node_id 89 and node_id 104) and Glendale/Burbank (node_id 171 and node_id 67) are also reporting slower-than-average speeds, indicating that congestion is building up from these areas.",
+  "cause_precision": 1.0,
+  "cause_recall": 0.875,
+  "faithfulness_f1": 0.9333333333333333,
+  "hallucination_rate": 0.0,
+  "n_cited_causes": 3,
+  "n_topk": 8,
+  "quantitative_fidelity": 0.5714285714285714
+}

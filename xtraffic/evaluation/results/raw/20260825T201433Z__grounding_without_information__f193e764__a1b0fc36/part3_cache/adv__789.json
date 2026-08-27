@@ -1,0 +1,45 @@
+{
+  "advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in Downtown LA (30.33 mph), which are influenced by faster but still congested areas to the north and east, such as NE of Downtown LA (60.78 mph) and Koreatown / Mid-City (65.0 mph). The propagation of congestion appears to travel along a path of 4 sensors with an estimated lag of 45 minutes between the source and the target.",
+    "cited_causes": [
+      {
+        "location": "NE of Downtown LA",
+        "resolved_node_id": 30
+      },
+      {
+        "location": "Koreatown / Mid-City",
+        "resolved_node_id": 191
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Activate ramp metering on eastbound on-ramps along I-10",
+        "location": "I-10 (Santa Monica Fwy)",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion in Downtown LA by limiting the number of vehicles entering the area during peak hours.",
+        "grounded_in": [
+          "Caltrans ramp meters operate on most eastbound on-ramps during peak"
+        ]
+      },
+      {
+        "action": "Coordinate signal timing along parallel relief arterials Olympic Blvd and Pico Blvd",
+        "location": "Olympic Blvd and Pico Blvd",
+        "time_window_minutes": 10,
+        "expected_effect": "Improved traffic flow through Downtown LA by optimizing the timing of signals on nearby arterials.",
+        "grounded_in": [
+          "Parallel relief arterials: Olympic Blvd and Pico Blvd (both signal-coordinated by LADOT ATSAC)"
+        ]
+      },
+      {
+        "action": "Implement dynamic lane management in Sepulveda Pass",
+        "location": "Sepulveda Pass",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion in the Sepulveda Pass area by dynamically adjusting traffic lanes to optimize traffic flow.",
+        "grounded_in": [
+          "Ramp metering is active pass-wide"
+        ]
+      }
+    ]
+  },
+  "sample_index": 789
+}

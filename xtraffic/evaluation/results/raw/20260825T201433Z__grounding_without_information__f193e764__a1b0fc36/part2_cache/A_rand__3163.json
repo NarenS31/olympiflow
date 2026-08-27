@@ -1,0 +1,76 @@
+{
+  "curve": [
+    {
+      "round": 0,
+      "used_correction": false,
+      "faithfulness_f1": 1.0,
+      "cause_precision": 1.0,
+      "cause_recall": 1.0,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 3,
+      "n_topk": 8,
+      "n_missed": 0,
+      "missed_regions": [],
+      "missed_node_ids": [],
+      "advisory_error": ""
+    }
+  ],
+  "n_rounds": 0,
+  "reached_threshold": true,
+  "stop_reason": "threshold_reached",
+  "f1_initial": 1.0,
+  "f1_final": 1.0,
+  "f1_gain": 0.0,
+  "final_advisory": {
+    "reasoning": "The congestion is predicted because of the slower speeds in the surrounding areas, particularly in the San Fernando Valley. The top contributing sensors show that traffic is moving at 63.25 mph (sensor 717490), 62.0 mph (sensor 717587), and 64.63 mph (sensor 717453) in nearby locations.",
+    "cited_causes": [
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 70
+      },
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 171
+      },
+      {
+        "location": "NW of Downtown LA",
+        "resolved_node_id": 193
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering",
+        "location": "San Fernando Valley (sensor 717490)",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion in the target area",
+        "grounded_in": [
+          "The slower speeds in the San Fernando Valley are contributing to the congestion"
+        ]
+      },
+      {
+        "action": "Reroute traffic before merging",
+        "location": "Glendale / Burbank (sensor 717587)",
+        "time_window_minutes": 5,
+        "expected_effect": "Reduced congestion at the merge point",
+        "grounded_in": [
+          "The slower speeds in Glendale/Burbank are contributing to the congestion"
+        ]
+      },
+      {
+        "action": "Optimize signal timing upstream of the target area",
+        "location": "NW of Downtown LA (sensor 717453)",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion in the target area",
+        "grounded_in": [
+          "The slower speeds in NW of Downtown LA are contributing to the congestion"
+        ]
+      }
+    ]
+  },
+  "sample_index": 3163,
+  "target_node": 51,
+  "tod_band": "night",
+  "congestion": "medium",
+  "model": "llama3.1:8b",
+  "condition": "A_rand"
+}

@@ -1,0 +1,45 @@
+{
+  "advisory": {
+    "reasoning": "The predicted congestion in Hollywood is caused by a wave of slow traffic traveling from the Glendale/Burbank area, where speeds are currently around 66-67 mph. This congestion appears to be propagating along a path of two sensors, with an estimated lag of 35 minutes between the source and the target.",
+    "cited_causes": [
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 126
+      },
+      {
+        "location": "NE of Downtown LA",
+        "resolved_node_id": 46
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Reroute traffic before the merge",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion in Hollywood",
+        "grounded_in": [
+          "city-context fact: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Optimize signal timing on surface relief roads",
+        "location": "Sunset Blvd and Santa Monica Blvd",
+        "time_window_minutes": 5,
+        "expected_effect": "Improved traffic flow in Hollywood",
+        "grounded_in": [
+          "city-context fact: ATSAC signal-coordinated"
+        ]
+      },
+      {
+        "action": "Encourage carpooling or use of public transit",
+        "location": "Hollywood",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced number of vehicles on the road",
+        "grounded_in": [
+          "city-context fact: Metro rail relief options"
+        ]
+      }
+    ]
+  },
+  "sample_index": 3873
+}

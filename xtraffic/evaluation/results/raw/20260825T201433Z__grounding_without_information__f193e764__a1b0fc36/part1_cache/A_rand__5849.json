@@ -1,0 +1,28 @@
+{
+  "sample_index": 5849,
+  "target_node": 197,
+  "tod_band": "midday",
+  "congestion": "low",
+  "condition": "A_rand",
+  "source": "new",
+  "advisory_error": "",
+  "cited_locations": [
+    "NE of Downtown LA",
+    "NW of Downtown LA"
+  ],
+  "context_used": [
+    "Known recurrent bottlenecks (LA basin)",
+    "Glendale/Burbank freeways (SR-134, I-5, SR-2)",
+    "I-405 San Diego Freeway corridor",
+    "San Fernando Valley freeways (US-101, I-405, SR-118)"
+  ],
+  "explanation_confidence": 0.0,
+  "reasoning": "The congestion is predicted because of the slow speeds in Downtown LA, particularly at sensor 771667 (Downtown LA), where the speed is currently 29.88 mph. This slow speed is also reflected in nearby sensors such as NE of Downtown LA (sensor 767554) and NW of Downtown LA (sensor 717488). The congestion appears to be propagating along a path of 11 sensors, with an estimated lag of 5.0 minutes between the source and the target.",
+  "cause_precision": 1.0,
+  "cause_recall": 0.25,
+  "faithfulness_f1": 0.4,
+  "hallucination_rate": 0.0,
+  "n_cited_causes": 2,
+  "n_topk": 8,
+  "quantitative_fidelity": 0.6666666666666666
+}

@@ -1,0 +1,41 @@
+{
+  "advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley, specifically at sensor 769345 (28.89 mph), which is driving the prediction with an importance of 0.993. This slow speed is propagating downstream to Downtown LA, causing a decrease in speed from 11.0 mph to 10.33 mph in 30 minutes.",
+    "cited_causes": [
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 164
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering on I-5/SR-134 interchange",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduce congestion in the San Fernando Valley by 15%",
+        "grounded_in": [
+          "cited_cause: San Fernando Valley (sensor 769345, 34.157, -118.404)"
+        ]
+      },
+      {
+        "action": "Reroute traffic before merge on I-5/SR-134 interchange",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduce congestion in the San Fernando Valley by 20%",
+        "grounded_in": [
+          "city-context: recurrent bottleneck at I-5/SR-134 interchange"
+        ]
+      },
+      {
+        "action": "Activate ramp metering on Sepulveda Blvd",
+        "location": "Sepulveda Blvd",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduce congestion in the San Fernando Valley by 10%",
+        "grounded_in": [
+          "city-context: I-405 San Diego Freeway corridor"
+        ]
+      }
+    ]
+  },
+  "sample_index": 5051
+}

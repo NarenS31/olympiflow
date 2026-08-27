@@ -1,0 +1,49 @@
+{
+  "advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley, specifically at sensor 769358 (61.33 mph), sensor 767350 (65.44 mph), and sensor 717491 (66.0 mph). These slow speeds are causing a ripple effect downstream, with slower speeds observed at other sensors in the area, including the target location Glendale / Burbank.",
+    "cited_causes": [
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 137
+      },
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 88
+      },
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 71
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Reroute traffic before the merge",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion at the target location",
+        "grounded_in": [
+          "Upstream metering and reroute-before-the-merge are the levers, not signal timing at the interchange itself (city-context fact)"
+        ]
+      },
+      {
+        "action": "Signal coordination on surface relief roads",
+        "location": "Sunset Blvd and Santa Monica Blvd",
+        "time_window_minutes": 5,
+        "expected_effect": "Improved traffic flow through Hollywood",
+        "grounded_in": [
+          "Surface relief: Sunset Blvd and Santa Monica Blvd, both ATSAC signal-coordinated (city-context fact)"
+        ]
+      },
+      {
+        "action": "Encourage transit use where possible",
+        "location": "Wilshire and Expo/I-10 rail lines",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced demand on surface roads",
+        "grounded_in": [
+          "Transit is a viable diversion lever only where a parallel rail line exists (city-context fact)"
+        ]
+      }
+    ]
+  },
+  "sample_index": 5464
+}

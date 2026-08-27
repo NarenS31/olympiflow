@@ -1,0 +1,14 @@
+{
+  "dataset": "metr_la",
+  "scenario_id": "s0300",
+  "sample_index": 770,
+  "scenario_type": "pm_rush|low",
+  "tod_band": "pm_rush",
+  "congestion": "low",
+  "seed": 0,
+  "condition": "XTRAFFIC_RAND",
+  "chosen": "ramp_metering",
+  "ground_truth": "signal_retiming",
+  "correct": 0,
+  "delay_reduction": 8.968
+}

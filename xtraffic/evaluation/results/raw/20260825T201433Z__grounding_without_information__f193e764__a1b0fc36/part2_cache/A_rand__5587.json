@@ -1,0 +1,84 @@
+{
+  "curve": [
+    {
+      "round": 0,
+      "used_correction": false,
+      "faithfulness_f1": 0.7692307692307693,
+      "cause_precision": 1.0,
+      "cause_recall": 0.625,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 3,
+      "n_topk": 8,
+      "n_missed": 3,
+      "missed_regions": [
+        "Hollywood",
+        "NE of Downtown LA",
+        "NW of Downtown LA"
+      ],
+      "missed_node_ids": [
+        162,
+        170,
+        129
+      ],
+      "advisory_error": ""
+    }
+  ],
+  "n_rounds": 0,
+  "reached_threshold": true,
+  "stop_reason": "threshold_reached",
+  "f1_initial": 0.7692307692307693,
+  "f1_final": 0.7692307692307693,
+  "f1_gain": 0.0,
+  "final_advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in Downtown LA (62.38 mph), Glendale/Burbank (0.0 mph), and San Fernando Valley (0.0 mph, 66.0 mph) which are causing a ripple effect along the path of sensors with an estimated lag of 35 minutes between the source and the target.",
+    "cited_causes": [
+      {
+        "location": "Downtown LA",
+        "resolved_node_id": 6
+      },
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": null
+      },
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 63
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Reroute traffic before the merge",
+        "location": "I-10/I-110 downtown interchange",
+        "time_window_minutes": 5,
+        "expected_effect": "Reduced congestion at the target location",
+        "grounded_in": [
+          "Upstream metering and reroute-before-the-merge are the levers, not signal timing at the interchange itself (City Context)"
+        ]
+      },
+      {
+        "action": "Signal coordination on surface relief roads",
+        "location": "Sunset Blvd and Santa Monica Blvd",
+        "time_window_minutes": 10,
+        "expected_effect": "Improved traffic flow through Hollywood",
+        "grounded_in": [
+          "Surface relief: Sunset Blvd and Santa Monica Blvd, both ATSAC signal-coordinated (City Context)"
+        ]
+      },
+      {
+        "action": "Encourage transit use where possible",
+        "location": "Wilshire and Expo/I-10 rail lines",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced demand on car-dominant roads in Glendale/Burbank",
+        "grounded_in": [
+          "Transit is a viable diversion lever only where a parallel rail line exists (City Context)"
+        ]
+      }
+    ]
+  },
+  "sample_index": 5587,
+  "target_node": 155,
+  "tod_band": "midday",
+  "congestion": "high",
+  "model": "llama3.1:8b",
+  "condition": "A_rand"
+}

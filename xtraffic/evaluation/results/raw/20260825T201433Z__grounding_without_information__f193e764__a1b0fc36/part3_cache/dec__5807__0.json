@@ -1,0 +1,14 @@
+{
+  "dataset": "metr_la",
+  "scenario_id": "s0090",
+  "sample_index": 5807,
+  "scenario_type": "am_rush|low",
+  "tod_band": "am_rush",
+  "congestion": "low",
+  "seed": 0,
+  "condition": "XTRAFFIC_RAND",
+  "chosen": "signal_retiming",
+  "ground_truth": "reroute",
+  "correct": 0,
+  "delay_reduction": -18.029
+}

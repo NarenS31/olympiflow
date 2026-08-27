@@ -1,0 +1,49 @@
+{
+  "advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in the Glendale/Burbank area, specifically at sensor 773906 (65.12 mph), sensor 717578 (66.0 mph), and sensor 761003 (67.0 mph). These slow speeds are causing a ripple effect downstream, with congestion traveling along a path of 7 sensors, starting from these locations.",
+    "cited_causes": [
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 13
+      },
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 24
+      },
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 145
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement ramp metering on I-405 in the Sepulveda Pass",
+        "location": "Sepulveda Pass",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion and increased speed",
+        "grounded_in": [
+          "I-405 San Diego Freeway corridor"
+        ]
+      },
+      {
+        "action": "Optimize traffic signal timing on Brand Blvd, San Fernando Rd, and Colorado Blvd to reduce merge congestion at the I-5/SR-134/SR-2 interchange",
+        "location": "I-5/SR-134/SR-2 interchange",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion and increased speed",
+        "grounded_in": [
+          "Glendale/Burbank freeways (SR-134, I-5, SR-2)"
+        ]
+      },
+      {
+        "action": "Increase traffic monitoring in the San Fernando Valley area to better understand the propagation of congestion",
+        "location": "San Fernando Valley",
+        "time_window_minutes": 10,
+        "expected_effect": "Improved understanding and potential for targeted interventions",
+        "grounded_in": [
+          "San Fernando Valley freeways (US-101, I-405, SR-118)"
+        ]
+      }
+    ]
+  },
+  "sample_index": 4688
+}

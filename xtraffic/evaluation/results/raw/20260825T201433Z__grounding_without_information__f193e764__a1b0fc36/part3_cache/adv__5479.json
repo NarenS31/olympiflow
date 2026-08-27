@@ -1,0 +1,53 @@
+{
+  "advisory": {
+    "reasoning": "The predicted congestion in Downtown LA is due to the slow speeds upstream, particularly north of Downtown LA (65.56 mph), San Fernando Valley (64.67-65.22 mph), and Glendale/Burbank (49.44-51.56 mph). This congestion appears to be traveling along a path of 6 sensors with an estimated lag of 25 minutes between the source and the target.",
+    "cited_causes": [
+      {
+        "location": "N of Downtown LA",
+        "resolved_node_id": 135
+      },
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 86
+      },
+      {
+        "location": "NW of Downtown LA",
+        "resolved_node_id": null
+      },
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": null
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering",
+        "location": "North of Downtown LA (sensor 767509)",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion in the next 20 minutes",
+        "grounded_in": [
+          "cited_cause: N of Downtown LA"
+        ]
+      },
+      {
+        "action": "Reroute traffic before merge",
+        "location": "I-5/SR-134/SR-2 interchange (city-context fact)",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion in the next 30 minutes",
+        "grounded_in": [
+          "city-context: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Activate ramp metering",
+        "location": "Sepulveda Pass (I-405)",
+        "time_window_minutes": 5,
+        "expected_effect": "Reduced congestion in the next 15 minutes",
+        "grounded_in": [
+          "city-context: I-405 San Diego Freeway corridor"
+        ]
+      }
+    ]
+  },
+  "sample_index": 5479
+}

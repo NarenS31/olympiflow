@@ -1,0 +1,41 @@
+{
+  "advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley, particularly at sensor 765099 (34.164, -118.472), which is currently traveling at 38.44 mph and has an importance of 0.990. This slow speed is contributing to the congestion that will reach the target location north of Downtown LA within 30 minutes.",
+    "cited_causes": [
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 131
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Reroute traffic from the San Fernando Valley to the Pasadena/East area",
+        "location": "Pasadena / East (sensor 769806, 34.196, -118.184)",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion in the target location",
+        "grounded_in": [
+          "San Fernando Valley (sensor 765099, node_id 131)"
+        ]
+      },
+      {
+        "action": "Implement upstream metering on I-5/SR-134 interchange",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion in the target location",
+        "grounded_in": [
+          "City-context fact: Recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Encourage carpooling and use of public transportation",
+        "location": "Downtown LA (sensor 773062, 34.054, -118.234)",
+        "time_window_minutes": 5,
+        "expected_effect": "Reduced congestion in the target location",
+        "grounded_in": [
+          "City-context fact: Metro is limited here, so demand is car-dominant"
+        ]
+      }
+    ]
+  },
+  "sample_index": 3532
+}

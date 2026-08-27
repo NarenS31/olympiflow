@@ -1,0 +1,28 @@
+{
+  "sample_index": 5385,
+  "target_node": 155,
+  "tod_band": "evening",
+  "congestion": "medium",
+  "condition": "A_mismatch",
+  "source": "new",
+  "advisory_error": "",
+  "cited_locations": [
+    "North of Downtown LA",
+    "San Fernando Valley"
+  ],
+  "context_used": [
+    "Known recurrent bottlenecks (LA basin)",
+    "US-101 Hollywood Freeway corridor",
+    "I-405 San Diego Freeway corridor",
+    "San Fernando Valley freeways (US-101, I-405, SR-118)"
+  ],
+  "explanation_confidence": 0.6356,
+  "reasoning": "The congestion is predicted because there are no vehicles moving in the areas north of Downtown LA (sensor 716955, node_id 56), and in the San Fernando Valley (multiple sensors with node_ids 84, 77, 9, 88, and 14). This suggests that the congestion is not due to a local issue at the target location, but rather it's propagating from upstream areas. The propagation path has an estimated lag of 0 minutes between the source and the target.",
+  "cause_precision": 0.5,
+  "cause_recall": 0.625,
+  "faithfulness_f1": 0.5555555555555556,
+  "hallucination_rate": 0.5,
+  "n_cited_causes": 2,
+  "n_topk": 8,
+  "quantitative_fidelity": 0.2857142857142857
+}

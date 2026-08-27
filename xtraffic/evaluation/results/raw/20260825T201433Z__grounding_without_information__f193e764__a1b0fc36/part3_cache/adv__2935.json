@@ -1,0 +1,45 @@
+{
+  "advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley, particularly at sensor 764781 (34.160, -118.470), which has a speed of 25.44 mph and an importance of 0.996. This slow speed is contributing to the congestion at the target location, which is also in the San Fernando Valley.",
+    "cited_causes": [
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 130
+      },
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 14
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion at the target location",
+        "grounded_in": [
+          "The San Fernando Valley is a recurrent bottleneck, and upstream metering can help alleviate congestion."
+        ]
+      },
+      {
+        "action": "Reroute traffic before the merge",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion at the target location",
+        "grounded_in": [
+          "The I-5/SR-134/SR-2 interchange is a key merge congestion point, and rerouting traffic before the merge can help reduce congestion."
+        ]
+      },
+      {
+        "action": "Optimize signal timing at nearby intersections",
+        "location": "San Fernando Valley",
+        "time_window_minutes": 10,
+        "expected_effect": "Improved traffic flow in the area",
+        "grounded_in": [
+          "The San Fernando Valley has slow speeds, and optimizing signal timing can help improve traffic flow."
+        ]
+      }
+    ]
+  },
+  "sample_index": 2935
+}

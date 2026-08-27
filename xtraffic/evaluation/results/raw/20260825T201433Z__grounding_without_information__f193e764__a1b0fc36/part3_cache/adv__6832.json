@@ -1,0 +1,49 @@
+{
+  "advisory": {
+    "reasoning": "The predicted congestion is due to the slow speeds in the San Fernando Valley, specifically at sensor 717493 (63.13 mph), sensor 769443 (66.63 mph), and sensor 772178 (56.75 mph). These locations are contributing to the slowdown of traffic northwest of Downtown LA.",
+    "cited_causes": [
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 73
+      },
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 63
+      },
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 172
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Reroute traffic before the merge",
+        "location": "NW of Downtown LA",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion at the target location",
+        "grounded_in": [
+          "The San Fernando Valley is contributing to the slowdown, so rerouting traffic before it reaches the merge can help alleviate congestion."
+        ]
+      },
+      {
+        "action": "Implement upstream metering",
+        "location": "San Fernando Valley (sensor 717493)",
+        "time_window_minutes": 15,
+        "expected_effect": "Slower traffic in the San Fernando Valley will not reach the target location as quickly, reducing congestion",
+        "grounded_in": [
+          "The slow speeds at sensor 717493 are contributing to the slowdown, so implementing upstream metering can help regulate traffic flow."
+        ]
+      },
+      {
+        "action": "Optimize signal timing at nearby intersections",
+        "location": "NW of Downtown LA",
+        "time_window_minutes": 10,
+        "expected_effect": "Improved traffic flow through the area",
+        "grounded_in": [
+          "The congestion is predicted to travel along a path of 5 sensors, so optimizing signal timing at nearby intersections can help improve traffic flow."
+        ]
+      }
+    ]
+  },
+  "sample_index": 6832
+}

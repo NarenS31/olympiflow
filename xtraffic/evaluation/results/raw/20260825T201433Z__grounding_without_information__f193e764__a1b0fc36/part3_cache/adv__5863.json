@@ -1,0 +1,45 @@
+{
+  "advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in Downtown LA (21.87 mph), which are being driven by faster but still congested traffic from Glendale/Burbank (57.63 mph) and Hollywood (60.37 mph). The congestion appears to be traveling along a path, with an estimated lag of 25 minutes between the source and the target.",
+    "cited_causes": [
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 51
+      },
+      {
+        "location": "Hollywood",
+        "resolved_node_id": 57
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Reroute traffic before the merge",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion in Downtown LA",
+        "grounded_in": [
+          "city-context fact: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Optimize signal timing on surface relief roads",
+        "location": "Sunset Blvd and Santa Monica Blvd",
+        "time_window_minutes": 15,
+        "expected_effect": "Improved traffic flow in Hollywood",
+        "grounded_in": [
+          "city-context fact: ATSAC signal-coordinated"
+        ]
+      },
+      {
+        "action": "Implement upstream metering on I-5/SR-134",
+        "location": "Glendale/Burbank",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion in Downtown LA",
+        "grounded_in": [
+          "city-context fact: recurrent bottlenecks"
+        ]
+      }
+    ]
+  },
+  "sample_index": 5863
+}

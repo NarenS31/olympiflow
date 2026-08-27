@@ -1,0 +1,45 @@
+{
+  "advisory": {
+    "reasoning": "The predicted congestion at Glendale/Burbank is due to a wave of slowing traffic that originated from the NE of Downtown LA, where speeds are currently 53.11 mph (sensor 769819). This slowdown has propagated through multiple sensors in the area, including those near Glendale/Burbank, with an estimated lag of 0 minutes between the source and target.",
+    "cited_causes": [
+      {
+        "location": "NE of Downtown LA",
+        "resolved_node_id": 21
+      },
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": null
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduce congestion by limiting the number of vehicles entering the bottlenecked area",
+        "grounded_in": [
+          "city-context fact: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Reroute traffic before merge",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 15,
+        "expected_effect": "Redirect some traffic away from the congested area, reducing congestion at the merge point",
+        "grounded_in": [
+          "city-context fact: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Adjust ramp metering",
+        "location": "Sepulveda Pass (I-405)",
+        "time_window_minutes": 5,
+        "expected_effect": "Optimize the rate at which vehicles enter the Sepulveda Pass, potentially reducing congestion that feeds into the Glendale/Burbank area",
+        "grounded_in": [
+          "city-context fact: I-405 San Diego Freeway corridor"
+        ]
+      }
+    ]
+  },
+  "sample_index": 6335
+}

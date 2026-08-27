@@ -1,0 +1,28 @@
+{
+  "sample_index": 1740,
+  "target_node": 166,
+  "tod_band": "night",
+  "congestion": "low",
+  "condition": "A_mismatch",
+  "source": "new",
+  "advisory_error": "",
+  "cited_locations": [
+    "San Fernando Valley",
+    "NE of Downtown LA"
+  ],
+  "context_used": [
+    "Glendale/Burbank freeways (SR-134, I-5, SR-2)",
+    "Known recurrent bottlenecks (LA basin)",
+    "Transit alternatives (Metro rail/bus)",
+    "San Fernando Valley freeways (US-101, I-405, SR-118)"
+  ],
+  "explanation_confidence": 0.4109,
+  "reasoning": "The congestion is predicted because of the propagation of congestion from the San Fernando Valley, where westbound US-101 is congested in the AM peak (speed: 68.38 mph at sensor 716571), to NE of Downtown LA, where speeds are already low (58.0 mph at sensor 767751) and will decrease further (predicted speed: 67.66 mph).",
+  "cause_precision": 1.0,
+  "cause_recall": 0.875,
+  "faithfulness_f1": 0.9333333333333333,
+  "hallucination_rate": 0.0,
+  "n_cited_causes": 2,
+  "n_topk": 8,
+  "quantitative_fidelity": 0.75
+}

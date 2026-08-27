@@ -1,0 +1,27 @@
+{
+  "sample_index": 1836,
+  "target_node": 91,
+  "tod_band": "midday",
+  "congestion": "low",
+  "condition": "A_mismatch",
+  "source": "new",
+  "advisory_error": "",
+  "cited_locations": [
+    "Glendale / Burbank"
+  ],
+  "context_used": [
+    "Known recurrent bottlenecks (LA basin)",
+    "Glendale/Burbank freeways (SR-134, I-5, SR-2)",
+    "I-405 San Diego Freeway corridor",
+    "San Fernando Valley freeways (US-101, I-405, SR-118)"
+  ],
+  "explanation_confidence": 0.5709,
+  "reasoning": "The congestion is predicted because of the slower speeds in the Glendale/Burbank area, specifically at sensor 718076 (69.25 mph), which is contributing to a delay that will take approximately 20 minutes to reach Downtown LA.",
+  "cause_precision": 1.0,
+  "cause_recall": 0.5,
+  "faithfulness_f1": 0.6666666666666666,
+  "hallucination_rate": 0.0,
+  "n_cited_causes": 1,
+  "n_topk": 8,
+  "quantitative_fidelity": 1.0
+}

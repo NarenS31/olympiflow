@@ -1,0 +1,45 @@
+{
+  "advisory": {
+    "reasoning": "The predicted congestion is due to the slow speeds in the Glendale/Burbank area, specifically at sensor 769867 (34.218, -118.239), which has a speed of 54.25 mph and an importance of 0.989. This slow speed is contributing to the congestion that will travel along a path of 10 sensors with an estimated lag of 20 minutes.",
+    "cited_causes": [
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 126
+      },
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": null
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement ramp metering",
+        "location": "I-405 Sepulveda Pass",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion and increased speed",
+        "grounded_in": [
+          "City-context fact: I-405 Sepulveda Pass saturates in both peaks"
+        ]
+      },
+      {
+        "action": "Optimize traffic signal timing",
+        "location": "US-101/I-110 four-level interchange",
+        "time_window_minutes": 10,
+        "expected_effect": "Improved traffic flow and reduced congestion",
+        "grounded_in": [
+          "City-context fact: US-101/I-110 four-level, AM peak"
+        ]
+      },
+      {
+        "action": "Increase capacity on Brand Blvd",
+        "location": "Brand Blvd",
+        "time_window_minutes": 5,
+        "expected_effect": "Reduced congestion and increased speed",
+        "grounded_in": [
+          "City-context fact: Brand Blvd is a surface relief"
+        ]
+      }
+    ]
+  },
+  "sample_index": 5845
+}

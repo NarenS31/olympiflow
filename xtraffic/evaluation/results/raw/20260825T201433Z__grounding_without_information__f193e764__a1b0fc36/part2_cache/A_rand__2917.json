@@ -1,0 +1,129 @@
+{
+  "curve": [
+    {
+      "round": 0,
+      "used_correction": false,
+      "faithfulness_f1": 0.4,
+      "cause_precision": 1.0,
+      "cause_recall": 0.25,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 2,
+      "n_topk": 8,
+      "n_missed": 6,
+      "missed_regions": [
+        "San Fernando Valley",
+        "East LA",
+        "Pasadena / East",
+        "Downtown LA",
+        "NE of Downtown LA",
+        "NW of Downtown LA"
+      ],
+      "missed_node_ids": [
+        182,
+        124,
+        200,
+        93,
+        46,
+        147
+      ],
+      "advisory_error": ""
+    },
+    {
+      "round": 1,
+      "used_correction": true,
+      "faithfulness_f1": 1.0,
+      "cause_precision": 1.0,
+      "cause_recall": 1.0,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 7,
+      "n_topk": 8,
+      "n_missed": 0,
+      "missed_regions": [],
+      "missed_node_ids": [],
+      "advisory_error": ""
+    }
+  ],
+  "n_rounds": 1,
+  "reached_threshold": true,
+  "stop_reason": "threshold_reached",
+  "f1_initial": 0.4,
+  "f1_final": 1.0,
+  "f1_gain": 0.6,
+  "final_advisory": {
+    "reasoning": "The predicted congestion in the San Fernando Valley is caused by a combination of factors from various locations. The Hollywood area (sensor 717483 and sensor 717480) has high speeds, indicating that traffic is flowing freely there. However, this traffic appears to be contributing to congestion further away, particularly in the San Fernando Valley (sensor 765171), where the predicted speed is significantly lower. Additionally, other areas such as East LA (sensor 716942), Pasadena / East (sensor 769806), Downtown LA (sensor 773024), NE of Downtown LA (sensor 767609), and NW of Downtown LA (sensor 759602) are also experiencing slower speeds, which suggests that congestion is propagating from these locations.",
+    "cited_causes": [
+      {
+        "location": "Hollywood",
+        "resolved_node_id": 94
+      },
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 77
+      },
+      {
+        "location": "East LA",
+        "resolved_node_id": null
+      },
+      {
+        "location": "Pasadena / East",
+        "resolved_node_id": null
+      },
+      {
+        "location": "Downtown LA",
+        "resolved_node_id": 93
+      },
+      {
+        "location": "NE of Downtown LA",
+        "resolved_node_id": 46
+      },
+      {
+        "location": "NW of Downtown LA",
+        "resolved_node_id": 147
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering on I-5/SR-134",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion in the San Fernando Valley by limiting the amount of traffic entering the area",
+        "grounded_in": [
+          "The Hollywood area has high speeds, indicating that traffic is flowing freely there"
+        ]
+      },
+      {
+        "action": "Reroute traffic before merging onto I-5/SR-134",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion in the San Fernando Valley by reducing the amount of traffic entering the area through this merge",
+        "grounded_in": [
+          "The Hollywood area has high speeds, indicating that traffic is flowing freely there"
+        ]
+      },
+      {
+        "action": "Coordinate signal timing on surface roads in the San Fernando Valley",
+        "location": "San Fernando Valley (sensor 765171)",
+        "time_window_minutes": 15,
+        "expected_effect": "Improved traffic flow in the San Fernando Valley by optimizing signal timing",
+        "grounded_in": [
+          "The predicted speed is significantly lower in this area, indicating congestion"
+        ]
+      },
+      {
+        "action": "Implement dynamic lane management on I-10/I-110 downtown interchange",
+        "location": "I-10/I-110 downtown interchange",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion by optimizing lane usage and reducing conflicts",
+        "grounded_in": [
+          "Downtown LA (sensor 773024) is experiencing slower speeds, indicating congestion"
+        ]
+      }
+    ]
+  },
+  "sample_index": 2917,
+  "target_node": 77,
+  "tod_band": "am_rush",
+  "congestion": "medium",
+  "model": "llama3.1:8b",
+  "condition": "A_rand"
+}

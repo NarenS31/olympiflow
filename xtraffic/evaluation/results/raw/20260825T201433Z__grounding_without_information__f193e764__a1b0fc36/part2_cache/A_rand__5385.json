@@ -1,0 +1,78 @@
+{
+  "curve": [
+    {
+      "round": 0,
+      "used_correction": false,
+      "faithfulness_f1": 0.8571428571428571,
+      "cause_precision": 1.0,
+      "cause_recall": 0.75,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 2,
+      "n_topk": 8,
+      "n_missed": 2,
+      "missed_regions": [
+        "Hollywood",
+        "Koreatown / Mid-City"
+      ],
+      "missed_node_ids": [
+        97,
+        191
+      ],
+      "advisory_error": ""
+    }
+  ],
+  "n_rounds": 0,
+  "reached_threshold": true,
+  "stop_reason": "threshold_reached",
+  "f1_initial": 0.8571428571428571,
+  "f1_final": 0.8571428571428571,
+  "f1_gain": 0.0,
+  "final_advisory": {
+    "reasoning": "The congestion is predicted because of the high speeds in the San Fernando Valley, which are driving up the predicted speed at the target location. Specifically, sensors 768066 and 767350 in the San Fernando Valley are reporting speeds of 68.0 mph and 65.57 mph respectively, which are significantly higher than the current speed at the target location (22.86 mph). This suggests that congestion is traveling along a path from the San Fernando Valley to Hollywood.",
+    "cited_causes": [
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 40
+      },
+      {
+        "location": "NW of Downtown LA",
+        "resolved_node_id": 175
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Extend green-band on Olympic Blvd and Pico Blvd",
+        "location": "Olympic Blvd and Pico Blvd",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion at the I-10/I-110 interchange downtown",
+        "grounded_in": [
+          "city-context fact: parallel relief arterials"
+        ]
+      },
+      {
+        "action": "Push special timing plan to the I-10 corridor",
+        "location": "I-10 corridor",
+        "time_window_minutes": 5,
+        "expected_effect": "Improved traffic flow on I-10",
+        "grounded_in": [
+          "signal-timing control constraint: LADOT's ATSAC/ATCS system"
+        ]
+      },
+      {
+        "action": "Reroute traffic before the merge at the I-405 Sepulveda Pass",
+        "location": "I-405 Sepulveda Pass",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion at the I-405 Sepulveda Pass",
+        "grounded_in": [
+          "city-context fact: recurrent bottleneck"
+        ]
+      }
+    ]
+  },
+  "sample_index": 5385,
+  "target_node": 155,
+  "tod_band": "evening",
+  "congestion": "medium",
+  "model": "llama3.1:8b",
+  "condition": "A_rand"
+}

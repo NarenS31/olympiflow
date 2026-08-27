@@ -1,0 +1,49 @@
+{
+  "advisory": {
+    "reasoning": "The congestion is predicted because of the high speeds observed at locations NW of Downtown LA (62.89 mph), Glendale / Burbank (64.67 mph), and NE of Downtown LA (68.56 mph). These high speeds indicate that traffic is flowing freely in these areas, but it appears to be propagating towards the target location NW of Downtown LA with a lag of 0 minutes.",
+    "cited_causes": [
+      {
+        "location": "NW of Downtown LA",
+        "resolved_node_id": 12
+      },
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": null
+      },
+      {
+        "location": "NE of Downtown LA",
+        "resolved_node_id": 44
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering",
+        "location": "NW of Downtown LA (sensor 716339)",
+        "time_window_minutes": 5,
+        "expected_effect": "Reduce congestion at the target location by limiting the amount of traffic entering the area.",
+        "grounded_in": [
+          "The high speeds observed at locations NW of Downtown LA, Glendale / Burbank, and NE of Downtown LA indicate that traffic is flowing freely in these areas."
+        ]
+      },
+      {
+        "action": "Reroute traffic before the merge",
+        "location": "I-10/I-110 downtown interchange",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduce congestion at the target location by diverting traffic away from the bottleneck.",
+        "grounded_in": [
+          "City-context fact: Recurrent bottlenecks a planner should assume unless told otherwise (1) I-10/I-110 downtown interchange, PM peak."
+        ]
+      },
+      {
+        "action": "Optimize signal timing",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduce congestion at the target location by optimizing traffic flow through the interchange.",
+        "grounded_in": [
+          "City-context fact: Recurrent bottlenecks a planner should assume unless told otherwise (4) I-5/SR-134 interchange, PM peak."
+        ]
+      }
+    ]
+  },
+  "sample_index": 5243
+}

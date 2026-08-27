@@ -1,0 +1,45 @@
+{
+  "advisory": {
+    "reasoning": "The congestion is predicted because of the high speeds in the Glendale/Burbank area (sensor 717576, 64.5 mph), which indicates that traffic is flowing freely there. However, this traffic appears to be propagating downstream and causing congestion at the target location NE of Downtown LA (sensor 771673, 34.37 mph). The propagation path suggests that the source of the congestion is located in the Glendale/Burbank area.",
+    "cited_causes": [
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 114
+      },
+      {
+        "location": "NE of Downtown LA",
+        "resolved_node_id": 196
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering on I-5/SR-134/SR-2 interchange",
+        "location": "I-5/SR-134/SR-2 interchange",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion in the Glendale/Burbank area",
+        "grounded_in": [
+          "Glendale / Burbank (sensor 717576, 64.5 mph)"
+        ]
+      },
+      {
+        "action": "Reroute traffic before merge on I-405 Sepulveda Pass",
+        "location": "I-405 Sepulveda Pass",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion at the target location NE of Downtown LA",
+        "grounded_in": [
+          "NE of Downtown LA (sensor 771673, 34.37 mph)"
+        ]
+      },
+      {
+        "action": "Signal-coordinated relief on Olympic Blvd and Pico Blvd",
+        "location": "Olympic Blvd and Pico Blvd",
+        "time_window_minutes": 5,
+        "expected_effect": "Reduced congestion in the I-10 Santa Monica Freeway corridor",
+        "grounded_in": [
+          "I-10 (Santa Monica Fwy) is the primary east-west corridor linking Downtown LA to the Westside and Santa Monica"
+        ]
+      }
+    ]
+  },
+  "sample_index": 13
+}

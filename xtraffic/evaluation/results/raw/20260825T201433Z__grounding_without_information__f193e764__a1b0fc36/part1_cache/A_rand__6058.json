@@ -1,0 +1,28 @@
+{
+  "sample_index": 6058,
+  "target_node": 196,
+  "tod_band": "night",
+  "congestion": "medium",
+  "condition": "A_rand",
+  "source": "new",
+  "advisory_error": "",
+  "cited_locations": [
+    "Glendale / Burbank",
+    "NW of Downtown LA"
+  ],
+  "context_used": [
+    "Known recurrent bottlenecks (LA basin)",
+    "Glendale/Burbank freeways (SR-134, I-5, SR-2)",
+    "I-405 San Diego Freeway corridor",
+    "San Fernando Valley freeways (US-101, I-405, SR-118)"
+  ],
+  "explanation_confidence": 0.0267,
+  "reasoning": "The predicted congestion is due to the slow speeds in the Glendale/Burbank freeways, specifically at sensor 760987 (34.154, -118.340), where traffic is currently moving at 66.75 mph. This congestion appears to be propagating along a path of 7 sensors with an estimated lag of 15 minutes between the source and the target.",
+  "cause_precision": 1.0,
+  "cause_recall": 0.5,
+  "faithfulness_f1": 0.6666666666666666,
+  "hallucination_rate": 0.0,
+  "n_cited_causes": 2,
+  "n_topk": 8,
+  "quantitative_fidelity": 0.6
+}

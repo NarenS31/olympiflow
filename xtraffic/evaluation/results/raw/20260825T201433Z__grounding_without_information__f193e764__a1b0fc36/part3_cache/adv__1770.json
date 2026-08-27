@@ -1,0 +1,53 @@
+{
+  "advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in the Hollywood area (58.89 mph at sensor 717465, node_id 157), Glendale/Burbank areas (68.44 mph and 60.67 mph at sensors 767621 and 717583, respectively), which are causing a ripple effect downstream, including Downtown LA (34.22 mph at sensor 771667, node_id 16).",
+    "cited_causes": [
+      {
+        "location": "Hollywood",
+        "resolved_node_id": 157
+      },
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 85
+      },
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": null
+      },
+      {
+        "location": "NE of Downtown LA",
+        "resolved_node_id": 66
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Reroute traffic before the merge",
+        "location": "I-10/I-110 downtown interchange",
+        "time_window_minutes": 5,
+        "expected_effect": "Reduced congestion in Downtown LA",
+        "grounded_in": [
+          "structural (geometry/merges) bottleneck at I-10/I-110 downtown interchange"
+        ]
+      },
+      {
+        "action": "Signal-coordinated surface relief",
+        "location": "Sunset Blvd and Santa Monica Blvd",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion in Hollywood area",
+        "grounded_in": [
+          "surface relief: Sunset Blvd and Santa Monica Blvd, both ATSAC signal-coordinated"
+        ]
+      },
+      {
+        "action": "Upstream metering",
+        "location": "Glendale/Burbank areas (SR-134, I-5)",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion in Glendale/Burbank areas",
+        "grounded_in": [
+          "structural (geometry/merges) bottleneck at the I-5/SR-134/SR-2 interchange"
+        ]
+      }
+    ]
+  },
+  "sample_index": 1770
+}

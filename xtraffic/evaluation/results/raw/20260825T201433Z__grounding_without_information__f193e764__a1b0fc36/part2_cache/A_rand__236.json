@@ -1,0 +1,118 @@
+{
+  "curve": [
+    {
+      "round": 0,
+      "used_correction": false,
+      "faithfulness_f1": 0.5454545454545454,
+      "cause_precision": 1.0,
+      "cause_recall": 0.375,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 2,
+      "n_topk": 8,
+      "n_missed": 5,
+      "missed_regions": [
+        "Hollywood",
+        "San Fernando Valley",
+        "San Fernando Valley",
+        "N of Downtown LA",
+        "San Fernando Valley"
+      ],
+      "missed_node_ids": [
+        160,
+        150,
+        59,
+        49,
+        47
+      ],
+      "advisory_error": ""
+    },
+    {
+      "round": 1,
+      "used_correction": true,
+      "faithfulness_f1": 0.7692307692307693,
+      "cause_precision": 1.0,
+      "cause_recall": 0.625,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 5,
+      "n_topk": 8,
+      "n_missed": 3,
+      "missed_regions": [
+        "NW of Downtown LA",
+        "NE of Downtown LA",
+        "NW of Downtown LA"
+      ],
+      "missed_node_ids": [
+        192,
+        134,
+        129
+      ],
+      "advisory_error": ""
+    }
+  ],
+  "n_rounds": 1,
+  "reached_threshold": true,
+  "stop_reason": "threshold_reached",
+  "f1_initial": 0.5454545454545454,
+  "f1_final": 0.7692307692307693,
+  "f1_gain": 0.22377622377622386,
+  "final_advisory": {
+    "reasoning": "The predicted congestion at Downtown LA (sensor 771667) is likely due to upstream traffic from multiple locations. The speeds at these locations are relatively low: Hollywood (63.0 mph), San Fernando Valley (66.75 mph, 62.0 mph, and 61.62 mph). Additionally, the speed in the San Fernando Valley (67.12 mph) north of Downtown LA is also lower than expected. These slower speeds upstream are causing congestion to propagate downstream along a path of 3 sensors with an estimated lag of 45 minutes.",
+    "cited_causes": [
+      {
+        "location": "Hollywood",
+        "resolved_node_id": 160
+      },
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 150
+      },
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 59
+      },
+      {
+        "location": "N of Downtown LA",
+        "resolved_node_id": 49
+      },
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 47
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Activate ramp metering",
+        "location": "Sepulveda Pass (I-405)",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduce congestion at the Sepulveda Pass by regulating traffic flow upstream.",
+        "grounded_in": [
+          "City-context fact: I-405 Sepulveda Pass saturates in both peaks"
+        ]
+      },
+      {
+        "action": "Implement dynamic lane management",
+        "location": "US-101/I-110 four-level (Downtown LA)",
+        "time_window_minutes": 10,
+        "expected_effect": "Improve traffic flow at the bottleneck by dynamically allocating lanes.",
+        "grounded_in": [
+          "City-context fact: US-101/I-110 four-level is a recurrent bottleneck"
+        ]
+      },
+      {
+        "action": "Optimize signal timing",
+        "location": "Surface relief (Sunset Blvd and Santa Monica Blvd)",
+        "time_window_minutes": 5,
+        "expected_effect": "Reduce congestion on surface streets by optimizing signal timing.",
+        "grounded_in": [
+          "City-context fact: Surface relief is ATSAC signal-coordinated"
+        ]
+      }
+    ]
+  },
+  "sample_index": 236,
+  "target_node": 16,
+  "tod_band": "evening",
+  "congestion": "low",
+  "model": "llama3.1:8b",
+  "condition": "A_rand"
+}

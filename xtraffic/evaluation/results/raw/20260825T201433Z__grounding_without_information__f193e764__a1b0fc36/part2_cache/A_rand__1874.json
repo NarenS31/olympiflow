@@ -1,0 +1,117 @@
+{
+  "curve": [
+    {
+      "round": 0,
+      "used_correction": false,
+      "faithfulness_f1": 0.6666666666666666,
+      "cause_precision": 1.0,
+      "cause_recall": 0.5,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 2,
+      "n_topk": 8,
+      "n_missed": 4,
+      "missed_regions": [
+        "NE of Downtown LA",
+        "Glendale / Burbank",
+        "NE of Downtown LA",
+        "Glendale / Burbank"
+      ],
+      "missed_node_ids": [
+        196,
+        189,
+        48,
+        167
+      ],
+      "advisory_error": ""
+    },
+    {
+      "round": 1,
+      "used_correction": true,
+      "faithfulness_f1": 1.0,
+      "cause_precision": 1.0,
+      "cause_recall": 1.0,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 4,
+      "n_topk": 8,
+      "n_missed": 0,
+      "missed_regions": [],
+      "missed_node_ids": [],
+      "advisory_error": ""
+    }
+  ],
+  "n_rounds": 1,
+  "reached_threshold": true,
+  "stop_reason": "threshold_reached",
+  "f1_initial": 0.6666666666666666,
+  "f1_final": 1.0,
+  "f1_gain": 0.33333333333333337,
+  "final_advisory": {
+    "reasoning": "The predicted congestion in the San Fernando Valley is caused by a combination of factors from various locations. The top contributing sensor is located in the San Fernando Valley (sensor 764101, node_id 176), which is currently traveling at 69.37 mph. However, there are also significant contributions from NE of Downtown LA (sensors 771673 and 760650) where speeds are much lower (29.62 and 50.88 mph respectively). Additionally, the Hollywood area (sensors 717462 and 717461) is experiencing slower speeds (70.0 and 67.87 mph), while Glendale/Burbank (sensors 769926 and 717582) has even slower speeds (66.25 and 67.87 mph). This congestion appears to be traveling along a path of 4 sensors with an estimated lag of 0 minutes between the source and the target.",
+    "cited_causes": [
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 176
+      },
+      {
+        "location": "NE of Downtown LA",
+        "resolved_node_id": 196
+      },
+      {
+        "location": "Hollywood",
+        "resolved_node_id": 163
+      },
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 189
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering on I-5/SR-134",
+        "location": "San Fernando Valley (I-5/SR-134)",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion in the San Fernando Valley",
+        "grounded_in": [
+          "cited_causes",
+          "city-context fact: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Adjust signal timing on Sunset Blvd and Santa Monica Blvd to reduce congestion at surface relief points",
+        "location": "Hollywood (Sunset Blvd, Santa Monica Blvd)",
+        "time_window_minutes": 5,
+        "expected_effect": "Reduced congestion in the Hollywood area",
+        "grounded_in": [
+          "cited_causes",
+          "city-context fact: surface relief"
+        ]
+      },
+      {
+        "action": "Reroute traffic before merging onto I-5/SR-134 from SR-2",
+        "location": "Glendale / Burbank (I-5/SR-134)",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion in the Glendale/Burbank area",
+        "grounded_in": [
+          "cited_causes",
+          "city-context fact: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Implement dynamic lane management on I-110 to reduce congestion at the US-101/I-110 four-level",
+        "location": "NE of Downtown LA (I-110)",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion in NE of Downtown LA",
+        "grounded_in": [
+          "cited_causes",
+          "city-context fact: recurrent bottlenecks"
+        ]
+      }
+    ]
+  },
+  "sample_index": 1874,
+  "target_node": 61,
+  "tod_band": "pm_rush",
+  "congestion": "medium",
+  "model": "llama3.1:8b",
+  "condition": "A_rand"
+}

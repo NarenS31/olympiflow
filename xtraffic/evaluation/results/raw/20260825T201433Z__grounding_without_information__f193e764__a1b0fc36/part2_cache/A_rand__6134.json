@@ -1,0 +1,92 @@
+{
+  "curve": [
+    {
+      "round": 0,
+      "used_correction": false,
+      "faithfulness_f1": 0.7692307692307693,
+      "cause_precision": 1.0,
+      "cause_recall": 0.625,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 5,
+      "n_topk": 8,
+      "n_missed": 3,
+      "missed_regions": [
+        "San Fernando Valley",
+        "NW of Downtown LA",
+        "NE of Downtown LA"
+      ],
+      "missed_node_ids": [
+        47,
+        193,
+        65
+      ],
+      "advisory_error": ""
+    }
+  ],
+  "n_rounds": 0,
+  "reached_threshold": true,
+  "stop_reason": "threshold_reached",
+  "f1_initial": 0.7692307692307693,
+  "f1_final": 0.7692307692307693,
+  "f1_gain": 0.0,
+  "final_advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in areas north and east of Downtown LA, with sensors N of Downtown LA (67.33 mph), East LA (58.78 mph), and Downtown LA itself (58.22 mph) contributing significantly to the prediction. Additionally, there are slower speeds in Glendale/Burbank (65.11 mph and 64.22 mph), which is likely due to merge congestion at the I-5/SR-134/SR-2 interchange.",
+    "cited_causes": [
+      {
+        "location": "N of Downtown LA",
+        "resolved_node_id": 78
+      },
+      {
+        "location": "East LA",
+        "resolved_node_id": 174
+      },
+      {
+        "location": "Downtown LA",
+        "resolved_node_id": null
+      },
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 13
+      },
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 11
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering on I-10/I-110",
+        "location": "I-10/I-110 downtown interchange",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion in Downtown LA",
+        "grounded_in": [
+          "city-context fact: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Reroute traffic before the merge at I-5/SR-134/SR-2 interchange",
+        "location": "I-5/SR-134/SR-2 interchange",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion in Glendale/Burbank",
+        "grounded_in": [
+          "city-context fact: merge congestion at I-5/SR-134/SR-2 interchange"
+        ]
+      },
+      {
+        "action": "Signal timing adjustments to optimize traffic flow on surface roads (Brand Blvd, San Fernando Rd, Colorado Blvd)",
+        "location": "Glendale/Burbank",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion in Glendale/Burbank",
+        "grounded_in": [
+          "city-context fact: limited Metro options and car-dominant demand"
+        ]
+      }
+    ]
+  },
+  "sample_index": 6134,
+  "target_node": 144,
+  "tod_band": "midday",
+  "congestion": "medium",
+  "model": "llama3.1:8b",
+  "condition": "A_rand"
+}

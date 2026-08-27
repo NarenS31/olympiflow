@@ -1,0 +1,45 @@
+{
+  "advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley, particularly at sensor 717490 (node_id 70), which has a speed of 65.33 mph, and sensor 765273 (node_id 14) with a speed of 65.87 mph. This slow traffic appears to be propagating along a path of 5 sensors, starting from the San Fernando Valley.",
+    "cited_causes": [
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 70
+      },
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 14
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement ramp metering on I-405",
+        "location": "Sepulveda Pass",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion on I-405",
+        "grounded_in": [
+          "city-context fact: Ramp metering is active pass-wide"
+        ]
+      },
+      {
+        "action": "Reroute traffic before the merge at US-101/I-110 four-level",
+        "location": "US-101/I-110 four-level",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion on US-101 and I-110",
+        "grounded_in": [
+          "city-context fact: Upstream metering and reroute-before-the-merge are the levers, not signal timing at the interchange itself"
+        ]
+      },
+      {
+        "action": "Encourage transit use along Wilshire and Expo/I-10 corridors",
+        "location": "Wilshire and Expo/I-10 corridors",
+        "time_window_minutes": 5,
+        "expected_effect": "Divert traffic from roads to rail lines",
+        "grounded_in": [
+          "city-context fact: Transit is a viable diversion lever only where a parallel rail line exists"
+        ]
+      }
+    ]
+  },
+  "sample_index": 3831
+}

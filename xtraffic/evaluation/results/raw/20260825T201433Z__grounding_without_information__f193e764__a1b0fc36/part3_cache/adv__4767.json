@@ -1,0 +1,45 @@
+{
+  "advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in Glendale/Burbank, where traffic is currently moving at 69.0 mph (sensor 767585), and also in Hollywood, where it's moving at 62.5 mph (sensor 769388). This congestion appears to be traveling along a path from these locations towards the target location in Hollywood.",
+    "cited_causes": [
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 92
+      },
+      {
+        "location": "Hollywood",
+        "resolved_node_id": 32
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement metering upstream of the merge",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion in Glendale/Burbank and Hollywood",
+        "grounded_in": [
+          "Glendale / Burbank (sensor 767585, 34.166, -118.224)"
+        ]
+      },
+      {
+        "action": "Reroute traffic before the merge",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion in Glendale/Burbank and Hollywood",
+        "grounded_in": [
+          "Glendale / Burbank (sensor 767585, 34.166, -118.224)"
+        ]
+      },
+      {
+        "action": "Signal-coordinated relief on surface streets",
+        "location": "Sunset Blvd and Santa Monica Blvd",
+        "time_window_minutes": 5,
+        "expected_effect": "Reduced congestion in Hollywood",
+        "grounded_in": [
+          "Hollywood (sensor 769388, 34.110, -118.334)"
+        ]
+      }
+    ]
+  },
+  "sample_index": 4767
+}

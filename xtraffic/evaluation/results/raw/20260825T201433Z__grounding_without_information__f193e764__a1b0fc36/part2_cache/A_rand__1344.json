@@ -1,0 +1,84 @@
+{
+  "curve": [
+    {
+      "round": 0,
+      "used_correction": false,
+      "faithfulness_f1": 0.7692307692307693,
+      "cause_precision": 1.0,
+      "cause_recall": 0.625,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 3,
+      "n_topk": 8,
+      "n_missed": 3,
+      "missed_regions": [
+        "Downtown LA",
+        "NW of Downtown LA",
+        "Pasadena / East"
+      ],
+      "missed_node_ids": [
+        6,
+        192,
+        200
+      ],
+      "advisory_error": ""
+    }
+  ],
+  "n_rounds": 0,
+  "reached_threshold": true,
+  "stop_reason": "threshold_reached",
+  "f1_initial": 0.7692307692307693,
+  "f1_final": 0.7692307692307693,
+  "f1_gain": 0.0,
+  "final_advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in several locations upstream, particularly NE of Downtown LA (65.25 mph), Glendale/Burbank (60.0 mph), and San Fernando Valley (62.38-64.25 mph). These slow speeds are propagating downstream with a lag of 30 minutes.",
+    "cited_causes": [
+      {
+        "location": "NE of Downtown LA",
+        "resolved_node_id": 101
+      },
+      {
+        "location": "Glendale/Burbank",
+        "resolved_node_id": 125
+      },
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 131
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Reroute traffic before the merge",
+        "location": "NW of Downtown LA (sensor 716339)",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion at the target location",
+        "grounded_in": [
+          "Propagation from upstream locations"
+        ]
+      },
+      {
+        "action": "Implement metering upstream",
+        "location": "NE of Downtown LA (sensor 718371)",
+        "time_window_minutes": 10,
+        "expected_effect": "Slower traffic speeds in the source location, reducing congestion propagation",
+        "grounded_in": [
+          "Upstream locations with slow speeds"
+        ]
+      },
+      {
+        "action": "Use transit as a diversion lever",
+        "location": "Wilshire and Hollywood (B/D Lines)",
+        "time_window_minutes": 5,
+        "expected_effect": "Reducing the number of cars on the road, alleviating congestion",
+        "grounded_in": [
+          "Transit alternatives in city context"
+        ]
+      }
+    ]
+  },
+  "sample_index": 1344,
+  "target_node": 12,
+  "tod_band": "pm_rush",
+  "congestion": "medium",
+  "model": "llama3.1:8b",
+  "condition": "A_rand"
+}

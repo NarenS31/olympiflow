@@ -1,0 +1,49 @@
+{
+  "advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley, which are affecting traffic flow along a path of 8 sensors. The source of the congestion appears to be located in the San Fernando Valley, where all three sensors with importance above 0.98 (769430, 764101, and 772167) are reporting very low speeds or slower than average speeds.",
+    "cited_causes": [
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 82
+      },
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 176
+      },
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 197
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Extend green-band on Olympic Blvd and Pico Blvd",
+        "location": "Olympic Blvd and Pico Blvd (parallel relief arterials)",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion in the area by allowing more traffic to flow through these arterials",
+        "grounded_in": [
+          "city-context fact: parallel relief arterials"
+        ]
+      },
+      {
+        "action": "Reroute traffic before the merge at I-10/I-110 interchange",
+        "location": "I-10/I-110 interchange (downtown LA)",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion in the area by preventing traffic from building up at the interchange",
+        "grounded_in": [
+          "city-context fact: recurrent bottleneck"
+        ]
+      },
+      {
+        "action": "Push a special timing plan to the I-10 corridor",
+        "location": "I-10 (Santa Monica Fwy) corridor",
+        "time_window_minutes": 5,
+        "expected_effect": "Improved traffic flow along the I-10 corridor by optimizing signal timing",
+        "grounded_in": [
+          "signal-timing control constraint"
+        ]
+      }
+    ]
+  },
+  "sample_index": 5735
+}

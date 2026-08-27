@@ -1,0 +1,17 @@
+{
+  "probes": [
+    {
+      "device": "mps",
+      "batches_timed": 10,
+      "seconds_per_train_batch": 5.1825,
+      "train_batches_per_epoch": 1140,
+      "val_batches_per_epoch": 163,
+      "projected_epoch_seconds": 6246.0,
+      "projected_epoch_minutes": 104.1,
+      "n_nodes": 325,
+      "n_params": 398599,
+      "synthetic_inputs": true
+    }
+  ],
+  "complete": false
+}

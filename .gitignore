@@ -31,3 +31,15 @@ xtraffic/venv/
 # Regenerable, binary, and the underlying explanation JSONs are versioned
 # individually -- no reason to version a tarball of them too.
 *.bak.tar
+
+# LaTeX build artifacts. main.pdf IS committed -- it is the artifact of record for
+# a submission -- but .aux/.log/.out are rewritten by pdflatex on every build and
+# carry no information the .tex does not. Scoped to paper/ on purpose: this repo
+# tracks real experiment .log files under xtraffic/evaluation/results/.
+paper/**/*.aux
+paper/**/*.log
+paper/**/*.out
+paper/**/*.fls
+paper/**/*.fdb_latexmk
+paper/**/*.synctex.gz
+texput.log

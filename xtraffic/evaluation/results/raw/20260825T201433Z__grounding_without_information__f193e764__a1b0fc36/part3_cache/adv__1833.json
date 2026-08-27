@@ -1,0 +1,45 @@
+{
+  "advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in Downtown LA (14.88 mph), which are being driven by slower speeds upstream from the San Fernando Valley, particularly at sensor 717508 (65.75 mph) and sensor 717504 (67.5 mph). This congestion appears to be traveling along a path of 11 sensors with an estimated lag of 25 minutes between the source and the target.",
+    "cited_causes": [
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 150
+      },
+      {
+        "location": "Downtown LA",
+        "resolved_node_id": null
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Reroute traffic before merging",
+        "location": "I-10/I-110 downtown interchange",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion at the target location",
+        "grounded_in": [
+          "city-context fact: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Optimize signal timing on surface reliefs",
+        "location": "Brand Blvd, San Fernando Rd and Colorado Blvd",
+        "time_window_minutes": 10,
+        "expected_effect": "Improved traffic flow through the area",
+        "grounded_in": [
+          "city-context fact: transit alternatives are limited in Glendale/Burbank"
+        ]
+      },
+      {
+        "action": "Coordinate ATSAC signals on surface reliefs",
+        "location": "Sunset Blvd and Santa Monica Blvd",
+        "time_window_minutes": 5,
+        "expected_effect": "Reduced congestion at the Cahuenga Pass grade",
+        "grounded_in": [
+          "city-context fact: surface relief options in the US-101 Hollywood Freeway corridor"
+        ]
+      }
+    ]
+  },
+  "sample_index": 1833
+}

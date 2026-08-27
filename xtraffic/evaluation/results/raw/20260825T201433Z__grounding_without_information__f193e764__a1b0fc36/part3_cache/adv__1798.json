@@ -1,0 +1,41 @@
+{
+  "advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley, specifically at sensor 769444 (34.156, -118.439), which has a speed of 66.12 mph and an importance of 0.998. This slow speed is contributing to the congestion that will travel along a path of 9 sensors with an estimated lag of 5.0 minutes between the source and the target.",
+    "cited_causes": [
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 60
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering on I-405 in the San Fernando Valley",
+        "location": "I-405, San Fernando Valley",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion by slowing down traffic before it reaches the bottleneck",
+        "grounded_in": [
+          "slow speed at sensor 769444 (San Fernando Valley)"
+        ]
+      },
+      {
+        "action": "Reroute traffic on I-405 through Sepulveda Pass using dynamic signage",
+        "location": "I-405, Sepulveda Pass",
+        "time_window_minutes": 5,
+        "expected_effect": "Redirecting some traffic away from the congested area",
+        "grounded_in": [
+          "city-context fact: I-405 Sepulveda Pass is a recurrent bottleneck"
+        ]
+      },
+      {
+        "action": "Adjust signal timing on Brand Blvd to optimize surface relief capacity",
+        "location": "Brand Blvd, San Fernando Valley",
+        "time_window_minutes": 15,
+        "expected_effect": "Increasing the capacity of surface streets to absorb some traffic",
+        "grounded_in": [
+          "city-context fact: Brand Blvd is a surface relief in the area"
+        ]
+      }
+    ]
+  },
+  "sample_index": 1798
+}

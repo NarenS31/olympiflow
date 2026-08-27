@@ -1,0 +1,168 @@
+{
+  "curve": [
+    {
+      "round": 0,
+      "used_correction": false,
+      "faithfulness_f1": 0.6666666666666666,
+      "cause_precision": 1.0,
+      "cause_recall": 0.5,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 3,
+      "n_topk": 8,
+      "n_missed": 4,
+      "missed_regions": [
+        "NW of Downtown LA",
+        "NW of Downtown LA",
+        "NE of Downtown LA",
+        "Glendale / Burbank"
+      ],
+      "missed_node_ids": [
+        139,
+        103,
+        30,
+        0
+      ],
+      "advisory_error": ""
+    },
+    {
+      "round": 1,
+      "used_correction": true,
+      "faithfulness_f1": 0.6666666666666666,
+      "cause_precision": 1.0,
+      "cause_recall": 0.5,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 4,
+      "n_topk": 8,
+      "n_missed": 4,
+      "missed_regions": [
+        "San Fernando Valley",
+        "San Fernando Valley",
+        "San Fernando Valley",
+        "San Fernando Valley"
+      ],
+      "missed_node_ids": [
+        40,
+        150,
+        9,
+        41
+      ],
+      "advisory_error": ""
+    },
+    {
+      "round": 2,
+      "used_correction": true,
+      "faithfulness_f1": 0.4,
+      "cause_precision": 1.0,
+      "cause_recall": 0.25,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 2,
+      "n_topk": 8,
+      "n_missed": 6,
+      "missed_regions": [
+        "NW of Downtown LA",
+        "San Fernando Valley",
+        "NW of Downtown LA",
+        "San Fernando Valley",
+        "NE of Downtown LA",
+        "Glendale / Burbank"
+      ],
+      "missed_node_ids": [
+        139,
+        9,
+        103,
+        41,
+        30,
+        0
+      ],
+      "advisory_error": ""
+    },
+    {
+      "round": 3,
+      "used_correction": true,
+      "faithfulness_f1": 1.0,
+      "cause_precision": 1.0,
+      "cause_recall": 1.0,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 7,
+      "n_topk": 8,
+      "n_missed": 0,
+      "missed_regions": [],
+      "missed_node_ids": [],
+      "advisory_error": ""
+    }
+  ],
+  "n_rounds": 3,
+  "reached_threshold": true,
+  "stop_reason": "threshold_reached",
+  "f1_initial": 0.6666666666666666,
+  "f1_final": 1.0,
+  "f1_gain": 0.33333333333333337,
+  "final_advisory": {
+    "reasoning": "The predicted congestion at Hollywood (sensor 769373) is caused by a propagation of congestion from upstream locations, specifically the San Fernando Valley and Downtown LA areas. The top contributing sensors indicate that traffic speeds are slowing down in these areas, with some locations experiencing significant slowdowns (e.g., sensor 717488 in NW of Downtown LA has a speed of 16.12 mph). This congestion is then propagating downstream to Hollywood, resulting in the predicted speed decrease from 8.87 mph to 5.76 mph.",
+    "cited_causes": [
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 40
+      },
+      {
+        "location": "NW of Downtown LA",
+        "resolved_node_id": 139
+      },
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 9
+      },
+      {
+        "location": "NW of Downtown LA",
+        "resolved_node_id": 103
+      },
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 41
+      },
+      {
+        "location": "NE of Downtown LA",
+        "resolved_node_id": 30
+      },
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 0
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering",
+        "location": "San Fernando Valley (sensor 40)",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduce congestion propagation to Hollywood",
+        "grounded_in": [
+          "congestion is propagating from San Fernando Valley"
+        ]
+      },
+      {
+        "action": "Reroute traffic before merge",
+        "location": "I-5/SR-134/SR-2 interchange",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduce congestion at the interchange and downstream to Hollywood",
+        "grounded_in": [
+          "congestion is propagating from San Fernando Valley"
+        ]
+      },
+      {
+        "action": "Signal-coordinated surface relief",
+        "location": "Sunset Blvd and Santa Monica Blvd (ATSAC signal-coordinated)",
+        "time_window_minutes": 5,
+        "expected_effect": "Reduce congestion at the Cahuenga Pass grade",
+        "grounded_in": [
+          "congestion is propagating from Downtown LA"
+        ]
+      }
+    ]
+  },
+  "sample_index": 3369,
+  "target_node": 206,
+  "tod_band": "evening",
+  "congestion": "high",
+  "model": "llama3.1:8b",
+  "condition": "A_rand"
+}

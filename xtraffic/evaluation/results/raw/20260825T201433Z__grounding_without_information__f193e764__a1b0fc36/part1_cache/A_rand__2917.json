@@ -1,0 +1,28 @@
+{
+  "sample_index": 2917,
+  "target_node": 77,
+  "tod_band": "am_rush",
+  "congestion": "medium",
+  "condition": "A_rand",
+  "source": "new",
+  "advisory_error": "",
+  "cited_locations": [
+    "Hollywood",
+    "Hollywood"
+  ],
+  "context_used": [
+    "Transit alternatives (Metro rail/bus)",
+    "Glendale/Burbank freeways (SR-134, I-5, SR-2)",
+    "Known recurrent bottlenecks (LA basin)",
+    "US-101 Hollywood Freeway corridor"
+  ],
+  "explanation_confidence": 0.0552,
+  "reasoning": "The congestion is predicted because of the high speeds in the Hollywood area, which are causing a ripple effect and slowing down traffic in the San Fernando Valley. Specifically, the high speeds at sensor 717483 (Hollywood) and sensor 717480 (Hollywood) are contributing to the congestion.",
+  "cause_precision": 1.0,
+  "cause_recall": 0.25,
+  "faithfulness_f1": 0.4,
+  "hallucination_rate": 0.0,
+  "n_cited_causes": 2,
+  "n_topk": 8,
+  "quantitative_fidelity": null
+}

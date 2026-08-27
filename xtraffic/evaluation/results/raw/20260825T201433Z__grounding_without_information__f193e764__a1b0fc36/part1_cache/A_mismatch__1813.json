@@ -1,0 +1,31 @@
+{
+  "sample_index": 1813,
+  "target_node": 62,
+  "tod_band": "midday",
+  "congestion": "low",
+  "condition": "A_mismatch",
+  "source": "new",
+  "advisory_error": "",
+  "cited_locations": [
+    "Hollywood",
+    "San Fernando Valley",
+    "San Fernando Valley",
+    "San Fernando Valley",
+    "Pasadena / East"
+  ],
+  "context_used": [
+    "Glendale/Burbank freeways (SR-134, I-5, SR-2)",
+    "Known recurrent bottlenecks (LA basin)",
+    "Transit alternatives (Metro rail/bus)",
+    "San Fernando Valley freeways (US-101, I-405, SR-118)"
+  ],
+  "explanation_confidence": 0.2595,
+  "reasoning": "The congestion is predicted because of the slow speeds in several locations upstream, particularly in Hollywood (70.0 mph), San Fernando Valley (69.5-68.62 mph), and Pasadena/East (69.29 mph). These slow speeds are contributing to a propagation of congestion along a path of 6 sensors.",
+  "cause_precision": 1.0,
+  "cause_recall": 0.75,
+  "faithfulness_f1": 0.8571428571428571,
+  "hallucination_rate": 0.0,
+  "n_cited_causes": 5,
+  "n_topk": 8,
+  "quantitative_fidelity": 0.8
+}

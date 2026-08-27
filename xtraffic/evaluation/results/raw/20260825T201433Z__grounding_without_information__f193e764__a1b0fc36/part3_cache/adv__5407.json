@@ -1,0 +1,49 @@
+{
+  "advisory": {
+    "reasoning": "The congestion is predicted because of the high speeds in the Glendale/Burbank area, specifically at sensors 717572 (66.12 mph), 767585 (68.38 mph), and 773953 (63.63 mph). This indicates that traffic is flowing freely in this region, but it's likely to cause congestion downstream as it propagates towards the target location NW of Downtown LA.",
+    "cited_causes": [
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 116
+      },
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 92
+      },
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 54
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering",
+        "location": "NW of Downtown LA (sensor 717458)",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduce congestion by slowing down traffic before it reaches the target location",
+        "grounded_in": [
+          "The Glendale/Burbank area has high speeds, indicating that traffic is flowing freely and will cause congestion downstream"
+        ]
+      },
+      {
+        "action": "Reroute traffic through surface reliefs",
+        "location": "Glendale/Burbank (Brand Blvd, San Fernando Rd, Colorado Blvd)",
+        "time_window_minutes": 15,
+        "expected_effect": "Divert some traffic away from the freeway and reduce congestion on the target location",
+        "grounded_in": [
+          "The Glendale/Burbank area has high speeds, indicating that traffic is flowing freely and will cause congestion downstream"
+        ]
+      },
+      {
+        "action": "Coordinate ATSAC signals at surface reliefs",
+        "location": "Hollywood (Sunset Blvd and Santa Monica Blvd)",
+        "time_window_minutes": 10,
+        "expected_effect": "Improve traffic flow on surface roads and reduce congestion on the target location",
+        "grounded_in": [
+          "The Hollywood area has high speeds, indicating that traffic is flowing freely and will cause congestion downstream"
+        ]
+      }
+    ]
+  },
+  "sample_index": 5407
+}

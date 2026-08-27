@@ -1,0 +1,45 @@
+{
+  "advisory": {
+    "reasoning": "The predicted congestion in Glendale/Burbank is caused by a wave of slow traffic that originated from the Hollywood area, where speeds are currently around 16.89 mph at sensor 717461. This slow traffic has been propagating eastward along the path of sensors, with an estimated lag of 50 minutes between the source and the target location in Glendale/Burbank.",
+    "cited_causes": [
+      {
+        "location": "Hollywood",
+        "resolved_node_id": 160
+      },
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": null
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Reroute traffic before the merge",
+        "location": "I-5/SR-134/SR-2 interchange",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion at the target location",
+        "grounded_in": [
+          "city-context fact: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Signal coordination on surface relief roads",
+        "location": "Sunset Blvd and Santa Monica Blvd",
+        "time_window_minutes": 5,
+        "expected_effect": "Improved traffic flow through Hollywood",
+        "grounded_in": [
+          "city-context fact: surface relief roads"
+        ]
+      },
+      {
+        "action": "Upstream metering on I-405 Sepulveda Pass",
+        "location": "I-405 Sepulveda Pass",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion in the Hollywood area",
+        "grounded_in": [
+          "city-context fact: recurrent bottlenecks"
+        ]
+      }
+    ]
+  },
+  "sample_index": 5621
+}

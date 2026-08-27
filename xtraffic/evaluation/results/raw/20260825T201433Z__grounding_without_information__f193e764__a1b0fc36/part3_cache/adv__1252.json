@@ -1,0 +1,49 @@
+{
+  "advisory": {
+    "reasoning": "The predicted congestion is due to a wave of slow traffic traveling from the San Fernando Valley, where speeds are currently around 67-64 mph, towards Downtown LA. This congestion appears to be propagating along a path of 6 sensors with an estimated lag of 30 minutes between the source and the target.",
+    "cited_causes": [
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 122
+      },
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 186
+      },
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 52
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering",
+        "location": "I-5/SR-134 interchange (NW of Downtown LA)",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduce congestion by regulating traffic flow before it reaches the bottleneck",
+        "grounded_in": [
+          "City context: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Reroute traffic before merge",
+        "location": "I-5/SR-134 interchange (NW of Downtown LA)",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduce congestion by diverting traffic away from the bottleneck",
+        "grounded_in": [
+          "City context: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Signal-coordinated surface relief",
+        "location": "Sunset Blvd and Santa Monica Blvd (US-101 Hollywood Freeway corridor)",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduce congestion by optimizing traffic flow on parallel roads",
+        "grounded_in": [
+          "City context: US-101 Hollywood Freeway corridor"
+        ]
+      }
+    ]
+  },
+  "sample_index": 1252
+}

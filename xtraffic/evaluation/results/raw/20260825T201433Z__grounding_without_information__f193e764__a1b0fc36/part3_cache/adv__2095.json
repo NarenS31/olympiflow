@@ -1,0 +1,53 @@
+{
+  "advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in several locations: Hollywood (64.67 mph), NW of Downtown LA (43.0 mph), Glendale / Burbank (62.0 mph), and NE of Downtown LA (63.67 mph). These slow speeds are contributing to the congestion, which appears to travel along a path of 7 sensors with an estimated lag of 35.0 minutes between the source and the target.",
+    "cited_causes": [
+      {
+        "location": "Hollywood",
+        "resolved_node_id": 198
+      },
+      {
+        "location": "NW of Downtown LA",
+        "resolved_node_id": 139
+      },
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 116
+      },
+      {
+        "location": "NE of Downtown LA",
+        "resolved_node_id": 177
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering",
+        "location": "Hollywood (sensor 769372)",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion in the San Fernando Valley",
+        "grounded_in": [
+          "cited_cause: Hollywood"
+        ]
+      },
+      {
+        "action": "Reroute traffic before merge",
+        "location": "I-5/SR-134/SR-2 interchange (city-context fact)",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion in the San Fernando Valley",
+        "grounded_in": [
+          "city-context fact: recurrent bottleneck"
+        ]
+      },
+      {
+        "action": "Signal-coordinated surface relief",
+        "location": "Sunset Blvd and Santa Monica Blvd (US-101 Hollywood Freeway corridor)",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion in the San Fernando Valley",
+        "grounded_in": [
+          "city-context fact: surface relief"
+        ]
+      }
+    ]
+  },
+  "sample_index": 2095
+}

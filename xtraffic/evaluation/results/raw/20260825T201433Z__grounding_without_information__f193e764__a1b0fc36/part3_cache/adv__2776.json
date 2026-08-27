@@ -1,0 +1,51 @@
+{
+  "advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in Downtown LA (26.78 mph at sensor 716331 and 62.78 mph at sensor 772513), which are affecting traffic flowing through Hollywood (61.67 mph at sensor 717486) and into the San Fernando Valley, where speeds are already low (12.56 mph at sensor 773939). This congestion is propagating along a path of 8 sensors with an estimated lag of 45 minutes between the source and the target.",
+    "cited_causes": [
+      {
+        "location": "Downtown LA",
+        "resolved_node_id": 15
+      },
+      {
+        "location": "Hollywood",
+        "resolved_node_id": null
+      },
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 61
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering",
+        "location": "Downtown LA (sensor 716331)",
+        "time_window_minutes": 5,
+        "expected_effect": "Reduced congestion in Downtown LA",
+        "grounded_in": [
+          "slow speeds in Downtown LA"
+        ]
+      },
+      {
+        "action": "Reroute traffic before the merge",
+        "location": "Hollywood (sensor 717486)",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion in Hollywood and San Fernando Valley",
+        "grounded_in": [
+          "slow speeds in Downtown LA",
+          "affecting traffic flowing through Hollywood"
+        ]
+      },
+      {
+        "action": "Signal-coordinated surface relief on Sunset Blvd and Santa Monica Blvd",
+        "location": "Hollywood (sensor 717486)",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion in Hollywood and San Fernando Valley",
+        "grounded_in": [
+          "slow speeds in Downtown LA",
+          "affecting traffic flowing through Hollywood"
+        ]
+      }
+    ]
+  },
+  "sample_index": 2776
+}

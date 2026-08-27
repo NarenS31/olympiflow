@@ -1,0 +1,29 @@
+{
+  "sample_index": 2649,
+  "target_node": 29,
+  "tod_band": "am_rush",
+  "congestion": "high",
+  "condition": "A_mismatch",
+  "source": "new",
+  "advisory_error": "",
+  "cited_locations": [
+    "Downtown LA",
+    "Hollywood",
+    "Pasadena / East"
+  ],
+  "context_used": [
+    "Transit alternatives (Metro rail/bus)",
+    "Known recurrent bottlenecks (LA basin)",
+    "US-101 Hollywood Freeway corridor",
+    "Glendale/Burbank freeways (SR-134, I-5, SR-2)"
+  ],
+  "explanation_confidence": 0.5418,
+  "reasoning": "The congestion is predicted because of the slow speeds in Downtown LA (38.44 mph and 42.22 mph), which are affecting the traffic flowing through Hollywood (62.78 mph and 68.89 mph) and Pasadena/East (67.0 mph). This congestion appears to be traveling along a path of 2 sensors, with an estimated lag of 0.0 minutes between the source and the target.",
+  "cause_precision": 1.0,
+  "cause_recall": 0.75,
+  "faithfulness_f1": 0.8571428571428571,
+  "hallucination_rate": 0.0,
+  "n_cited_causes": 3,
+  "n_topk": 8,
+  "quantitative_fidelity": 0.8571428571428571
+}

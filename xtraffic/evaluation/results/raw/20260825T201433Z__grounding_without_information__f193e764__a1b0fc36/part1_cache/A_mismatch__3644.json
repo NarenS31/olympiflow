@@ -1,0 +1,28 @@
+{
+  "sample_index": 3644,
+  "target_node": 155,
+  "tod_band": "pm_rush",
+  "congestion": "medium",
+  "condition": "A_mismatch",
+  "source": "new",
+  "advisory_error": "",
+  "cited_locations": [
+    "San Fernando Valley",
+    "Downtown LA"
+  ],
+  "context_used": [
+    "Known recurrent bottlenecks (LA basin)",
+    "US-101 Hollywood Freeway corridor",
+    "I-405 San Diego Freeway corridor",
+    "San Fernando Valley freeways (US-101, I-405, SR-118)"
+  ],
+  "explanation_confidence": 0.6711,
+  "reasoning": "The predicted congestion in Hollywood is likely due to the slow speeds upstream, particularly in the San Fernando Valley where sensors 717497 and 769358 are reporting speeds of 29.75 mph and 18.75 mph respectively. This congestion appears to be propagating downstream with a lag of 0 minutes.",
+  "cause_precision": 1.0,
+  "cause_recall": 0.625,
+  "faithfulness_f1": 0.7692307692307693,
+  "hallucination_rate": 0.0,
+  "n_cited_causes": 2,
+  "n_topk": 8,
+  "quantitative_fidelity": 1.0
+}

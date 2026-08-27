@@ -1,0 +1,45 @@
+{
+  "advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley, specifically at sensor 772597 (node_id 87), which has a speed of 69.33 mph and an importance of 0.998. This slow speed is also reflected in nearby sensors such as 717608 (node_id 122) with a speed of 68.89 mph and importance of 0.994, indicating that congestion is building up in this area.",
+    "cited_causes": [
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 87
+      },
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 122
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Activate ramp metering on I-405 approaching the Sepulveda Pass",
+        "location": "Sepulveda Pass",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion in the San Fernando Valley and Downtown LA",
+        "grounded_in": [
+          "city-context fact: Ramp metering is active pass-wide on I-405"
+        ]
+      },
+      {
+        "action": "Implement upstream metering on US-101 in the San Fernando Valley",
+        "location": "San Fernando Valley",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion on US-101 and subsequent relief at Downtown LA",
+        "grounded_in": [
+          "city-context fact: Upstream metering is a lever for structural bottlenecks"
+        ]
+      },
+      {
+        "action": "Reroute traffic before the merge at the I-10/I-110 downtown interchange",
+        "location": "Downtown LA",
+        "time_window_minutes": 5,
+        "expected_effect": "Reduced congestion at the I-10/I-110 downtown interchange",
+        "grounded_in": [
+          "city-context fact: Upstream metering and reroute-before-the-merge are levers for structural bottlenecks"
+        ]
+      }
+    ]
+  },
+  "sample_index": 5830
+}

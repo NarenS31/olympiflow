@@ -1,0 +1,29 @@
+{
+  "sample_index": 5423,
+  "target_node": 142,
+  "tod_band": "evening",
+  "congestion": "medium",
+  "condition": "A_rand",
+  "source": "new",
+  "advisory_error": "",
+  "cited_locations": [
+    "Glendale / Burbank",
+    "NW of Downtown LA",
+    "Downtown LA"
+  ],
+  "context_used": [
+    "Known recurrent bottlenecks (LA basin)",
+    "Glendale/Burbank freeways (SR-134, I-5, SR-2)",
+    "I-405 San Diego Freeway corridor",
+    "San Fernando Valley freeways (US-101, I-405, SR-118)"
+  ],
+  "explanation_confidence": 0.0133,
+  "reasoning": "The congestion is predicted because of the slow speeds in the surrounding areas. The Glendale/Burbank area (sensor 773904, node_id 142) has a current speed of 9.67 mph and is expected to increase to 67.87 mph in 30 minutes. However, nearby sensors are reporting slower speeds: Glendale / Burbank (sensor 773916, node_id 111) is currently at 62.44 mph, NW of Downtown LA (sensor 759591, node_id 129) is at 65.0 mph, and Downtown LA (sensor 717447, node_id 3) is at 60.56 mph.",
+  "cause_precision": 1.0,
+  "cause_recall": 0.625,
+  "faithfulness_f1": 0.7692307692307693,
+  "hallucination_rate": 0.0,
+  "n_cited_causes": 3,
+  "n_topk": 8,
+  "quantitative_fidelity": 0.5
+}

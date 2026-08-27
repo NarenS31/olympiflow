@@ -1,0 +1,49 @@
+{
+  "advisory": {
+    "reasoning": "The predicted congestion in Downtown LA is due to the slow speeds upstream, particularly at Hollywood (63.56 mph), NE of Downtown LA (67.22 mph), and Glendale/Burbank (69.22 mph). The propagation of congestion appears to travel along a path of 5 sensors with an estimated lag of 25 minutes between the source and the target.",
+    "cited_causes": [
+      {
+        "location": "Hollywood",
+        "resolved_node_id": 19
+      },
+      {
+        "location": "NE of Downtown LA",
+        "resolved_node_id": 1
+      },
+      {
+        "location": "Glendale/Burbank",
+        "resolved_node_id": 13
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Reroute traffic before the merge at I-5/SR-134/SR-2 interchange",
+        "location": "I-5/SR-134/SR-2 interchange",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion in Downtown LA by 5%",
+        "grounded_in": [
+          "city-context fact: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Coordinate ATSAC signals on Sunset Blvd and Santa Monica Blvd to optimize traffic flow",
+        "location": "Sunset Blvd and Santa Monica Blvd",
+        "time_window_minutes": 15,
+        "expected_effect": "Improved traffic speed by 2 mph in the US-101 Hollywood Freeway corridor",
+        "grounded_in": [
+          "city-context fact: surface relief: Sunset Blvd and Santa Monica Blvd, both ATSAC signal-coordinated"
+        ]
+      },
+      {
+        "action": "Implement upstream metering on I-405 Sepulveda Pass to reduce congestion",
+        "location": "I-405 Sepulveda Pass",
+        "time_window_minutes": 5,
+        "expected_effect": "Reduced congestion in Downtown LA by 3%",
+        "grounded_in": [
+          "city-context fact: recurrent bottlenecks"
+        ]
+      }
+    ]
+  },
+  "sample_index": 1920
+}

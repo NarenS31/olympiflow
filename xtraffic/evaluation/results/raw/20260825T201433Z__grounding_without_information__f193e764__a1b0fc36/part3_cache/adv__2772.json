@@ -1,0 +1,45 @@
+{
+  "advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in Downtown LA (18.87 mph), which is affecting traffic in the San Fernando Valley, with a propagation path of 11 sensors and an estimated lag of 0 minutes between the source and the target.",
+    "cited_causes": [
+      {
+        "location": "Downtown LA",
+        "resolved_node_id": 144
+      },
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": null
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Reroute traffic before merging",
+        "location": "I-10/I-110 downtown interchange",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion in the San Fernando Valley",
+        "grounded_in": [
+          "city-context fact: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Optimize signal timing at surface relief roads",
+        "location": "Brand Blvd, San Fernando Rd and Colorado Blvd",
+        "time_window_minutes": 10,
+        "expected_effect": "Improved traffic flow in the Glendale/Burbank area",
+        "grounded_in": [
+          "city-context fact: transit alternatives are limited"
+        ]
+      },
+      {
+        "action": "Increase Metro rail frequency on parallel lines",
+        "location": "Wilshire and Expo/I-10",
+        "time_window_minutes": 5,
+        "expected_effect": "Divert traffic from roads to rail, reducing congestion in the San Fernando Valley",
+        "grounded_in": [
+          "city-context fact: transit alternatives by area"
+        ]
+      }
+    ]
+  },
+  "sample_index": 2772
+}

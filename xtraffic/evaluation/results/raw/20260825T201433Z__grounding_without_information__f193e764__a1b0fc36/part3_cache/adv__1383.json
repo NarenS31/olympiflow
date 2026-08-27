@@ -1,0 +1,45 @@
+{
+  "advisory": {
+    "reasoning": "The predicted congestion in Downtown LA is due to the slow speeds upstream, particularly at Hollywood (62.78 mph and 63.33 mph), which are causing a ripple effect downstream along the path of sensors with an estimated lag of 15 minutes.",
+    "cited_causes": [
+      {
+        "location": "Hollywood",
+        "resolved_node_id": 19
+      },
+      {
+        "location": "NW of Downtown LA",
+        "resolved_node_id": 103
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement ramp metering upstream at the Hollywood Freeway corridor",
+        "location": "Hollywood Freeway (US-101)",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion and increased speed in Downtown LA",
+        "grounded_in": [
+          "cited_cause: Hollywood"
+        ]
+      },
+      {
+        "action": "Optimize signal timing at the surface relief roads (Sunset Blvd and Santa Monica Blvd)",
+        "location": "Surface relief roads (Sunset Blvd and Santa Monica Blvd)",
+        "time_window_minutes": 10,
+        "expected_effect": "Improved traffic flow through Hollywood",
+        "grounded_in": [
+          "city-context: ATSAC signal-coordinated"
+        ]
+      },
+      {
+        "action": "Activate ramp metering at the Sepulveda Pass",
+        "location": "Sepulveda Pass (I-405)",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion and increased speed in Downtown LA",
+        "grounded_in": [
+          "city-context: Ramp metering is active pass-wide"
+        ]
+      }
+    ]
+  },
+  "sample_index": 1383
+}

@@ -1,0 +1,40 @@
+{
+  "n_scenarios": 150,
+  "n_paired_decisions": 450,
+  "seeds_per_scenario": 3,
+  "bootstrap": {
+    "n_iters": 10000,
+    "seed": 42,
+    "unit": "scenario"
+  },
+  "comparison": "XTRAFFIC (real explanation) minus XTRAFFIC_RAND (random), paired within scenario and seed; RAW not involved",
+  "accuracy": {
+    "real_mean": 0.27777777777777773,
+    "random_mean": 0.2577777777777777,
+    "paired_mean_diff": 0.020000000000000007,
+    "ci_lo": -0.028888888888888895,
+    "ci_hi": 0.07111111111111111,
+    "excludes_zero": false,
+    "n_scenarios_real_better": 32,
+    "n_scenarios_random_better": 26,
+    "n_scenarios_tied": 92
+  },
+  "delay_reduction": {
+    "real_mean": 21.004717777777774,
+    "random_mean": 20.889464444444446,
+    "paired_mean_diff": 0.11525333333333364,
+    "ci_lo": -1.3158168888888886,
+    "ci_hi": 1.5451714444444444,
+    "excludes_zero": false,
+    "n_scenarios_real_better": 54,
+    "n_scenarios_random_better": 48,
+    "n_scenarios_tied": 48
+  },
+  "raw_baseline_instability": {
+    "raw_accuracy_on_this_subset_n150": 0.27555555555555555,
+    "raw_accuracy_full_study_n444": 0.23273273273273273,
+    "xtraffic_accuracy_on_this_subset_n150": 0.27777777777777785,
+    "xtraffic_accuracy_full_study_n444": 0.26576576576576577,
+    "note": "RAW moves by more between sample sizes than XTRAFFIC exceeds it by on either, so an above-RAW test is not informative here; the paired contrast above avoids RAW entirely"
+  }
+}

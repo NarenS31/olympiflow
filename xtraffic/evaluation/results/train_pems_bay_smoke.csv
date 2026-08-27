@@ -1,0 +1,2 @@
+epoch,train_loss,val_loss,val_mae,val_rmse,val_mape,alpha,val_mae_15min,val_rmse_15min,val_mape_15min,val_mae_30min,val_rmse_30min,val_mape_30min,val_mae_60min,val_rmse_60min,val_mape_60min,gate_traffic,gate_weather,gate_events,gate_transit
+1,4.924,3.4876,3.4876,4.986,6.0005,0.4995,3.6971,5.1981,6.4433,3.6413,5.0969,6.2879,3.3145,4.5768,5.4056,0.4995,0.5,0.5,0.5

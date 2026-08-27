@@ -1,0 +1,45 @@
+{
+  "advisory": {
+    "reasoning": "The predicted congestion is due to a traffic wave propagating from the Glendale/Burbank area, where the speed is currently 63.22 mph (sensor 773954), towards East LA, with an estimated lag of 5 minutes between the source and the target.",
+    "cited_causes": [
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 58
+      },
+      {
+        "location": "East LA",
+        "resolved_node_id": null
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering on I-5/SR-134 interchange",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion in the Glendale/Burbank area",
+        "grounded_in": [
+          "Glendale / Burbank (sensor 773954, 34.155, -118.293)"
+        ]
+      },
+      {
+        "action": "Reroute traffic before merging onto I-5/SR-134 interchange",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion in the Glendale/Burbank area and East LA",
+        "grounded_in": [
+          "Glendale / Burbank (sensor 773954, 34.155, -118.293)"
+        ]
+      },
+      {
+        "action": "Adjust signal timing on Brand Blvd to reduce traffic entering I-5/SR-134 interchange",
+        "location": "Brand Blvd",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion in the Glendale/Burbank area and East LA",
+        "grounded_in": [
+          "City-context: Brand Blvd is a surface relief"
+        ]
+      }
+    ]
+  },
+  "sample_index": 379
+}

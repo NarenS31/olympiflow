@@ -1,0 +1,28 @@
+{
+  "sample_index": 6643,
+  "target_node": 51,
+  "tod_band": "night",
+  "congestion": "low",
+  "condition": "A_mismatch",
+  "source": "new",
+  "advisory_error": "",
+  "cited_locations": [
+    "San Fernando Valley",
+    "NE of Downtown LA"
+  ],
+  "context_used": [
+    "Known recurrent bottlenecks (LA basin)",
+    "Glendale/Burbank freeways (SR-134, I-5, SR-2)",
+    "I-405 San Diego Freeway corridor",
+    "San Fernando Valley freeways (US-101, I-405, SR-118)"
+  ],
+  "explanation_confidence": 0.9111,
+  "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley, particularly at sensor 717491 (34.148, -118.371), which has a speed of 0.0 mph, and sensor 772167 (34.165, -118.480) with a speed of 48.56 mph. This congestion is then propagated to the target location through a path of 7 sensors, with an estimated lag of 15 minutes.",
+  "cause_precision": 1.0,
+  "cause_recall": 0.75,
+  "faithfulness_f1": 0.8571428571428571,
+  "hallucination_rate": 0.0,
+  "n_cited_causes": 2,
+  "n_topk": 8,
+  "quantitative_fidelity": 0.625
+}

@@ -1,0 +1,49 @@
+{
+  "advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in Downtown LA, specifically at sensor 771673 (35.75 mph), sensor 772669 (59.25 mph), and sensor 718064 (69.62 mph). This congestion appears to be propagating along a path of 6 sensors with an estimated lag of 45 minutes between the source and the target location in Glendale/Burbank.",
+    "cited_causes": [
+      {
+        "location": "NE of Downtown LA",
+        "resolved_node_id": 196
+      },
+      {
+        "location": "NE of Downtown LA",
+        "resolved_node_id": 166
+      },
+      {
+        "location": "N of Downtown LA",
+        "resolved_node_id": 78
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering",
+        "location": "I-10/I-110 downtown interchange",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion in the target area",
+        "grounded_in": [
+          "city-context fact: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Reroute traffic before merge",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion in the target area",
+        "grounded_in": [
+          "city-context fact: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Optimize ramp metering",
+        "location": "Sepulveda Pass (I-405)",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion in the target area",
+        "grounded_in": [
+          "city-context fact: I-405 San Diego Freeway corridor"
+        ]
+      }
+    ]
+  },
+  "sample_index": 1811
+}

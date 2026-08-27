@@ -1,0 +1,49 @@
+{
+  "advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley, specifically at sensor 767350 (node_id 88), which is currently moving at 64.5 mph. This slow speed is driving the prediction, with an importance of 0.993. Additionally, other sensors in the area are also contributing to the congestion, including NE of Downtown LA (sensor 773012, node_id 29) and Glendale / Burbank (sensor 773927, node_id 42).",
+    "cited_causes": [
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 88
+      },
+      {
+        "location": "NE of Downtown LA",
+        "resolved_node_id": 29
+      },
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 42
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Reroute traffic before the merge",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion in the San Fernando Valley",
+        "grounded_in": [
+          "city-context fact: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Optimize signal timing at surface reliefs",
+        "location": "Brand Blvd, San Fernando Rd and Colorado Blvd",
+        "time_window_minutes": 15,
+        "expected_effect": "Improved traffic flow in the Glendale/Burbank area",
+        "grounded_in": [
+          "city-context fact: transit alternatives"
+        ]
+      },
+      {
+        "action": "Increase Metro rail service frequency",
+        "location": "Wilshire and Hollywood areas",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced demand on car-dominant roads in the Glendale/Burbank area",
+        "grounded_in": [
+          "city-context fact: transit alternatives"
+        ]
+      }
+    ]
+  },
+  "sample_index": 4397
+}

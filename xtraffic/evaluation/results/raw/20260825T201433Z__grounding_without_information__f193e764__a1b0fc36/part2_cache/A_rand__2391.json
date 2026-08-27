@@ -1,0 +1,82 @@
+{
+  "curve": [
+    {
+      "round": 0,
+      "used_correction": false,
+      "faithfulness_f1": 0.8571428571428571,
+      "cause_precision": 1.0,
+      "cause_recall": 0.75,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 3,
+      "n_topk": 8,
+      "n_missed": 2,
+      "missed_regions": [
+        "San Fernando Valley",
+        "Glendale / Burbank"
+      ],
+      "missed_node_ids": [
+        149,
+        110
+      ],
+      "advisory_error": ""
+    }
+  ],
+  "n_rounds": 0,
+  "reached_threshold": true,
+  "stop_reason": "threshold_reached",
+  "f1_initial": 0.8571428571428571,
+  "f1_final": 0.8571428571428571,
+  "f1_gain": 0.0,
+  "final_advisory": {
+    "reasoning": "The congestion is predicted because of the high speeds in Downtown LA, specifically at sensor 718045 (57.14 mph), sensor 772513 (60.25 mph), and NW of Downtown LA at sensor 759602 (57.0 mph) and sensor 765176 (66.12 mph). These locations are contributing to the congestion that is traveling along a path of 3 sensors, with an estimated lag of 0.0 minutes between the source and the target.",
+    "cited_causes": [
+      {
+        "location": "Downtown LA",
+        "resolved_node_id": 38
+      },
+      {
+        "location": "NW of Downtown LA",
+        "resolved_node_id": 147
+      },
+      {
+        "location": "Hollywood",
+        "resolved_node_id": null
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Reroute traffic before the merge",
+        "location": "I-10/I-110 downtown interchange",
+        "time_window_minutes": 5,
+        "expected_effect": "Reduced congestion at target location",
+        "grounded_in": [
+          "City-context fact: recurrent bottleneck"
+        ]
+      },
+      {
+        "action": "Optimize signal timing along surface reliefs",
+        "location": "Sunset Blvd and Santa Monica Blvd",
+        "time_window_minutes": 10,
+        "expected_effect": "Improved traffic flow through Hollywood",
+        "grounded_in": [
+          "City-context fact: ATSAC signal-coordinated"
+        ]
+      },
+      {
+        "action": "Implement upstream metering at I-5/SR-134 interchange",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion in the San Fernando Valley",
+        "grounded_in": [
+          "City-context fact: structural bottleneck"
+        ]
+      }
+    ]
+  },
+  "sample_index": 2391,
+  "target_node": 124,
+  "tod_band": "midday",
+  "congestion": "medium",
+  "model": "llama3.1:8b",
+  "condition": "A_rand"
+}

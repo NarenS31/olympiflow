@@ -1,0 +1,82 @@
+{
+  "curve": [
+    {
+      "round": 0,
+      "used_correction": false,
+      "faithfulness_f1": 0.7692307692307693,
+      "cause_precision": 1.0,
+      "cause_recall": 0.625,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 2,
+      "n_topk": 8,
+      "n_missed": 3,
+      "missed_regions": [
+        "Glendale / Burbank",
+        "Glendale / Burbank",
+        "Downtown LA"
+      ],
+      "missed_node_ids": [
+        13,
+        110,
+        138
+      ],
+      "advisory_error": ""
+    }
+  ],
+  "n_rounds": 0,
+  "reached_threshold": true,
+  "stop_reason": "threshold_reached",
+  "f1_initial": 0.7692307692307693,
+  "f1_final": 0.7692307692307693,
+  "f1_gain": 0.0,
+  "final_advisory": {
+    "reasoning": "The congestion is predicted because of the high speeds in the San Fernando Valley, particularly at sensor 772596 (34.171, -118.505), which is driving the prediction with an importance of 0.998 and a speed of 65.14 mph. This high speed indicates that traffic is flowing freely in this area, but it also means that there are likely many vehicles contributing to congestion downstream.",
+    "cited_causes": [
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 86
+      },
+      {
+        "location": "NW of Downtown LA",
+        "resolved_node_id": null
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering on I-5/SR-134 interchange",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion in the San Fernando Valley and downstream areas",
+        "grounded_in": [
+          "high speeds in San Fernando Valley"
+        ]
+      },
+      {
+        "action": "Reroute traffic before merge on I-5/SR-134 interchange",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion and improved traffic flow in the San Fernando Valley and downstream areas",
+        "grounded_in": [
+          "high speeds in San Fernando Valley",
+          "structural geometry/merges of I-5/SR-134 interchange"
+        ]
+      },
+      {
+        "action": "Activate ramp metering on Sepulveda Blvd",
+        "location": "Sepulveda Blvd",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion in the Sepulveda Pass area and downstream areas",
+        "grounded_in": [
+          "high speeds in San Fernando Valley",
+          "ramp metering is active pass-wide on I-405"
+        ]
+      }
+    ]
+  },
+  "sample_index": 6828,
+  "target_node": 193,
+  "tod_band": "evening",
+  "congestion": "low",
+  "model": "llama3.1:8b",
+  "condition": "A_rand"
+}

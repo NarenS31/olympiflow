@@ -1,0 +1,45 @@
+{
+  "advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in several locations along the path from Downtown LA to Glendale/Burbank. Specifically, the Hollywood area (sensor 717483 and 717480) has speeds of 58.75 mph and 66.0 mph respectively, which are slower than the surrounding areas. Additionally, East LA (sensor 716942) has a speed of 56.0 mph, contributing to the congestion.",
+    "cited_causes": [
+      {
+        "location": "Hollywood",
+        "resolved_node_id": 94
+      },
+      {
+        "location": "East LA",
+        "resolved_node_id": 124
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Reroute traffic before merging onto I-5/SR-134",
+        "location": "Glendale/Burbank (SR-134)",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion at the merge point",
+        "grounded_in": [
+          "city-context fact: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Optimize signal timing on surface relief roads",
+        "location": "Brand Blvd, San Fernando Rd and Colorado Blvd",
+        "time_window_minutes": 15,
+        "expected_effect": "Improved traffic flow on surface roads",
+        "grounded_in": [
+          "city-context fact: Metro is limited here"
+        ]
+      },
+      {
+        "action": "Encourage carpooling or use of public transit",
+        "location": "Downtown LA and surrounding areas",
+        "time_window_minutes": 5,
+        "expected_effect": "Reduced number of vehicles on the road",
+        "grounded_in": [
+          "city-context fact: demand is car-dominant"
+        ]
+      }
+    ]
+  },
+  "sample_index": 943
+}

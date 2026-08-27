@@ -1,0 +1,28 @@
+{
+  "sample_index": 5716,
+  "target_node": 155,
+  "tod_band": "evening",
+  "congestion": "medium",
+  "condition": "A_mismatch",
+  "source": "new",
+  "advisory_error": "",
+  "cited_locations": [
+    "NW of Downtown LA",
+    "N of Downtown LA"
+  ],
+  "context_used": [
+    "Glendale/Burbank freeways (SR-134, I-5, SR-2)",
+    "Known recurrent bottlenecks (LA basin)",
+    "Transit alternatives (Metro rail/bus)",
+    "US-101 Hollywood Freeway corridor"
+  ],
+  "explanation_confidence": 0.3818,
+  "reasoning": "The congestion is predicted because of the slow speeds in areas north and northwest of Downtown LA, which are affecting traffic flow as it propagates southward. Specifically, sensors NW of Downtown LA (node_id 74) and N of Downtown LA (node_id 49) are reporting speeds of 68.67 mph and 64.89 mph respectively, while the sensor in Hollywood (node_id 155) is currently at 8.63 mph.",
+  "cause_precision": 1.0,
+  "cause_recall": 0.375,
+  "faithfulness_f1": 0.5454545454545454,
+  "hallucination_rate": 0.0,
+  "n_cited_causes": 2,
+  "n_topk": 8,
+  "quantitative_fidelity": 0.6666666666666666
+}

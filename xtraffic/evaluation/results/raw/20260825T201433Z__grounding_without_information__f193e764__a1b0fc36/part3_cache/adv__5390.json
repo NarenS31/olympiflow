@@ -1,0 +1,45 @@
+{
+  "advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley, specifically at sensor 772168 (63.5 mph), which is causing a ripple effect downstream to NW of Downtown LA (sensor 716339) with a current speed of 16.5 mph.",
+    "cited_causes": [
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 204
+      },
+      {
+        "location": "NW of Downtown LA",
+        "resolved_node_id": 12
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Implement upstream metering",
+        "location": "San Fernando Valley (sensor 772168)",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion in the San Fernando Valley and downstream areas",
+        "grounded_in": [
+          "cited_cause: San Fernando Valley"
+        ]
+      },
+      {
+        "action": "Reroute traffic before merge",
+        "location": "I-5/SR-134 interchange (city-context fact)",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced congestion at the I-5/SR-134/SR-2 interchange",
+        "grounded_in": [
+          "city-context fact: Recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Increase transit capacity on parallel rail lines",
+        "location": "Wilshire and Hollywood (transit alternatives)",
+        "time_window_minutes": 10,
+        "expected_effect": "Divert traffic to transit, reducing congestion in the area",
+        "grounded_in": [
+          "city-context fact: Transit is a viable diversion lever"
+        ]
+      }
+    ]
+  },
+  "sample_index": 5390
+}

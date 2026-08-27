@@ -1,0 +1,27 @@
+{
+  "sample_index": 3515,
+  "target_node": 16,
+  "tod_band": "am_rush",
+  "congestion": "low",
+  "condition": "A_mismatch",
+  "source": "new",
+  "advisory_error": "",
+  "cited_locations": [
+    "San Fernando Valley"
+  ],
+  "context_used": [
+    "Glendale/Burbank freeways (SR-134, I-5, SR-2)",
+    "Known recurrent bottlenecks (LA basin)",
+    "Transit alternatives (Metro rail/bus)",
+    "San Fernando Valley freeways (US-101, I-405, SR-118)"
+  ],
+  "explanation_confidence": 0.5973,
+  "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley, specifically at sensor 764120 (34.202, -118.404), which has a speed of 66.22 mph and an importance of 0.904. This slow speed is contributing to the congestion that will travel along a path of 10 sensors with an estimated lag of 15 minutes between the source and the target.",
+  "cause_precision": 1.0,
+  "cause_recall": 0.125,
+  "faithfulness_f1": 0.2222222222222222,
+  "hallucination_rate": 0.0,
+  "n_cited_causes": 1,
+  "n_topk": 8,
+  "quantitative_fidelity": 0.5
+}

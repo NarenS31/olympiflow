@@ -1,0 +1,78 @@
+{
+  "curve": [
+    {
+      "round": 0,
+      "used_correction": false,
+      "faithfulness_f1": 0.8571428571428571,
+      "cause_precision": 1.0,
+      "cause_recall": 0.75,
+      "hallucination_rate": 0.0,
+      "n_cited_causes": 2,
+      "n_topk": 8,
+      "n_missed": 2,
+      "missed_regions": [
+        "NE of Downtown LA",
+        "Hollywood"
+      ],
+      "missed_node_ids": [
+        46,
+        163
+      ],
+      "advisory_error": ""
+    }
+  ],
+  "n_rounds": 0,
+  "reached_threshold": true,
+  "stop_reason": "threshold_reached",
+  "f1_initial": 0.8571428571428571,
+  "f1_final": 0.8571428571428571,
+  "f1_gain": 0.0,
+  "final_advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in the San Fernando Valley, particularly at sensor 763995 (34.220, -118.409), which is currently traveling at 6.71 mph. This slow speed is contributing to the congestion at the target location in Hollywood, where the current speed is 6.88 mph and predicted speed in 30 minutes is 10.11 mph.",
+    "cited_causes": [
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": 149
+      },
+      {
+        "location": "Glendale / Burbank",
+        "resolved_node_id": 126
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Reroute traffic before the merge",
+        "location": "I-5/SR-134 interchange",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion at target location",
+        "grounded_in": [
+          "city-context fact: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Optimize signal timing on surface reliefs",
+        "location": "Sunset Blvd and Santa Monica Blvd",
+        "time_window_minutes": 5,
+        "expected_effect": "Improved traffic flow through Hollywood",
+        "grounded_in": [
+          "city-context fact: ATSAC signal-coordinated"
+        ]
+      },
+      {
+        "action": "Encourage carpooling or transit use",
+        "location": "Glendale/Burbank freeways (SR-134, I-5, SR-2)",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced demand on congested roads",
+        "grounded_in": [
+          "city-context fact: Metro is limited here"
+        ]
+      }
+    ]
+  },
+  "sample_index": 4767,
+  "target_node": 155,
+  "tod_band": "pm_rush",
+  "congestion": "high",
+  "model": "llama3.1:8b",
+  "condition": "A_rand"
+}

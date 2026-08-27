@@ -1,0 +1,45 @@
+{
+  "advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in areas that feed into the target location. Specifically, the NW of Downtown LA (sensor 717804) has a speed of 58.22 mph, which is slower than expected, and this slowdown is propagating to the target location with an estimated lag of 35 minutes.",
+    "cited_causes": [
+      {
+        "location": "NW of Downtown LA",
+        "resolved_node_id": 26
+      },
+      {
+        "location": "Downtown LA",
+        "resolved_node_id": 3
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Reroute traffic before the merge",
+        "location": "I-10/I-110 downtown interchange",
+        "time_window_minutes": 5,
+        "expected_effect": "Reduced congestion at the target location",
+        "grounded_in": [
+          "city-context fact: recurrent bottlenecks"
+        ]
+      },
+      {
+        "action": "Optimize traffic signal timing upstream of the merge",
+        "location": "Upstream of I-10/I-110 downtown interchange",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion at the target location",
+        "grounded_in": [
+          "city-context fact: structural (geometry/merges)"
+        ]
+      },
+      {
+        "action": "Encourage carpooling or use of public transit",
+        "location": "Glendale/Burbank freeways (SR-134, I-5, SR-2)",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced demand on the freeway system",
+        "grounded_in": [
+          "city-context fact: Metro is limited here"
+        ]
+      }
+    ]
+  },
+  "sample_index": 5882
+}

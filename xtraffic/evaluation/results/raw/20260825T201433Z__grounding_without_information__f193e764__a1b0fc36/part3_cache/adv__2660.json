@@ -1,0 +1,45 @@
+{
+  "advisory": {
+    "reasoning": "The congestion is predicted because of the slow speeds in Downtown LA, particularly at sensor 718045 (node_id 38), which is currently moving at 19.38 mph and has a high importance of 0.996. This slow speed is contributing to the congestion in the San Fernando Valley, where the target prediction is located.",
+    "cited_causes": [
+      {
+        "location": "Downtown LA",
+        "resolved_node_id": 38
+      },
+      {
+        "location": "San Fernando Valley",
+        "resolved_node_id": null
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Reroute traffic before the merge",
+        "location": "Upstream of Downtown LA",
+        "time_window_minutes": 10,
+        "expected_effect": "Reduced congestion in San Fernando Valley",
+        "grounded_in": [
+          "City-context fact: structural (geometry/merges) bottlenecks require upstream metering and reroute-before-the-merge"
+        ]
+      },
+      {
+        "action": "Optimize signal timing at surface reliefs",
+        "location": "Sunset Blvd and Santa Monica Blvd",
+        "time_window_minutes": 15,
+        "expected_effect": "Improved traffic flow through Hollywood",
+        "grounded_in": [
+          "City-context fact: ATSAC signal-coordinated surface relief roads can be optimized for better traffic flow"
+        ]
+      },
+      {
+        "action": "Increase transit capacity in the Valley and Glendale/Burbank areas",
+        "location": "Glendale / Burbank",
+        "time_window_minutes": 15,
+        "expected_effect": "Reduced car-dominant demand and alleviated congestion",
+        "grounded_in": [
+          "City-context fact: Transit is a viable diversion lever only where a parallel rail line exists"
+        ]
+      }
+    ]
+  },
+  "sample_index": 2660
+}
